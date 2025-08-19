@@ -17,3 +17,6 @@ dist/
 
 # env
 .env
+
+# openapi
+src/shared/api/@generated
