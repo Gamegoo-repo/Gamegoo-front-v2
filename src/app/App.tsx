@@ -1,12 +1,12 @@
 import './styles/globals.css';
 
 const App = () => {
-  return (
-    <div className="content">
-      <h1>Rsbuild with React</h1>
-      <p>Start building amazing things with Rsbuild.</p>
-    </div>
-  );
+    return (
+        <div>
+            <h1 className="font-pretendard">프리텐다드</h1>
+            <p className="text-amber-400">Start building amazing things with Rsbuild.</p>
+        </div>
+    );
 };
 
 export default App;
