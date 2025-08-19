@@ -1,7 +1,7 @@
 # .github/ISSUE_TEMPLATE/bug_report.yml
 name: '🐛 Bug Report'
 description: '버그를 발견했나요?'
-labels: ['bug']
+labels: ['🐛 Bug']
 body:
     - type: textarea
       attributes:
