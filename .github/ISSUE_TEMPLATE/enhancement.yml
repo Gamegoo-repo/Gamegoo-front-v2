@@ -1,5 +1,5 @@
 # .github/ISSUE_TEMPLATE/enhancement.yml
-name: '🚀 Enhancement'
+name: '✨ enhancement'
 description: '기존 기능 개선'
 labels: ['✨ enhancement']
 body:

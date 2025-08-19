@@ -1,5 +1,5 @@
 # .github/ISSUE_TEMPLATE/chore.yml
-name: '🔧 Chore'
+name: '⚙ chore'
 description: '빌드, 설정, 라이브러리 업데이트 등의 작업'
 labels: ['⚙ chore']
 body:
