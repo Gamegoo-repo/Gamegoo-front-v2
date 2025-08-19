@@ -1,25 +1,30 @@
 {
-  "name": "rsbuild-react-ts",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "rsbuild build",
-    "dev": "rsbuild dev --open",
-    "preview": "rsbuild preview"
-  },
-  "dependencies": {
-    "env": "^0.0.2",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
-  },
-  "devDependencies": {
-    "@rsbuild/core": "^1.4.13",
-    "@rsbuild/plugin-react": "^1.3.4",
-    "@tailwindcss/postcss": "^4.1.12",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
-    "tailwindcss": "^4.1.12",
-    "typescript": "^5.9.2"
-  }
+    "name": "gamegoo-v2",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "rsbuild build",
+        "dev": "rsbuild dev --open",
+        "preview": "rsbuild preview"
+    },
+    "dependencies": {
+        "@radix-ui/react-slot": "^1.2.3",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "lucide-react": "^0.540.0",
+        "react": "^19.1.1",
+        "react-dom": "^19.1.1",
+        "tailwind-merge": "^3.3.1"
+    },
+    "devDependencies": {
+        "@rsbuild/core": "^1.4.13",
+        "@rsbuild/plugin-react": "^1.3.4",
+        "@tailwindcss/postcss": "^4.1.12",
+        "@types/react": "^19.1.9",
+        "@types/react-dom": "^19.1.7",
+        "tailwindcss": "^4.1.12",
+        "tw-animate-css": "^1.3.7",
+        "typescript": "^5.9.2"
+    }
 }
