@@ -1,6 +1,6 @@
-name: '🛠 feat'
+name: '✨ feature'
 description: '새로운 기능 추가'
-labels: ['🛠 feat']
+labels: ['✨ feature']
 body:
     - type: textarea
       attributes:

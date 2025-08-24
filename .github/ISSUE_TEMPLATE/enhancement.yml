@@ -1,7 +1,7 @@
 # .github/ISSUE_TEMPLATE/enhancement.yml
-name: '✨ enhancement'
+name: '🛠 enhancement'
 description: '기존 기능 개선'
-labels: ['✨ enhancement']
+labels: ['🛠 enhancement']
 body:
     - type: textarea
       attributes:
