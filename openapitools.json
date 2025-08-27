@@ -3,5 +3,21 @@
   "spaces": 2,
   "generator-cli": {
     "version": "7.14.0"
-  }
+  },
+
+  "supportsES6": true,
+
+  "withSeparateModelsAndApi": true,
+
+  "apiPackage": "api",
+
+  "modelPackage": "models",
+
+  "enumPropertyNaming": "original",
+
+  "enumNameSuffix": "",
+
+  "useSingleRequestParameter": false,
+
+  "typescriptThreePlus": true
 }
