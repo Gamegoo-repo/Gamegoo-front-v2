@@ -6,7 +6,11 @@
 		"useIgnoreFile": false
 	},
 	"files": {
-		"includes": ["src/**/*.ts", "src/**/*.tsx"],
+		"includes": [
+			"src/**/*.ts",
+			"src/**/*.tsx",
+			"!src/shared/api/@generated/**/*"
+		],
 		"ignoreUnknown": false
 	},
 	"formatter": {
