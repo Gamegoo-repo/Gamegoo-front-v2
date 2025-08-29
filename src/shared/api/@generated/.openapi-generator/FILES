@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 api/auth-controller-api.ts
 api/block-api.ts
