@@ -32,7 +32,7 @@ export const tokenManager = {
 
 // API 기본 URL
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'https://api.gamegoo.co.kr'
+  import.meta.env.PUBLIC_API_BASE_URL || 'https://api.gamegoo.co.kr'
 
 // axios 인스턴스
 export const apiClient: AxiosInstance = axios.create({
