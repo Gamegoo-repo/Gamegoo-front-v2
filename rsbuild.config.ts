@@ -1,6 +1,6 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { TanStackRouterRspack } from '@tanstack/router-plugin/rspack';
+import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 
 export default defineConfig({
     source: {
@@ -12,7 +12,7 @@ export default defineConfig({
     tools: {
         rspack: {
             plugins: [
-                TanStackRouterRspack({
+                tanstackRouter({
                     target: 'react',
                     autoCodeSplitting: true,
                     routesDirectory: './src/app/routes',
