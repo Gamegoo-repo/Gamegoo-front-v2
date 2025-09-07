@@ -2,6 +2,8 @@ import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 import { pluginSvgr } from '@rsbuild/plugin-svgr';
+import { pluginBasicSsl } from '@rsbuild/plugin-basic-ssl';
+
 
 export default defineConfig({
     source: {
@@ -9,7 +11,7 @@ export default defineConfig({
             index: './src/index',
         },
     },
-    plugins: [pluginReact(), pluginSvgr()],
+    plugins: [pluginReact(), pluginSvgr(), pluginBasicSsl()],
     tools: {
         rspack: {
             plugins: [
@@ -24,4 +26,9 @@ export default defineConfig({
             ],
         },
     },
+    server: {
+    host: '0.0.0.0',
+    port: 443,  // HTTPS 기본 포트 (URL에 포트 번호 안 나타남)
+  }
+   
 });
