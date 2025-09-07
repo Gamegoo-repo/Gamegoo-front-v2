@@ -1,13 +1,13 @@
-import { Link } from "@tanstack/react-router";
-import { LogoButton } from "@/shared/ui/logo";
 import { useId, useState } from "react";
-import { Checkbox } from "@/shared/ui/checkbox/checkbox";
-
-import RiotIcon from "@/shared/assets/icons/riot.svg?react";
+import { login } from "@/features/sign-in-user/api/login";
+import LoginButton from "@/features/sign-in-user/ui/LoginButton";
+import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
+import { LogoButton } from "@/shared/ui/logo";
 
 export default function AuthPage() {
 	const checkboxId = useId();
-	const [isKeepAuthChecked, setIsKeepAuthChecked] = useState(false);
+	const [_isKeepAuthChecked, _setIsKeepAuthCheckedd] = useState(false);
+
 	return (
 		<div className="w-screen h-screen flex items-center justify-center">
 			<div className="w-[374px] max-h-[559px] flex flex-col justify-between">
@@ -26,17 +26,7 @@ export default function AuthPage() {
 						라이엇 계정으로 로그인하세요
 					</h2>
 
-					<button
-						type="button"
-						onClick={() => console.log()}
-						className="flex justify-center items-center w-full h-14 gap-2 bg-red-500 text-white rounded-[8px] mb-7"
-					>
-						<RiotIcon className="w-5" />
-						{/* <img className="w-6" src={riotImage} alt="라이엇 아이콘"></img> */}
-						<span className="font-bold text-base">
-							라이엇 계정으로 시작하기
-						</span>
-					</button>
+					<LoginButton onHandleLogin={login} />
 
 					<div className="flex items-center gap-1 justify-end mb-20">
 						<Checkbox id={checkboxId} />
@@ -50,9 +40,12 @@ export default function AuthPage() {
 				</main>
 				<footer className="w-full flex flex-col items-center">
 					<hr className="w-full border-gray-300 mb-5" />
-					<Link to="" className="font-medium text-base text-gray-800">
+					<a
+						href="https://signup.kr.riotgames.com"
+						className="font-medium text-base text-gray-800"
+					>
 						<span>라이엇 계정 만들기</span>
-					</Link>
+					</a>
 				</footer>
 			</div>
 		</div>
