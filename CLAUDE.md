@@ -28,6 +28,12 @@ pnpm openapi      # Generate TypeScript API client from OpenAPI spec
                   # Uses OpenAPI spec from https://api.gamegoo.co.kr/v3/api-docs
 ```
 
+### UI Component Management
+```bash
+npx shadcn add [component-name]    # Add new shadcn/ui component
+npx shadcn add button badge modal  # Add multiple components at once
+```
+
 ## Project Architecture
 
 ### Tech Stack
@@ -38,23 +44,153 @@ pnpm openapi      # Generate TypeScript API client from OpenAPI spec
   - TanStack Query for server state
   - Zustand for client state
 - **Styling**: TailwindCSS 4.x
+- **UI Components**: shadcn/ui (Radix UI + TailwindCSS)
 - **API**: Auto-generated TypeScript client from OpenAPI spec
 - **Real-time**: Socket.io client with custom React integration
 - **Code Quality**: Biome for formatting and linting
 
-### Directory Structure
+### Directory Structure (Feature-Sliced Design)
+
+This project follows **Feature-Sliced Design (FSD)** architecture for scalable and maintainable code organization:
 
 ```
 src/
-├── app/                    # Application layer
+├── app/                    # Application layer - app initialization, providers, global settings
 │   ├── routes/            # File-based routing (TanStack Router)
 │   ├── styles/            # Global styles and fonts
+│   ├── providers/         # Global providers (QueryClient, Socket, etc.)
 │   └── App.tsx            # Root app component
-├── shared/                # Shared utilities and modules
-│   ├── api/               # API layer
-│   │   └── @generated/    # Auto-generated API client (DO NOT EDIT)
-│   └── socket/            # Real-time WebSocket system
+├── pages/                 # Pages layer - route components, page-specific logic
+│   ├── home/              # Home page components and logic
+│   ├── profile/           # Profile page components and logic
+│   ├── chat/              # Chat page components and logic
+│   └── matching/          # Matching page components and logic
+├── widgets/               # Widgets layer - complex UI blocks, page sections
+│   ├── header/            # Header widget with navigation
+│   ├── sidebar/           # Sidebar widget
+│   ├── chat-room/         # Chat room widget
+│   └── game-matching/     # Game matching widget
+├── features/              # Features layer - user-facing functionality, business logic
+│   ├── auth/              # Authentication feature
+│   │   ├── model/         # Auth state, stores, hooks
+│   │   ├── ui/            # Auth-specific UI components
+│   │   └── api/           # Auth API calls
+│   ├── user-profile/      # User profile management
+│   ├── game-matching/     # Game matching functionality
+│   ├── chat/              # Chat functionality
+│   └── notifications/     # Notifications feature
+├── entities/              # Entities layer - business entities, data models
+│   ├── user/              # User entity (types, transformations, base API)
+│   │   ├── model/         # User types, interfaces
+│   │   ├── api/           # User-related API calls
+│   │   └── lib/           # User utility functions
+│   ├── game/              # Game entity
+│   ├── chat/              # Chat entity
+│   └── notification/      # Notification entity
+├── shared/                # Shared layer - reusable code, utilities
+│   ├── ui/                # Pure UI components (buttons, inputs, modals)
+│   │   ├── button/        # Button component variants
+│   │   ├── modal/         # Modal component
+│   │   ├── input/         # Input component variants
+│   │   └── index.ts       # Barrel exports
+│   ├── lib/               # Utility functions, helpers
+│   │   ├── utils/         # General utilities
+│   │   ├── validation/    # Form validation schemas
+│   │   ├── constants/     # App constants
+│   │   └── hooks/         # Shared custom hooks
+│   ├── api/               # API layer and generated client
+│   │   ├── @generated/    # Auto-generated API client (DO NOT EDIT)
+│   │   ├── base/          # Base API configuration
+│   │   └── types/         # Shared API types
+│   ├── socket/            # Real-time WebSocket system
+│   └── config/            # App configuration, environment variables
 └── index.tsx              # Application entry point
+```
+
+### FSD Layer Principles
+
+**Layer Hierarchy (top to bottom):**
+1. **app** - Application initialization, global providers, routing setup
+2. **pages** - Route-level components, page composition from widgets/features
+3. **widgets** - Complex UI blocks that combine multiple features
+4. **features** - Business logic, user-facing functionality
+5. **entities** - Business data models, core domain logic
+6. **shared** - Reusable utilities, pure UI components, configuration
+
+**Key Rules:**
+- **Unidirectional Dependencies**: Higher layers can import from lower layers, never the reverse
+- **Feature Isolation**: Features should not directly depend on each other
+- **Pure UI Separation**: Distinguish between domain-agnostic UI (`shared/ui`) and domain-specific components
+- **Entity-Centric**: Organize around business entities (User, Game, Chat) rather than technical concerns
+
+### FSD Implementation Guidelines
+
+#### Slice Structure Within Layers
+Each slice (feature/entity) should follow this internal structure:
+```
+feature/auth/
+├── model/           # Business logic, state management
+│   ├── store.ts     # Zustand store for auth state
+│   ├── types.ts     # Auth-related TypeScript types
+│   └── hooks.ts     # Auth-related custom hooks
+├── ui/              # Feature-specific UI components
+│   ├── LoginForm.tsx
+│   ├── SignupForm.tsx
+│   └── index.ts     # Barrel exports
+├── api/             # Feature-specific API calls
+│   ├── authApi.ts   # Auth API endpoints
+│   └── types.ts     # API request/response types
+└── index.ts         # Public API of the feature
+```
+
+#### Import Rules by Layer
+
+**pages/** can import from:
+- `widgets/*`, `features/*`, `entities/*`, `shared/*`
+
+**widgets/** can import from:
+- `features/*`, `entities/*`, `shared/*` (NOT from other widgets or pages)
+
+**features/** can import from:
+- `entities/*`, `shared/*` (NOT from other features directly)
+- Cross-feature communication through `entities` layer only
+
+**entities/** can import from:
+- `shared/*` only
+
+**shared/** should have no internal dependencies on upper layers
+
+#### Practical Examples
+
+**Creating a new feature:**
+```typescript
+// features/game-matching/model/store.ts
+import { create } from 'zustand';
+import { GameEntity } from '@/entities/game';
+
+// features/game-matching/ui/MatchingButton.tsx  
+import { useMatchingStore } from '../model/store';
+import { Button } from '@/shared/ui/button';
+
+// pages/matching/ui/MatchingPage.tsx
+import { MatchingWidget } from '@/widgets/game-matching';
+import { useAuth } from '@/features/auth';
+```
+
+**Cross-layer communication:**
+```typescript
+// ✅ Good: Feature uses entity
+import { UserEntity } from '@/entities/user';
+
+// ✅ Good: Page composes widgets and features  
+import { Header } from '@/widgets/header';
+import { useAuth } from '@/features/auth';
+
+// ❌ Bad: Feature directly imports another feature
+import { useChat } from '@/features/chat'; // Use entities layer instead
+
+// ✅ Good: Cross-feature via entities
+import { chatModel } from '@/entities/chat';
 ```
 
 ### Key Architectural Patterns
@@ -73,6 +209,18 @@ src/
 
 **Import Path Mapping**: Use `@/*` for imports from the `src/` directory (configured in tsconfig.json).
 
+**FSD-Aligned State Management**:
+- **Global state** (auth, theme): `app/providers/`
+- **Feature state** (matching status): `features/*/model/`
+- **Entity state** (user data): `entities/*/model/`
+- **Page state** (local UI): `pages/*/model/` or local useState
+
+**shadcn/ui Integration**:
+- Components are added via CLI and placed in `/src/components/ui/`
+- Move components to FSD structure: `src/shared/ui/[component]/`
+- Update import paths to use `@/shared/lib/utils` instead of `@/lib/utils`
+- Always use shadcn/ui components instead of creating custom UI components
+
 ### Configuration Files
 
 - **rsbuild.config.ts**: Build configuration with React plugin and TanStack Router integration
@@ -87,6 +235,84 @@ src/
 2. **Code Quality**: Use `pnpm format` to format and lint code (Biome handles both)
 3. **Git Hooks**: Configured via postinstall script to use `.githooks/` directory
 4. **Socket Integration**: Use the provided React hooks for WebSocket functionality instead of direct Socket.io usage
+
+### FSD Development Guidelines
+
+#### When Creating New Code
+
+**1. Determine the appropriate layer:**
+- **New page?** → `pages/` (compose from widgets/features)
+- **New user feature?** → `features/` (business logic + UI)
+- **New reusable UI?** → `shared/ui/` (pure components)
+- **New business entity?** → `entities/` (data model + transformations)
+- **New complex page section?** → `widgets/` (combine multiple features)
+
+**2. Follow slice internal structure:**
+- Always create `index.ts` for public API
+- Separate `model/` (logic), `ui/` (components), `api/` (if needed)
+- Use barrel exports to control what's exposed
+
+**3. Respect import rules:**
+- Higher layers import from lower layers only
+- Features don't import from other features directly
+- Use entities for cross-feature communication
+
+#### Refactoring Existing Code to FSD
+
+**Step 1: Identify current code purpose**
+- Is it a page? Move to `pages/`
+- Is it feature logic? Move to `features/`
+- Is it a data model? Move to `entities/`
+- Is it reusable UI? Move to `shared/ui/`
+
+**Step 2: Create proper slice structure**
+```bash
+# Example: Moving auth logic to FSD
+mkdir -p src/features/auth/{model,ui,api}
+mkdir -p src/entities/user/{model,api,lib}
+```
+
+**Step 3: Update imports**
+```typescript
+// Before (old structure)
+import { useAuth } from '../hooks/useAuth';
+import { LoginForm } from '../components/LoginForm';
+
+// After (FSD structure)  
+import { useAuth } from '@/features/auth';
+import { LoginForm } from '@/features/auth/ui';
+```
+
+#### UI Component Guidelines
+
+**Always use shadcn/ui components:**
+```bash
+# Add new components via CLI
+npx shadcn add button badge modal dialog
+
+# Move to FSD structure after adding
+mv src/components/ui/button.tsx src/shared/ui/button/
+```
+
+**Component Integration Pattern:**
+```typescript
+// ❌ Don't create custom UI from scratch
+const CustomButton = () => <button className="...">...</button>;
+
+// ✅ Use shadcn/ui components
+import { Button } from '@/shared/ui/button';
+import { Badge } from '@/shared/ui/badge';
+
+// ✅ Extend shadcn/ui for specific needs
+const FloatingButton = ({ children, ...props }) => (
+  <Button 
+    className="fixed bottom-6 right-6 rounded-full shadow-lg" 
+    {...props}
+  >
+    {children}
+  </Button>
+);
+```
 
 ### Important Notes
 
