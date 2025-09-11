@@ -77,6 +77,9 @@
 
 @theme {
     --font-pretendard: Pretendard;
+		--color-violet-100: #F0F0FC;
+		--color-violet-400: #9F90F9;
+		--color-violet-600: #5A42EE;
 }
 
 @theme inline {
