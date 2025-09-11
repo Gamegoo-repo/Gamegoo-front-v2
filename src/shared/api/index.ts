@@ -1,11 +1,10 @@
-import { apiClient, apiConfiguration, tokenManager } from "./config";
-
 import { AuthControllerApi } from "./@generated/api/auth-controller-api";
 import { BoardApi } from "./@generated/api/board-api";
-import { MemberApi } from "./@generated/api/member-api";
-import { FriendApi } from "./@generated/api/friend-api";
 import { ChatApi } from "./@generated/api/chat-api";
+import { FriendApi } from "./@generated/api/friend-api";
+import { MemberApi } from "./@generated/api/member-api";
 import { NotificationApi } from "./@generated/api/notification-api";
+import { apiClient, apiConfiguration, tokenManager } from "./config";
 
 export const api = {
 	auth: new AuthControllerApi(apiConfiguration, undefined, apiClient),

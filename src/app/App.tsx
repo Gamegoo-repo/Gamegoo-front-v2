@@ -1,11 +1,11 @@
 import "./styles/globals.css";
-import { Button } from "../shared/ui/button/ui";
 import {
 	QueryClient,
 	QueryClientProvider,
 	useQuery,
 } from "@tanstack/react-query";
 import SocketTest from "../components/SocketTest";
+import { Button } from "../shared/ui/button/ui";
 
 const queryClient = new QueryClient();
 
@@ -60,7 +60,7 @@ const App = () => {
 					</h2>
 					<CatImage />
 				</div>
-				
+
 				<div className="border-t pt-6">
 					<h2 className="text-2xl font-bold text-center mb-4">
 						🔌 Socket.IO 테스트
