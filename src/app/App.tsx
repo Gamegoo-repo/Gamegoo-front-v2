@@ -5,6 +5,7 @@ import {
 	QueryClientProvider,
 	useQuery,
 } from "@tanstack/react-query";
+import SocketTest from "../components/SocketTest";
 
 const queryClient = new QueryClient();
 
@@ -52,11 +53,20 @@ const App = () => {
 					Start building amazing things with Rsbuild.
 				</p>
 			</div>
-			<div className="border-t pt-6">
-				<h2 className="text-2xl font-bold text-center mb-4">
-					🐱 TanStack Query 테스트
-				</h2>
-				<CatImage />
+			<div className="border-t pt-6 space-y-6">
+				<div>
+					<h2 className="text-2xl font-bold text-center mb-4">
+						🐱 TanStack Query 테스트
+					</h2>
+					<CatImage />
+				</div>
+				
+				<div className="border-t pt-6">
+					<h2 className="text-2xl font-bold text-center mb-4">
+						🔌 Socket.IO 테스트
+					</h2>
+					<SocketTest />
+				</div>
 			</div>
 		</QueryClientProvider>
 	);

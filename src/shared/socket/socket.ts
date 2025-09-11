@@ -177,6 +177,11 @@ export class GamegooSocket {
 	private startHeartbeat(): void {
 		this.stopHeartbeat();
 
+		// heartbeat 비활성화 (interval이 0이면 건너뛰기)
+		if (this.options.heartbeatInterval <= 0) {
+			return;
+		}
+
 		this.heartbeatIntervalId = setInterval(() => {
 			if (this.socket?.connected) {
 				this.socket.emit("ping");
