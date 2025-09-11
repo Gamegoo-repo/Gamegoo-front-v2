@@ -1,5 +1,6 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
+import { pluginSvgr } from '@rsbuild/plugin-svgr';
 import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 
 export default defineConfig({
@@ -8,7 +9,7 @@ export default defineConfig({
             index: './src/index',
         },
     },
-    plugins: [pluginReact()],
+    plugins: [pluginReact(), pluginSvgr()],
     tools: {
         rspack: {
             plugins: [
