@@ -32,8 +32,8 @@ export class GamegooSocket {
 	private authData: SocketAuthData | null = null;
 	private tokenProvider: (() => Promise<string>) | null = null;
 	private isManualDisconnect = false;
-	private heartbeatIntervalId: NodeJS.Timeout | null = null;
-	private heartbeatTimeoutId: NodeJS.Timeout | null = null;
+	private heartbeatIntervalId: ReturnType<typeof setInterval> | null = null;
+	private heartbeatTimeoutId: ReturnType<typeof setInterval> | null = null;
 	private reconnectAttempts = 0;
 	private eventListeners = new Map<string, ((...args: unknown[]) => void)[]>();
 
@@ -62,7 +62,7 @@ export class GamegooSocket {
 		} else if (this.tokenProvider) {
 			try {
 				const token = await this.tokenProvider();
-				this.authData = { token, userId: "auto" };
+				this.authData = { token, userId: "auto" }; // TODO: 실제 userId로 수정
 			} catch (_error) {
 				throw new Error("Failed to get auth token");
 			}

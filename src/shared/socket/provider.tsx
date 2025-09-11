@@ -99,7 +99,11 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 			await socket.connect(authData);
 		} catch (error) {
 			setSocketReadyState(SocketReadyState.CLOSED);
-			onSocketError?.(error as Error);
+			if (error instanceof Error) {
+				onSocketError?.(error);
+			} else {
+				onSocketError?.(new Error(String(error)));
+			}
 		}
 	}, [
 		endpoint,
