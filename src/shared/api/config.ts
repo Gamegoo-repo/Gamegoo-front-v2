@@ -1,4 +1,4 @@
-import axios, { type AxiosInstance, AxiosError } from "axios";
+import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { Configuration } from "./@generated/configuration";
 
 // 토큰 관리 - 액세스 토큰은 메모리, 리프레시 토큰은 로컬스토리지
