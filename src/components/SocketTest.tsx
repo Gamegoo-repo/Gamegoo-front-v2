@@ -4,7 +4,7 @@ import {
 	useSocketConnectionEvents,
 	useSocketMessage,
 	useSocketStatus,
-} from "../shared/socket";
+} from "../shared/api/socket";
 
 const SocketTestInner = () => {
 	const { isConnected, stateLabel, readyState } = useSocketStatus();
