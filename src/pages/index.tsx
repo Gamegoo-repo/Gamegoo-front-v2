@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import SocketTest from "../../components/SocketTest";
-import { Button } from "../../shared/ui/button/ui";
+import SocketTest from "@/components/SocketTest";
+import { Button } from "@/shared/ui/button/ui";
 
 export const Route = createFileRoute("/")({
 	component: Index,
