@@ -1,4 +1,4 @@
-import { Logo } from "./Logo";
-import { LogoButton } from "./LogoButton";
+import { Logo } from "./logo";
+import { LogoButton } from "./logo-button";
 
 export { Logo, LogoButton };

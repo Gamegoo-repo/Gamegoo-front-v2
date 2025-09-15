@@ -1,2 +1,2 @@
-export type { FloatingChatButtonProps } from "./FloatingChatButton";
-export { default as FloatingChatButton } from "./FloatingChatButton";
+export type { FloatingChatButtonProps } from "./floating-chat-button";
+export { default as FloatingChatButton } from "./floating-chat-button";

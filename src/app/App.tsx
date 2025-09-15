@@ -1,10 +1,10 @@
-import "./styles/globals.css";
+import "../styles/globals.css";
 import {
 	QueryClient,
 	QueryClientProvider,
 	useQuery,
 } from "@tanstack/react-query";
-import SocketTest from "../components/SocketTest";
+import SocketTest from "../components/socket-test";
 import { Button } from "../shared/ui/button/ui";
 
 const queryClient = new QueryClient();
@@ -19,7 +19,7 @@ const fetchCatImage = async () => {
 };
 
 // 고양이 사진을 보여주는 컴포넌트
-const CatImage = () => {
+function CatImage() {
 	const { data, isLoading, error, refetch } = useQuery({
 		queryKey: ["catImage"],
 		queryFn: fetchCatImage,
@@ -41,9 +41,9 @@ const CatImage = () => {
 			</div>
 		</div>
 	);
-};
+}
 
-const App = () => {
+function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<div>
@@ -70,6 +70,6 @@ const App = () => {
 			</div>
 		</QueryClientProvider>
 	);
-};
+}
 
 export default App;

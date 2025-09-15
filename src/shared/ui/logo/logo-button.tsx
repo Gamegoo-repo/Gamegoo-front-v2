@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Logo } from "./Logo";
+import { Logo } from "./logo";
 
 type LogoProps = {
 	className?: string;

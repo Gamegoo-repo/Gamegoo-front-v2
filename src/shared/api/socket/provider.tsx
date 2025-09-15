@@ -19,7 +19,7 @@ export interface SocketProviderProps {
 	onSocketReconnectFailed?: () => void;
 }
 
-export const SocketProvider: React.FC<SocketProviderProps> = ({
+function SocketProvider({
 	children,
 	endpoint,
 	enabled = true,
@@ -31,7 +31,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 	onSocketError,
 	onSocketReconnect,
 	onSocketReconnectFailed,
-}) => {
+}: SocketProviderProps) {
 	const socketRef = useRef<GamegooSocket | undefined>(undefined);
 	const [socketReadyState, setSocketReadyState] = useState<SocketReadyState>(
 		SocketReadyState.CLOSED,
@@ -162,4 +162,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 			{children}
 		</SocketContext.Provider>
 	);
-};
+}
+
+export default SocketProvider;
