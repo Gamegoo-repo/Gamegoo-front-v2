@@ -492,6 +492,35 @@ function getFullName({ firstName, lastName }) {
 }
 ```
 
+### File and Folder Naming
+- Use kebab-case for all folder names and file names (excluding auto-generated files)
+```typescript
+// bad
+UserProfile/
+LoginButton.tsx
+authApi.ts
+
+// good
+user-profile/
+login-button.tsx
+auth-api.ts
+```
+
+### Function Definitions
+- Use function declarations for React components with default export
+- Use arrow functions for all other functions
+```typescript
+// bad
+const Component = ({a, b}: ComponentProps) => { };
+export function Component({a, b}: ComponentProps) { }
+function handleClick() { }
+
+// good
+function Component({a, b}: ComponentProps) { }
+export default Component;
+const handleClick = () => { };
+```
+
 ### TypeScript
 - Use `as const` for readonly variables
 ```typescript
@@ -499,15 +528,6 @@ const Palette = {
   gray,
   black
 } as const;
-```
-
-- Use `React.FC` type with arrow functions for components
-```typescript
-// bad
-function Component({a, b}: ComponentProps) { }
-
-// good
-const Component: FC<ComponentProps> = ({a, b}) => { };
 ```
 
 ### Naming
