@@ -1,8 +1,11 @@
 import { encode } from "js-base64";
-
+import { STORAGE_KEYS } from "@/shared/config/storage";
 
 export const login = () => {
-	const frontend_redirect = 'https://gamegoo.co.kr/riot/callback';
+	const redirect = "https://local.gamegoo.co.kr/riot/callback";
+	const csrfToken = crypto.randomUUID();
+
+	sessionStorage.setItem(STORAGE_KEYS.csrfToken, csrfToken);
 
 	const riotAuthUrl = import.meta.env.PUBLIC_RIOT_AUTH_URL;
 	const SERVER_CALLBACK = import.meta.env.PUBLIC_RIOT_REDIRECT_URI;
@@ -11,8 +14,9 @@ export const login = () => {
 	const scope = import.meta.env.PUBLIC_RIOT_SCOPE;
 
 	const state = {
-      frontend_redirect,
-    };
+		redirect,
+		csrfToken,
+	};
 
 	const encodedState = encode(JSON.stringify(state));
 

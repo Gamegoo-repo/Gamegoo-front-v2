@@ -18,8 +18,8 @@ export default defineConfig({
                 tanstackRouter({
                     target: 'react',
                     autoCodeSplitting: true,
-                    routesDirectory: './src/app/routes',
-                    generatedRouteTree: './src/app/routes/@generated/routeTree.gen.ts',
+                    routesDirectory: './src/pages',
+                    generatedRouteTree: './src/shared/lib/@generated/routeTree.gen.ts',
                     routeFileIgnorePrefix: '-',
                     quoteStyle: 'single',
                 }),
@@ -27,8 +27,6 @@ export default defineConfig({
         },
     },
     server: {
-    host: '0.0.0.0',
-    port: 443,  // HTTPS 기본 포트 (URL에 포트 번호 안 나타남)
-  }
-   
+        port: 443,
+    },
 });

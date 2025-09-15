@@ -1,10 +1,10 @@
 import "./styles/globals.css";
-import { Button } from "../shared/ui/button/ui";
 import {
 	QueryClient,
 	QueryClientProvider,
 	useQuery,
 } from "@tanstack/react-query";
+import { Button } from "../shared/ui/button/ui";
 
 const queryClient = new QueryClient();
 

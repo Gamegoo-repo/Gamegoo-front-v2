@@ -8,11 +8,12 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './../__root'
-import { Route as AboutRouteImport } from './../about'
-import { Route as IndexRouteImport } from './../index'
-import { Route as RiotIndexRouteImport } from './../riot/index'
-import { Route as RiotCallbackRouteImport } from './../riot/callback'
+import { Route as rootRouteImport } from './../../../pages/__root'
+import { Route as AboutRouteImport } from './../../../pages/about'
+import { Route as IndexRouteImport } from './../../../pages/index'
+import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
+import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
+import { Route as JoinTermsRouteImport } from './../../../pages/join/terms'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -34,16 +35,23 @@ const RiotCallbackRoute = RiotCallbackRouteImport.update({
   path: '/riot/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JoinTermsRoute = JoinTermsRouteImport.update({
+  id: '/join/terms',
+  path: '/join/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/join/terms': typeof JoinTermsRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/riot': typeof RiotIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/join/terms': typeof JoinTermsRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/riot': typeof RiotIndexRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/join/terms': typeof JoinTermsRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/riot/': typeof RiotIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/riot/callback' | '/riot'
+  fullPaths: '/' | '/about' | '/join/terms' | '/riot/callback' | '/riot'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/riot/callback' | '/riot'
-  id: '__root__' | '/' | '/about' | '/riot/callback' | '/riot/'
+  to: '/' | '/about' | '/join/terms' | '/riot/callback' | '/riot'
+  id: '__root__' | '/' | '/about' | '/join/terms' | '/riot/callback' | '/riot/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  JoinTermsRoute: typeof JoinTermsRoute
   RiotCallbackRoute: typeof RiotCallbackRoute
   RiotIndexRoute: typeof RiotIndexRoute
 }
@@ -99,12 +109,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiotCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/join/terms': {
+      id: '/join/terms'
+      path: '/join/terms'
+      fullPath: '/join/terms'
+      preLoaderRoute: typeof JoinTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  JoinTermsRoute: JoinTermsRoute,
   RiotCallbackRoute: RiotCallbackRoute,
   RiotIndexRoute: RiotIndexRoute,
 }
