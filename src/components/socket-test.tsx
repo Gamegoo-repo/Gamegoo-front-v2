@@ -4,9 +4,9 @@ import {
 	useSocketConnectionEvents,
 	useSocketMessage,
 	useSocketStatus,
-} from "../shared/api/socket";
+} from "@/shared/api/socket";
 
-const SocketTestInner = () => {
+function SocketTestInner() {
 	const { isConnected, stateLabel, readyState } = useSocketStatus();
 
 	// 연결 관련 이벤트 로깅
@@ -103,9 +103,9 @@ const SocketTestInner = () => {
 			</div>
 		</div>
 	);
-};
+}
 
-const SocketTest = () => {
+function SocketTest() {
 	const SOCKET_ENDPOINT = "";
 	const ACCESS_TOKEN = "";
 
@@ -120,11 +120,11 @@ const SocketTest = () => {
 				heartbeatTimeout: 0,
 			}}
 			onSocketOpen={() => console.log("🎉 소켓 연결 성공!")}
-			onSocketError={(error) => {
+			onSocketError={(error: Error) => {
 				console.error("💥 소켓 에러:", error);
 				console.error("💥 에러 타입:", error.constructor.name);
 			}}
-			onSocketClose={(reason) => {
+			onSocketClose={(reason: Error) => {
 				console.log("👋 소켓 연결 종료:", reason);
 				console.log("👋 종료 시각:", new Date().toLocaleTimeString());
 			}}
@@ -132,6 +132,6 @@ const SocketTest = () => {
 			<SocketTestInner />
 		</SocketProvider>
 	);
-};
+}
 
 export default SocketTest;
