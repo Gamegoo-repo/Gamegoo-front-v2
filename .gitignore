@@ -17,3 +17,9 @@ dist/
 
 # env
 .env
+
+# tanstack
+.tanstack/*
+
+# pem
+certificates

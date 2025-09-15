@@ -1,5 +1,5 @@
 import { useChatStore } from "@/entities/chat";
-import { useSocketMessage } from "@/shared/socket";
+import { useSocketMessage } from "@/shared/api/socket";
 
 export const useChatNotifications = () => {
 	const { addMessage, updateChatroom, totalUnreadCount, incrementUnreadCount } =
