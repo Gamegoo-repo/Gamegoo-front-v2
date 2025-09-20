@@ -108,4 +108,8 @@ apiClient.interceptors.response.use(
 // OpenAPI Configuration
 export const apiConfiguration = new Configuration({
 	basePath: API_BASE_URL,
+	accessToken: () => {
+		const token = tokenManager.getAccessToken();
+		return token || "";
+	},
 });
