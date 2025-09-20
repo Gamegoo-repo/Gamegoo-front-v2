@@ -6,6 +6,7 @@ export enum OAuthStatus {
 
 export interface AuthCallbackParams {
 	status: OAuthStatus;
+	puuid: string | null;
 	accessToken?: string;
 	refreshToken?: string;
 	name?: string;
