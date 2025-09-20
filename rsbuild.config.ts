@@ -11,7 +11,7 @@ export default defineConfig({
             index: './src/index',
         },
     },
-    plugins: [pluginReact(), pluginSvgr(), pluginBasicSsl()],
+    plugins: [pluginReact(), pluginSvgr(), ],
     tools: {
         rspack: {
             plugins: [
@@ -25,8 +25,5 @@ export default defineConfig({
                 }),
             ],
         },
-    },
-    server: {
-        port: 443,
     },
 });
