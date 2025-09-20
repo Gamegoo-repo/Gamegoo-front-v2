@@ -59,10 +59,121 @@
 }
 
 @layer base {
-    * {
+    body {
         @apply font-pretendard;
     }
 }
 
 @layer utilities {
+
+    /* Regular 11 */
+    .regular-11 {
+        font-family: Pretendard;
+        font-size: 0.688rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 14 */
+    .regular-14 {
+        font-family: Pretendard;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 18 */
+    .regular-18 {
+        font-family: Pretendard;
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 20 */
+    .regular-20 {
+        font-family: Pretendard;
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 25 */
+    .regular-25 {
+        font-family: Pretendard;
+        font-size: 1.563rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 32 */
+    .regular-32 {
+        font-family: Pretendard;
+        font-size: 2rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Medium 16 */
+    .medium-16 {
+        font-family: Pretendard;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
+    }
+
+    .bold-11{
+        font-family: Pretendard;
+        font-size: 0.688rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-14{
+        font-family: Pretendard;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-18{
+        font-family: Pretendard;
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-20{
+        font-family: Pretendard;
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-25{
+        font-family: Pretendard;
+        font-size: 1.563rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-32{
+        font-family: Pretendard;
+        font-size: 2rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
 }
