@@ -39,7 +39,6 @@
     "@biomejs/biome": "2.2.2",
     "@openapitools/openapi-generator-cli": "^2.22.0",
     "@rsbuild/core": "^1.4.13",
-    "@rsbuild/plugin-basic-ssl": "^1.2.1",
     "@rsbuild/plugin-react": "^1.3.4",
     "@rsbuild/plugin-svgr": "^1.2.2",
     "@tailwindcss/postcss": "^4.1.12",
