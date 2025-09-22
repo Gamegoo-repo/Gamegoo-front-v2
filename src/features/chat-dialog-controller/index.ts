@@ -1,0 +1,1 @@
+export { useChatDialogStore } from './model/store';

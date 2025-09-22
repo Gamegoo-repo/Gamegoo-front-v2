@@ -1,14 +1,26 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { useState } from "react";
+import { useChatDialogStore } from "@/features/chat-dialog-controller";
 import { useChatNotifications } from "@/features/chat-notifications";
+import { ChatContent, ChatDialog, ChatTabs } from "@/widgets/chat-dialog";
 import { FloatingChatButton } from "@/widgets/floating-chat-button";
 
 function RootLayout() {
 	useChatNotifications();
 
+	const { isOpen, openDialog, closeDialog } = useChatDialogStore();
+	const [activeTab, setActiveTab] = useState(0);
+
 	const handleChatButtonClick = () => {
-		console.log("Chat button clicked!");
+		openDialog();
 	};
+
+	const handleChatDialogClose = () => {
+		closeDialog();
+	};
+
+	const tabs = ["친구 목록", "채팅방"];
 
 	return (
 		<>
@@ -23,6 +35,13 @@ function RootLayout() {
 			<hr />
 			<Outlet />
 			<FloatingChatButton onClick={handleChatButtonClick} />
+			<ChatDialog
+				isOpen={isOpen}
+				onClose={handleChatDialogClose}
+			>
+				<ChatTabs tabs={tabs} activeTab={activeTab} onTabClick={setActiveTab} />
+				<ChatContent activeTab={activeTab} />
+			</ChatDialog>
 			<TanStackRouterDevtools />
 		</>
 	);

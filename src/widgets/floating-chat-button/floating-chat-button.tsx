@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useChatStore } from "@/entities/chat";
 import MessageIcon from "@/shared/icons/message.svg?react";
-import { Badge } from "@/shared/ui/Badge";
+import { Badge } from "@/shared/ui/badge";
 
 export interface FloatingChatButtonProps {
 	onClick?: () => void;
