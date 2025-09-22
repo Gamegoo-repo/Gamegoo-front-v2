@@ -35,7 +35,7 @@ function ChatDialog({ isOpen, onClose, children }: ChatDialogProps) {
 		<DraggableDialog
 			isOpen={isOpen}
 			onOpenChange={(open) => !open && onClose()}
-			title="채팅"
+			title="메신저"
 			width={420}
 			height={687}
 			adjustPositionCallback={adjustChatPosition}
@@ -46,4 +46,4 @@ function ChatDialog({ isOpen, onClose, children }: ChatDialogProps) {
 	);
 }
 
-export { ChatDialog };
+export default ChatDialog;

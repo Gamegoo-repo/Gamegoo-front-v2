@@ -76,7 +76,7 @@ function DraggableDialog({
 				)}
 				style={{
 					width: `${width}px`,
-					height: "auto",
+					height: `${height}px`,
 					borderRadius: "20px",
 					boxShadow: "0 4px 46.7px 0 rgba(0,0,0,0.1)",
 				}}
@@ -148,15 +148,7 @@ function DraggableDialog({
 					</button>
 				)}
 
-				<div
-					className="rounded-b-[20px] bg-white flex-1"
-					style={{
-						borderRadius: "0 0 20px 20px",
-						boxShadow: "inset 0 0 4.7px 0 rgba(0,0,0,0.15)",
-					}}
-				>
-					{children}
-				</div>
+				{children}
 			</div>
 		</div>
 	);
