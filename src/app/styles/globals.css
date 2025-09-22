@@ -1,68 +1,178 @@
 @import 'tailwindcss';
 
 @theme {
-    /*기본 색상 비활성화*/
-    --color-violet-*: initial;
-    --color-gray-*: initial;
-    --color-red-*: initial;
-    --color-green-*: initial;
+  /*기본 색상 비활성화*/
+  --color-violet-*: initial;
+  --color-gray-*: initial;
+  --color-red-*: initial;
+  --color-green-*: initial;
 
-    /*violet*/
-    --color-violet-100: #F0F0FC;
-    --color-violet-200: #DFDEFF;
-    --color-violet-300: #C1B7FF;
-    --color-violet-400: #9F90F9;
-    --color-violet-500: #7B65FF;
-    --color-violet-600: #5A42EE;
-    --color-violet-700: #452AEA;
-    --color-violet-800: #2811BA;
-    --color-violet-900: #1C0A88;
+  /*violet*/
+  --color-violet-100: #f0f0fc;
+  --color-violet-200: #dfdeff;
+  --color-violet-300: #c1b7ff;
+  --color-violet-400: #9f90f9;
+  --color-violet-500: #7b65ff;
+  --color-violet-600: #5a42ee;
+  --color-violet-700: #452aea;
+  --color-violet-800: #2811ba;
+  --color-violet-900: #1c0a88;
 
-    /*gray*/
-    --color-gray-100: #F1F5FA;
-    --color-gray-200: #EDF2F8;
-    --color-gray-300: #D7DFEA;
-    --color-gray-400: #B5C1D2;
-    --color-gray-500: #9099A5;
-    --color-gray-600: #747A83;
-    --color-gray-700: #41454A;
-    --color-gray-800: #2E3032;
-    --color-gray-900: #191B1E;
+  /*gray*/
+  --color-gray-100: #f1f5fa;
+  --color-gray-200: #edf2f8;
+  --color-gray-300: #d7dfea;
+  --color-gray-400: #b5c1d2;
+  --color-gray-500: #9099a5;
+  --color-gray-600: #747a83;
+  --color-gray-700: #41454a;
+  --color-gray-800: #2e3032;
+  --color-gray-900: #191b1e;
 
-    /*red*/
-    --color-red-100: #FEF2F2;
-    --color-red-200: #FDD;
-    --color-red-300: #FFB9B9;
-    --color-red-400: #FF9090;
-    --color-red-500: #FF5252;
-    --color-red-600: #F52E2E;
-    --color-red-700: #EE173C;
-    --color-red-900: #5C0E0E;
+  /*red*/
+  --color-red-100: #fef2f2;
+  --color-red-200: #fdd;
+  --color-red-300: #ffb9b9;
+  --color-red-400: #ff9090;
+  --color-red-500: #ff5252;
+  --color-red-600: #f52e2e;
+  --color-red-700: #ee173c;
+  --color-red-900: #5c0e0e;
 
-    /*green*/
-    --color-green-100: #EAFFEF;
-    --color-green-400: #8AEA9F;
-    --color-green-500: #69D180;
-    --color-green-600: #41BF5D;
-    --color-green-900: #165524;
+  /*green*/
+  --color-green-100: #eaffef;
+  --color-green-400: #8aea9f;
+  --color-green-500: #69d180;
+  --color-green-600: #41bf5d;
+  --color-green-900: #165524;
 
-    /*폰트*/
-    --font-pretendard: 'Pretendard', sans-serif;
+  /*폰트*/
+  --font-pretendard: 'Pretendard', sans-serif;
 }
 
 @font-face {
-    font-family: 'Pretendard';
-    src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/woff2/PretendardVariable.woff2')
-        format('woff2-variations');
-    font-weight: 45 920;
-    font-display: swap;
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/woff2/PretendardVariable.woff2')
+    format('woff2-variations');
+  font-weight: 45 920;
+  font-display: swap;
 }
 
 @layer base {
-    * {
-        @apply font-pretendard;
-    }
+  body {
+    @apply font-pretendard;
+  }
 }
 
 @layer utilities {
+  /* Regular 11 */
+  .regular-11 {
+    font-family: Pretendard;
+    font-size: 0.688rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  /* Regular 14 */
+  .regular-14 {
+    font-family: Pretendard;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  /* Regular 18 */
+  .regular-18 {
+    font-family: Pretendard;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  /* Regular 20 */
+  .regular-20 {
+    font-family: Pretendard;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  /* Regular 25 */
+  .regular-25 {
+    font-family: Pretendard;
+    font-size: 1.563rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  /* Regular 32 */
+  .regular-32 {
+    font-family: Pretendard;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  /* Medium 16 */
+  .medium-16 {
+    font-family: Pretendard;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+  }
+
+  .bold-11 {
+    font-family: Pretendard;
+    font-size: 0.688rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
+
+  .bold-14 {
+    font-family: Pretendard;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
+
+  .bold-18 {
+    font-family: Pretendard;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
+
+  .bold-20 {
+    font-family: Pretendard;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
+
+  .bold-25 {
+    font-family: Pretendard;
+    font-size: 1.563rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
+
+  .bold-32 {
+    font-family: Pretendard;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
 }
