@@ -5,7 +5,7 @@ import ReactDOM from "react-dom/client";
 
 import { routeTree } from "@/shared/lib/@generated/routeTree.gen";
 
-import "@/app/styles/globals.css";
+import "@/shared/lib/globals.css";
 
 const router = createRouter({ routeTree });
 const queryClient = new QueryClient();
