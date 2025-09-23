@@ -2,16 +2,16 @@ import { encode } from "js-base64";
 import { STORAGE_KEYS } from "@/shared/config/storage";
 
 export const login = () => {
-	const redirect = "http://localhost:3000/riot/callback";
+	const redirect = `${process.env.PUBLIC_APP_URL}/riot/callback`;
 	const csrfToken = crypto.randomUUID();
 
 	sessionStorage.setItem(STORAGE_KEYS.csrfToken, csrfToken);
 
-	const riotAuthUrl = import.meta.env.PUBLIC_RIOT_AUTH_URL;
-	const SERVER_CALLBACK = import.meta.env.PUBLIC_RIOT_REDIRECT_URI;
-	const clientId = import.meta.env.PUBLIC_RIOT_CLIENT_ID;
-	const responseType = import.meta.env.PUBLIC_RIOT_RESPONSE_TYPE;
-	const scope = import.meta.env.PUBLIC_RIOT_SCOPE;
+	const riotAuthUrl = process.env.PUBLIC_RIOT_AUTH_URL;
+	const SERVER_CALLBACK = process.env.PUBLIC_RIOT_REDIRECT_URI!;
+	const clientId = process.env.PUBLIC_RIOT_CLIENT_ID;
+	const responseType = process.env.PUBLIC_RIOT_RESPONSE_TYPE;
+	const scope = process.env.PUBLIC_RIOT_SCOPE;
 
 	const state = {
 		redirect,
