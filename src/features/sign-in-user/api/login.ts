@@ -2,7 +2,7 @@ import { encode } from "js-base64";
 import { STORAGE_KEYS } from "@/shared/config/storage";
 
 export const login = () => {
-	const redirect = "https://localhost:3000/riot/callback";
+	const redirect = "http://localhost:3000/riot/callback";
 	const csrfToken = crypto.randomUUID();
 
 	sessionStorage.setItem(STORAGE_KEYS.csrfToken, csrfToken);
