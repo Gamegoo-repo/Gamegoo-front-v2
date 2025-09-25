@@ -1,4 +1,6 @@
 import type { FriendInfoResponse } from "@/shared/api";
+import StarIcon from "@/shared/assets/icons/star.svg?react";
+import StarVioletIcon from "@/shared/assets/icons/star_violet.svg?react";
 
 interface FriendItemProps {
 	friend: FriendInfoResponse;
@@ -7,11 +9,11 @@ interface FriendItemProps {
 	onFavoriteToggle?: (friend: FriendInfoResponse) => void;
 }
 
-function FriendItem({ 
-	friend, 
-	showFavoriteAction = true, 
-	onFriendClick, 
-	onFavoriteToggle 
+function FriendItem({
+	friend,
+	showFavoriteAction = true,
+	onFriendClick,
+	onFavoriteToggle,
 }: FriendItemProps) {
 	const handleFriendClick = () => {
 		onFriendClick?.(friend);
@@ -49,9 +51,7 @@ function FriendItem({
 			</div>
 			<div className="ml-3 flex-1">
 				<p className="font-medium text-gray-900">{friend.name}</p>
-				{friend.blind && (
-					<p className="text-sm text-gray-400">차단됨</p>
-				)}
+				{friend.blind && <p className="text-sm text-gray-400">차단됨</p>}
 			</div>
 			{showFavoriteAction && (
 				<button
@@ -61,7 +61,7 @@ function FriendItem({
 					onKeyDown={handleFavoriteKeyDown}
 					aria-label="즐겨찾기 토글"
 				>
-					{friend.liked ? "⭐" : "☆"}
+					{friend.liked ? <StarVioletIcon /> : <StarIcon />}
 				</button>
 			)}
 		</button>

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { api, type FriendInfoResponse } from "@/shared/api";
-import SearchIcon from "@/shared/icons/search.svg?react";
+import SearchIcon from "@/shared/assets/icons/search.svg?react";
 import FriendSection from "./friend-section";
 
 function FriendLists() {
@@ -23,12 +23,12 @@ function FriendLists() {
 			? (searchData?.data?.data ?? [])
 			: (friendsData?.data?.data?.friendInfoList ?? []);
 
-	const handleFriendClick = (friend: FriendInfoResponse) => {
-		console.log("친구 클릭:", friend.name);
+	const handleFriendClick = (_friend: FriendInfoResponse) => {
+		// TODO: 채팅방 열기 로직 추가
 	};
 
-	const handleFavoriteToggle = (friend: FriendInfoResponse) => {
-		console.log("즐겨찾기 토글:", friend.name);
+	const handleFavoriteToggle = (_friend: FriendInfoResponse) => {
+		// TODO: 즐겨찾기 토글 추가
 	};
 
 	const favoriteFriends = friends.filter((f) => f.liked);
