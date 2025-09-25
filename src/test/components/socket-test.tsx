@@ -1,12 +1,12 @@
-import { useEffect } from "react";
 import {
-	SocketProvider,
 	useSocketConnectionEvents,
 	useSocketMessage,
 	useSocketStatus,
 } from "@/shared/api/socket";
+import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
 
 function SocketTestInner() {
+	const { isAuthenticated } = useGamegooSocket();
 	const { isConnected, stateLabel, readyState } = useSocketStatus();
 
 	// 연결 관련 이벤트 로깅
@@ -64,39 +64,53 @@ function SocketTestInner() {
 		console.error("🔄❌ 재연결 에러:", error);
 	});
 
-	// 컴포넌트 마운트 로깅
-	useEffect(() => {
-		console.log("🔌 소켓 테스트 컴포넌트 마운트됨");
-		console.log("🎯 연결 대상:", "https://socket.gamegoo.co.kr");
-		console.log("🔑 사용자 ID:", "50");
-	}, []);
-
 	return (
 		<div className="border p-4 rounded-lg bg-gray-50">
 			<h3 className="text-lg font-bold mb-2">🔌 소켓 연결 테스트</h3>
 			<div className="space-y-2 text-sm">
 				<div>
-					<span className="font-medium">연결 상태:</span>
+					<span className="font-medium">인증 상태:</span>
 					<span
 						className={`ml-2 px-2 py-1 rounded text-xs ${
-							isConnected
-								? "bg-green-100 text-green-800"
-								: "bg-red-100 text-red-800"
+							isAuthenticated
+								? "bg-blue-100 text-blue-800"
+								: "bg-gray-100 text-gray-800"
 						}`}
 					>
-						{stateLabel}
+						{isAuthenticated ? "로그인됨" : "로그아웃"}
 					</span>
 				</div>
-				<div>
-					<span className="font-medium">Ready State:</span>
-					<span className="ml-2">{readyState}</span>
-				</div>
-				<div>
-					<span className="font-medium">연결 여부:</span>
-					<span className="ml-2">
-						{isConnected ? "✅ 연결됨" : "❌ 연결 안됨"}
-					</span>
-				</div>
+				{isAuthenticated && (
+					<>
+						<div>
+							<span className="font-medium">연결 상태:</span>
+							<span
+								className={`ml-2 px-2 py-1 rounded text-xs ${
+									isConnected
+										? "bg-green-100 text-green-800"
+										: "bg-red-100 text-red-800"
+								}`}
+							>
+								{stateLabel}
+							</span>
+						</div>
+						<div>
+							<span className="font-medium">Ready State:</span>
+							<span className="ml-2">{readyState}</span>
+						</div>
+						<div>
+							<span className="font-medium">연결 여부:</span>
+							<span className="ml-2">
+								{isConnected ? "✅ 연결됨" : "❌ 연결 안됨"}
+							</span>
+						</div>
+					</>
+				)}
+				{!isAuthenticated && (
+					<div className="text-gray-600">
+						🔒 로그인하면 소켓이 자동으로 연결됩니다
+					</div>
+				)}
 			</div>
 			<div className="mt-3 text-xs text-gray-600">
 				💡 개발자 콘솔에서 소켓 이벤트를 확인하세요!
@@ -106,32 +120,7 @@ function SocketTestInner() {
 }
 
 function SocketTest() {
-	const SOCKET_ENDPOINT = "";
-	const ACCESS_TOKEN = "";
-
-	return (
-		<SocketProvider
-			endpoint={SOCKET_ENDPOINT}
-			authData={{ token: ACCESS_TOKEN, userId: "50" }}
-			options={{
-				maxReconnectAttempts: 3,
-				reconnectDelay: 5000,
-				heartbeatInterval: 0,
-				heartbeatTimeout: 0,
-			}}
-			onSocketOpen={() => console.log("🎉 소켓 연결 성공!")}
-			onSocketError={(error: Error) => {
-				console.error("💥 소켓 에러:", error);
-				console.error("💥 에러 타입:", error.constructor.name);
-			}}
-			onSocketClose={(reason: Error) => {
-				console.log("👋 소켓 연결 종료:", reason);
-				console.log("👋 종료 시각:", new Date().toLocaleTimeString());
-			}}
-		>
-			<SocketTestInner />
-		</SocketProvider>
-	);
+	return <SocketTestInner />;
 }
 
 export default SocketTest;
