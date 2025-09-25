@@ -2,7 +2,6 @@ import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 import { pluginSvgr } from '@rsbuild/plugin-svgr';
-import { pluginBasicSsl } from '@rsbuild/plugin-basic-ssl';
 
 
 export default defineConfig({
@@ -12,6 +11,7 @@ export default defineConfig({
         },
     },
     plugins: [pluginReact(), pluginSvgr(), ],
+
     tools: {
         rspack: {
             plugins: [
@@ -25,5 +25,9 @@ export default defineConfig({
                 }),
             ],
         },
+    },
+
+    server: {
+        port: 3000,
     },
 });
