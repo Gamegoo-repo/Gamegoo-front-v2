@@ -5,12 +5,19 @@ import CheckIcon from "@/shared/assets/icons/check_icon.svg?react";
 import { cn } from "@/shared/lib/utils";
 
 function Checkbox({
+	isChecked,
 	className,
+	onCheckedChange,
 	...props
-}: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
+}: React.ComponentProps<typeof CheckboxPrimitive.Root> & {
+	isChecked: boolean;
+	onCheckedChange: (checked: boolean) => void;
+}) {
 	return (
 		<CheckboxPrimitive.Root
 			data-slot="checkbox"
+			checked={isChecked}
+			onCheckedChange={onCheckedChange}
 			className={cn(
 				"size-5 shrink-0 rounded-[4px] border border-gray-500 data-[state=checked]:bg-violet-600 data-[state=checked]:border-violet-600 hover:border-gray-400 hover:cursor-pointer",
 				className,
