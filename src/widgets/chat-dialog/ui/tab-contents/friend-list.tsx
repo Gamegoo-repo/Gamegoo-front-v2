@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useChatStore, useFriendOnline } from "@/entities/chat";
 import { api, type FriendInfoResponse } from "@/shared/api";
 import SearchIcon from "@/shared/assets/icons/search.svg?react";
 import FriendSection from "./friend-section";
@@ -8,17 +7,10 @@ import FriendSection from "./friend-section";
 function FriendLists() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const queryClient = useQueryClient();
-	const { onlineFriends } = useChatStore();
-
-	// 친구 온라인 상태 hook 초기화
-	useFriendOnline();
-
-	console.log("🏠 FriendList 컴포넌트 - 현재 온라인 친구들:", onlineFriends);
 
 	const { data: friendsData } = useQuery({
 		queryKey: ["friends"],
 		queryFn: () => {
-			console.log("📞 친구 목록 API 호출 중...");
 			return api.friend.getFriendList();
 		},
 	});
@@ -40,10 +32,6 @@ function FriendLists() {
 		searchTerm !== ""
 			? (searchData?.data?.data ?? [])
 			: (friendsData?.data?.data?.friendInfoList ?? []);
-
-	console.log("👥 전체 친구 목록:", friends);
-	console.log("📊 온라인 친구 개수:", onlineFriends.length);
-	console.log("📊 전체 친구 개수:", friends.length);
 
 	const handleFriendClick = (_friend: FriendInfoResponse) => {
 		// TODO: 채팅방 열기 로직 추가

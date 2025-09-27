@@ -139,36 +139,23 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 	setFriendOnline: (friendId) =>
 		set((state) => {
 			if (Array.isArray(friendId)) {
-				// 배열인 경우 전체를 업데이트
-				console.log("🔄 온라인 친구 목록 전체 업데이트:", friendId);
-				console.log("📊 이전 상태:", state.onlineFriends);
-				const newState = { onlineFriends: friendId };
-				console.log("📊 새로운 상태:", newState.onlineFriends);
-				return newState;
+				return { onlineFriends: friendId };
 			} else {
-				// 개별 온라인 친구 id 추가
 				if (!state.onlineFriends.includes(friendId)) {
-					console.log("➕ 친구 온라인 상태 추가:", friendId);
-					console.log("📊 이전 상태:", state.onlineFriends);
 					const newState = {
 						onlineFriends: [...state.onlineFriends, friendId],
 					};
-					console.log("📊 새로운 상태:", newState.onlineFriends);
 					return newState;
 				}
-				console.log("⚠️ 이미 온라인 상태인 친구:", friendId);
 				return state;
 			}
 		}),
 
 	setFriendOffline: (friendId) =>
 		set((state) => {
-			console.log("➖ 친구 오프라인 상태 변경:", friendId);
-			console.log("📊 이전 상태:", state.onlineFriends);
 			const newOnlineFriends = state.onlineFriends.filter(
 				(id) => id !== friendId,
 			);
-			console.log("📊 새로운 상태:", newOnlineFriends);
 			return { onlineFriends: newOnlineFriends };
 		}),
 }));

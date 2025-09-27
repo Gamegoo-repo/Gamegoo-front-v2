@@ -1,6 +1,6 @@
 import { useCallback } from "react";
+import { useChatStore } from "@/entities/chat";
 import { useSocketMessage } from "@/shared/api/socket";
-import { useChatStore } from "../store";
 
 interface FriendOnlineResponse {
 	data: {
