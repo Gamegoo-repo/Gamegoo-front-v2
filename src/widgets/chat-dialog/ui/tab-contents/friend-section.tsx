@@ -38,6 +38,10 @@ function FriendSection({
 		}
 	};
 
+	if (!emptyMessage && friends.length === 0) {
+		return null;
+	}
+
 	return (
 		<div className="mb-6">
 			<h3 className="text-sm regular-11 text-gray-500 mb-3">{title}</h3>
