@@ -1,5 +1,5 @@
 interface TabsProps {
-	tabs: string[];
+	tabs: readonly string[];
 	activeTab: number;
 	onTabClick: (index: number) => void;
 }

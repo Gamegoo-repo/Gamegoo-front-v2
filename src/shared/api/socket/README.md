@@ -1,29 +1,54 @@
-# Socket 시스템
+# Socket 시스템 (Singleton Pattern)
 
 이 문서는 Gamegoo 프론트엔드의 Socket.io 기반 실시간 통신 시스템에 대한 가이드입니다.
 
 ## 📋 개요
 
-Socket 시스템은 다음과 같은 기능을 제공합니다:
+Socket 시스템은 **싱글톤 패턴**을 기반으로 다음과 같은 기능을 제공합니다:
 
-- 🔐 **토큰 기반 인증**: JWT 토큰을 통한 안전한 소켓 연결
-- 🔄 **자동 재연결**: 네트워크 문제 시 자동으로 재연결 시도
+- 🏗️ **싱글톤 아키텍처**: 전역에서 단일 소켓 인스턴스 관리
+- 🔐 **토큰 기반 인증**: JWT 토큰을 통한 안전한 소켓 연결  
+- 🔄 **스마트 재연결**: 불필요한 재연결을 방지하는 지능형 로직
 - 🔑 **토큰 갱신**: 토큰 만료 시 자동 재인증 처리
-- 💓 **하트비트**: PING/PONG을 통한 연결 상태 모니터링
+- 🧹 **메모리 관리**: 자동 이벤트 리스너 정리로 메모리 누수 방지
 - ⚛️ **React 통합**: Provider/Hook 패턴으로 쉬운 React 통합
 - 📊 **상태 관리**: Enum 기반 명확한 연결 상태 관리
+- 🐛 **디버깅 지원**: 상세한 로깅으로 연결 상태 추적
 
 ## 🏗️ 아키텍처
 
+### 새로운 싱글톤 아키텍처
+
 ```
-src/shared/socket/
-├── socket.ts          # 핵심 GamegooSocket 클래스
-├── provider.tsx       # React Context Provider
+src/shared/api/socket/
+├── socket-manager.ts   # 🆕 싱글톤 소켓 매니저 (핵심)
+├── socket.ts          # GamegooSocket 클래스
+├── provider.tsx       # React Context Provider (싱글톤 연동)
 ├── context.ts         # React Context 정의
-├── hooks.ts           # React Hooks
+├── hooks.ts           # React Hooks (싱글톤 연동)
 ├── types.ts           # 타입 및 Enum 정의
 └── index.ts           # 모든 exports
 ```
+
+### 핵심 컴포넌트
+
+1. **SocketManager (Singleton)** - `socket-manager.ts`
+   - 전역 단일 소켓 인스턴스 관리
+   - 중앙화된 이벤트 관리
+   - 연결 상태 추적 및 제어
+
+2. **GamegooSocket** - `socket.ts`  
+   - Socket.io 래퍼 클래스
+   - 인증, 재연결, 하트비트 로직
+
+3. **SocketProvider** - `provider.tsx`
+   - React Context 제공
+   - 싱글톤 매니저와 React 상태 동기화
+
+4. **Hooks** - `hooks.ts`
+   - `useSocketMessage`: 싱글톤 기반 이벤트 리스닝
+   - `useSocketStatus`: 연결 상태 모니터링
+   - `useSocketSend`: 안전한 메시지 전송
 
 ## 🚀 빠른 시작
 
@@ -49,21 +74,28 @@ function App() {
 }
 ```
 
-### 2. 컴포넌트에서 사용
+### 2. 컴포넌트에서 사용 (싱글톤 기반)
 
 ```tsx
 import { 
   useSocketStatus, 
   useSocketSend, 
   useSocketMessage,
-  SocketReadyState 
-} from '@/shared/socket';
+  SocketReadyState,
+  socketManager
+} from '@/shared/api/socket';
 
 function ChatComponent() {
   const { isConnected, stateLabel, readyState } = useSocketStatus();
   const { send } = useSocketSend();
 
-  // 메시지 수신 리스너
+  // 🆕 싱글톤 매니저 직접 사용 (고급)
+  const checkConnection = () => {
+    console.log('연결 상태:', socketManager.connected);
+    console.log('재연결 시도:', socketManager.reconnectAttemptCount);
+  };
+
+  // 메시지 수신 리스너 (자동으로 싱글톤 매니저 사용)
   useSocketMessage('chat_message', (data) => {
     console.log('새 메시지:', data);
   });
@@ -85,6 +117,10 @@ function ChatComponent() {
           메시지 보내기
         </button>
       )}
+      
+      <button onClick={checkConnection}>
+        🔍 연결 정보 확인
+      </button>
     </div>
   );
 }
@@ -167,12 +203,32 @@ if (!success) {
 
 ### useSocketMessage()
 
-특정 이벤트의 메시지를 수신합니다.
+특정 이벤트의 메시지를 수신합니다. 싱글톤 매니저를 자동으로 사용합니다.
 
 ```tsx
 useSocketMessage<MessageType>('event_name', (data) => {
   console.log('받은 데이터:', data);
 });
+
+// 실제 사용 예시: 친구 온라인 상태
+function useFriendOnline() {
+  const { setFriendOnline, setFriendOffline } = useChatStore();
+
+  useSocketMessage('init-online-friend-list', (res) => {
+    const onlineFriends = res.data.onlineFriendMemberIdList;
+    setFriendOnline(onlineFriends);
+  });
+
+  useSocketMessage('friend-online', (res) => {
+    const friendId = res.data.memberId;
+    setFriendOnline(friendId);
+  });
+
+  useSocketMessage('friend-offline', (res) => {
+    const friendId = res.data.memberId;
+    setFriendOffline(friendId);
+  });
+}
 ```
 
 ### useSocketEvent()
@@ -482,17 +538,66 @@ function SocketDebugInfo() {
 }
 ```
 
-## ⚠️ 주의사항
+## 🎯 싱글톤 패턴의 장점
+
+### ✅ 해결된 문제들
+
+1. **다중 연결 방지**: 여러 컴포넌트에서 동시에 소켓을 생성해도 단일 인스턴스 보장
+2. **메모리 누수 제거**: 자동 이벤트 리스너 정리로 메모리 누수 완전 방지
+3. **불필요한 재연결 방지**: 컴포넌트 리렌더링시에도 연결 유지
+4. **일관된 상태**: 모든 컴포넌트가 동일한 소켓 상태 공유
+5. **성능 최적화**: 불필요한 연결 생성/해제 오버헤드 제거
+
+### 🔍 디버깅 지원
+
+싱글톤 매니저는 상세한 로깅을 제공합니다:
+
+```typescript
+// 브라우저 콘솔에서 볼 수 있는 로그들
+🔌 싱글톤 소켓 연결을 시도합니다...
+✅ 싱글톤 소켓 연결 성공!
+🔄 이미 연결된 소켓이 있어 재연결을 건너뜁니다.
+🟢 친구 온라인 이벤트 수신: { data: { memberId: 123 } }
+📊 온라인 친구 목록 전체 업데이트: [123, 456, 789]
+```
+
+## ⚠️ 주의사항 및 모범 사례
+
+### 🚫 하지 말아야 할 것
+
+1. **직접 소켓 생성**: `new GamegooSocket()` 대신 `socketManager` 사용
+2. **수동 이벤트 등록**: `socket.on()` 대신 `useSocketMessage()` 사용  
+3. **Provider 다중 생성**: 애플리케이션 루트에서 한 번만 생성
+
+### ✅ 권장 사항
 
 1. **토큰 만료**: `tokenProvider`를 제공하면 토큰 만료 시 자동으로 갱신됩니다.
 
-2. **메모리 누수 방지**: Hook들은 자동으로 정리되지만, 수동으로 등록한 리스너는 정리해야 합니다.
+2. **Hook 사용**: Hook들은 자동으로 정리되므로 항상 Hook을 사용하세요.
 
 3. **네트워크 상태**: 네트워크가 불안정한 환경에서는 `maxReconnectAttempts`와 `reconnectDelay`를 적절히 조정하세요.
 
 4. **서버 측 구현**: 서버에서도 토큰 검증 및 하트비트를 처리해야 합니다.
 
+5. **연결 상태 확인**: 메시지 전송 전에 `socketManager.connected` 확인
+
+### 📋 체크리스트
+
+- [ ] `useSocketMessage`를 사용해 이벤트 리스너 등록
+- [ ] 컴포넌트 언마운트시 자동 정리 확인  
+- [ ] `socketManager.connected` 확인 후 메시지 전송
+- [ ] Provider는 애플리케이션 루트에서 한 번만 사용
+- [ ] 디버깅시 브라우저 콘솔 로그 확인
+
 ## 🔄 업데이트 로그
+
+- **v2.0.0**: 싱글톤 패턴 적용 🆕
+  - 싱글톤 SocketManager 도입으로 다중 연결 방지
+  - 메모리 누수 완전 제거
+  - 스마트 재연결 로직으로 불필요한 재연결 방지
+  - 상세한 디버깅 로그 시스템
+  - 친구 온라인 상태 관리 최적화
+  - React 컴포넌트 리렌더링과 무관한 연결 유지
 
 - **v1.0.0**: 초기 구현
   - Socket.io 기반 실시간 통신
@@ -500,3 +605,28 @@ function SocketDebugInfo() {
   - 자동 재연결 및 하트비트
   - React Provider/Hook 패턴
   - Enum 기반 상태 관리
+
+## 🚀 마이그레이션 가이드 (v1 → v2)
+
+### 변경 사항
+
+1. **import 경로 변경**: 일부 고급 기능에서 `socketManager` import 추가
+2. **자동 개선**: 기존 Hook들은 그대로 동작하지만 내부적으로 싱글톤 사용
+3. **새로운 기능**: `socketManager` 직접 접근으로 더 세밀한 제어 가능
+
+### 기존 코드 호환성
+
+✅ **100% 호환**: 기존 Hook 기반 코드는 수정 없이 동작
+✅ **성능 향상**: 자동으로 싱글톤 패턴의 이점 적용
+✅ **추가 기능**: 필요시 `socketManager`로 고급 제어 가능
+
+```typescript
+// v1 코드 (그대로 동작)
+useSocketMessage('event', handler);
+
+// v2 추가 기능 (선택적)
+import { socketManager } from '@/shared/api/socket';
+if (socketManager.connected) {
+  socketManager.send('event', data);
+}
+```

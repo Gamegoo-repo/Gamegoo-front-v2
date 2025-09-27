@@ -1,15 +1,21 @@
-import FriendLists from "./tab-contents/friend-list";
+import { useFriendOnline } from "../hooks/use-friend-online";
+import { ChatroomList, FriendList } from "./tab-contents";
 
 interface ChatContentProps {
 	activeTab: number;
 }
 
 function ChatContent({ activeTab }: ChatContentProps) {
+	useFriendOnline();
+
 	if (activeTab === 0) {
-		return <FriendLists />;
+		return <FriendList />;
 	}
 
-	// TODO: 채팅방 목록 추가
+	if (activeTab === 1) {
+		return <ChatroomList />;
+	}
+
 	return null;
 }
 

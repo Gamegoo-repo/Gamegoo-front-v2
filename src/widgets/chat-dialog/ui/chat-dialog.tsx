@@ -1,13 +1,21 @@
+import { useState } from "react";
 import type { AdjustPositionCallback } from "@/features/draggable-dialog";
 import { DraggableDialog } from "@/features/draggable-dialog";
+import { tokenManager } from "@/shared/api";
+import { LoginRequiredModal } from "@/widgets/login-required-modal";
+import ChatContent from "./chat-content";
+import ChatTabs from "./chat-tabs";
 
 interface ChatDialogProps {
 	isOpen: boolean;
 	onClose: () => void;
-	children: React.ReactNode;
 }
 
-function ChatDialog({ isOpen, onClose, children }: ChatDialogProps) {
+const TABS = ["친구 목록", "채팅방"] as const;
+
+function ChatDialog({ isOpen, onClose }: ChatDialogProps) {
+	const [activeTab, setActiveTab] = useState(0);
+
 	// 채팅 전용 경계 제한 로직
 	const adjustChatPosition: AdjustPositionCallback = ({ top, left }) => {
 		const chatWidth = 420;
@@ -31,6 +39,14 @@ function ChatDialog({ isOpen, onClose, children }: ChatDialogProps) {
 		return { top: `${topValue}px`, left: `${leftValue}px` };
 	};
 
+	if (!isOpen) {
+		return null;
+	}
+
+	if (!tokenManager.getAccessToken()) {
+		return <LoginRequiredModal isOpen={isOpen} onClose={onClose} />;
+	}
+
 	return (
 		<DraggableDialog
 			isOpen={isOpen}
@@ -41,7 +57,8 @@ function ChatDialog({ isOpen, onClose, children }: ChatDialogProps) {
 			adjustPositionCallback={adjustChatPosition}
 			showCloseButton={true}
 		>
-			{children}
+			<ChatTabs tabs={TABS} activeTab={activeTab} onTabClick={setActiveTab} />
+			<ChatContent activeTab={activeTab} />
 		</DraggableDialog>
 	);
 }

@@ -1,21 +1,31 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { api, type FriendInfoResponse } from "@/shared/api";
 import SearchIcon from "@/shared/assets/icons/search.svg?react";
 import FriendSection from "./friend-section";
 
-function FriendLists() {
+function FriendList() {
 	const [searchTerm, setSearchTerm] = useState("");
+	const queryClient = useQueryClient();
 
 	const { data: friendsData } = useQuery({
 		queryKey: ["friends"],
-		queryFn: () => api.friend.getFriendList(),
+		queryFn: () => {
+			return api.friend.getFriendList();
+		},
 	});
 
 	const { data: searchData } = useQuery({
 		queryKey: ["friends", "search", searchTerm],
 		queryFn: () => api.friend.searchFriend(searchTerm),
 		enabled: searchTerm.length > 0,
+	});
+
+	const { mutate: toggleFavorite } = useMutation({
+		mutationFn: (memberId: number) => api.friend.reverseFriendLiked(memberId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["friends"] });
+		},
 	});
 
 	const friends =
@@ -27,8 +37,11 @@ function FriendLists() {
 		// TODO: 채팅방 열기 로직 추가
 	};
 
-	const handleFavoriteToggle = (_friend: FriendInfoResponse) => {
-		// TODO: 즐겨찾기 토글 추가
+	const handleFavoriteToggle = (friend: FriendInfoResponse) => {
+		if (!friend.memberId) {
+			return;
+		}
+		toggleFavorite(friend.memberId);
 	};
 
 	const favoriteFriends = friends.filter((f) => f.liked);
@@ -80,4 +93,4 @@ function FriendLists() {
 	);
 }
 
-export default FriendLists;
+export default FriendList;

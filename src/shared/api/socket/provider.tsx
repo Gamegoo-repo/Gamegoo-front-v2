@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { SocketConnection } from "./context";
 import { SocketContext } from "./context";
 import type { SocketAuthData, SocketOptions } from "./socket";
-import { GamegooSocket } from "./socket";
+import { socketManager } from "./socket-manager";
 import { SocketReadyState } from "./types";
 
 export interface SocketProviderProps {
@@ -32,71 +32,82 @@ function SocketProvider({
 	onSocketReconnect,
 	onSocketReconnectFailed,
 }: SocketProviderProps) {
-	const socketRef = useRef<GamegooSocket | undefined>(undefined);
 	const [socketReadyState, setSocketReadyState] = useState<SocketReadyState>(
 		SocketReadyState.CLOSED,
 	);
 	const [reconnectAttempts, setReconnectAttempts] = useState<number>(0);
 
-	const setupSocketListeners = useCallback(
-		(socket: GamegooSocket): void => {
-			socket.on("connect", () => {
-				setSocketReadyState(SocketReadyState.OPEN);
-				setReconnectAttempts(0);
-				onSocketOpen?.();
-			});
+	// 싱글톤 소켓 매니저의 이벤트 리스너 설정
+	const setupSocketListeners = useCallback(() => {
+		console.log("🔧 싱글톤 소켓 이벤트 리스너 설정");
 
-			socket.on("disconnect", (reason: string) => {
-				setSocketReadyState(SocketReadyState.CLOSED);
-				onSocketClose?.(reason);
-			});
+		const handleConnect = (..._args: unknown[]) => {
+			setSocketReadyState(SocketReadyState.OPEN);
+			setReconnectAttempts(0);
+			onSocketOpen?.();
+		};
 
-			socket.on("error", (error: Error) => {
-				onSocketError?.(error);
-			});
+		const handleDisconnect = (...args: unknown[]) => {
+			setSocketReadyState(SocketReadyState.CLOSED);
+			onSocketClose?.(args[0] as string);
+		};
 
-			socket.on("connect_error", (error: Error) => {
-				setSocketReadyState(SocketReadyState.CLOSED);
-				onSocketError?.(error);
-			});
+		const handleError = (...args: unknown[]) => {
+			onSocketError?.(args[0] as Error);
+		};
 
-			socket.on("reconnect", (attempt: number) => {
-				setSocketReadyState(SocketReadyState.OPEN);
-				setReconnectAttempts(0);
-				onSocketReconnect?.(attempt);
-			});
+		const handleConnectError = (...args: unknown[]) => {
+			setSocketReadyState(SocketReadyState.CLOSED);
+			onSocketError?.(args[0] as Error);
+		};
 
-			socket.on("reconnect_attempt", (attempt: number) => {
-				setSocketReadyState(SocketReadyState.CONNECTING);
-				setReconnectAttempts(attempt);
-			});
+		const handleReconnect = (...args: unknown[]) => {
+			setSocketReadyState(SocketReadyState.OPEN);
+			setReconnectAttempts(0);
+			onSocketReconnect?.(args[0] as number);
+		};
 
-			socket.on("reconnect_failed", () => {
-				setSocketReadyState(SocketReadyState.CLOSED);
-				onSocketReconnectFailed?.();
-			});
-		},
-		[
-			onSocketOpen,
-			onSocketClose,
-			onSocketError,
-			onSocketReconnect,
-			onSocketReconnectFailed,
-		],
-	);
+		const handleReconnectAttempt = (...args: unknown[]) => {
+			setSocketReadyState(SocketReadyState.CONNECTING);
+			setReconnectAttempts(args[0] as number);
+		};
+
+		const handleReconnectFailed = (..._args: unknown[]) => {
+			setSocketReadyState(SocketReadyState.CLOSED);
+			onSocketReconnectFailed?.();
+		};
+
+		// 이벤트 리스너 등록
+		socketManager.on("connect", handleConnect);
+		socketManager.on("disconnect", handleDisconnect);
+		socketManager.on("error", handleError);
+		socketManager.on("connect_error", handleConnectError);
+		socketManager.on("reconnect", handleReconnect);
+		socketManager.on("reconnect_attempt", handleReconnectAttempt);
+		socketManager.on("reconnect_failed", handleReconnectFailed);
+
+		// 클린업 함수 반환
+		return () => {
+			socketManager.off("connect", handleConnect);
+			socketManager.off("disconnect", handleDisconnect);
+			socketManager.off("error", handleError);
+			socketManager.off("connect_error", handleConnectError);
+			socketManager.off("reconnect", handleReconnect);
+			socketManager.off("reconnect_attempt", handleReconnectAttempt);
+			socketManager.off("reconnect_failed", handleReconnectFailed);
+		};
+	}, [
+		onSocketOpen,
+		onSocketClose,
+		onSocketError,
+		onSocketReconnect,
+		onSocketReconnectFailed,
+	]);
 
 	const createSocket = useCallback(async () => {
-		if (socketRef.current) {
-			socketRef.current.disconnect();
-		}
-
-		const socket = new GamegooSocket(endpoint, options, tokenProvider);
-		setupSocketListeners(socket);
-		socketRef.current = socket;
-
 		try {
 			setSocketReadyState(SocketReadyState.CONNECTING);
-			await socket.connect(authData);
+			await socketManager.connect(endpoint, authData, options, tokenProvider);
 		} catch (error) {
 			setSocketReadyState(SocketReadyState.CLOSED);
 			if (error instanceof Error) {
@@ -105,50 +116,55 @@ function SocketProvider({
 				onSocketError?.(new Error(String(error)));
 			}
 		}
-	}, [
-		endpoint,
-		options,
-		tokenProvider,
-		authData,
-		setupSocketListeners,
-		onSocketError,
-	]);
+	}, [endpoint, authData, options, tokenProvider, onSocketError]);
 
 	const reconnect = useCallback(() => {
-		if (socketRef.current) {
-			socketRef.current.reconnect();
+		if (socketManager.connected) {
+			socketManager.reconnect();
 		} else {
 			createSocket();
 		}
 	}, [createSocket]);
 
 	const disconnect = useCallback(() => {
-		if (socketRef.current) {
-			socketRef.current.disconnect();
-			setSocketReadyState(SocketReadyState.CLOSED);
-		}
+		console.log("📞 Provider에서 disconnect 호출됨");
+		socketManager.disconnect();
+		setSocketReadyState(SocketReadyState.CLOSED);
 	}, []);
 
 	const send = useCallback((event: string, data?: unknown) => {
-		if (socketRef.current) {
-			socketRef.current.send(event, data);
-		}
+		socketManager.send(event, data);
 	}, []);
+
+	// 이벤트 리스너는 한 번만 설정
+	useEffect(() => {
+		const cleanup = setupSocketListeners();
+		return cleanup;
+	}, [setupSocketListeners]);
+
+	// enabled 변경시에만 소켓 연결/해제
+	const enabledRef = useRef(enabled);
+	enabledRef.current = enabled;
 
 	useEffect(() => {
 		if (enabled) {
 			createSocket();
 		} else {
-			disconnect();
+			console.log("🔌 enabled=false로 인한 disconnect");
+			socketManager.disconnect();
+			setSocketReadyState(SocketReadyState.CLOSED);
 		}
+	}, [enabled, createSocket]);
 
-		return () => {
-			disconnect();
-		};
-	}, [enabled, createSocket, disconnect]);
+	// 초기 연결 상태 동기화
+	useEffect(() => {
+		if (socketManager.connected) {
+			setSocketReadyState(SocketReadyState.OPEN);
+		}
+	}, []);
 
 	const socketConnection: SocketConnection = {
-		socket: socketRef.current,
+		socket: socketManager.socketInstance ?? undefined,
 		socketReadyState,
 		reconnect,
 		disconnect,

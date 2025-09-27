@@ -1,3 +1,5 @@
+import { useChatStore } from "@/entities/chat";
+import ProfileAvatar from "@/features/profile/profile-avatar";
 import type { FriendInfoResponse } from "@/shared/api";
 import StarIcon from "@/shared/assets/icons/star.svg?react";
 import StarVioletIcon from "@/shared/assets/icons/star_violet.svg?react";
@@ -15,6 +17,11 @@ function FriendItem({
 	onFriendClick,
 	onFavoriteToggle,
 }: FriendItemProps) {
+	const { onlineFriends } = useChatStore();
+	const isOnline = friend.memberId
+		? onlineFriends.includes(friend.memberId)
+		: false;
+
 	const handleFriendClick = () => {
 		onFriendClick?.(friend);
 	};
@@ -39,19 +46,27 @@ function FriendItem({
 		}
 	};
 
+	if (friend.blind) {
+		return null;
+	}
+
 	return (
 		<button
 			type="button"
-			className="flex items-center p-3 rounded-lg hover:bg-gray-50 cursor-pointer w-full text-left"
+			className="flex items-center cursor-pointer w-full text-left"
 			onClick={handleFriendClick}
 			onKeyDown={handleKeyDown}
 		>
-			<div className="w-10 h-10 bg-violet-500 rounded-full flex items-center justify-center text-white font-medium">
-				{friend.name?.[0] || "?"}
-			</div>
+			<ProfileAvatar size="sm" profileIndex={friend.profileImg} />
 			<div className="ml-3 flex-1">
-				<p className="font-medium text-gray-900">{friend.name}</p>
-				{friend.blind && <p className="text-sm text-gray-400">차단됨</p>}
+				<div className="flex items-center gap-2">
+					<div className="relative">
+						<p className="font-medium text-gray-900">{friend.name}</p>
+						{isOnline && (
+							<div className="absolute -top-1 -right-4 w-[10px] h-[10px] bg-green-500 border-2 border-white rounded-full" />
+						)}
+					</div>
+				</div>
 			</div>
 			{showFavoriteAction && (
 				<button

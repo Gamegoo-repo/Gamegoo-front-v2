@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useRef } from "react";
 
 import { SocketContext } from "./context";
+import { socketManager } from "./socket-manager";
 import { getSocketStateLabel, SocketReadyState } from "./types";
 
 export const useSocket = () => {
@@ -42,7 +43,6 @@ export const useSocketEvent = <T = unknown>(
 	const { socket } = useSocket();
 	const handlerRef = useRef(handler);
 
-	// Update handler ref when handler changes
 	useEffect(() => {
 		handlerRef.current = handler;
 	}, [handler]);
@@ -54,7 +54,6 @@ export const useSocketEvent = <T = unknown>(
 			handlerRef.current(args[0] as T);
 		};
 
-		// Register custom event listener on the GamegooSocket instance
 		socket.on(event, eventHandler);
 
 		return () => {
@@ -67,7 +66,6 @@ export const useSocketMessage = <T = unknown>(
 	event: string,
 	handler: (data: T) => void,
 ) => {
-	const { socket } = useSocket();
 	const handlerRef = useRef(handler);
 
 	useEffect(() => {
@@ -75,19 +73,16 @@ export const useSocketMessage = <T = unknown>(
 	}, [handler]);
 
 	useEffect(() => {
-		if (!socket?.socket) return;
-
-		const eventHandler = (data: T) => {
-			handlerRef.current(data);
+		const eventHandler = (...args: unknown[]) => {
+			handlerRef.current(args[0] as T);
 		};
 
-		// Register listener on the actual socket.io instance
-		socket.socket.on(event, eventHandler);
+		socketManager.on(event, eventHandler);
 
 		return () => {
-			socket.socket?.off(event, eventHandler);
+			socketManager.off(event, eventHandler);
 		};
-	}, [socket?.socket, event]);
+	}, [event]);
 };
 
 export const useSocketConnectionEvents = (callbacks: {
