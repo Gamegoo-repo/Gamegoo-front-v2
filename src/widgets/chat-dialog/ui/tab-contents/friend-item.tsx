@@ -1,3 +1,4 @@
+import ProfileAvatar from "@/features/profile/profile-avatar";
 import type { FriendInfoResponse } from "@/shared/api";
 import StarIcon from "@/shared/assets/icons/star.svg?react";
 import StarVioletIcon from "@/shared/assets/icons/star_violet.svg?react";
@@ -42,13 +43,11 @@ function FriendItem({
 	return (
 		<button
 			type="button"
-			className="flex items-center p-3 rounded-lg hover:bg-gray-50 cursor-pointer w-full text-left"
+			className="flex items-center cursor-pointer w-full text-left"
 			onClick={handleFriendClick}
 			onKeyDown={handleKeyDown}
 		>
-			<div className="w-10 h-10 bg-violet-500 rounded-full flex items-center justify-center text-white font-medium">
-				{friend.name?.[0] || "?"}
-			</div>
+			<ProfileAvatar size="sm" profileIndex={friend.profileImg} />
 			<div className="ml-3 flex-1">
 				<p className="font-medium text-gray-900">{friend.name}</p>
 				{friend.blind && <p className="text-sm text-gray-400">차단됨</p>}
