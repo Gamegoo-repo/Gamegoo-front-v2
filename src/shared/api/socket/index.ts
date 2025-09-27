@@ -14,4 +14,5 @@ export type { SocketProviderProps } from "./provider";
 export { default as SocketProvider } from "./provider";
 export type { SocketAuthData, SocketEventMap, SocketOptions } from "./socket";
 export { GamegooSocket } from "./socket";
+export { socketManager } from "./socket-manager";
 export { getSocketStateLabel, SocketReadyState } from "./types";
