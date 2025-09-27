@@ -1,1 +1,1 @@
-export { useChatDialogStore } from './model/store';
+export { useChatDialogStore } from "./model/store";

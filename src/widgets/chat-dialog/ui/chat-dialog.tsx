@@ -1,5 +1,7 @@
 import type { AdjustPositionCallback } from "@/features/draggable-dialog";
 import { DraggableDialog } from "@/features/draggable-dialog";
+import { tokenManager } from "@/shared/api";
+import { LoginRequiredModal } from "@/widgets/login-required-modal";
 
 interface ChatDialogProps {
 	isOpen: boolean;
@@ -30,6 +32,14 @@ function ChatDialog({ isOpen, onClose, children }: ChatDialogProps) {
 
 		return { top: `${topValue}px`, left: `${leftValue}px` };
 	};
+
+	if (!isOpen) {
+		return null;
+	}
+
+	if (!tokenManager.getAccessToken()) {
+		return <LoginRequiredModal isOpen={isOpen} onClose={onClose} />;
+	}
 
 	return (
 		<DraggableDialog

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { AuthControllerApi } from "@/shared/api/@generated";
 import type { RefreshTokenRequest } from "@/shared/api/@generated";
+import { AuthControllerApi } from "@/shared/api/@generated";
 import { tokenManager } from "@/shared/api/config";
 
 const authApi = new AuthControllerApi();
