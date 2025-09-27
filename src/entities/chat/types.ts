@@ -29,4 +29,5 @@ export interface ChatState {
 	chatrooms: Chatroom[];
 	totalUnreadCount: number;
 	isConnected: boolean;
+	onlineFriends: number[];
 }
