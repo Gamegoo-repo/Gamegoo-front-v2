@@ -4,7 +4,7 @@ import { api, type FriendInfoResponse } from "@/shared/api";
 import SearchIcon from "@/shared/assets/icons/search.svg?react";
 import FriendSection from "./friend-section";
 
-function FriendLists() {
+function FriendList() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const queryClient = useQueryClient();
 
@@ -93,4 +93,4 @@ function FriendLists() {
 	);
 }
 
-export default FriendLists;
+export default FriendList;

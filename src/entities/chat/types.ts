@@ -1,3 +1,5 @@
+import type { ChatroomResponse } from "@/shared/api";
+
 export interface ChatMessage {
 	senderId: number;
 	senderName: string | null;
@@ -26,7 +28,7 @@ export interface Chatroom {
 }
 
 export interface ChatState {
-	chatrooms: Chatroom[];
+	chatrooms: ChatroomResponse[];
 	totalUnreadCount: number;
 	isConnected: boolean;
 	onlineFriends: number[];
