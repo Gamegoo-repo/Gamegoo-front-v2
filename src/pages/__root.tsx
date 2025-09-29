@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRefreshToken } from "@/features/auth";
 import { useChatDialogStore } from "@/features/chat-dialog-controller";
 import { useChatNotifications } from "@/features/chat-notifications";
+
 import { tokenManager } from "@/shared/api/config";
 import {
 	GamegooSocketProvider,

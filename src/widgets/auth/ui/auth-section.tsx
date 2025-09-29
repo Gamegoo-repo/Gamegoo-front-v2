@@ -1,12 +1,11 @@
 import { useId, useState } from "react";
-import { LoginButton } from "@/features/sign-in-user";
-import { login } from "@/features/sign-in-user/api/login";
+import { LoginButton, login } from "@/features/auth";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
 import { LogoButton } from "@/shared/ui/logo";
 
 export default function AuthSection() {
 	const checkboxId = useId();
-	const [_isKeepAuthChecked, _setIsKeepAuthCheckedd] = useState(false);
+	const [isKeepAuthChecked, setIsKeepAuthChecked] = useState(false);
 
 	return (
 		<div className="w-[374px] max-h-[559px] flex flex-col justify-between">
@@ -28,7 +27,13 @@ export default function AuthSection() {
 				<LoginButton onHandleLogin={login} />
 
 				<div className="flex items-center gap-1 justify-end mb-20">
-					<Checkbox id={checkboxId} />
+					<Checkbox
+						id={checkboxId}
+						onCheckedChange={(checked) =>
+							setIsKeepAuthChecked(checked as boolean)
+						}
+						isChecked={isKeepAuthChecked}
+					/>
 					<label
 						htmlFor={checkboxId}
 						className="text-base font-normal text-gray-700 cursor-pointer"
