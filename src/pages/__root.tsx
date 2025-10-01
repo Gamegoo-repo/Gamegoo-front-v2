@@ -2,20 +2,20 @@ import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
 import { useRefreshToken } from "@/features/auth";
-import { useChatDialogStore } from "@/features/chat-dialog-controller";
-import { useChatNotifications } from "@/features/chat-notifications";
+import { useChatDialogStore } from "@/features/chat/model/store";
+import { useChatNotifications } from "@/features/chat/model/use-chat-notification";
+import { FloatingChatButton } from "@/features/chat/ui/floating-chat-button";
+import FloatingChatDialog from "@/features/chat/ui/floating-chat-dialog";
 import { tokenManager } from "@/shared/api/config";
 import {
 	GamegooSocketProvider,
 	TanstackQueryProvider,
 } from "@/shared/providers";
-import { ChatDialog } from "@/widgets/chat-dialog";
-import { FloatingChatButton } from "@/widgets/floating-chat-button";
 
 function RootLayout() {
 	useChatNotifications();
 
-	const { isOpen, openDialog, closeDialog } = useChatDialogStore();
+	const { openDialog } = useChatDialogStore();
 	const refreshTokenMutation = useRefreshToken();
 
 	useEffect(() => {
@@ -39,10 +39,6 @@ function RootLayout() {
 		openDialog();
 	};
 
-	const handleChatDialogClose = () => {
-		closeDialog();
-	};
-
 	return (
 		<TanstackQueryProvider>
 			<GamegooSocketProvider>
@@ -57,7 +53,7 @@ function RootLayout() {
 				<hr />
 				<Outlet />
 				<FloatingChatButton onClick={handleChatButtonClick} />
-				<ChatDialog isOpen={isOpen} onClose={handleChatDialogClose} />
+				<FloatingChatDialog />
 				<TanStackRouterDevtools />
 			</GamegooSocketProvider>
 		</TanstackQueryProvider>

@@ -1,20 +1,15 @@
-import { useState } from "react";
-import type { AdjustPositionCallback } from "@/features/draggable-dialog";
-import { DraggableDialog } from "@/features/draggable-dialog";
+import {
+	type AdjustPositionCallback,
+	DraggableDialog,
+} from "@/features/draggable-dialog";
 import { tokenManager } from "@/shared/api";
 import { LoginRequiredModal } from "@/widgets/login-required-modal";
+import { useChatDialogStore } from "../model/store";
 import ChatContent from "./chat-content";
 import ChatTabs from "./chat-tabs";
 
-interface ChatDialogProps {
-	isOpen: boolean;
-	onClose: () => void;
-}
-
-const TABS = ["친구 목록", "채팅방"] as const;
-
-function ChatDialog({ isOpen, onClose }: ChatDialogProps) {
-	const [activeTab, setActiveTab] = useState(0);
+const FloatingChatDialog = () => {
+	const { isOpen, closeDialog } = useChatDialogStore();
 
 	// 채팅 전용 경계 제한 로직
 	const adjustChatPosition: AdjustPositionCallback = ({ top, left }) => {
@@ -44,23 +39,23 @@ function ChatDialog({ isOpen, onClose }: ChatDialogProps) {
 	}
 
 	if (!tokenManager.getAccessToken()) {
-		return <LoginRequiredModal isOpen={isOpen} onClose={onClose} />;
+		return <LoginRequiredModal isOpen={isOpen} onClose={closeDialog} />;
 	}
 
 	return (
 		<DraggableDialog
 			isOpen={isOpen}
-			onOpenChange={(open) => !open && onClose()}
+			onOpenChange={(open) => !open && closeDialog()}
 			title="메신저"
 			width={420}
 			height={687}
 			adjustPositionCallback={adjustChatPosition}
 			showCloseButton={true}
 		>
-			<ChatTabs tabs={TABS} activeTab={activeTab} onTabClick={setActiveTab} />
-			<ChatContent activeTab={activeTab} />
+			<ChatTabs />
+			<ChatContent />
 		</DraggableDialog>
 	);
-}
+};
 
-export default ChatDialog;
+export default FloatingChatDialog;

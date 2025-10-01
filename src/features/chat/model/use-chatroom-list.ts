@@ -4,7 +4,7 @@ import { useChatStore } from "@/entities/chat";
 import { api } from "@/shared/api";
 import { useSocketMessage } from "@/shared/api/socket";
 
-const useChatroomList = () => {
+const useChatRoomList = () => {
 	const { setChatrooms, setConnected } = useChatStore();
 
 	const {
@@ -46,4 +46,4 @@ const useChatroomList = () => {
 	};
 };
 
-export default useChatroomList;
+export default useChatRoomList;

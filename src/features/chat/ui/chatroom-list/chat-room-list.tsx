@@ -1,5 +1,5 @@
 import { useChatStore } from "@/entities/chat";
-import useChatroomList from "../../hooks/use-chatroom-list";
+import useChatroomList from "../../model/use-chatroom-list";
 import ChatroomItem from "./chatroom-item";
 
 const ChatroomList = () => {
