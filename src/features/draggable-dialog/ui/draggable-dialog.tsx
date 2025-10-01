@@ -15,6 +15,8 @@ interface DraggableDialogProps {
 	dragHandleSelector?: string;
 	width?: number;
 	height?: number;
+	variant?: "white" | "violet";
+	headerComponent?: React.ReactNode;
 }
 
 function DraggableDialog({
@@ -28,6 +30,8 @@ function DraggableDialog({
 	dragHandleSelector = "[data-drag-handle]",
 	width = 420,
 	height = 600,
+	variant = "white",
+	headerComponent,
 }: DraggableDialogProps) {
 	const { position, setPosition } = useDraggableDialogStore();
 	const { handleDragStart, isDragging } = useDrag({
@@ -40,7 +44,7 @@ function DraggableDialog({
 			const handleDragFromHandle = (e: MouseEvent) => {
 				const target = e.target as HTMLElement;
 				if (target.closest(dragHandleSelector)) {
-					handleDragStart(e as any);
+					handleDragStart(e as unknown as React.MouseEvent<HTMLElement>);
 				}
 			};
 
@@ -70,7 +74,11 @@ function DraggableDialog({
 		>
 			<div
 				className={cn(
-					"bg-white flex flex-col",
+					"flex flex-col",
+					{
+						"bg-white": variant === "white",
+						"bg-violet-200": variant === "violet",
+					},
 					isDragging && "select-none",
 					className,
 				)}
@@ -88,64 +96,81 @@ function DraggableDialog({
 				tabIndex={-1}
 				aria-modal="true"
 			>
-				{(title || showCloseButton) && (
+				{headerComponent ? (
 					<button
 						type="button"
 						data-drag-handle
-						className="flex justify-between items-center relative select-auto cursor-move"
-						style={{
-							padding: "20px 30px",
-							marginBottom: "10px",
-						}}
 						onMouseDown={handleDragStart}
 						onKeyDown={(e) => {
 							if (e.key === "Enter" || e.key === " ") {
 								e.preventDefault();
-								handleDragStart(e as any);
+								// Keyboard events can't be used for drag, so we'll ignore this case
 							}
 						}}
-						tabIndex={0}
-						aria-label="Drag to move dialog"
+						className="cursor-move w-full text-left"
 					>
-						{title && (
-							<h2 className="text-[20px] font-bold text-gray-800">{title}</h2>
-						)}
-						{showCloseButton && (
-							<button
-								type="button"
-								onClick={(e) => {
-									e.stopPropagation();
-									onOpenChange(false);
-								}}
-								onKeyDown={(e) => {
-									if (e.key === "Enter" || e.key === " ") {
-										e.preventDefault();
+						{headerComponent}
+					</button>
+				) : (
+					(title || showCloseButton) && (
+						<button
+							type="button"
+							data-drag-handle
+							className="flex justify-between items-center relative select-auto cursor-move"
+							style={{
+								padding: "20px 30px",
+								marginBottom: "10px",
+							}}
+							onMouseDown={handleDragStart}
+							onKeyDown={(e) => {
+								if (e.key === "Enter" || e.key === " ") {
+									e.preventDefault();
+									// Keyboard events can't be used for drag, so we'll ignore this case
+								}
+							}}
+							tabIndex={0}
+							aria-label="Drag to move dialog"
+						>
+							{title && (
+								<h2 className="text-[20px] font-bold text-gray-800">{title}</h2>
+							)}
+							{showCloseButton && (
+								<button
+									type="button"
+									onClick={(e) => {
 										e.stopPropagation();
 										onOpenChange(false);
-									}
-								}}
-								onMouseDown={(e) => e.stopPropagation()}
-								className="w-[25px] h-[25px] flex justify-center items-center absolute top-[12px] right-[12px] opacity-70 hover:opacity-100"
-								aria-label="Close dialog"
-							>
-								<svg
-									width="12"
-									height="12"
-									viewBox="0 0 12 12"
-									fill="none"
-									aria-hidden="true"
+									}}
+									onKeyDown={(e) => {
+										if (e.key === "Enter" || e.key === " ") {
+											e.preventDefault();
+											e.stopPropagation();
+											onOpenChange(false);
+										}
+									}}
+									onMouseDown={(e) => e.stopPropagation()}
+									className="w-[25px] h-[25px] flex justify-center items-center absolute top-[12px] right-[12px] opacity-70 hover:opacity-100"
+									aria-label="Close dialog"
 								>
-									<path
-										d="M11 1L1 11M1 1L11 11"
-										stroke="currentColor"
-										strokeWidth="1.5"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									/>
-								</svg>
-							</button>
-						)}
-					</button>
+									<svg
+										width="12"
+										height="12"
+										viewBox="0 0 12 12"
+										fill="none"
+										aria-hidden="true"
+									>
+										<path
+											d="M11 1L1 11M1 1L11 11"
+											stroke="currentColor"
+											strokeWidth="1.5"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+										/>
+									</svg>
+								</button>
+							)}
+						</button>
+					)
 				)}
 
 				{children}
