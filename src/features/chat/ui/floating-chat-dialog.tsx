@@ -7,9 +7,10 @@ import { LoginRequiredModal } from "@/widgets/login-required-modal";
 import { useChatDialogStore } from "../model/store";
 import ChatContent from "./chat-content";
 import ChatTabs from "./chat-tabs";
+import ChatroomHeader from "./chatroom/chatroom-header";
 
 const FloatingChatDialog = () => {
-	const { isOpen, closeDialog } = useChatDialogStore();
+	const { isOpen, closeDialog, chatDialogType } = useChatDialogStore();
 
 	// 채팅 전용 경계 제한 로직
 	const adjustChatPosition: AdjustPositionCallback = ({ top, left }) => {
@@ -45,12 +46,15 @@ const FloatingChatDialog = () => {
 	return (
 		<DraggableDialog
 			isOpen={isOpen}
+			variant={chatDialogType === "chatroom" ? "violet" : "white"}
+			headerComponent={
+				chatDialogType === "chatroom" ? <ChatroomHeader /> : undefined
+			}
 			onOpenChange={(open) => !open && closeDialog()}
 			title="메신저"
 			width={420}
 			height={687}
 			adjustPositionCallback={adjustChatPosition}
-			showCloseButton={true}
 		>
 			<ChatTabs />
 			<ChatContent />

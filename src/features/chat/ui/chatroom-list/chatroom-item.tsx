@@ -2,6 +2,7 @@ import ProfileAvatar from "@/features/profile/profile-avatar";
 import type { ChatroomResponse } from "@/shared/api/@generated/models/chatroom-response";
 import ThreeDotsButtonBlack from "@/shared/assets/icons/three_dots_button_black.svg?react";
 import { cn } from "@/shared/lib/utils";
+import { useChatDialogStore } from "../../model/store";
 
 interface ChatroomItemProps {
 	room: ChatroomResponse;
@@ -35,10 +36,13 @@ const formatChatDate = (dateString: string) => {
 
 // TODO: 더보기 메뉴 추가
 
-function ChatroomItem({ room, onChatRoom, className }: ChatroomItemProps) {
+function ChatroomItem({ room, className }: ChatroomItemProps) {
+	const { setChatDialogType, setChatroom } = useChatDialogStore();
+
 	const handleChatroomClick = () => {
 		if (room.uuid) {
-			onChatRoom(room.uuid);
+			setChatDialogType("chatroom");
+			setChatroom(room);
 		}
 	};
 
@@ -67,7 +71,7 @@ function ChatroomItem({ room, onChatRoom, className }: ChatroomItemProps) {
 							)}
 						</div>
 						<div className="flex items-center justify-between h-4.25">
-							<span className="regular-14 truncate w-53.75">
+							<span className="flex regular-14 truncate w-53.75">
 								{room.lastMsg}
 							</span>
 							<span className="regular-11 text-gray-300">
