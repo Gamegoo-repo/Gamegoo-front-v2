@@ -11,8 +11,8 @@ const ChatroomHeader = () => {
 		: false;
 
 	return (
-		<div className="flex p-[12px]">
-			<div className="flex w-full pt-2 pl-2 gap-2 border-b border-violet-300 items-center">
+		<div className="flex px-[12px] pt-[12px]">
+			<div className="flex w-full py-2 pl-2 gap-2 border-b border-violet-300 items-center">
 				<LeftArrowIcon
 					className="cursor-pointer"
 					onClick={() => setChatDialogType("chatroom-list")}
