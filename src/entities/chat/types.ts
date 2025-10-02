@@ -1,14 +1,10 @@
 import type { ChatroomResponse } from "@/shared/api";
+import type { ChatMessageResponse } from "@/shared/api/@generated/models/chat-message-response";
 
-export interface ChatMessage {
-	senderId: number;
-	senderName: string | null;
-	senderProfileImg: number | null;
-	message: string;
-	createdAt: string;
-	timestamp: number;
+export interface ChatMessage extends ChatMessageResponse {
 	systemType?: number;
 	boardId?: number | null;
+	chatroomUuid?: string; // socket 이벤트에서 사용
 }
 
 export interface Chatroom {
@@ -27,9 +23,15 @@ export interface Chatroom {
 	lastMsgTimestamp: number;
 }
 
+export interface ChatroomMessages {
+	[uuid: string]: ChatMessage[];
+}
+
 export interface ChatState {
 	chatrooms: ChatroomResponse[];
+	chatroomMessages: ChatroomMessages;
 	totalUnreadCount: number;
 	isConnected: boolean;
 	onlineFriends: number[];
+	currentChatroomUuid: string | null;
 }

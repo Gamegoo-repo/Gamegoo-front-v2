@@ -14,7 +14,7 @@ const ChatroomMyMessage = ({
 	isLast,
 	isAnimated,
 }: ChatroomMyMessageProps) => {
-	const date = new Date(message.createdAt).toLocaleTimeString("ko-KR", {
+	const date = new Date(message.createdAt ?? "").toLocaleTimeString("ko-KR", {
 		hour: "2-digit",
 		minute: "2-digit",
 	});
@@ -27,7 +27,7 @@ const ChatroomMyMessage = ({
 				)}
 				<div
 					className={cn(
-						"regular-14 text-gray-800 bg-violet-300 rounded-[13px] px-[13px] py-[5px] max-w-[196px] break-keep overflow-wrap-anywhere transition-all duration-300 ease-in-out",
+						"regular-14 text-gray-800 bg-violet-300 rounded-[13px] px-[13px] py-[5px] max-w-[196px] break-words transition-all duration-300 ease-in-out",
 						isAnimated && isLast && "animate-slide-down",
 					)}
 				>

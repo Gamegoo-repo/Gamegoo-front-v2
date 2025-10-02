@@ -1,6 +1,7 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
+import { ChatSocketProvider } from "@/entities/chat";
 import { useRefreshToken } from "@/features/auth";
 import { useChatDialogStore } from "@/features/chat/model/store";
 import { useChatNotifications } from "@/features/chat/model/use-chat-notification";
@@ -42,19 +43,21 @@ function RootLayout() {
 	return (
 		<TanstackQueryProvider>
 			<GamegooSocketProvider>
-				<div className="p-2 flex gap-2">
-					<Link to="/" className="[&.active]:font-bold">
-						Home
-					</Link>
-					<Link to="/about" className="[&.active]:font-bold">
-						About
-					</Link>
-				</div>
-				<hr />
-				<Outlet />
-				<FloatingChatButton onClick={handleChatButtonClick} />
-				<FloatingChatDialog />
-				<TanStackRouterDevtools />
+				<ChatSocketProvider>
+					<div className="p-2 flex gap-2">
+						<Link to="/" className="[&.active]:font-bold">
+							Home
+						</Link>
+						<Link to="/about" className="[&.active]:font-bold">
+							About
+						</Link>
+					</div>
+					<hr />
+					<Outlet />
+					<FloatingChatButton onClick={handleChatButtonClick} />
+					<FloatingChatDialog />
+					<TanStackRouterDevtools />
+				</ChatSocketProvider>
 			</GamegooSocketProvider>
 		</TanstackQueryProvider>
 	);

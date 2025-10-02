@@ -1,72 +1,132 @@
-import type { ChatMessage } from "@/entities/chat";
+import { type ChatMessage, useChatStore } from "@/entities/chat";
+import { useChatDialogStore } from "@/features/chat/model/store";
+import { useChatMessages } from "@/features/chat/model/use-chat-messages";
 import ChatroomFeedbackMessage from "./chatroom-feedback-message";
 import ChatroomMyMessage from "./chatroom-my-message";
 import ChatroomOpponentMessage from "./chatroom-opponent-message";
 import ChatroomSystemMessage from "./chatroom-system-message";
 
 const Chatroom = () => {
-	const message = {
-		systemType: 5,
-		message:
-			"게시한 글222 afwjepofjpeoa  wopj opwajepo  fjapweo fpoawj e pojfapwo e jfpawo j epfoaw  pofjapowejf pawojef pawojepfo j apwo",
-		boardId: 1,
-		createdAt: "2025-01-01",
-		senderId: 1,
-		senderName: "테스트",
-		senderProfileImg: 1,
-	} as ChatMessage;
+	const { chatroom } = useChatDialogStore();
+	const { getChatroomMessages } = useChatStore();
 
-	const showTime = true;
-	const showProfileImage = true;
-	const isLast = true;
-	const isMyMsgSent = true;
-	const _handleMoveProfile = () => {};
-	const _handleMannerEvaluate = () => {};
-	const _handleDisplayDate = () => {};
+	const chatroomUuid = chatroom?.uuid || null;
 
-	const chatEnterData = {
-		memberId: 1,
-		blind: false,
+	const {
+		messages: apiMessages,
+		isLoading,
+		error,
+	} = useChatMessages(chatroomUuid);
+
+	const realtimeMessages = chatroomUuid
+		? getChatroomMessages(chatroomUuid)
+		: [];
+
+	const allMessages: ChatMessage[] = [
+		...apiMessages.map((msg) => ({
+			...msg,
+			senderId: msg.senderId || 0,
+			senderName: msg.senderName || undefined,
+			senderProfileImg: msg.senderProfileImg || undefined,
+			message: msg.message || "",
+			createdAt: msg.createdAt || "",
+			timestamp: msg.timestamp || 0,
+		})),
+		...realtimeMessages,
+	].sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+
+	const currentUserId = 8;
+
+	const shouldShowTime = (message: ChatMessage, index: number) => {
+		if (index === allMessages.length - 1) return true;
+
+		const nextMessage = allMessages[index + 1];
+		if (!nextMessage) return true;
+
+		if (nextMessage.senderId !== message.senderId) return true;
+
+		const timeDiff = (nextMessage.timestamp || 0) - (message.timestamp || 0);
+		return timeDiff > 60000;
 	};
 
-	return (
-		<div className="flex flex-col px-2 gap-2">
-			<ChatroomSystemMessage message="게시한 글" href="/board/1" />
-			<div>
-				{/* {handleDisplayDate(messageList, index) && (
-					<DateSeparator date={setChatDateFormatter(message.createdAt)} />
-				)} */}
+	const shouldShowProfileImage = (message: ChatMessage, index: number) => {
+		if (index === 0) return true;
 
-				{/* {message.systemType === 5 && ( */}
-				<ChatroomFeedbackMessage onEvaluate={_handleMannerEvaluate} />
-				{/* )} */}
+		const prevMessage = allMessages[index - 1];
+		if (!prevMessage) return true;
 
-				{message.systemType !== null &&
-					message.systemType !== undefined &&
-					message.systemType !== 5 && (
-						<ChatroomSystemMessage
-							message={message.message}
-							href={`/board/${message.boardId}`}
-						/>
-					)}
+		return prevMessage.senderId !== message.senderId;
+	};
 
-				{message.senderId === chatEnterData.memberId && (
-					<ChatroomOpponentMessage
-						message={message}
-						showTime={showTime}
-						showProfileImage={showProfileImage}
-					/>
-				)}
+	const renderMessage = (message: ChatMessage, index: number) => {
+		const showTime = shouldShowTime(message, index);
+		const showProfileImage = shouldShowProfileImage(message, index);
+		const isLast = index === allMessages.length - 1;
+		const isMyMessage = message.senderId === currentUserId;
+		const key = `${message.timestamp || 0}-${index}`;
 
-				{/* {message.senderId !== chatEnterData.memberId &&
-					message.senderId !== 0 && ( */}
+		if (message.systemType !== undefined && message.systemType !== null) {
+			if (message.systemType === 5) {
+				return <ChatroomFeedbackMessage key={key} onEvaluate={() => {}} />;
+			}
+
+			return (
+				<ChatroomSystemMessage
+					key={key}
+					message={message.message || ""}
+					href={message.boardId ? `/board/${message.boardId}` : undefined}
+				/>
+			);
+		}
+
+		if (isMyMessage) {
+			return (
 				<ChatroomMyMessage
+					key={key}
 					message={message}
 					showTime={showTime}
 					isLast={isLast}
-					isAnimated={isMyMsgSent}
+					isAnimated={false}
 				/>
-				{/* )} */}
+			);
+		}
+
+		return (
+			<ChatroomOpponentMessage
+				key={key}
+				message={message}
+				showTime={showTime}
+				showProfileImage={showProfileImage}
+			/>
+		);
+	};
+
+	if (isLoading) {
+		return (
+			<div className="flex items-center justify-center h-full text-gray-500">
+				메시지를 불러오는 중...
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<div className="flex items-center justify-center h-full text-red-500">
+				메시지를 불러오는데 실패했습니다.
+			</div>
+		);
+	}
+
+	return (
+		<div className="flex flex-col h-full">
+			<div className="flex-1 flex flex-col px-2 gap-1 overflow-y-auto">
+				{allMessages.length === 0 ? (
+					<div className="flex items-center justify-center h-full text-gray-500">
+						메시지가 없습니다. 첫 메시지를 보내보세요!
+					</div>
+				) : (
+					allMessages.map((message, index) => renderMessage(message, index))
+				)}
 			</div>
 		</div>
 	);

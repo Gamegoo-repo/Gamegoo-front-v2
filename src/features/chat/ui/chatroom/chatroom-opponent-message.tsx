@@ -13,7 +13,7 @@ const ChatroomOpponentMessage = ({
 	showTime,
 	showProfileImage,
 }: ChatroomOpponentMessageProps) => {
-	const date = new Date(message.createdAt).toLocaleTimeString("ko-KR", {
+	const date = new Date(message.createdAt ?? "").toLocaleTimeString("ko-KR", {
 		hour: "2-digit",
 		minute: "2-digit",
 	});
@@ -32,7 +32,7 @@ const ChatroomOpponentMessage = ({
 					showProfileImage ? "ml-[11px]" : "ml-[58.43px]",
 				)}
 			>
-				<div className="regular-14 text-gray-800 bg-white rounded-[13px] px-[13px] py-[5px] max-w-[229px] break-keep overflow-wrap-anywhere">
+				<div className="regular-14 text-gray-800 bg-white rounded-[13px] px-[13px] py-[5px] max-w-[229px] break-words">
 					{message.message}
 				</div>
 				{showTime && (
