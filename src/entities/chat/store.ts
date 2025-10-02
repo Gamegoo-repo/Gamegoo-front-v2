@@ -32,24 +32,28 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 	// Actions
 	addMessage: (message, chatroomUuid) =>
 		set((state) => {
-			// 메시지를 해당 채팅방의 메시지 리스트에 추가
 			const currentMessages = state.chatroomMessages[chatroomUuid] || [];
+			
+			const isDuplicate = currentMessages.some(
+				existingMsg => existingMsg.timestamp === message.timestamp && 
+				existingMsg.senderId === message.senderId &&
+				existingMsg.message === message.message
+			);
+			
+			if (isDuplicate) {
+				return state;
+			}
+			
 			const updatedMessages = [...currentMessages, message];
 
-			// 채팅방 정보 업데이트 (마지막 메시지, 읽지 않은 메시지 수)
 			const updatedChatrooms = state.chatrooms.map((room) => {
 				if (room.uuid === chatroomUuid) {
-					// 현재 보고 있는 채팅방이 아닌 경우에만 읽지 않은 메시지 수 증가
-					const shouldIncrementUnread =
-						state.currentChatroomUuid !== chatroomUuid;
 					return {
 						...room,
 						lastMsg: message.message,
 						lastMsgAt: message.createdAt,
 						lastMsgTimestamp: message.timestamp,
-						notReadMsgCnt: shouldIncrementUnread
-							? (room.notReadMsgCnt || 0) + 1
-							: room.notReadMsgCnt,
+						notReadMsgCnt: (room.notReadMsgCnt || 0) + 1,
 					};
 				}
 				return room;
@@ -72,8 +76,18 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 
 	addSystemMessage: (message, chatroomUuid) =>
 		set((state) => {
-			// 시스템 메시지는 읽지 않은 메시지 수에 포함하지 않음
 			const currentMessages = state.chatroomMessages[chatroomUuid] || [];
+			
+			const isDuplicate = currentMessages.some(
+				existingMsg => existingMsg.timestamp === message.timestamp && 
+				existingMsg.senderId === message.senderId &&
+				existingMsg.message === message.message
+			);
+			
+			if (isDuplicate) {
+				return state;
+			}
+			
 			const updatedMessages = [...currentMessages, message];
 
 			return {
@@ -86,11 +100,20 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 
 	addMyMessage: (message, chatroomUuid) =>
 		set((state) => {
-			// 내가 보낸 메시지 처리
 			const currentMessages = state.chatroomMessages[chatroomUuid] || [];
+			
+			const isDuplicate = currentMessages.some(
+				existingMsg => existingMsg.timestamp === message.timestamp && 
+				existingMsg.senderId === message.senderId &&
+				existingMsg.message === message.message
+			);
+			
+			if (isDuplicate) {
+				return state;
+			}
+			
 			const updatedMessages = [...currentMessages, message];
 
-			// 채팅방 정보 업데이트 (마지막 메시지만 업데이트, 읽지 않은 메시지 수는 증가하지 않음)
 			const updatedChatrooms = state.chatrooms.map((room) => {
 				if (room.uuid === chatroomUuid) {
 					return {
@@ -114,7 +137,7 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 
 	markAsRead: (chatroomUuid) =>
 		set((state) => {
-			const updatedChatrooms = state.chatrooms.map((room) => {
+				const updatedChatrooms = state.chatrooms.map((room) => {
 				if (room.uuid === chatroomUuid) {
 					return { ...room, notReadMsgCnt: 0 };
 				}
@@ -158,14 +181,24 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 		}),
 
 	setChatrooms: (chatrooms) =>
-		set(() => {
-			const totalUnread = chatrooms.reduce(
+		set((state) => {
+			const updatedChatrooms = chatrooms.map((newRoom) => {
+				const existingRoom = state.chatrooms.find(r => r.uuid === newRoom.uuid);
+				
+				if (existingRoom && existingRoom.notReadMsgCnt === 0) {
+					return { ...newRoom, notReadMsgCnt: 0 };
+				}
+				
+				return newRoom;
+			});
+
+			const totalUnread = updatedChatrooms.reduce(
 				(sum, room) => sum + (room.notReadMsgCnt || 0),
 				0,
 			);
 
 			return {
-				chatrooms,
+				chatrooms: updatedChatrooms,
 				totalUnreadCount: totalUnread,
 			};
 		}),

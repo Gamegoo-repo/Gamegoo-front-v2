@@ -1,4 +1,9 @@
-import { type ChatMessage, useChatStore } from "@/entities/chat";
+import { useEffect } from "react";
+import {
+	type ChatMessage,
+	useChatStore,
+	useReadMessage,
+} from "@/entities/chat";
 import { useChatDialogStore } from "@/features/chat/model/store";
 import { useChatMessages } from "@/features/chat/model/use-chat-messages";
 import ChatroomFeedbackMessage from "./chatroom-feedback-message";
@@ -8,7 +13,8 @@ import ChatroomSystemMessage from "./chatroom-system-message";
 
 const Chatroom = () => {
 	const { chatroom } = useChatDialogStore();
-	const { getChatroomMessages } = useChatStore();
+	const { getChatroomMessages, setCurrentChatroomUuid, markAsRead } = useChatStore();
+	const { mutate: readMessage } = useReadMessage();
 
 	const chatroomUuid = chatroom?.uuid || null;
 
@@ -18,22 +24,57 @@ const Chatroom = () => {
 		error,
 	} = useChatMessages(chatroomUuid);
 
+	useEffect(() => {
+		if (chatroomUuid) {
+			setCurrentChatroomUuid(chatroomUuid);
+			markAsRead(chatroomUuid);
+			readMessage({
+				chatroomUuid,
+				timestamp: undefined
+			});
+		}
+		
+		return () => {
+			setCurrentChatroomUuid(null);
+		};
+	}, [chatroomUuid, setCurrentChatroomUuid, markAsRead, readMessage]);
+
+	if (!chatroomUuid) return;
+
 	const realtimeMessages = chatroomUuid
 		? getChatroomMessages(chatroomUuid)
 		: [];
 
-	const allMessages: ChatMessage[] = [
-		...apiMessages.map((msg) => ({
-			...msg,
-			senderId: msg.senderId || 0,
-			senderName: msg.senderName || undefined,
-			senderProfileImg: msg.senderProfileImg || undefined,
-			message: msg.message || "",
-			createdAt: msg.createdAt || "",
-			timestamp: msg.timestamp || 0,
-		})),
+	// API 메시지와 실시간 메시지를 합치면서 중복 제거
+	const normalizedApiMessages = apiMessages.map((msg) => ({
+		...msg,
+		senderId: msg.senderId || 0,
+		senderName: msg.senderName || undefined,
+		senderProfileImg: msg.senderProfileImg || undefined,
+		message: msg.message || "",
+		createdAt: msg.createdAt || "",
+		timestamp: msg.timestamp || 0,
+	}));
+
+	// 모든 메시지를 하나의 배열로 합치기
+	const allMessagesWithDuplicates = [
+		...normalizedApiMessages,
 		...realtimeMessages,
-	].sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+	];
+
+	// timestamp, senderId, message 기준으로 중복 제거
+	const allMessages: ChatMessage[] = allMessagesWithDuplicates
+		.filter((message, index, arr) => {
+			// 같은 timestamp, senderId, message를 가진 이전 메시지가 있는지 확인
+			const firstIndex = arr.findIndex(
+				(m) =>
+					m.timestamp === message.timestamp &&
+					m.senderId === message.senderId &&
+					m.message === message.message,
+			);
+			return firstIndex === index; // 첫 번째 발견된 것만 유지
+		})
+		.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
 
 	const currentUserId = 8;
 

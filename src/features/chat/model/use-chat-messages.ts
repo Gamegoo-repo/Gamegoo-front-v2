@@ -4,7 +4,7 @@ import type { ChatMessageResponse } from "@/shared/api/@generated/models/chat-me
 
 export const useChatMessagesQuery = (chatroomUuid: string | null) => {
 	return useInfiniteQuery({
-		queryKey: ["chatMessages", chatroomUuid],
+		queryKey: ["chat-messages", chatroomUuid],
 		queryFn: async ({ pageParam = undefined }) => {
 			if (!chatroomUuid) {
 				throw new Error("Chatroom UUID is required");

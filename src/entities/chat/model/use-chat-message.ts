@@ -2,6 +2,7 @@ import { useSocketMessage } from "@/shared/api/socket";
 import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
 import { useChatStore } from "../store";
 import type { ChatMessage } from "../types";
+import { useReadMessage } from "./use-read-message";
 
 interface ChatMessageEventData {
 	data: {
@@ -38,6 +39,7 @@ export const useChatMessage = () => {
 		currentChatroomUuid,
 		markAsRead,
 	} = useChatStore();
+	const readMessageMutation = useReadMessage();
 
 	useSocketMessage<ChatMessageEventData>("chat-message", (eventData) => {
 		if (!isAuthenticated) return;
@@ -55,6 +57,10 @@ export const useChatMessage = () => {
 
 		if (currentChatroomUuid === chatroomUuid) {
 			markAsRead(chatroomUuid);
+			readMessageMutation.mutate({
+				chatroomUuid,
+				timestamp: message.timestamp,
+			});
 		}
 	});
 
@@ -114,6 +120,10 @@ export const useChatMessage = () => {
 
 			if (currentChatroomUuid === chatroomUuid) {
 				markAsRead(chatroomUuid);
+				readMessageMutation.mutate({
+					chatroomUuid,
+					timestamp: message.timestamp,
+				});
 			}
 		},
 	);
