@@ -33,23 +33,64 @@ export const normalizeApiMessages = (
 	apiMessages: ApiMessage[],
 ): ChatMessage[] => apiMessages.map(normalizeApiMessage);
 
-/**
- * 메시지 배열에서 중복을 제거합니다.
- * 같은 timestamp, senderId, message를 가진 메시지 중 첫 번째만 유지합니다.
- */
 export const deduplicateMessages = (messages: ChatMessage[]): ChatMessage[] => {
 	return messages
 		.filter((message, index, arr) => {
-			// 같은 timestamp, senderId, message를 가진 이전 메시지가 있는지 확인
 			const firstIndex = arr.findIndex(
 				(m) =>
 					m.timestamp === message.timestamp &&
 					m.senderId === message.senderId &&
 					m.message === message.message,
 			);
-			return firstIndex === index; // 첫 번째 발견된 것만 유지
+			return firstIndex === index;
 		})
 		.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+};
+
+export const shouldShowDate = (
+	message: ChatMessage,
+	index: number,
+	allMessages: ChatMessage[],
+): boolean => {
+	if (index === 0) return true;
+
+	const currentDate = new Date(message.timestamp || 0);
+	const previousDate = new Date(allMessages[index - 1].timestamp || 0);
+
+	return (
+		currentDate.getDate() !== previousDate.getDate() ||
+		currentDate.getMonth() !== previousDate.getMonth() ||
+		currentDate.getFullYear() !== previousDate.getFullYear()
+	);
+};
+
+export const formatMessageDate = (timestamp: number): string => {
+	const date = new Date(timestamp);
+	const today = new Date();
+	const yesterday = new Date(today);
+	yesterday.setDate(yesterday.getDate() - 1);
+
+	if (
+		date.getDate() === today.getDate() &&
+		date.getMonth() === today.getMonth() &&
+		date.getFullYear() === today.getFullYear()
+	) {
+		return "오늘";
+	}
+
+	if (
+		date.getDate() === yesterday.getDate() &&
+		date.getMonth() === yesterday.getMonth() &&
+		date.getFullYear() === yesterday.getFullYear()
+	) {
+		return "어제";
+	}
+
+	return date.toLocaleDateString("ko-KR", {
+		month: "long",
+		day: "numeric",
+		weekday: "short",
+	});
 };
 
 /**

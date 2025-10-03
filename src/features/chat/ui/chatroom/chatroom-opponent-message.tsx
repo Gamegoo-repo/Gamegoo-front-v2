@@ -13,7 +13,7 @@ const ChatroomOpponentMessage = ({
 	showTime,
 	showProfileImage,
 }: ChatroomOpponentMessageProps) => {
-	const date = new Date(message.createdAt ?? "").toLocaleTimeString("ko-KR", {
+	const date = new Date(message.timestamp || 0).toLocaleTimeString("ko-KR", {
 		hour: "2-digit",
 		minute: "2-digit",
 	});

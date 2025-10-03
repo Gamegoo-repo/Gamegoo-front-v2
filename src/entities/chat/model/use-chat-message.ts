@@ -1,34 +1,12 @@
+import type {
+	ChatMessageEventData,
+	SystemMessageEventData,
+} from "@/features/chat/lib/types";
 import { useChatDialogStore } from "@/features/chat/model/store";
 import { useReadChatMessage } from "@/features/chat/model/use-read-chat-message";
 import { useSocketMessage } from "@/shared/api/socket";
 import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
 import { useChatStore } from "../store";
-
-interface ChatMessageEventData {
-	data: {
-		senderId: number;
-		senderName: string | null;
-		senderProfileImg: number | null;
-		message: string;
-		createdAt: string;
-		timestamp: number;
-		chatroomUuid: string;
-	};
-}
-
-interface SystemMessageEventData {
-	data: {
-		senderId: number;
-		senderName: string | null;
-		senderProfileImg: number | null;
-		message: string;
-		createdAt: string;
-		timestamp: number;
-		chatroomUuid: string;
-		systemType?: number;
-		boardId?: number | null;
-	};
-}
 
 export const useChatMessage = () => {
 	const { isAuthenticated } = useGamegooSocket();

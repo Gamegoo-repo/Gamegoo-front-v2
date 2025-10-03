@@ -101,7 +101,7 @@ function DraggableDialog({
 						className="w-full text-left cursor-move"
 						style={{
 							padding: headerComponent ? "0" : "20px 30px",
-							marginBottom: "10px",
+							marginBottom: headerComponent ? "0" : "10px",
 						}}
 						onMouseDown={handleDragStart}
 						onKeyDown={(e) => {

@@ -1,6 +1,9 @@
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import type { ChatMessage } from "@/entities/chat";
 import {
 	deduplicateMessages,
+	formatMessageDate,
+	shouldShowDate,
 	shouldShowProfileImage,
 	shouldShowTime,
 } from "@/features/chat/lib/chatroom-utils";
@@ -8,7 +11,9 @@ import { useChatDialogStore } from "@/features/chat/model/store";
 import { useChatMessages } from "@/features/chat/model/use-chat-messages";
 import { useEnterChatroom } from "@/features/chat/model/use-chatroom-enter";
 import { useChatroomSocket } from "@/features/chat/model/use-chatroom-socket";
+import ChatroomDateDivider from "./chatroom-date-divider";
 import ChatroomFeedbackMessage from "./chatroom-feedback-message";
+import ChatroomMessageInput from "./chatroom-message-input";
 import ChatroomMyMessage from "./chatroom-my-message";
 import ChatroomOpponentMessage from "./chatroom-opponent-message";
 import ChatroomSystemMessage from "./chatroom-system-message";
@@ -16,6 +21,7 @@ import ChatroomSystemMessage from "./chatroom-system-message";
 const Chatroom = () => {
 	const { chatroom } = useChatDialogStore();
 	const chatroomUuid = chatroom?.uuid || null;
+	const messagesEndRef = useRef<HTMLDivElement>(null);
 
 	const {
 		messages: apiMessages,
@@ -30,58 +36,85 @@ const Chatroom = () => {
 		error: enterError,
 	} = useEnterChatroom(chatroomUuid);
 
-	if (!chatroomUuid) return;
-
 	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
-
 	const opponentId = enterData?.data?.memberId;
 
-	const renderMessage = (message: ChatMessage, index: number) => {
-		const showTime = shouldShowTime(message, index, allMessages);
-		const showProfileImage = shouldShowProfileImage(
-			message,
-			index,
-			allMessages,
-		);
-		const isLast = index === allMessages.length - 1;
-		const isMyMessage = message.senderId !== opponentId;
-		const key = `${message.timestamp || 0}-${index}`;
+	const renderMessage = useCallback(
+		(message: ChatMessage, index: number) => {
+			const showTime = shouldShowTime(message, index, allMessages);
+			const showProfileImage = shouldShowProfileImage(
+				message,
+				index,
+				allMessages,
+			);
+			const showDate = shouldShowDate(message, index, allMessages);
+			const isLast = index === allMessages.length - 1;
+			const isMyMessage = message.senderId !== opponentId;
+			const key = `${message.timestamp || 0}-${message.senderId}-${index}`;
 
-		if (message.systemType !== undefined && message.systemType !== null) {
-			if (message.systemType === 5) {
-				return <ChatroomFeedbackMessage key={key} onEvaluate={() => {}} />;
+			const elements: React.ReactNode[] = [];
+
+			// 날짜 구분선 표시
+			if (showDate && message.timestamp) {
+				const dateString = formatMessageDate(message.timestamp);
+				elements.push(
+					<ChatroomDateDivider key={`date-${key}`} date={dateString} />,
+				);
 			}
 
-			return (
-				<ChatroomSystemMessage
-					key={key}
-					message={message.message || ""}
-					href={message.boardId ? `/board/${message.boardId}` : undefined}
-				/>
-			);
-		}
+			// 메시지 렌더링
+			if (message.systemType !== undefined && message.systemType !== null) {
+				if (message.systemType === 5) {
+					elements.push(
+						<ChatroomFeedbackMessage key={key} onEvaluate={() => {}} />,
+					);
+				} else {
+					elements.push(
+						<ChatroomSystemMessage
+							key={key}
+							message={message.message || ""}
+							href={message.boardId ? `/board/${message.boardId}` : undefined}
+						/>,
+					);
+				}
+			} else if (isMyMessage) {
+				elements.push(
+					<ChatroomMyMessage
+						key={key}
+						message={message}
+						showTime={showTime}
+						isLast={isLast}
+						isAnimated={false}
+					/>,
+				);
+			} else {
+				elements.push(
+					<ChatroomOpponentMessage
+						key={key}
+						message={message}
+						showTime={showTime}
+						showProfileImage={showProfileImage}
+					/>,
+				);
+			}
 
-		if (isMyMessage) {
-			return (
-				<ChatroomMyMessage
-					key={key}
-					message={message}
-					showTime={showTime}
-					isLast={isLast}
-					isAnimated={false}
-				/>
-			);
-		}
+			return elements;
+		},
+		[allMessages, opponentId],
+	);
 
-		return (
-			<ChatroomOpponentMessage
-				key={key}
-				message={message}
-				showTime={showTime}
-				showProfileImage={showProfileImage}
-			/>
+	const renderMessages = useMemo(() => {
+		return allMessages.flatMap((message, index) =>
+			renderMessage(message, index),
 		);
-	};
+	}, [allMessages, renderMessage]);
+
+	// 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
+	useEffect(() => {
+		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+	}, [allMessages]);
+
+	if (!chatroomUuid) return null;
 
 	if (isLoading || isEntering) {
 		return (
@@ -102,15 +135,21 @@ const Chatroom = () => {
 	}
 
 	return (
-		<div className="flex flex-col h-full">
-			<div className="flex-1 flex flex-col px-2 overflow-y-auto">
+		<div className="flex flex-col h-[calc(687px-90px)]">
+			<div className="flex-1 flex flex-col px-2 overflow-y-auto min-h-0 mb-[138px] scrollbar-hide">
 				{allMessages.length === 0 ? (
 					<div className="flex items-center justify-center h-full text-gray-500">
 						메시지가 없습니다. 첫 메시지를 보내보세요!
 					</div>
 				) : (
-					allMessages.map((message, index) => renderMessage(message, index))
+					<div className="flex flex-col">
+						{renderMessages}
+						<div ref={messagesEndRef} />
+					</div>
 				)}
+			</div>
+			<div className="absolute bottom-0 left-0 right-0">
+				<ChatroomMessageInput />
 			</div>
 		</div>
 	);
