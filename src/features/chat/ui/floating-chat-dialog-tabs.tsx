@@ -13,7 +13,7 @@ const TAB_NAMES: Partial<Record<ChatDialogType, string>> = {
 	"chatroom-list": "채팅방",
 };
 
-function ChatTabs() {
+function FloatingChatDialogTabs() {
 	const { setChatDialogType, chatDialogType } = useChatDialogStore();
 
 	const handleTabClick = (tab: ChatDialogType) => {
@@ -50,4 +50,4 @@ function ChatTabs() {
 	);
 }
 
-export default ChatTabs;
+export default FloatingChatDialogTabs;

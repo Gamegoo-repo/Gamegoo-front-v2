@@ -5,9 +5,9 @@ import {
 import { tokenManager } from "@/shared/api";
 import { LoginRequiredModal } from "@/widgets/login-required-modal";
 import { useChatDialogStore } from "../model/store";
-import ChatContent from "./chat-content";
-import ChatTabs from "./chat-tabs";
 import ChatroomHeader from "./chatroom/chatroom-header";
+import FloatingChatDialogContent from "./floating-chat-dialog-content";
+import FloatingChatDialogTabs from "./floating-chat-dialog-tabs";
 
 const FloatingChatDialog = () => {
 	const { isOpen, closeDialog, chatDialogType } = useChatDialogStore();
@@ -56,8 +56,8 @@ const FloatingChatDialog = () => {
 			height={687}
 			adjustPositionCallback={adjustChatPosition}
 		>
-			<ChatTabs />
-			<ChatContent />
+			<FloatingChatDialogTabs />
+			<FloatingChatDialogContent />
 		</DraggableDialog>
 	);
 };

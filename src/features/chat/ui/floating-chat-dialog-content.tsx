@@ -1,10 +1,10 @@
 import { useChatDialogStore } from "../model/store";
 import { useFriendOnline } from "../model/use-friend-online";
 import Chatroom from "./chatroom/chatroom";
-import ChatRoomList from "./chatroom-list/chat-room-list";
+import ChatRoomList from "./chatroom-list/chatroom-list";
 import FriendList from "./friend-list/friend-list";
 
-function ChatContent() {
+function FloatingChatDialogContent() {
 	useFriendOnline();
 	const { chatDialogType } = useChatDialogStore();
 
@@ -23,4 +23,4 @@ function ChatContent() {
 	return null;
 }
 
-export default ChatContent;
+export default FloatingChatDialogContent;
