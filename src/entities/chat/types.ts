@@ -29,9 +29,7 @@ export interface ChatroomMessages {
 
 export interface ChatState {
 	chatrooms: ChatroomResponse[];
-	chatroomMessages: ChatroomMessages;
 	totalUnreadCount: number;
 	isConnected: boolean;
 	onlineFriends: number[];
-	currentChatroomUuid: string | null;
 }

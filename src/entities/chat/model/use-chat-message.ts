@@ -1,8 +1,8 @@
+import { useChatDialogStore } from "@/features/chat/model/store";
+import { useReadChatMessage } from "@/features/chat/model/use-read-chat-message";
 import { useSocketMessage } from "@/shared/api/socket";
 import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
 import { useChatStore } from "../store";
-import type { ChatMessage } from "../types";
-import { useReadMessage } from "./use-read-message";
 
 interface ChatMessageEventData {
 	data: {
@@ -32,57 +32,26 @@ interface SystemMessageEventData {
 
 export const useChatMessage = () => {
 	const { isAuthenticated } = useGamegooSocket();
-	const {
-		addMessage,
-		addSystemMessage,
-		addMyMessage,
-		currentChatroomUuid,
-		markAsRead,
-	} = useChatStore();
-	const readMessageMutation = useReadMessage();
+	const { incrementUnreadCount, markAsRead } = useChatStore();
+	const { mutate: readMessage } = useReadChatMessage();
 
 	useSocketMessage<ChatMessageEventData>("chat-message", (eventData) => {
 		if (!isAuthenticated) return;
 
 		const { data } = eventData;
-		const { chatroomUuid, ...messageData } = data;
+		const { chatroomUuid, timestamp } = data;
 
-		const message: ChatMessage = {
-			...messageData,
-			senderName: messageData.senderName || undefined,
-			senderProfileImg: messageData.senderProfileImg || undefined,
-		};
-
-		addMessage(message, chatroomUuid);
-
-		if (currentChatroomUuid === chatroomUuid) {
+		// 현재 입장한 채팅방인지 확인
+		const currentChatroom = useChatDialogStore.getState().chatroom;
+		if (currentChatroom?.uuid === chatroomUuid) {
+			// 현재 채팅방의 메시지는 읽음 처리
 			markAsRead(chatroomUuid);
-			readMessageMutation.mutate({
-				chatroomUuid,
-				timestamp: message.timestamp,
-			});
+			readMessage({ chatroomUuid, timestamp });
+		} else {
+			// 다른 채팅방의 메시지는 unread 카운트 증가
+			incrementUnreadCount(chatroomUuid);
 		}
 	});
-
-	useSocketMessage<ChatMessageEventData>(
-		"my-message-broadcast-success",
-		(eventData) => {
-			if (!isAuthenticated) return;
-
-			const { data } = eventData;
-			const { chatroomUuid, ...messageData } = data;
-
-			const message: ChatMessage = {
-				...messageData,
-				senderName: messageData.senderName || undefined,
-				senderProfileImg: messageData.senderProfileImg || undefined,
-			};
-
-			if (currentChatroomUuid === chatroomUuid) {
-				addMyMessage(message, chatroomUuid);
-			}
-		},
-	);
 
 	useSocketMessage<SystemMessageEventData>(
 		"chat-system-message",
@@ -90,15 +59,18 @@ export const useChatMessage = () => {
 			if (!isAuthenticated) return;
 
 			const { data } = eventData;
-			const { chatroomUuid, ...messageData } = data;
+			const { chatroomUuid, timestamp } = data;
 
-			const message: ChatMessage = {
-				...messageData,
-				senderName: messageData.senderName || undefined,
-				senderProfileImg: messageData.senderProfileImg || undefined,
-			};
-
-			addSystemMessage(message, chatroomUuid);
+			// 현재 입장한 채팅방인지 확인
+			const currentChatroom = useChatDialogStore.getState().chatroom;
+			if (currentChatroom?.uuid === chatroomUuid) {
+				// 현재 채팅방의 메시지는 읽음 처리
+				markAsRead(chatroomUuid);
+				readMessage({ chatroomUuid, timestamp });
+			} else {
+				// 다른 채팅방의 메시지는 unread 카운트 증가
+				incrementUnreadCount(chatroomUuid);
+			}
 		},
 	);
 
@@ -108,22 +80,17 @@ export const useChatMessage = () => {
 			if (!isAuthenticated) return;
 
 			const { data } = eventData;
-			const { chatroomUuid, ...messageData } = data;
+			const { chatroomUuid, timestamp } = data;
 
-			const message: ChatMessage = {
-				...messageData,
-				senderName: messageData.senderName || undefined,
-				senderProfileImg: messageData.senderProfileImg || undefined,
-			};
-
-			addSystemMessage(message, chatroomUuid);
-
-			if (currentChatroomUuid === chatroomUuid) {
+			// 현재 입장한 채팅방인지 확인
+			const currentChatroom = useChatDialogStore.getState().chatroom;
+			if (currentChatroom?.uuid === chatroomUuid) {
+				// 현재 채팅방의 메시지는 읽음 처리
 				markAsRead(chatroomUuid);
-				readMessageMutation.mutate({
-					chatroomUuid,
-					timestamp: message.timestamp,
-				});
+				readMessage({ chatroomUuid, timestamp });
+			} else {
+				// 다른 채팅방의 메시지는 unread 카운트 증가
+				incrementUnreadCount(chatroomUuid);
 			}
 		},
 	);

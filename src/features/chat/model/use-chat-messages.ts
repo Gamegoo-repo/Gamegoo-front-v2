@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import type { ChatMessage } from "@/entities/chat";
 import { api, type ChatMessageListResponse } from "@/shared/api";
-import type { ChatMessageResponse } from "@/shared/api/@generated/models/chat-message-response";
 
 export const useChatMessagesQuery = (chatroomUuid: string | null) => {
 	return useInfiniteQuery({
@@ -25,6 +25,8 @@ export const useChatMessagesQuery = (chatroomUuid: string | null) => {
 		},
 		enabled: !!chatroomUuid,
 		initialPageParam: undefined,
+		staleTime: 0,
+		refetchOnMount: true,
 	});
 };
 
@@ -39,9 +41,16 @@ export const useChatMessages = (chatroomUuid: string | null) => {
 		isFetchingNextPage,
 	} = queryResult;
 
-	// 모든 페이지의 메시지를 하나의 배열로 합치기 (최신 메시지가 마지막에 오도록)
-	const messages: ChatMessageResponse[] =
-		data?.pages.flatMap((page) => page.chatMessageList || []).reverse() || [];
+	const messages: ChatMessage[] =
+		data?.pages
+			.flatMap((page) => page.chatMessageList || [])
+			.map(
+				(msg): ChatMessage => ({
+					...msg,
+					senderName: msg.senderName || undefined,
+					senderProfileImg: msg.senderProfileImg || undefined,
+				}),
+			) || [];
 
 	return {
 		messages,

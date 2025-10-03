@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import type { ChatMessage } from "@/entities/chat";
 import {
-	type ChatMessage,
-	useChatStore,
-	useReadMessage,
-} from "@/entities/chat";
+	deduplicateMessages,
+	shouldShowProfileImage,
+	shouldShowTime,
+} from "@/features/chat/lib/chatroom-utils";
 import { useChatDialogStore } from "@/features/chat/model/store";
 import { useChatMessages } from "@/features/chat/model/use-chat-messages";
+import { useEnterChatroom } from "@/features/chat/model/use-chatroom-enter";
+import { useChatroomSocket } from "@/features/chat/model/use-chatroom-socket";
 import ChatroomFeedbackMessage from "./chatroom-feedback-message";
 import ChatroomMyMessage from "./chatroom-my-message";
 import ChatroomOpponentMessage from "./chatroom-opponent-message";
@@ -13,9 +15,6 @@ import ChatroomSystemMessage from "./chatroom-system-message";
 
 const Chatroom = () => {
 	const { chatroom } = useChatDialogStore();
-	const { getChatroomMessages, setCurrentChatroomUuid, markAsRead } = useChatStore();
-	const { mutate: readMessage } = useReadMessage();
-
 	const chatroomUuid = chatroom?.uuid || null;
 
 	const {
@@ -24,86 +23,28 @@ const Chatroom = () => {
 		error,
 	} = useChatMessages(chatroomUuid);
 
-	useEffect(() => {
-		if (chatroomUuid) {
-			setCurrentChatroomUuid(chatroomUuid);
-			markAsRead(chatroomUuid);
-			readMessage({
-				chatroomUuid,
-				timestamp: undefined
-			});
-		}
-		
-		return () => {
-			setCurrentChatroomUuid(null);
-		};
-	}, [chatroomUuid, setCurrentChatroomUuid, markAsRead, readMessage]);
+	const socketMessages = useChatroomSocket(chatroomUuid);
+	const {
+		data: enterData,
+		isLoading: isEntering,
+		error: enterError,
+	} = useEnterChatroom(chatroomUuid);
 
 	if (!chatroomUuid) return;
 
-	const realtimeMessages = chatroomUuid
-		? getChatroomMessages(chatroomUuid)
-		: [];
+	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
 
-	// API 메시지와 실시간 메시지를 합치면서 중복 제거
-	const normalizedApiMessages = apiMessages.map((msg) => ({
-		...msg,
-		senderId: msg.senderId || 0,
-		senderName: msg.senderName || undefined,
-		senderProfileImg: msg.senderProfileImg || undefined,
-		message: msg.message || "",
-		createdAt: msg.createdAt || "",
-		timestamp: msg.timestamp || 0,
-	}));
-
-	// 모든 메시지를 하나의 배열로 합치기
-	const allMessagesWithDuplicates = [
-		...normalizedApiMessages,
-		...realtimeMessages,
-	];
-
-	// timestamp, senderId, message 기준으로 중복 제거
-	const allMessages: ChatMessage[] = allMessagesWithDuplicates
-		.filter((message, index, arr) => {
-			// 같은 timestamp, senderId, message를 가진 이전 메시지가 있는지 확인
-			const firstIndex = arr.findIndex(
-				(m) =>
-					m.timestamp === message.timestamp &&
-					m.senderId === message.senderId &&
-					m.message === message.message,
-			);
-			return firstIndex === index; // 첫 번째 발견된 것만 유지
-		})
-		.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
-
-	const currentUserId = 8;
-
-	const shouldShowTime = (message: ChatMessage, index: number) => {
-		if (index === allMessages.length - 1) return true;
-
-		const nextMessage = allMessages[index + 1];
-		if (!nextMessage) return true;
-
-		if (nextMessage.senderId !== message.senderId) return true;
-
-		const timeDiff = (nextMessage.timestamp || 0) - (message.timestamp || 0);
-		return timeDiff > 60000;
-	};
-
-	const shouldShowProfileImage = (message: ChatMessage, index: number) => {
-		if (index === 0) return true;
-
-		const prevMessage = allMessages[index - 1];
-		if (!prevMessage) return true;
-
-		return prevMessage.senderId !== message.senderId;
-	};
+	const opponentId = enterData?.data?.memberId;
 
 	const renderMessage = (message: ChatMessage, index: number) => {
-		const showTime = shouldShowTime(message, index);
-		const showProfileImage = shouldShowProfileImage(message, index);
+		const showTime = shouldShowTime(message, index, allMessages);
+		const showProfileImage = shouldShowProfileImage(
+			message,
+			index,
+			allMessages,
+		);
 		const isLast = index === allMessages.length - 1;
-		const isMyMessage = message.senderId === currentUserId;
+		const isMyMessage = message.senderId !== opponentId;
 		const key = `${message.timestamp || 0}-${index}`;
 
 		if (message.systemType !== undefined && message.systemType !== null) {
@@ -142,25 +83,27 @@ const Chatroom = () => {
 		);
 	};
 
-	if (isLoading) {
+	if (isLoading || isEntering) {
 		return (
 			<div className="flex items-center justify-center h-full text-gray-500">
-				메시지를 불러오는 중...
+				{isEntering ? "채팅방에 입장하는 중..." : "메시지를 불러오는 중..."}
 			</div>
 		);
 	}
 
-	if (error) {
+	if (error || enterError) {
 		return (
 			<div className="flex items-center justify-center h-full text-red-500">
-				메시지를 불러오는데 실패했습니다.
+				{enterError
+					? "채팅방 입장에 실패했습니다."
+					: "메시지를 불러오는데 실패했습니다."}
 			</div>
 		);
 	}
 
 	return (
 		<div className="flex flex-col h-full">
-			<div className="flex-1 flex flex-col px-2 gap-1 overflow-y-auto">
+			<div className="flex-1 flex flex-col px-2 overflow-y-auto">
 				{allMessages.length === 0 ? (
 					<div className="flex items-center justify-center h-full text-gray-500">
 						메시지가 없습니다. 첫 메시지를 보내보세요!

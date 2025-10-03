@@ -1,11 +1,8 @@
 import { create } from "zustand";
 import type { ChatroomResponse } from "@/shared/api";
-import type { ChatMessage, ChatState } from "./types";
+import type { ChatState } from "./types";
 
 interface ChatActions {
-	addMessage: (message: ChatMessage, chatroomUuid: string) => void;
-	addSystemMessage: (message: ChatMessage, chatroomUuid: string) => void;
-	addMyMessage: (message: ChatMessage, chatroomUuid: string) => void;
 	markAsRead: (chatroomUuid: string) => void;
 	updateChatroom: (chatroom: ChatroomResponse) => void;
 	setChatrooms: (chatrooms: ChatroomResponse[]) => void;
@@ -15,129 +12,20 @@ interface ChatActions {
 	getTotalUnreadCount: () => number;
 	setFriendOnline: (friendId: number | number[]) => void;
 	setFriendOffline: (friendId: number) => void;
-	setCurrentChatroomUuid: (uuid: string | null) => void;
-	getChatroomMessages: (chatroomUuid: string) => ChatMessage[];
-	clearChatroomMessages: (chatroomUuid: string) => void;
 }
 
 export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 	// State
 	chatrooms: [],
-	chatroomMessages: {},
 	totalUnreadCount: 0,
 	isConnected: false,
 	onlineFriends: [],
-	currentChatroomUuid: null,
 
 	// Actions
-	addMessage: (message, chatroomUuid) =>
-		set((state) => {
-			const currentMessages = state.chatroomMessages[chatroomUuid] || [];
-			
-			const isDuplicate = currentMessages.some(
-				existingMsg => existingMsg.timestamp === message.timestamp && 
-				existingMsg.senderId === message.senderId &&
-				existingMsg.message === message.message
-			);
-			
-			if (isDuplicate) {
-				return state;
-			}
-			
-			const updatedMessages = [...currentMessages, message];
-
-			const updatedChatrooms = state.chatrooms.map((room) => {
-				if (room.uuid === chatroomUuid) {
-					return {
-						...room,
-						lastMsg: message.message,
-						lastMsgAt: message.createdAt,
-						lastMsgTimestamp: message.timestamp,
-						notReadMsgCnt: (room.notReadMsgCnt || 0) + 1,
-					};
-				}
-				return room;
-			});
-
-			const totalUnread = updatedChatrooms.reduce(
-				(sum, room) => sum + (room.notReadMsgCnt || 0),
-				0,
-			);
-
-			return {
-				chatrooms: updatedChatrooms,
-				chatroomMessages: {
-					...state.chatroomMessages,
-					[chatroomUuid]: updatedMessages,
-				},
-				totalUnreadCount: totalUnread,
-			};
-		}),
-
-	addSystemMessage: (message, chatroomUuid) =>
-		set((state) => {
-			const currentMessages = state.chatroomMessages[chatroomUuid] || [];
-			
-			const isDuplicate = currentMessages.some(
-				existingMsg => existingMsg.timestamp === message.timestamp && 
-				existingMsg.senderId === message.senderId &&
-				existingMsg.message === message.message
-			);
-			
-			if (isDuplicate) {
-				return state;
-			}
-			
-			const updatedMessages = [...currentMessages, message];
-
-			return {
-				chatroomMessages: {
-					...state.chatroomMessages,
-					[chatroomUuid]: updatedMessages,
-				},
-			};
-		}),
-
-	addMyMessage: (message, chatroomUuid) =>
-		set((state) => {
-			const currentMessages = state.chatroomMessages[chatroomUuid] || [];
-			
-			const isDuplicate = currentMessages.some(
-				existingMsg => existingMsg.timestamp === message.timestamp && 
-				existingMsg.senderId === message.senderId &&
-				existingMsg.message === message.message
-			);
-			
-			if (isDuplicate) {
-				return state;
-			}
-			
-			const updatedMessages = [...currentMessages, message];
-
-			const updatedChatrooms = state.chatrooms.map((room) => {
-				if (room.uuid === chatroomUuid) {
-					return {
-						...room,
-						lastMsg: message.message,
-						lastMsgAt: message.createdAt,
-						lastMsgTimestamp: message.timestamp,
-					};
-				}
-				return room;
-			});
-
-			return {
-				chatrooms: updatedChatrooms,
-				chatroomMessages: {
-					...state.chatroomMessages,
-					[chatroomUuid]: updatedMessages,
-				},
-			};
-		}),
 
 	markAsRead: (chatroomUuid) =>
 		set((state) => {
-				const updatedChatrooms = state.chatrooms.map((room) => {
+			const updatedChatrooms = state.chatrooms.map((room) => {
 				if (room.uuid === chatroomUuid) {
 					return { ...room, notReadMsgCnt: 0 };
 				}
@@ -183,12 +71,14 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 	setChatrooms: (chatrooms) =>
 		set((state) => {
 			const updatedChatrooms = chatrooms.map((newRoom) => {
-				const existingRoom = state.chatrooms.find(r => r.uuid === newRoom.uuid);
-				
+				const existingRoom = state.chatrooms.find(
+					(r) => r.uuid === newRoom.uuid,
+				);
+
 				if (existingRoom && existingRoom.notReadMsgCnt === 0) {
 					return { ...newRoom, notReadMsgCnt: 0 };
 				}
-				
+
 				return newRoom;
 			});
 
@@ -268,19 +158,5 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 				(id) => id !== friendId,
 			);
 			return { onlineFriends: newOnlineFriends };
-		}),
-
-	setCurrentChatroomUuid: (uuid) => set({ currentChatroomUuid: uuid }),
-
-	getChatroomMessages: (chatroomUuid) => {
-		const state = get();
-		return state.chatroomMessages[chatroomUuid] || [];
-	},
-
-	clearChatroomMessages: (chatroomUuid) =>
-		set((state) => {
-			const newChatroomMessages = { ...state.chatroomMessages };
-			delete newChatroomMessages[chatroomUuid];
-			return { chatroomMessages: newChatroomMessages };
 		}),
 }));

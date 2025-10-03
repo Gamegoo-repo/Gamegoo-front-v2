@@ -19,7 +19,7 @@ const ChatroomOpponentMessage = ({
 	});
 
 	return (
-		<div className="flex justify-start items-center mb-[10px]">
+		<div className="flex justify-start items-end mb-[10px]">
 			{showProfileImage && (
 				<ProfileAvatar
 					profileIndex={message.senderProfileImg ?? undefined}
