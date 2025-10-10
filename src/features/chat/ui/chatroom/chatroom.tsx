@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import type { ChatMessage } from "@/entities/chat";
 import {
 	deduplicateMessages,
@@ -110,8 +110,8 @@ const Chatroom = () => {
 	}, [allMessages, renderMessage]);
 
 	// 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
-	useEffect(() => {
-		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+	useLayoutEffect(() => {
+		messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
 	}, [allMessages]);
 
 	if (!chatroomUuid) return null;

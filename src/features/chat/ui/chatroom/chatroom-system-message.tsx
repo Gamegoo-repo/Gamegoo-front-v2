@@ -18,7 +18,7 @@ const ChatroomSystemMessage = ({ message, href }: SystemMessageProps) => {
 	}
 
 	return (
-		<div className="w-full text-center p-[4px] bg-gray-700 regular-13 text-white rounded-full flex items-center justify-center">
+		<div className="w-full text-center p-[4px] mb-[20px] bg-gray-700 regular-13 text-white rounded-full flex items-center justify-center">
 			{href ? (
 				<Link to={href}>
 					<span className="underline cursor-pointer">
