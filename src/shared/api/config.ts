@@ -88,16 +88,18 @@ apiClient.interceptors.response.use(
 					}
 				} catch (refreshError) {
 					console.error("Token refresh failed:", refreshError);
-					tokenManager.clearTokens();
-					if (typeof window !== "undefined") {
-						window.location.href = "/login";
-					}
+
+					// tokenManager.clearTokens();
+					// if (typeof window !== "undefined") {
+					// 	window.location.href = "/login";
+					// }
 				}
 			} else {
-				tokenManager.clearTokens();
-				if (typeof window !== "undefined") {
-					window.location.href = "/login";
-				}
+				console.log("no refresh token error", refreshToken);
+				// tokenManager.clearTokens();
+				// if (typeof window !== "undefined") {
+				// 	window.location.href = "/login";
+				// }
 			}
 		}
 

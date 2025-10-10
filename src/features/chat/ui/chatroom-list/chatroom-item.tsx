@@ -1,6 +1,11 @@
+import {
+	BlockMenuItem,
+	ChatroomLeaveMenuItem,
+	ReportMenuItem,
+} from "@/features/popover-menu/menu-items";
+import PopoverMenu from "@/features/popover-menu/popover-menu";
 import ProfileAvatar from "@/features/profile/profile-avatar";
 import type { ChatroomResponse } from "@/shared/api/@generated/models/chatroom-response";
-import ThreeDotsButtonBlack from "@/shared/assets/icons/three_dots_button_black.svg?react";
 import { cn } from "@/shared/lib/utils";
 import { useChatDialogStore } from "../../model/store";
 
@@ -38,6 +43,12 @@ const formatChatDate = (dateString: string) => {
 
 function ChatroomItem({ room, className }: ChatroomItemProps) {
 	const { setChatDialogType, setChatroom } = useChatDialogStore();
+
+	const MENU_ITEMS = [
+		<ChatroomLeaveMenuItem key="leave" chatroomId={room.uuid || ""} />,
+		<BlockMenuItem key="block" userId={room.targetMemberId || 0} />,
+		<ReportMenuItem key="report" userId={room.targetMemberId || 0} />,
+	];
 
 	const handleChatroomClick = () => {
 		if (room.uuid) {
@@ -82,13 +93,7 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 				</div>
 			</div>
 
-			<button
-				type="button"
-				className="w-5 h-5 mt-1 flex items-center justify-center p-0.5 hover:bg-gray-100 rounded transition-colors"
-				onClick={() => {}}
-			>
-				<ThreeDotsButtonBlack />
-			</button>
+			<PopoverMenu menuItems={MENU_ITEMS} />
 		</button>
 	);
 }

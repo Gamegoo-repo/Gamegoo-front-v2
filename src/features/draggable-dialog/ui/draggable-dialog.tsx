@@ -60,7 +60,7 @@ function DraggableDialog({
 	return (
 		<div
 			data-draggable-container
-			className="fixed z-[1000]"
+			className="fixed z-[100]"
 			style={{
 				top: position.top === "50%" ? "50%" : position.top,
 				left: position.left === "50%" ? "50%" : position.left,

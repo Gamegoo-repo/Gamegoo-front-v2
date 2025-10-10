@@ -1,3 +1,4 @@
+import { BlockApi, ReportApi } from "./@generated";
 import { AuthControllerApi } from "./@generated/api/auth-controller-api";
 import { BoardApi } from "./@generated/api/board-api";
 import { ChatApi } from "./@generated/api/chat-api";
@@ -13,6 +14,8 @@ export const api = {
 	friend: new FriendApi(apiConfiguration, undefined, apiClient),
 	chat: new ChatApi(apiConfiguration, undefined, apiClient),
 	notification: new NotificationApi(apiConfiguration, undefined, apiClient),
+	block: new BlockApi(apiConfiguration, undefined, apiClient),
+	report: new ReportApi(apiConfiguration, undefined, apiClient),
 } as const;
 
 // 토큰 유틸리티 export

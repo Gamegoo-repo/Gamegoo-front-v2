@@ -12,7 +12,7 @@ function LoginRequiredModal({ isOpen, onClose }: LoginRequiredModalProps) {
 	if (!isOpen) return null;
 
 	return createPortal(
-		<div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/62">
+		<div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/62">
 			<div className="absolute w-[640px] overflow-hidden bottom-[28px]">
 				<div className="mb-2.5 flex flex-col items-center justify-center rounded-[17px] bg-white px-0 py-4 text-center">
 					<div className="mb-4 h-12 w-12">
