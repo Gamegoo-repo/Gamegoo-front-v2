@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { ChatMessage } from "@/entities/chat";
 import {
 	deduplicateMessages,
@@ -11,6 +11,7 @@ import { useChatDialogStore } from "@/features/chat/model/store";
 import { useChatMessages } from "@/features/chat/model/use-chat-messages";
 import { useEnterChatroom } from "@/features/chat/model/use-chatroom-enter";
 import { useChatroomSocket } from "@/features/chat/model/use-chatroom-socket";
+import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
 import ChatroomDateDivider from "./chatroom-date-divider";
 import ChatroomFeedbackMessage from "./chatroom-feedback-message";
 import ChatroomMessageInput from "./chatroom-message-input";
@@ -22,11 +23,18 @@ const Chatroom = () => {
 	const { chatroom } = useChatDialogStore();
 	const chatroomUuid = chatroom?.uuid || null;
 	const messagesEndRef = useRef<HTMLDivElement>(null);
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
+	const [isUserScrolling, setIsUserScrolling] = useState(false);
+	const [hasInitiallyScrolled, setHasInitiallyScrolled] = useState(false);
+	const [previousMessageCount, setPreviousMessageCount] = useState(0);
 
 	const {
 		messages: apiMessages,
 		isLoading,
 		error,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
 	} = useChatMessages(chatroomUuid);
 
 	const socketMessages = useChatroomSocket(chatroomUuid);
@@ -38,6 +46,19 @@ const Chatroom = () => {
 
 	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
 	const opponentId = enterData?.data?.memberId;
+
+	const { sentinelRef } = useInfiniteScroll({
+		hasNextPage: !!hasNextPage,
+		isFetchingNextPage,
+		fetchNextPage,
+		threshold: 100,
+	});
+
+	useLayoutEffect(() => {
+		setHasInitiallyScrolled(false);
+		setIsUserScrolling(false);
+		setPreviousMessageCount(0);
+	}, [chatroomUuid]);
 
 	const renderMessage = useCallback(
 		(message: ChatMessage, index: number) => {
@@ -54,7 +75,6 @@ const Chatroom = () => {
 
 			const elements: React.ReactNode[] = [];
 
-			// 날짜 구분선 표시
 			if (showDate && message.timestamp) {
 				const dateString = formatMessageDate(message.timestamp);
 				elements.push(
@@ -62,39 +82,43 @@ const Chatroom = () => {
 				);
 			}
 
-			// 메시지 렌더링
 			if (message.systemType !== undefined && message.systemType !== null) {
 				if (message.systemType === 5) {
 					elements.push(
-						<ChatroomFeedbackMessage key={key} onEvaluate={() => {}} />,
+						<div key={key} data-message-index={index}>
+							<ChatroomFeedbackMessage onEvaluate={() => {}} />
+						</div>,
 					);
 				} else {
 					elements.push(
-						<ChatroomSystemMessage
-							key={key}
-							message={message.message || ""}
-							href={message.boardId ? `/board/${message.boardId}` : undefined}
-						/>,
+						<div key={key} data-message-index={index}>
+							<ChatroomSystemMessage
+								message={message.message || ""}
+								href={message.boardId ? `/board/${message.boardId}` : undefined}
+							/>
+						</div>,
 					);
 				}
 			} else if (isMyMessage) {
 				elements.push(
-					<ChatroomMyMessage
-						key={key}
-						message={message}
-						showTime={showTime}
-						isLast={isLast}
-						isAnimated={false}
-					/>,
+					<div key={key} data-message-index={index}>
+						<ChatroomMyMessage
+							message={message}
+							showTime={showTime}
+							isLast={isLast}
+							isAnimated={false}
+						/>
+					</div>,
 				);
 			} else {
 				elements.push(
-					<ChatroomOpponentMessage
-						key={key}
-						message={message}
-						showTime={showTime}
-						showProfileImage={showProfileImage}
-					/>,
+					<div key={key} data-message-index={index}>
+						<ChatroomOpponentMessage
+							message={message}
+							showTime={showTime}
+							showProfileImage={showProfileImage}
+						/>
+					</div>,
 				);
 			}
 
@@ -109,10 +133,66 @@ const Chatroom = () => {
 		);
 	}, [allMessages, renderMessage]);
 
-	// 메시지가 추가될 때마다 스크롤을 맨 아래로 이동
+	const handleScroll = useCallback(() => {
+		if (!scrollContainerRef.current) return;
+
+		const { scrollTop, scrollHeight, clientHeight } =
+			scrollContainerRef.current;
+		const isNearBottom = scrollHeight - scrollTop - clientHeight < 50;
+
+		setIsUserScrolling(!isNearBottom);
+	}, []);
+
 	useLayoutEffect(() => {
-		messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
-	}, [allMessages]);
+		if (!scrollContainerRef.current || !isUserScrolling) return;
+
+		const container = scrollContainerRef.current;
+		const currentMessageCount = apiMessages.length;
+
+		if (
+			currentMessageCount > previousMessageCount &&
+			previousMessageCount > 0
+		) {
+			const newMessageCount = currentMessageCount - previousMessageCount;
+
+			requestAnimationFrame(() => {
+				const messageElements = container.querySelectorAll(
+					"[data-message-index]",
+				);
+				if (messageElements.length >= newMessageCount) {
+					const firstNewMessageElement = messageElements[
+						newMessageCount - 1
+					] as HTMLElement;
+					if (firstNewMessageElement) {
+						firstNewMessageElement.scrollIntoView({
+							behavior: "instant",
+							block: "start",
+						});
+					}
+				}
+			});
+		}
+
+		setPreviousMessageCount(currentMessageCount);
+	}, [apiMessages.length, isUserScrolling, previousMessageCount]);
+
+	useLayoutEffect(() => {
+		if (
+			!isLoading &&
+			!isEntering &&
+			allMessages.length > 0 &&
+			!hasInitiallyScrolled
+		) {
+			messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
+			setHasInitiallyScrolled(true);
+		}
+	}, [isLoading, isEntering, allMessages.length, hasInitiallyScrolled]);
+
+	useLayoutEffect(() => {
+		if (!isUserScrolling && socketMessages.length > 0) {
+			messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
+		}
+	}, [socketMessages.length, isUserScrolling]);
 
 	if (!chatroomUuid) return null;
 
@@ -136,13 +216,24 @@ const Chatroom = () => {
 
 	return (
 		<div className="flex flex-col h-[calc(687px-90px)]">
-			<div className="flex-1 flex flex-col px-2 overflow-y-auto min-h-0 mb-[138px] scrollbar-hide">
+			<div
+				ref={scrollContainerRef}
+				className="flex-1 flex flex-col px-2 overflow-y-auto min-h-0 mb-[138px] scrollbar-hide"
+				onScroll={handleScroll}
+			>
 				{allMessages.length === 0 ? (
 					<div className="flex items-center justify-center h-full text-gray-500">
 						메시지가 없습니다. 첫 메시지를 보내보세요!
 					</div>
 				) : (
 					<div className="flex flex-col">
+						{hasNextPage && (
+							<div
+								ref={sentinelRef}
+								className="h-1"
+								style={{ minHeight: "1px" }}
+							/>
+						)}
 						{renderMessages}
 						<div ref={messagesEndRef} />
 					</div>
