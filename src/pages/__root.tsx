@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
+import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import { useRefreshToken } from "@/features/auth";
 import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-update-handler";
 import { tokenManager } from "@/shared/api/config";
@@ -14,7 +15,6 @@ import {
 	GamegooSocketProvider,
 	TanstackQueryProvider,
 } from "@/shared/providers";
-import { useChatDialogStore } from "@/widgets/floating-chat-dialog/store/use-chat-dialog-store";
 import FloatingChatButton from "@/widgets/floating-chat-dialog/ui/floating-chat-button";
 import FloatingChatDialog from "@/widgets/floating-chat-dialog/ui/floating-chat-dialog";
 

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { ChatroomResponse } from "@/shared/api";
-import type { ChatState } from "./types";
+import type { ChatState } from "../types";
 
 interface ChatActions {
 	markAsRead: (chatroomUuid: string) => void;

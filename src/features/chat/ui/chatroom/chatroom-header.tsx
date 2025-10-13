@@ -1,7 +1,7 @@
 import { useChatStore } from "@/entities/chat";
+import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import ProfileAvatar from "@/features/profile/profile-avatar";
 import LeftArrowIcon from "@/shared/assets/icons/left_arrow.svg?react";
-import { useChatDialogStore } from "../../../../widgets/floating-chat-dialog/store/use-chat-dialog-store";
 
 const ChatroomHeader = () => {
 	const { chatroom, setChatDialogType } = useChatDialogStore();

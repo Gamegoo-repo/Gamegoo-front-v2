@@ -1,10 +1,10 @@
+import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import ChatroomHeader from "@/features/chat/ui/chatroom/chatroom-header";
 import {
 	type AdjustPositionCallback,
 	DraggableDialog,
 } from "@/features/draggable-dialog";
 import { tokenManager } from "@/shared/api";
-import { useChatDialogStore } from "@/widgets/floating-chat-dialog/store/use-chat-dialog-store";
 import { LoginRequiredModal } from "@/widgets/login-required-modal";
 import FloatingChatDialogContent from "./floating-chat-dialog-content";
 import FloatingChatDialogTabs from "./floating-chat-dialog-tabs";

@@ -1,4 +1,5 @@
 import { useChatStore } from "@/entities/chat";
+import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import { useReadChatMessage } from "@/features/chat/api/use-read-chat-message";
 import type {
 	ChatMessageEventData,
@@ -6,7 +7,6 @@ import type {
 } from "@/features/chat/lib/types";
 import { useSocketMessage } from "@/shared/api/socket";
 import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
-import { useChatDialogStore } from "@/widgets/floating-chat-dialog/store/use-chat-dialog-store";
 
 export const useChatMessageSocket = () => {
 	const { isAuthenticated } = useGamegooSocket();

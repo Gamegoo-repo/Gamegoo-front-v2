@@ -1,3 +1,4 @@
+import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import {
 	BlockMenuItem,
 	ChatroomLeaveMenuItem,
@@ -7,7 +8,6 @@ import PopoverMenu from "@/features/popover-menu/popover-menu";
 import ProfileAvatar from "@/features/profile/profile-avatar";
 import type { ChatroomResponse } from "@/shared/api/@generated/models/chatroom-response";
 import { cn } from "@/shared/lib/utils";
-import { useChatDialogStore } from "../../../../widgets/floating-chat-dialog/store/use-chat-dialog-store";
 
 interface ChatroomItemProps {
 	room: ChatroomResponse;
