@@ -19,9 +19,6 @@
 			"recommended": true,
 			"correctness": {
 				"useExhaustiveDependencies": "off"
-			},
-			"accessibility": {
-				"noStaticElementInteractions": "off"
 			}
 		}
 	},
