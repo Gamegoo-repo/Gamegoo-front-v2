@@ -1,8 +1,8 @@
-import { useChatDialogStore } from "../model/store";
-import { useFriendOnline } from "../model/use-friend-online";
-import Chatroom from "./chatroom/chatroom";
-import ChatRoomList from "./chatroom-list/chatroom-list";
-import FriendList from "./friend-list/friend-list";
+import Chatroom from "@/features/chat/ui/chatroom/chatroom";
+import ChatRoomList from "@/features/chat/ui/chatroom-list/chatroom-list";
+import { useFriendOnline } from "@/features/friend/api/use-friend-online";
+import FriendList from "@/features/friend/ui/friend-list";
+import { useChatDialogStore } from "@/widgets/floating-chat-dialog/store/use-chat-dialog-store";
 
 function FloatingChatDialogContent() {
 	useFriendOnline();

@@ -1,14 +1,25 @@
 import { useChatStore } from "@/entities/chat";
-import useChatroomList from "../../model/use-chatroom-list";
+import useChatroomListManager from "@/features/chat/api/use-chatroom-list-manager";
 import ChatroomItem from "./chatroom-item";
 
 const ChatroomList = () => {
-	const { isFetching, error } = useChatroomList();
-
 	const { chatrooms } = useChatStore();
+	const { isFetching: isLoading, error } = useChatroomListManager();
 
-	if (isFetching || error) {
-		return null;
+	if (isLoading) {
+		return (
+			<div className="flex items-center justify-center py-8 text-gray-500">
+				로딩 중...
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<div className="flex items-center justify-center py-8 text-red-500">
+				채팅방 목록을 불러오는데 실패했습니다.
+			</div>
+		);
 	}
 
 	if (chatrooms.length === 0) {

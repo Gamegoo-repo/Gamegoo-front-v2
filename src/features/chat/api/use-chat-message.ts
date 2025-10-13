@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import type { ChatMessage } from "@/entities/chat";
 import { api, type ChatMessageListResponse } from "@/shared/api";
 
-export const useChatMessagesQuery = (chatroomUuid: string | null) => {
+export const useChatMessageFetcher = (chatroomUuid: string | null) => {
 	return useInfiniteQuery({
 		queryKey: ["chat-messages", chatroomUuid],
 		queryFn: async ({ pageParam = undefined }) => {
@@ -30,8 +30,8 @@ export const useChatMessagesQuery = (chatroomUuid: string | null) => {
 	});
 };
 
-export const useChatMessages = (chatroomUuid: string | null) => {
-	const queryResult = useChatMessagesQuery(chatroomUuid);
+export const useChatMessage = (chatroomUuid: string | null) => {
+	const queryResult = useChatMessageFetcher(chatroomUuid);
 	const {
 		data,
 		isLoading,

@@ -1,20 +1,20 @@
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
-import { ChatSocketProvider } from "@/entities/chat";
 import { useRefreshToken } from "@/features/auth";
-import { useChatDialogStore } from "@/features/chat/model/store";
-import { useChatNotifications } from "@/features/chat/model/use-chat-notification";
-import { FloatingChatButton } from "@/features/chat/ui/floating-chat-button";
-import FloatingChatDialog from "@/features/chat/ui/floating-chat-dialog";
+import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-update-handler";
 import { tokenManager } from "@/shared/api/config";
 import {
+	ChatSocketProvider,
 	GamegooSocketProvider,
 	TanstackQueryProvider,
 } from "@/shared/providers";
+import { useChatDialogStore } from "@/widgets/floating-chat-dialog/store/use-chat-dialog-store";
+import FloatingChatButton from "@/widgets/floating-chat-dialog/ui/floating-chat-button";
+import FloatingChatDialog from "@/widgets/floating-chat-dialog/ui/floating-chat-dialog";
 
 function RootLayout() {
-	useChatNotifications();
+	useChatroomUpdateHandler();
 
 	const { openDialog } = useChatDialogStore();
 	const refreshTokenMutation = useRefreshToken();

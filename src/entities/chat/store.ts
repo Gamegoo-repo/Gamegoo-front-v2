@@ -14,7 +14,7 @@ interface ChatActions {
 	setFriendOffline: (friendId: number) => void;
 }
 
-export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
+export const useChatStore = create<ChatState & ChatActions>((set, _get) => ({
 	// State
 	chatrooms: [],
 	totalUnreadCount: 0,
@@ -97,12 +97,30 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 
 	incrementUnreadCount: (chatroomUuid) =>
 		set((state) => {
-			const updatedChatrooms = state.chatrooms.map((room) => {
-				if (room.uuid === chatroomUuid) {
-					return { ...room, notReadMsgCnt: (room.notReadMsgCnt || 0) + 1 };
-				}
-				return room;
-			});
+			const existingRoomIndex = state.chatrooms.findIndex(
+				(room) => room.uuid === chatroomUuid,
+			);
+
+			let updatedChatrooms: ChatroomResponse[];
+			if (existingRoomIndex >= 0) {
+				updatedChatrooms = state.chatrooms.map((room) => {
+					if (room.uuid === chatroomUuid) {
+						return { ...room, notReadMsgCnt: (room.notReadMsgCnt || 0) + 1 };
+					}
+					return room;
+				});
+			} else {
+				const newRoom: ChatroomResponse = {
+					uuid: chatroomUuid,
+					notReadMsgCnt: 1,
+					targetMemberName: "새 메시지",
+					targetMemberImg: 0,
+					lastMsg: "새 메시지가 도착했습니다",
+					lastMsgAt: new Date().toISOString(),
+					targetMemberId: 0,
+				};
+				updatedChatrooms = [...state.chatrooms, newRoom];
+			}
 
 			const totalUnread = updatedChatrooms.reduce(
 				(sum, room) => sum + (room.notReadMsgCnt || 0),
@@ -135,7 +153,7 @@ export const useChatStore = create<ChatState & ChatActions>((set, get) => ({
 			};
 		}),
 
-	getTotalUnreadCount: () => get().totalUnreadCount,
+	getTotalUnreadCount: () => _get().totalUnreadCount,
 
 	setFriendOnline: (friendId) =>
 		set((state) => {

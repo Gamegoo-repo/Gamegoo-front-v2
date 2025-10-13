@@ -2,38 +2,8 @@ import { useChatStore } from "@/entities/chat";
 import { useSocketMessage } from "@/shared/api/socket";
 
 export const useChatNotifications = () => {
-	const { addMessage, updateChatroom, totalUnreadCount, incrementUnreadCount } =
+	const { updateChatroom, totalUnreadCount, incrementUnreadCount } =
 		useChatStore();
-
-	// 채팅 메시지
-	useSocketMessage(
-		"chat_message",
-		(messageData: {
-			chatroomUuid: string;
-			senderId: number;
-			senderName: string | null;
-			senderProfileImg: number | null;
-			message: string;
-			createdAt: string;
-			timestamp: number;
-			systemType?: number;
-			boardId?: number | null;
-		}) => {
-			addMessage(
-				{
-					senderId: messageData.senderId,
-					senderName: messageData.senderName,
-					senderProfileImg: messageData.senderProfileImg,
-					message: messageData.message,
-					createdAt: messageData.createdAt,
-					timestamp: messageData.timestamp,
-					systemType: messageData.systemType,
-					boardId: messageData.boardId,
-				},
-				messageData.chatroomUuid,
-			);
-		},
-	);
 
 	// 채팅방 업데이트
 	useSocketMessage(

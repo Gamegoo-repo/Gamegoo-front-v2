@@ -1,5 +1,8 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { ChatMessage } from "@/entities/chat";
+import { useChatMessage } from "@/features/chat/api/use-chat-message";
+import { useEnterChatroom } from "@/features/chat/api/use-chatroom-enter";
+import { useChatroomSocket } from "@/features/chat/api/use-chatroom-message-socket";
 import {
 	deduplicateMessages,
 	formatMessageDate,
@@ -7,11 +10,8 @@ import {
 	shouldShowProfileImage,
 	shouldShowTime,
 } from "@/features/chat/lib/chatroom-utils";
-import { useChatDialogStore } from "@/features/chat/model/store";
-import { useChatMessages } from "@/features/chat/model/use-chat-messages";
-import { useEnterChatroom } from "@/features/chat/model/use-chatroom-enter";
-import { useChatroomSocket } from "@/features/chat/model/use-chatroom-socket";
 import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
+import { useChatDialogStore } from "@/widgets/floating-chat-dialog/store/use-chat-dialog-store";
 import ChatroomDateDivider from "./chatroom-date-divider";
 import ChatroomFeedbackMessage from "./chatroom-feedback-message";
 import ChatroomMessageInput from "./chatroom-message-input";
@@ -35,7 +35,7 @@ const Chatroom = () => {
 		fetchNextPage,
 		hasNextPage,
 		isFetchingNextPage,
-	} = useChatMessages(chatroomUuid);
+	} = useChatMessage(chatroomUuid);
 
 	const socketMessages = useChatroomSocket(chatroomUuid);
 	const {

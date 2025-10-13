@@ -1,16 +1,16 @@
+import { useChatStore } from "@/entities/chat";
+import { useReadChatMessage } from "@/features/chat/api/use-read-chat-message";
 import type {
 	ChatMessageEventData,
 	SystemMessageEventData,
 } from "@/features/chat/lib/types";
-import { useChatDialogStore } from "@/features/chat/model/store";
-import { useReadChatMessage } from "@/features/chat/model/use-read-chat-message";
 import { useSocketMessage } from "@/shared/api/socket";
 import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
-import { useChatStore } from "../store";
+import { useChatDialogStore } from "@/widgets/floating-chat-dialog/store/use-chat-dialog-store";
 
-export const useChatMessage = () => {
+export const useChatMessageSocket = () => {
 	const { isAuthenticated } = useGamegooSocket();
-	const { incrementUnreadCount, markAsRead } = useChatStore();
+	const { incrementUnreadCount, resetUnreadCount } = useChatStore();
 	const { mutate: readMessage } = useReadChatMessage();
 
 	useSocketMessage<ChatMessageEventData>("chat-message", (eventData) => {
@@ -19,14 +19,18 @@ export const useChatMessage = () => {
 		const { data } = eventData;
 		const { chatroomUuid, timestamp } = data;
 
-		// 현재 입장한 채팅방인지 확인
-		const currentChatroom = useChatDialogStore.getState().chatroom;
-		if (currentChatroom?.uuid === chatroomUuid) {
-			// 현재 채팅방의 메시지는 읽음 처리
-			markAsRead(chatroomUuid);
+		const dialogState = useChatDialogStore.getState();
+
+		const isActiveChatroom =
+			(dialogState.isOpen &&
+				dialogState.chatDialogType === "chatroom" &&
+				dialogState.chatroom?.uuid === chatroomUuid) ||
+			(!dialogState.isOpen && dialogState.chatroom?.uuid === chatroomUuid);
+
+		if (isActiveChatroom) {
+			resetUnreadCount(chatroomUuid);
 			readMessage({ chatroomUuid, timestamp });
 		} else {
-			// 다른 채팅방의 메시지는 unread 카운트 증가
 			incrementUnreadCount(chatroomUuid);
 		}
 	});
@@ -39,14 +43,16 @@ export const useChatMessage = () => {
 			const { data } = eventData;
 			const { chatroomUuid, timestamp } = data;
 
-			// 현재 입장한 채팅방인지 확인
-			const currentChatroom = useChatDialogStore.getState().chatroom;
-			if (currentChatroom?.uuid === chatroomUuid) {
-				// 현재 채팅방의 메시지는 읽음 처리
-				markAsRead(chatroomUuid);
+			const dialogState = useChatDialogStore.getState();
+			const isCurrentChatroom =
+				dialogState.isOpen &&
+				dialogState.chatDialogType === "chatroom" &&
+				dialogState.chatroom?.uuid === chatroomUuid;
+
+			if (isCurrentChatroom) {
+				resetUnreadCount(chatroomUuid);
 				readMessage({ chatroomUuid, timestamp });
 			} else {
-				// 다른 채팅방의 메시지는 unread 카운트 증가
 				incrementUnreadCount(chatroomUuid);
 			}
 		},
@@ -60,14 +66,16 @@ export const useChatMessage = () => {
 			const { data } = eventData;
 			const { chatroomUuid, timestamp } = data;
 
-			// 현재 입장한 채팅방인지 확인
-			const currentChatroom = useChatDialogStore.getState().chatroom;
-			if (currentChatroom?.uuid === chatroomUuid) {
-				// 현재 채팅방의 메시지는 읽음 처리
-				markAsRead(chatroomUuid);
+			const dialogState = useChatDialogStore.getState();
+			const isCurrentChatroom =
+				dialogState.isOpen &&
+				dialogState.chatDialogType === "chatroom" &&
+				dialogState.chatroom?.uuid === chatroomUuid;
+
+			if (isCurrentChatroom) {
+				resetUnreadCount(chatroomUuid);
 				readMessage({ chatroomUuid, timestamp });
 			} else {
-				// 다른 채팅방의 메시지는 unread 카운트 증가
 				incrementUnreadCount(chatroomUuid);
 			}
 		},
