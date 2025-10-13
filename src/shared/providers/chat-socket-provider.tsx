@@ -4,7 +4,6 @@ import { useFriendOnline } from "@/features/friend/api/use-friend-online";
 
 function ChatSocketProvider({ children }: { children: React.ReactNode }) {
 	useChatroomListManager();
-
 	useChatMessageSocket();
 	useFriendOnline();
 

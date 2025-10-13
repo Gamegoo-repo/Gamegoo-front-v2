@@ -2,10 +2,13 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useChatStore } from "@/entities/chat";
 import { api } from "@/shared/api";
+import { tokenManager } from "@/shared/api/config";
 import { useSocketMessage } from "@/shared/api/socket";
 
 const useChatroomListManager = () => {
 	const { setChatrooms, setConnected } = useChatStore();
+	const accessToken = tokenManager.getAccessToken();
+	const isAuthenticated = !!accessToken;
 
 	const {
 		data: chatroomsData,
@@ -19,6 +22,7 @@ const useChatroomListManager = () => {
 			return response.data;
 		},
 		placeholderData: keepPreviousData,
+		enabled: isAuthenticated,
 	});
 
 	useEffect(() => {
