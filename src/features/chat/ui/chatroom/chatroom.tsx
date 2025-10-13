@@ -1,23 +1,24 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
-import type { ChatMessage } from "@/entities/chat";
-import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import { useChatMessage } from "@/features/chat/api/use-chat-message";
-import { useEnterChatroom } from "@/features/chat/api/use-chatroom-enter";
-import { useChatroomSocket } from "@/features/chat/api/use-chatroom-message-socket";
+import { type ChatMessage, useChatDialogStore } from "@/entities/chat";
 import {
 	deduplicateMessages,
 	formatMessageDate,
 	shouldShowDate,
 	shouldShowProfileImage,
 	shouldShowTime,
-} from "@/features/chat/lib/chatroom-utils";
+	useChatMessage,
+	useChatroomSocket,
+	useEnterChatroom,
+} from "@/features/chat";
 import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
-import ChatroomDateDivider from "./chatroom-date-divider";
-import ChatroomFeedbackMessage from "./chatroom-feedback-message";
-import ChatroomMessageInput from "./chatroom-message-input";
-import ChatroomMyMessage from "./chatroom-my-message";
-import ChatroomOpponentMessage from "./chatroom-opponent-message";
-import ChatroomSystemMessage from "./chatroom-system-message";
+import {
+	ChatroomDateDivider,
+	ChatroomFeedbackMessage,
+	ChatroomMessageInput,
+	ChatroomMyMessage,
+	ChatroomOpponentMessage,
+	ChatroomSystemMessage,
+} from "./";
 
 const Chatroom = () => {
 	const { chatroom } = useChatDialogStore();

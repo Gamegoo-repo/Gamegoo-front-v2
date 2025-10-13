@@ -1,7 +1,6 @@
-import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import Chatroom from "@/features/chat/ui/chatroom/chatroom";
-import ChatRoomList from "@/features/chat/ui/chatroom-list/chatroom-list";
-import { useFriendOnline } from "@/features/friend/api/use-friend-online";
+import { useChatDialogStore } from "@/entities/chat";
+import { Chatroom, ChatroomList } from "@/features/chat";
+import { useFriendOnline } from "@/features/friend";
 import FriendList from "@/features/friend/ui/friend-list";
 
 function FloatingChatDialogContent() {
@@ -13,7 +12,7 @@ function FloatingChatDialogContent() {
 	}
 
 	if (chatDialogType === "chatroom-list") {
-		return <ChatRoomList />;
+		return <ChatroomList />;
 	}
 
 	if (chatDialogType === "chatroom") {

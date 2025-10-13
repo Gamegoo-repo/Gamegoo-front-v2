@@ -1,5 +1,5 @@
-import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import ChatroomHeader from "@/features/chat/ui/chatroom/chatroom-header";
+import { useChatDialogStore } from "@/entities/chat";
+import { ChatroomHeader } from "@/features/chat";
 import {
 	type AdjustPositionCallback,
 	DraggableDialog,

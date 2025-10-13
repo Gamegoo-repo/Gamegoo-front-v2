@@ -1,6 +1,5 @@
-import { useChatMessageSocket } from "@/features/chat/api/use-chat-message-socket";
-import useChatroomListManager from "@/features/chat/api/use-chatroom-list-manager";
-import { useFriendOnline } from "@/features/friend/api/use-friend-online";
+import { useChatMessageSocket, useChatroomListManager } from "@/features/chat";
+import { useFriendOnline } from "@/features/friend";
 
 function ChatSocketProvider({ children }: { children: React.ReactNode }) {
 	useChatroomListManager();

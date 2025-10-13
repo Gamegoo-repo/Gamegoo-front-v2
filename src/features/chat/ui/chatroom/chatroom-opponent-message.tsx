@@ -1,5 +1,5 @@
 import type { ChatMessage } from "@/entities/chat";
-import ProfileAvatar from "@/features/profile/profile-avatar";
+import { ProfileAvatar } from "@/features/profile";
 import { cn } from "@/shared/lib/utils";
 
 interface ChatroomOpponentMessageProps {

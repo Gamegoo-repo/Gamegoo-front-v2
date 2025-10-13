@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import { useEnterChatroom } from "@/features/chat/api/use-chatroom-enter";
-import { useSendMessage } from "@/features/chat/api/use-send-message";
-import type { SystemData } from "@/features/chat/lib/types";
+import { useChatDialogStore } from "@/entities/chat";
+import type { SystemData } from "@/features/chat";
+import { useEnterChatroom, useSendMessage } from "@/features/chat";
 
 const ChatroomMessageInput = () => {
 	const { chatroom } = useChatDialogStore();

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
+import { useDrag } from "../hooks/use-drag";
 import { useDraggableDialogStore } from "../model/store";
 import type { AdjustPositionCallback } from "../model/types";
-import { useDrag } from "../model/use-drag";
 
 interface DraggableDialogProps {
 	isOpen: boolean;

@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import type { AdjustPositionCallback, DragOffset, Position } from "./types";
+import type {
+	AdjustPositionCallback,
+	DragOffset,
+	Position,
+} from "../model/types";
 
 interface UseDragParams {
 	onPositionChange: (position: Position) => void;

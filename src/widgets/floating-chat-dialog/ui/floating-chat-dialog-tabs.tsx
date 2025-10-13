@@ -2,7 +2,7 @@ import {
 	CHAT_DIALOG_TABS,
 	type ChatDialogType,
 	useChatDialogStore,
-} from "../../../entities/chat/store/use-chat-dialog-store";
+} from "@/entities/chat";
 
 const TYPES_WITHOUT_TAB = ["chatroom"];
 

@@ -1,11 +1,11 @@
-import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
+import { useChatDialogStore } from "@/entities/chat";
 import {
 	BlockMenuItem,
 	ChatroomLeaveMenuItem,
+	PopoverMenu,
 	ReportMenuItem,
-} from "@/features/popover-menu/menu-items";
-import PopoverMenu from "@/features/popover-menu/popover-menu";
-import ProfileAvatar from "@/features/profile/profile-avatar";
+} from "@/features/popover-menu";
+import { ProfileAvatar } from "@/features/profile";
 import type { ChatroomResponse } from "@/shared/api/@generated/models/chatroom-response";
 import { cn } from "@/shared/lib/utils";
 

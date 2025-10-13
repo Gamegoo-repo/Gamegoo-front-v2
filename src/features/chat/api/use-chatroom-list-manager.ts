@@ -5,7 +5,7 @@ import { api } from "@/shared/api";
 import { tokenManager } from "@/shared/api/config";
 import { useSocketMessage } from "@/shared/api/socket";
 
-const useChatroomListManager = () => {
+export const useChatroomListManager = () => {
 	const { setChatrooms, setConnected } = useChatStore();
 	const accessToken = tokenManager.getAccessToken();
 	const isAuthenticated = !!accessToken;
@@ -49,5 +49,3 @@ const useChatroomListManager = () => {
 		refetch,
 	};
 };
-
-export default useChatroomListManager;
