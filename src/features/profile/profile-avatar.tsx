@@ -29,7 +29,10 @@ const BACKGROUND_COLOR = [
 const ProfileAvatar = ({ size, profileIndex = 0 }: ProfileAvatarProps) => {
 	return (
 		<div
-			className={`${WRAPPER_SIZE[size]} bg-[${BACKGROUND_COLOR[profileIndex]}] relative rounded-full`}
+			className={`${WRAPPER_SIZE[size]} relative rounded-full`}
+			style={{
+				backgroundColor: BACKGROUND_COLOR[profileIndex ? profileIndex - 1 : 0],
+			}}
 		>
 			<img
 				src={
