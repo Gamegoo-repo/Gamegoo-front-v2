@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/shared/api";
 import type { ReportPath, ReportRequest } from "@/shared/api/@generated";
+import { useConfirmDialog } from "@/shared/providers";
 import {
 	PopoverMenuItem,
 	type PopoverMenuItemProps,
@@ -12,6 +13,7 @@ interface ReportMenuItemProps {
 	onSuccess?: () => void;
 	onError?: (error: Error) => void;
 	className?: string;
+	onClosePopover?: () => void;
 }
 
 export function ReportMenuItem({
@@ -20,7 +22,10 @@ export function ReportMenuItem({
 	onSuccess,
 	onError,
 	className,
+	onClosePopover,
 }: ReportMenuItemProps) {
+	const { showConfirmDialog } = useConfirmDialog();
+
 	const reportUserMutation = useMutation({
 		mutationFn: async ({
 			targetUserId,
@@ -41,14 +46,20 @@ export function ReportMenuItem({
 	});
 
 	const handleReportUser = () => {
-		if (confirm("정말로 이 사용자를 신고하시겠습니까?")) {
-			const reportRequest: ReportRequest = {
-				reportCodeList: [1], // 스팸으로 기본 설정, TODO: 사용자가 선택할 수 있도록 개선
-				contents: "부적절한 행동", // TODO: 사용자가 입력할 수 있도록 개선
-				pathCode: reportType === "CHAT" ? 1 : reportType === "BOARD" ? 2 : 3, // CHAT=1, BOARD=2, PROFILE=3
-			};
-			reportUserMutation.mutate({ targetUserId: userId, reportRequest });
-		}
+		onClosePopover?.();
+		showConfirmDialog({
+			title: "이 사용자를 신고하시겠습니까?",
+			description: "신고된 내용은 검토 후 조치됩니다.",
+			confirmText: "신고",
+			onConfirm: () => {
+				const reportRequest: ReportRequest = {
+					reportCodeList: [1], // 스팸으로 기본 설정, TODO: 사용자가 선택할 수 있도록 개선
+					contents: "부적절한 행동", // TODO: 사용자가 입력할 수 있도록 개선
+					pathCode: reportType === "CHAT" ? 1 : reportType === "BOARD" ? 2 : 3, // CHAT=1, BOARD=2, PROFILE=3
+				};
+				reportUserMutation.mutate({ targetUserId: userId, reportRequest });
+			},
+		});
 	};
 
 	const menuItemProps: PopoverMenuItemProps = {

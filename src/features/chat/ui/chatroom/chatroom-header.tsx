@@ -1,4 +1,5 @@
 import { useChatDialogStore, useChatStore } from "@/entities/chat";
+import { FriendDeleteMenuItem, PopoverMenu } from "@/features/popover-menu";
 import { ProfileAvatar } from "@/features/profile";
 import LeftArrowIcon from "@/shared/assets/icons/left_arrow.svg?react";
 
@@ -8,6 +9,19 @@ const ChatroomHeader = () => {
 	const isOnline = chatroom?.targetMemberId
 		? onlineFriends.includes(chatroom.targetMemberId)
 		: false;
+
+	const MENU_ITEMS = [
+		<FriendDeleteMenuItem
+			key="friend-delete"
+			userId={chatroom?.targetMemberId || 0}
+		/>,
+		// 채팅방 나가기
+		// 친구 삭제 / 요청 / 요청 취소
+		// 차단하기
+		// 신고하기
+		// 매너 평가
+		// 비매너 평가
+	];
 
 	return (
 		<div className="flex px-[12px] pt-[12px]">
@@ -32,6 +46,7 @@ const ChatroomHeader = () => {
 						</div>
 					</div>
 				</div>
+				{<PopoverMenu menuItems={MENU_ITEMS} />}
 			</div>
 		</div>
 	);

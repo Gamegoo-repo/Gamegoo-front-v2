@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/shared/api";
+import { useConfirmDialog } from "@/shared/providers";
 import {
 	PopoverMenuItem,
 	type PopoverMenuItemProps,
@@ -10,6 +11,7 @@ interface ChatroomLeaveMenuItemProps {
 	onSuccess?: () => void;
 	onError?: (error: Error) => void;
 	className?: string;
+	onClosePopover?: () => void;
 }
 
 export function ChatroomLeaveMenuItem({
@@ -17,7 +19,9 @@ export function ChatroomLeaveMenuItem({
 	onSuccess,
 	onError,
 	className,
+	onClosePopover,
 }: ChatroomLeaveMenuItemProps) {
+	const { showConfirmDialog } = useConfirmDialog();
 	const queryClient = useQueryClient();
 
 	const leaveChatroomMutation = useMutation({
@@ -35,9 +39,13 @@ export function ChatroomLeaveMenuItem({
 	});
 
 	const handleLeaveChatroom = () => {
-		if (confirm("정말로 채팅방을 나가시겠습니까?")) {
-			leaveChatroomMutation.mutate(chatroomId);
-		}
+		onClosePopover?.();
+		showConfirmDialog({
+			title: "채팅방을 나가시겠습니까?",
+			description: "채팅 기록이 모두 삭제됩니다.",
+			confirmText: "나가기",
+			onConfirm: () => leaveChatroomMutation.mutate(chatroomId),
+		});
 	};
 
 	const menuItemProps: PopoverMenuItemProps = {

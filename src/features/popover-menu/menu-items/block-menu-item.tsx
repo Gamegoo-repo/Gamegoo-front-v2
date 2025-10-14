@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/shared/api";
+import { useConfirmDialog } from "@/shared/providers";
 import {
 	PopoverMenuItem,
 	type PopoverMenuItemProps,
@@ -10,6 +11,7 @@ interface BlockMenuItemProps {
 	onSuccess?: () => void;
 	onError?: (error: Error) => void;
 	className?: string;
+	onClosePopover?: () => void;
 }
 
 export function BlockMenuItem({
@@ -17,7 +19,9 @@ export function BlockMenuItem({
 	onSuccess,
 	onError,
 	className,
+	onClosePopover,
 }: BlockMenuItemProps) {
+	const { showConfirmDialog } = useConfirmDialog();
 	const queryClient = useQueryClient();
 
 	const blockUserMutation = useMutation({
@@ -35,9 +39,13 @@ export function BlockMenuItem({
 	});
 
 	const handleBlockUser = () => {
-		if (confirm("정말로 이 사용자를 차단하시겠습니까?")) {
-			blockUserMutation.mutate(userId);
-		}
+		onClosePopover?.();
+		showConfirmDialog({
+			title: "이 사용자를 차단하시겠습니까?",
+			description: "차단된 사용자와의 모든 상호작용이 제한됩니다.",
+			confirmText: "차단",
+			onConfirm: () => blockUserMutation.mutate(userId),
+		});
 	};
 
 	const menuItemProps: PopoverMenuItemProps = {

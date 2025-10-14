@@ -12,6 +12,7 @@ import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-updat
 import { tokenManager } from "@/shared/api/config";
 import {
 	ChatSocketProvider,
+	ConfirmDialogProvider,
 	GamegooSocketProvider,
 	TanstackQueryProvider,
 } from "@/shared/providers";
@@ -81,19 +82,21 @@ function RootLayout() {
 		<TanstackQueryProvider>
 			<GamegooSocketProvider>
 				<ChatSocketProvider>
-					<div className="p-2 flex gap-2">
-						<Link to="/" className="[&.active]:font-bold">
-							Home
-						</Link>
-						<Link to="/about" className="[&.active]:font-bold">
-							About
-						</Link>
-					</div>
-					<hr />
-					<Outlet />
-					<FloatingChatButton onClick={handleChatButtonClick} />
-					<FloatingChatDialog />
-					<TanStackRouterDevtools />
+					<ConfirmDialogProvider>
+						<div className="p-2 flex gap-2">
+							<Link to="/" className="[&.active]:font-bold">
+								Home
+							</Link>
+							<Link to="/about" className="[&.active]:font-bold">
+								About
+							</Link>
+						</div>
+						<hr />
+						<Outlet />
+						<FloatingChatButton onClick={handleChatButtonClick} />
+						<FloatingChatDialog />
+						<TanStackRouterDevtools />
+					</ConfirmDialogProvider>
 				</ChatSocketProvider>
 			</GamegooSocketProvider>
 		</TanstackQueryProvider>

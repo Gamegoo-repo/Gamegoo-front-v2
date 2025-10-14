@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/shared/api";
+import { useConfirmDialog } from "@/shared/providers";
 import {
 	PopoverMenuItem,
 	type PopoverMenuItemProps,
@@ -10,6 +11,7 @@ interface FriendDeleteMenuItemProps {
 	onSuccess?: () => void;
 	onError?: (error: Error) => void;
 	className?: string;
+	onClosePopover?: () => void;
 }
 
 export function FriendDeleteMenuItem({
@@ -17,7 +19,9 @@ export function FriendDeleteMenuItem({
 	onSuccess,
 	onError,
 	className,
+	onClosePopover,
 }: FriendDeleteMenuItemProps) {
+	const { showConfirmDialog } = useConfirmDialog();
 	const queryClient = useQueryClient();
 
 	const deleteFriendMutation = useMutation({
@@ -35,9 +39,13 @@ export function FriendDeleteMenuItem({
 	});
 
 	const handleDeleteFriend = () => {
-		if (confirm("정말로 친구를 삭제하시겠습니까?")) {
-			deleteFriendMutation.mutate(userId);
-		}
+		onClosePopover?.();
+		showConfirmDialog({
+			title: "친구를 삭제하시겠습니까?",
+			description: "이 작업은 되돌릴 수 없습니다.",
+			confirmText: "삭제",
+			onConfirm: () => deleteFriendMutation.mutate(userId),
+		});
 	};
 
 	const menuItemProps: PopoverMenuItemProps = {
