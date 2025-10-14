@@ -70,7 +70,7 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 			<div className="flex items-center flex-1">
 				<ProfileAvatar size="sm" profileIndex={room.targetMemberImg} />
 				<div className="flex-1 min-w-0 ml-3.5">
-					<div className="hidden md:block min-w-75">
+					<div className="min-w-75">
 						<div className="flex items-center justify-between h-4.25 mb-0.5">
 							<span className="font-semibold text-sm text-gray-800">
 								{room.targetMemberName}
