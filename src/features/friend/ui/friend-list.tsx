@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { api, type FriendInfoResponse } from "@/shared/api";
 import SearchIcon from "@/shared/assets/icons/search.svg?react";
-import FriendSection from "./friend-section";
+import FriendListContent from "./friend-list-content";
 
 function FriendList() {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -51,6 +51,8 @@ function FriendList() {
 			friend.name?.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
 
+	const hasNoFriends = friends.length === 0 && searchTerm === "";
+
 	return (
 		<>
 			{/* 검색바 */}
@@ -70,24 +72,14 @@ function FriendList() {
 					/>
 				</div>
 			</div>
-
 			<div className="overflow-y-auto">
-				<div className="p-4">
-					<FriendSection
-						title="즐겨찾기"
-						friends={favoriteFriends}
-						onFriendClick={handleFriendClick}
-						onFavoriteToggle={handleFavoriteToggle}
-					/>
-
-					<FriendSection
-						title="친구 목록"
-						friends={filteredFriends}
-						emptyMessage="친구가 없습니다"
-						onFriendClick={handleFriendClick}
-						onFavoriteToggle={handleFavoriteToggle}
-					/>
-				</div>
+				<FriendListContent
+					hasNoFriends={hasNoFriends}
+					favoriteFriends={favoriteFriends}
+					filteredFriends={filteredFriends}
+					handleFriendClick={handleFriendClick}
+					handleFavoriteToggle={handleFavoriteToggle}
+				/>
 			</div>
 		</>
 	);

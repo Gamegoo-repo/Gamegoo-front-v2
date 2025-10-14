@@ -223,8 +223,13 @@ const Chatroom = () => {
 				onScroll={handleScroll}
 			>
 				{allMessages.length === 0 ? (
-					<div className="flex items-center justify-center h-full text-gray-500">
-						메시지가 없습니다. 첫 메시지를 보내보세요!
+					<div className="flex flex-col items-center justify-center h-full px-4">
+						<div className="text-center">
+							<p className="text-gray-700 mb-2 regular-16">
+								첫 메시지를 보내보세요!
+							</p>
+							<p className="text-gray-700 regular-16">대화를 시작해보세요.</p>
+						</div>
 					</div>
 				) : (
 					<div className="flex flex-col">

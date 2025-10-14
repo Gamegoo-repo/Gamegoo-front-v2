@@ -24,8 +24,12 @@ const ChatroomList = () => {
 
 	if (chatrooms.length === 0) {
 		return (
-			<div className="flex items-center justify-center py-8 text-gray-500">
-				생성된 채팅방이 없습니다.
+			<div className="flex flex-col items-center justify-center py-16 px-4 min-h-[400px]">
+				<div className="text-center">
+					<p className="text-gray-700 mb-2 regular-16">
+						생성된 채팅방이 없습니다.
+					</p>
+				</div>
 			</div>
 		);
 	}
