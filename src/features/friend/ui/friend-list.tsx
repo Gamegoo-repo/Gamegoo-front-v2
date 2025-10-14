@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { useChatDialogStore } from "@/entities/chat";
 import { api, type FriendInfoResponse } from "@/shared/api";
 import SearchIcon from "@/shared/assets/icons/search.svg?react";
 import FriendListContent from "./friend-list-content";
@@ -7,6 +8,7 @@ import FriendListContent from "./friend-list-content";
 function FriendList() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const queryClient = useQueryClient();
+	const { setChatroom, setChatDialogType } = useChatDialogStore();
 
 	const { data: friendsData } = useQuery({
 		queryKey: ["friends"],
@@ -33,8 +35,31 @@ function FriendList() {
 			? (searchData?.data?.data ?? [])
 			: (friendsData?.data?.data?.friendInfoList ?? []);
 
-	const handleFriendClick = (_friend: FriendInfoResponse) => {
-		// TODO: 채팅방 열기 로직 추가
+	const handleFriendClick = async (friend: FriendInfoResponse) => {
+		if (!friend.memberId) return;
+
+		try {
+			// 친구와의 채팅방 시작
+			const response = await api.chat.startChatroomByMemberId(friend.memberId);
+			const chatroomData = response.data?.data;
+
+			if (chatroomData?.uuid) {
+				setChatroom({
+					uuid: chatroomData.uuid,
+					targetMemberId: chatroomData.memberId || friend.memberId,
+					targetMemberName:
+						chatroomData.gameName || friend.name || "알 수 없음",
+					targetMemberImg:
+						chatroomData.memberProfileImg || friend.profileImg || 0,
+					friend: chatroomData.friend,
+					blocked: chatroomData.blocked,
+					blind: chatroomData.blind,
+				});
+				setChatDialogType("chatroom");
+			}
+		} catch (error) {
+			console.error("채팅방 시작 실패:", error);
+		}
 	};
 
 	const handleFavoriteToggle = (friend: FriendInfoResponse) => {
