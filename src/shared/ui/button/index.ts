@@ -1,1 +1,2 @@
-export { Button } from "./button";
+export * from "./button";
+export { default as GraphicButton } from "./graphic-button";
