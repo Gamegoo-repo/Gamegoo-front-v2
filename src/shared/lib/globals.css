@@ -7,6 +7,12 @@
   --color-red-*: initial;
   --color-green-*: initial;
 
+  /*채팅방 input 높이*/
+  --chatroom-input-height: 138px;
+
+  /*채팅방 헤더 높이*/
+  --chatroom-header-height: 100px;
+
   /*violet*/
   --color-violet-100: #f0f0fc;
   --color-violet-200: #dfdeff;

@@ -216,10 +216,14 @@ const Chatroom = () => {
 	}
 
 	return (
-		<div className="flex flex-col h-[calc(687px-90px)]">
+		<div className="flex flex-col h-full">
 			<div
 				ref={scrollContainerRef}
-				className="flex-1 flex flex-col px-2 overflow-y-auto min-h-0 mb-[138px] scrollbar-hide"
+				className="flex-1 flex flex-col px-2 overflow-y-auto min-h-0 scrollbar-hide"
+				style={{
+					paddingBottom:
+						"calc(var(--chatroom-input-height) + var(--chatroom-header-height))",
+				}}
 				onScroll={handleScroll}
 			>
 				{allMessages.length === 0 ? (

@@ -3,6 +3,7 @@ import { cn } from "@/shared/lib/utils";
 import { useDrag } from "../hooks/use-drag";
 import { useDraggableDialogStore } from "../model/store";
 import type { AdjustPositionCallback } from "../model/types";
+import "./draggable-dialog.css";
 
 interface DraggableDialogProps {
 	isOpen: boolean;
@@ -61,14 +62,18 @@ function DraggableDialog({
 		<div
 			data-draggable-container
 			className="fixed z-[100]"
-			style={{
-				top: position.top === "50%" ? "50%" : position.top,
-				left: position.left === "50%" ? "50%" : position.left,
-				transform:
-					position.top === "50%" && position.left === "50%"
-						? "translate(-50%, -50%)"
-						: "none",
-			}}
+			style={
+				{
+					"--dialog-top": position.top === "50%" ? "50%" : position.top,
+					"--dialog-left": position.left === "50%" ? "50%" : position.left,
+					"--dialog-transform":
+						position.top === "50%" && position.left === "50%"
+							? "translate(-50%, -50%)"
+							: "none",
+					"--dialog-width": `${width}px`,
+					"--dialog-height": `${height}px`,
+				} as React.CSSProperties
+			}
 		>
 			<div
 				className={cn(
@@ -81,10 +86,10 @@ function DraggableDialog({
 					className,
 				)}
 				style={{
-					width: `${width}px`,
-					height: `${height}px`,
-					borderRadius: "20px",
-					boxShadow: "0 4px 46.7px 0 rgba(0,0,0,0.1)",
+					width: "100%",
+					height: "100%",
+					borderRadius: "0",
+					boxShadow: "none",
 				}}
 				onClick={(e) => e.stopPropagation()}
 				onKeyDown={(e) => {
@@ -98,7 +103,7 @@ function DraggableDialog({
 					<button
 						type="button"
 						data-drag-handle
-						className="w-full text-left cursor-move"
+						className="w-full text-left cursor-default md:cursor-move"
 						style={{
 							padding: headerComponent ? "0" : "20px 30px",
 							marginBottom: headerComponent ? "0" : "10px",

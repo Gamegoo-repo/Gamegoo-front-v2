@@ -88,10 +88,10 @@ const ChatroomMessageInput = () => {
 	}
 
 	return (
-		<div className="relative bg-white h-[138px] w-full rounded-b-[20px]">
+		<div className="relative bg-white h-[138px] w-full rounded-b-none md:rounded-b-[20px]">
 			<form
 				onSubmit={handleSubmit}
-				className="h-full rounded-b-[20px] shadow-[0_4px_46.7px_0_rgba(0,0,0,0.1)]"
+				className="h-full rounded-b-none md:rounded-b-[20px] shadow-[0_4px_46.7px_0_rgba(0,0,0,0.1)]"
 			>
 				<div className="w-full p-[14px_17px]">
 					<textarea
