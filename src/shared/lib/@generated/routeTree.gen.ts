@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './../../../pages/__root'
 import { Route as AboutRouteImport } from './../../../pages/about'
 import { Route as IndexRouteImport } from './../../../pages/index'
 import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
+import { Route as MatchIndexRouteImport } from './../../../pages/match/index'
 import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
 import { Route as JoinTermsRouteImport } from './../../../pages/join/terms'
 
@@ -30,6 +31,11 @@ const RiotIndexRoute = RiotIndexRouteImport.update({
   path: '/riot/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MatchIndexRoute = MatchIndexRouteImport.update({
+  id: '/match/',
+  path: '/match/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RiotCallbackRoute = RiotCallbackRouteImport.update({
   id: '/riot/callback',
   path: '/riot/callback',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/join/terms': typeof JoinTermsRoute
   '/riot/callback': typeof RiotCallbackRoute
+  '/match': typeof MatchIndexRoute
   '/riot': typeof RiotIndexRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/join/terms': typeof JoinTermsRoute
   '/riot/callback': typeof RiotCallbackRoute
+  '/match': typeof MatchIndexRoute
   '/riot': typeof RiotIndexRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,28 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/join/terms': typeof JoinTermsRoute
   '/riot/callback': typeof RiotCallbackRoute
+  '/match/': typeof MatchIndexRoute
   '/riot/': typeof RiotIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/join/terms' | '/riot/callback' | '/riot'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/join/terms'
+    | '/riot/callback'
+    | '/match'
+    | '/riot'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/join/terms' | '/riot/callback' | '/riot'
-  id: '__root__' | '/' | '/about' | '/join/terms' | '/riot/callback' | '/riot/'
+  to: '/' | '/about' | '/join/terms' | '/riot/callback' | '/match' | '/riot'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/join/terms'
+    | '/riot/callback'
+    | '/match/'
+    | '/riot/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +98,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   JoinTermsRoute: typeof JoinTermsRoute
   RiotCallbackRoute: typeof RiotCallbackRoute
+  MatchIndexRoute: typeof MatchIndexRoute
   RiotIndexRoute: typeof RiotIndexRoute
 }
 
@@ -102,6 +125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiotIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/match/': {
+      id: '/match/'
+      path: '/match'
+      fullPath: '/match'
+      preLoaderRoute: typeof MatchIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/riot/callback': {
       id: '/riot/callback'
       path: '/riot/callback'
@@ -124,6 +154,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   JoinTermsRoute: JoinTermsRoute,
   RiotCallbackRoute: RiotCallbackRoute,
+  MatchIndexRoute: MatchIndexRoute,
   RiotIndexRoute: RiotIndexRoute,
 }
 export const routeTree = rootRouteImport
