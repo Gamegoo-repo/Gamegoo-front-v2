@@ -1,6 +1,6 @@
 import RiotIcon from "@/shared/assets/icons/riot.svg?react";
 
-export function LoginButton({ onHandleLogin }: { onHandleLogin: () => void }) {
+function LoginButton({ onHandleLogin }: { onHandleLogin: () => void }) {
 	return (
 		<button
 			type="button"
@@ -13,3 +13,5 @@ export function LoginButton({ onHandleLogin }: { onHandleLogin: () => void }) {
 		</button>
 	);
 }
+
+export default LoginButton;
