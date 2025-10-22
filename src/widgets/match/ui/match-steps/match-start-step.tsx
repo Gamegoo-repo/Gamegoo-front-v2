@@ -7,14 +7,11 @@ interface MatchStartStepProps {
 
 function MatchStartStep({ funnel }: MatchStartStepProps) {
 	return (
-		<>
-			<MatchHeader
-				step="match-start"
-				title="매칭 시작"
-				onBack={() => funnel.toStep("profile")}
-			/>
-			<div>afe</div>
-		</>
+		<MatchHeader
+			step="match-start"
+			title="매칭 시작"
+			onBack={() => funnel.toStep("profile")}
+		/>
 	);
 }
 
