@@ -13,8 +13,8 @@ import { Route as AboutRouteImport } from './../../../pages/about'
 import { Route as IndexRouteImport } from './../../../pages/index'
 import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
 import { Route as MatchIndexRouteImport } from './../../../pages/match/index'
+import { Route as SignUpTermsRouteImport } from './../../../pages/sign-up/terms'
 import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
-import { Route as JoinTermsRouteImport } from './../../../pages/join/terms'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -36,30 +36,30 @@ const MatchIndexRoute = MatchIndexRouteImport.update({
   path: '/match/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignUpTermsRoute = SignUpTermsRouteImport.update({
+  id: '/sign-up/terms',
+  path: '/sign-up/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RiotCallbackRoute = RiotCallbackRouteImport.update({
   id: '/riot/callback',
   path: '/riot/callback',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const JoinTermsRoute = JoinTermsRouteImport.update({
-  id: '/join/terms',
-  path: '/join/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/join/terms': typeof JoinTermsRoute
   '/riot/callback': typeof RiotCallbackRoute
+  '/sign-up/terms': typeof SignUpTermsRoute
   '/match': typeof MatchIndexRoute
   '/riot': typeof RiotIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/join/terms': typeof JoinTermsRoute
   '/riot/callback': typeof RiotCallbackRoute
+  '/sign-up/terms': typeof SignUpTermsRoute
   '/match': typeof MatchIndexRoute
   '/riot': typeof RiotIndexRoute
 }
@@ -67,8 +67,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/join/terms': typeof JoinTermsRoute
   '/riot/callback': typeof RiotCallbackRoute
+  '/sign-up/terms': typeof SignUpTermsRoute
   '/match/': typeof MatchIndexRoute
   '/riot/': typeof RiotIndexRoute
 }
@@ -77,18 +77,18 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/join/terms'
     | '/riot/callback'
+    | '/sign-up/terms'
     | '/match'
     | '/riot'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/join/terms' | '/riot/callback' | '/match' | '/riot'
+  to: '/' | '/about' | '/riot/callback' | '/sign-up/terms' | '/match' | '/riot'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/join/terms'
     | '/riot/callback'
+    | '/sign-up/terms'
     | '/match/'
     | '/riot/'
   fileRoutesById: FileRoutesById
@@ -96,8 +96,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  JoinTermsRoute: typeof JoinTermsRoute
   RiotCallbackRoute: typeof RiotCallbackRoute
+  SignUpTermsRoute: typeof SignUpTermsRoute
   MatchIndexRoute: typeof MatchIndexRoute
   RiotIndexRoute: typeof RiotIndexRoute
 }
@@ -132,18 +132,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MatchIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sign-up/terms': {
+      id: '/sign-up/terms'
+      path: '/sign-up/terms'
+      fullPath: '/sign-up/terms'
+      preLoaderRoute: typeof SignUpTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/riot/callback': {
       id: '/riot/callback'
       path: '/riot/callback'
       fullPath: '/riot/callback'
       preLoaderRoute: typeof RiotCallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/join/terms': {
-      id: '/join/terms'
-      path: '/join/terms'
-      fullPath: '/join/terms'
-      preLoaderRoute: typeof JoinTermsRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -152,8 +152,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  JoinTermsRoute: JoinTermsRoute,
   RiotCallbackRoute: RiotCallbackRoute,
+  SignUpTermsRoute: SignUpTermsRoute,
   MatchIndexRoute: MatchIndexRoute,
   RiotIndexRoute: RiotIndexRoute,
 }
