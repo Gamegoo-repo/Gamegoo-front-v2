@@ -209,6 +209,15 @@
     line-height: 150%;
   }
 
+  /* Light 32 */
+  .light-32 {
+    font-family: Pretendard;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 150%;
+  }
+
   /* Custom animations */
   @keyframes slideDown {
     0% {
@@ -223,6 +232,47 @@
 
   .animate-slide-down {
     animation: slideDown 0.3s ease-out;
+  }
+
+  /* Fade animations */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes growShrink {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in forwards;
+  }
+
+  .animate-fade-out {
+    animation: fadeOut 1s ease-in-out forwards;
+  }
+
+  .animate-grow-shrink {
+    animation: growShrink 1.8s ease-in-out infinite;
   }
 
   /* 스크롤바 숨기기 */
