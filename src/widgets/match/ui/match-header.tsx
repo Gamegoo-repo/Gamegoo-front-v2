@@ -20,7 +20,7 @@ function MatchHeader({
 }: MatchHeaderProps) {
 	const getCurrentStepIndex = () => {
 		switch (step) {
-			case "type":
+			case "match-type":
 				return 0;
 			case "game-mode":
 				return 1;
@@ -34,10 +34,7 @@ function MatchHeader({
 	};
 
 	const currentStepIndex = getCurrentStepIndex();
-
-	if (currentStepIndex > MATCH_STEPS_LABEL.length - 1) {
-		return null;
-	}
+	const isMatchStart = currentStepIndex === 3;
 
 	return (
 		<div className="w-full bg-white sticky top-0 z-50">
@@ -48,7 +45,7 @@ function MatchHeader({
 							<button
 								type="button"
 								onClick={onBack}
-								className="flex justify-center items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
+								className="flex justify-center items-center text-gray-600 hover:text-gray-900 transition-colors duration-200 cursor-pointer"
 							>
 								<BackIcon />
 							</button>
@@ -59,27 +56,29 @@ function MatchHeader({
 						</div>
 					</div>
 
-					<div className="flex items-center font-semibold text-base relative md:text-base sm:text-sm">
-						<div className="flex items-center gap-2">
-							{MATCH_STEPS_LABEL.map((stepName, index) => (
-								<div
-									key={stepName}
-									className={`flex items-center cursor-pointer transition-colors duration-300 ${
-										index <= currentStepIndex
-											? "text-gray-600"
-											: "text-gray-400"
-									}`}
-								>
-									{stepName}
-									{index !== MATCH_STEPS_LABEL.length - 1 && (
-										<div className="ml-2.5 p-1.5 border border-gray-300 bg-gray-200 rounded-full inline-flex items-center justify-center">
-											<StepNextIcon />
-										</div>
-									)}
-								</div>
-							))}
+					{!isMatchStart && (
+						<div className="flex items-center font-semibold text-base relative md:text-base sm:text-sm">
+							<div className="flex items-center gap-2">
+								{MATCH_STEPS_LABEL.map((stepName, index) => (
+									<div
+										key={stepName}
+										className={`flex items-center cursor-pointer transition-colors duration-300 ${
+											index === currentStepIndex
+												? "text-gray-600"
+												: "text-gray-400"
+										}`}
+									>
+										{stepName}
+										{index !== MATCH_STEPS_LABEL.length - 1 && (
+											<div className="ml-2.5 p-1.5 border border-gray-300 bg-gray-200 rounded-full inline-flex items-center justify-center">
+												<StepNextIcon />
+											</div>
+										)}
+									</div>
+								))}
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			</div>
 		</div>
