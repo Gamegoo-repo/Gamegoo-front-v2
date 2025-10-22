@@ -1,3 +1,4 @@
+import { ProfileAvatar } from "@/features/profile";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../hooks";
 import MatchHeader from "../match-header";
@@ -14,10 +15,21 @@ function ProfileStep({ funnel }: ProfileStepProps) {
 				title="프로필 등록"
 				onBack={() => funnel.toStep("game-mode")}
 			/>
-			<div className="flex justify-center items-center">
-				<Button size="lg" onClick={() => funnel.toStep("match-start")}>
-					매칭 시작하기
-				</Button>
+			<div className="w-full flex justify-center items-center">
+				<div className="w-full flex flex-col items-center gap-4">
+					<div className="w-full flex bg-violet-100 rounded-2xl p-4">
+						<ProfileAvatar size="lg" profileIndex={2} />
+					</div>
+					<div className="flex justify-end w-full">
+						<Button
+							variant="default"
+							className="h-14 w-[380px] rounded-2xl px-8"
+							onClick={() => funnel.toStep("match-start")}
+						>
+							매칭 시작하기
+						</Button>
+					</div>
+				</div>
 			</div>
 		</>
 	);

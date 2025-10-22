@@ -50,7 +50,7 @@ function MatchHeader({
 								<BackIcon />
 							</button>
 						)}
-						<div className="text-center">
+						<div className="flex gap-2 items-center text-center">
 							<h1 className="text-3xl font-bold text-gray-900">{title}</h1>
 							{subtitle && <p className="text-lg text-gray-600">{subtitle}</p>}
 						</div>
