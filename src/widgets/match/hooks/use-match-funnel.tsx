@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLoginRequiredModalStore } from "@/features/auth";
 import { useAuthUser } from "@/shared/providers";
 import type { FunnelStep } from "../lib/types";
 
@@ -23,6 +24,7 @@ export interface UseMatchFunnelReturn {
 
 export const useMatchFunnel = (): UseMatchFunnelReturn => {
 	const { authUser } = useAuthUser();
+	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
 	const [currentStep, setCurrentStep] = useState<FunnelStep>("match-type");
 	const [context, setContext] = useState<UseMatchFunnelReturn["context"]>({
 		type: "BASIC",
@@ -51,6 +53,7 @@ export const useMatchFunnel = (): UseMatchFunnelReturn => {
 		newContext?: Partial<UseMatchFunnelReturn["context"]>,
 	) => {
 		if (!authUser) {
+			openLoginRequiredModal();
 			return;
 		}
 
