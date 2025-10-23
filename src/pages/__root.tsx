@@ -12,6 +12,7 @@ import {
 } from "@/shared/providers";
 import { ChatContent, ChatDialog, ChatTabs } from "@/widgets/chat-dialog";
 import { FloatingChatButton } from "@/widgets/floating-chat-button";
+import { ResponsiveProvider } from "@/shared/model/responsive-context";
 
 function RootLayout() {
 	useChatNotifications();
@@ -50,26 +51,19 @@ function RootLayout() {
 	return (
 		<TanstackQueryProvider>
 			<GamegooSocketProvider>
-				<div className="p-2 flex gap-2">
-					<Link to="/" className="[&.active]:font-bold">
-						Home
-					</Link>
-					<Link to="/about" className="[&.active]:font-bold">
-						About
-					</Link>
-				</div>
-				<hr />
-				<Outlet />
-				<FloatingChatButton onClick={handleChatButtonClick} />
-				<ChatDialog isOpen={isOpen} onClose={handleChatDialogClose}>
-					<ChatTabs
-						tabs={tabs}
-						activeTab={activeTab}
-						onTabClick={setActiveTab}
-					/>
-					<ChatContent activeTab={activeTab} />
-				</ChatDialog>
-				<TanStackRouterDevtools />
+				<ResponsiveProvider>
+					<Outlet />
+					<FloatingChatButton onClick={handleChatButtonClick} />
+					<ChatDialog isOpen={isOpen} onClose={handleChatDialogClose}>
+						<ChatTabs
+							tabs={tabs}
+							activeTab={activeTab}
+							onTabClick={setActiveTab}
+						/>
+						<ChatContent activeTab={activeTab} />
+					</ChatDialog>
+					<TanStackRouterDevtools />
+				</ResponsiveProvider>
 			</GamegooSocketProvider>
 		</TanstackQueryProvider>
 	);
