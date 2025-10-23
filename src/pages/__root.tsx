@@ -10,7 +10,6 @@ import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store"
 import {
 	LoginRequiredModal,
 	useLoginRequiredModalStore,
-	useRefreshToken,
 } from "@/features/auth";
 import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-update-handler";
 import { tokenManager } from "@/shared/api/config";
@@ -29,7 +28,6 @@ function RootLayout() {
 
 	const { openDialog: openChatDialog } = useChatDialogStore();
 	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
-	const refreshTokenMutation = useRefreshToken();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -50,20 +48,11 @@ function RootLayout() {
 			const accessToken = tokenManager.getAccessToken();
 			const refreshToken = tokenManager.getRefreshToken();
 
-			console.log("Auth initialization:", {
-				accessToken: !!accessToken,
-				refreshToken: !!refreshToken,
-			});
-
 			// accessToken이 없고 refreshToken이 있을 때만 refresh 시도
 			if (!accessToken && refreshToken) {
 				try {
-					console.log("Attempting token refresh...");
-					await refreshTokenMutation.mutateAsync(refreshToken);
-					console.log("Token refresh successful");
-				} catch (error) {
-					console.warn("Token refresh error on app initialization:", error);
-					// refresh 실패 시에만 리다이렉트
+					await tokenManager.refreshToken();
+				} catch (_error) {
 					tokenManager.clearTokens();
 					navigate({ to: "/riot" });
 				}

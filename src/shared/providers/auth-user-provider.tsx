@@ -20,7 +20,7 @@ interface AuthUserProviderProps {
 }
 
 export function AuthUserProvider({ children }: AuthUserProviderProps) {
-	const accessToken = tokenManager.getAccessToken();
+	const token = tokenManager.getRefreshToken();
 	const {
 		data: authUser,
 		isLoading,
@@ -46,7 +46,7 @@ export function AuthUserProvider({ children }: AuthUserProviderProps) {
 
 			return userData;
 		},
-		enabled: !!accessToken,
+		enabled: !!token,
 	});
 
 	return (

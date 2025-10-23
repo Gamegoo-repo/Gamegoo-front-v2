@@ -1,10 +1,25 @@
 import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { Configuration } from "./@generated/configuration";
 
-// 토큰 관리 - 액세스 토큰은 메모리, 리프레시 토큰은 로컬스토리지
 let accessToken: string | null = null;
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
+let failedQueue: Array<{
+	resolve: (token: string) => void;
+	reject: (error: Error) => void;
+}> = [];
+
+const processQueue = (error: Error | null, token: string | null = null) => {
+	failedQueue.forEach(({ resolve, reject }) => {
+		if (error) {
+			reject(error);
+		} else {
+			resolve(token || "");
+		}
+	});
+
+	failedQueue = [];
+};
 
 export const tokenManager = {
 	getAccessToken: () => accessToken,
@@ -32,11 +47,12 @@ export const tokenManager = {
 			localStorage.removeItem("refreshToken");
 		}
 	},
+	refreshToken: () => refreshAccessToken(),
+	getIsRefreshing: () => isRefreshing,
 };
 
 // API 기본 URL
-const API_BASE_URL =
-	import.meta.env.PUBLIC_API_BASE_URL || "https://api.gamegoo.co.kr";
+const API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
 
 // axios 인스턴스
 export const apiClient: AxiosInstance = axios.create({
@@ -62,7 +78,10 @@ apiClient.interceptors.request.use(
 // refresh 토큰 함수
 const refreshAccessToken = async (): Promise<string> => {
 	if (isRefreshing && refreshPromise) {
-		return refreshPromise;
+		// 이미 갱신 중이면 큐에 추가하고 대기
+		return new Promise((resolve, reject) => {
+			failedQueue.push({ resolve, reject });
+		});
 	}
 
 	isRefreshing = true;
@@ -70,30 +89,32 @@ const refreshAccessToken = async (): Promise<string> => {
 		const refreshToken = tokenManager.getRefreshToken();
 		if (!refreshToken) {
 			// refresh 토큰이 없으면 토큰 정리
+			const error = new Error("No refresh token available");
+			processQueue(error, null);
 			tokenManager.clearTokens();
-			throw new Error("No refresh token available");
+			throw error;
 		}
 
 		try {
-			const refreshResponse = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-				refreshToken,
-			});
+			const refreshResponse = await axios.post(
+				`${API_BASE_URL}/api/v2/auth/refresh`,
+				{
+					refreshToken,
+				},
+			);
 
-			console.log("Refresh response:", refreshResponse.data);
 			const data = refreshResponse.data?.data;
 			if (data?.accessToken) {
 				tokenManager.setTokens(data.accessToken, data.refreshToken);
-				console.log("Token refresh successful");
+				processQueue(null, data.accessToken);
 				return data.accessToken;
 			} else {
-				console.error(
-					"Invalid refresh response structure:",
-					refreshResponse.data,
-				);
-				throw new Error("Invalid refresh response");
+				const error = new Error("Invalid refresh response");
+				processQueue(error, null);
+				throw error;
 			}
 		} catch (refreshError) {
-			console.error("Token refresh failed:", refreshError);
+			processQueue(new Error(String(refreshError)), null);
 			tokenManager.clearTokens();
 			throw refreshError;
 		} finally {
@@ -114,20 +135,17 @@ apiClient.interceptors.response.use(
 		};
 
 		if (error.response?.status === 401 && !originalRequest._retry) {
-			console.log("401 error detected, attempting token refresh...");
 			originalRequest._retry = true;
 
 			try {
 				const newAccessToken = await refreshAccessToken();
-				console.log("Token refresh successful, retrying original request");
 
 				// 원래 요청 재시도
 				if (originalRequest.headers) {
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 				}
 				return apiClient(originalRequest);
-			} catch (refreshError) {
-				console.error("Token refresh failed:", refreshError);
+			} catch (_refreshError) {
 				// refresh 실패 시 토큰 정리하고 원래 에러 반환
 				tokenManager.clearTokens();
 				return Promise.reject(error);
