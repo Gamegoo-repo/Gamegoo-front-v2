@@ -67,12 +67,6 @@ function RootLayout() {
 					tokenManager.clearTokens();
 					navigate({ to: "/riot" });
 				}
-			} else if (!accessToken && !refreshToken) {
-				// 토큰이 모두 없으면 로그인 페이지로 리다이렉트
-				console.log("No tokens available, redirecting to login");
-				navigate({ to: "/riot" });
-			} else {
-				console.log("User is authenticated");
 			}
 		};
 
