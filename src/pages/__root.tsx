@@ -7,10 +7,15 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import { useRefreshToken } from "@/features/auth";
+import {
+	LoginRequiredModal,
+	useLoginRequiredModalStore,
+	useRefreshToken,
+} from "@/features/auth";
 import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-update-handler";
 import { tokenManager } from "@/shared/api/config";
 import {
+	AuthUserProvider,
 	ChatSocketProvider,
 	ConfirmDialogProvider,
 	GamegooSocketProvider,
@@ -22,7 +27,8 @@ import FloatingChatDialog from "@/widgets/floating-chat-dialog/ui/floating-chat-
 function RootLayout() {
 	useChatroomUpdateHandler();
 
-	const { openDialog } = useChatDialogStore();
+	const { openDialog: openChatDialog } = useChatDialogStore();
+	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
 	const refreshTokenMutation = useRefreshToken();
 	const navigate = useNavigate();
 
@@ -75,7 +81,11 @@ function RootLayout() {
 	}, []);
 
 	const handleChatButtonClick = () => {
-		openDialog();
+		if (!tokenManager.getRefreshToken()) {
+			openLoginRequiredModal();
+			return;
+		}
+		openChatDialog();
 	};
 
 	return (
@@ -83,19 +93,22 @@ function RootLayout() {
 			<GamegooSocketProvider>
 				<ChatSocketProvider>
 					<ConfirmDialogProvider>
-						<div className="p-2 flex gap-2">
-							<Link to="/" className="[&.active]:font-bold">
-								Home
-							</Link>
-							<Link to="/about" className="[&.active]:font-bold">
-								About
-							</Link>
-						</div>
-						<hr />
-						<Outlet />
-						<FloatingChatButton onClick={handleChatButtonClick} />
-						<FloatingChatDialog />
-						<TanStackRouterDevtools />
+						<AuthUserProvider>
+							<div className="p-2 flex gap-2">
+								<Link to="/" className="[&.active]:font-bold">
+									Home
+								</Link>
+								<Link to="/about" className="[&.active]:font-bold">
+									About
+								</Link>
+							</div>
+							<hr />
+							<Outlet />
+							<FloatingChatButton onClick={handleChatButtonClick} />
+							<FloatingChatDialog />
+							<TanStackRouterDevtools />
+							<LoginRequiredModal />
+						</AuthUserProvider>
 					</ConfirmDialogProvider>
 				</ChatSocketProvider>
 			</GamegooSocketProvider>

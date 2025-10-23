@@ -4,8 +4,6 @@ import {
 	type AdjustPositionCallback,
 	DraggableDialog,
 } from "@/features/draggable-dialog";
-import { tokenManager } from "@/shared/api";
-import { LoginRequiredModal } from "@/widgets/login-required-modal";
 import FloatingChatDialogContent from "./floating-chat-dialog-content";
 import FloatingChatDialogTabs from "./floating-chat-dialog-tabs";
 
@@ -37,10 +35,6 @@ const FloatingChatDialog = () => {
 
 	if (!isOpen) {
 		return null;
-	}
-
-	if (!tokenManager.getAccessToken()) {
-		return <LoginRequiredModal isOpen={isOpen} onClose={closeDialog} />;
 	}
 
 	return (
