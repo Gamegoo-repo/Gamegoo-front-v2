@@ -28,13 +28,13 @@ export interface ApiResponseRefreshTokenResponse {
      * @type {number}
      * @memberof ApiResponseRefreshTokenResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseRefreshTokenResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

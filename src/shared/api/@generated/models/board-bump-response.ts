@@ -25,12 +25,12 @@ export interface BoardBumpResponse {
      * @type {number}
      * @memberof BoardBumpResponse
      */
-    'boardId'?: number;
+    'boardId': number;
     /**
      * 
      * @type {string}
      * @memberof BoardBumpResponse
      */
-    'bumpTime'?: string;
+    'bumpTime': string;
 }
 

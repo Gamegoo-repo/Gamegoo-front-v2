@@ -28,13 +28,13 @@ export interface ApiResponseReportInsertResponse {
      * @type {number}
      * @memberof ApiResponseReportInsertResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseReportInsertResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

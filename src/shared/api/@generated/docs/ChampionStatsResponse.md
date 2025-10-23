@@ -5,17 +5,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**championId** | **number** |  | [optional] [default to undefined]
-**championName** | **string** |  | [optional] [default to undefined]
-**winRate** | **number** |  | [optional] [default to undefined]
-**wins** | **number** |  | [optional] [default to undefined]
-**games** | **number** |  | [optional] [default to undefined]
-**csPerMinute** | **number** |  | [optional] [default to undefined]
-**averageCs** | **number** |  | [optional] [default to undefined]
-**kda** | **number** |  | [optional] [default to undefined]
-**kills** | **number** |  | [optional] [default to undefined]
-**deaths** | **number** |  | [optional] [default to undefined]
-**assists** | **number** |  | [optional] [default to undefined]
+**championId** | **number** |  | [default to undefined]
+**championName** | **string** |  | [default to undefined]
+**winRate** | **number** |  | [default to undefined]
+**wins** | **number** |  | [default to undefined]
+**games** | **number** |  | [default to undefined]
+**csPerMinute** | **number** |  | [default to undefined]
+**averageCs** | **number** |  | [default to undefined]
+**kda** | **number** |  | [default to undefined]
+**kills** | **number** |  | [default to undefined]
+**deaths** | **number** |  | [default to undefined]
+**assists** | **number** |  | [default to undefined]
 
 ## Example
 

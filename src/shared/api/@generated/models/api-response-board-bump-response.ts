@@ -28,13 +28,13 @@ export interface ApiResponseBoardBumpResponse {
      * @type {number}
      * @memberof ApiResponseBoardBumpResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseBoardBumpResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

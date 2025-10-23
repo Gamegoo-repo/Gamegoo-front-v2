@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**senderId** | **number** |  | [optional] [default to undefined]
+**senderId** | **number** |  | [default to undefined]
 **senderName** | **string** |  | [optional] [default to undefined]
 **senderProfileImg** | **number** |  | [optional] [default to undefined]
-**message** | **string** |  | [optional] [default to undefined]
-**createdAt** | **string** |  | [optional] [default to undefined]
-**timestamp** | **number** |  | [optional] [default to undefined]
+**message** | **string** |  | [default to undefined]
+**createdAt** | **string** |  | [default to undefined]
+**timestamp** | **number** |  | [default to undefined]
 
 ## Example
 

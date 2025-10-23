@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**targetMemberId** | **number** |  | [optional] [default to undefined]
-**message** | **string** |  | [optional] [default to undefined]
+**targetMemberId** | **number** |  | [default to undefined]
+**message** | **string** |  | [default to undefined]
 
 ## Example
 

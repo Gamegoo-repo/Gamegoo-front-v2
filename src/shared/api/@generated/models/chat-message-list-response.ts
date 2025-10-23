@@ -28,19 +28,19 @@ export interface ChatMessageListResponse {
      * @type {Array<ChatMessageResponse>}
      * @memberof ChatMessageListResponse
      */
-    'chatMessageList'?: Array<ChatMessageResponse>;
+    'chatMessageList': Array<ChatMessageResponse>;
     /**
      * 
      * @type {number}
      * @memberof ChatMessageListResponse
      */
-    'listSize'?: number;
+    'listSize': number;
     /**
      * 
      * @type {boolean}
      * @memberof ChatMessageListResponse
      */
-    'hasNext'?: boolean;
+    'hasNext': boolean;
     /**
      * 
      * @type {number}

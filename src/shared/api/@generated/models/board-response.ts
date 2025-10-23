@@ -28,24 +28,24 @@ export interface BoardResponse {
      * @type {Array<BoardListResponse>}
      * @memberof BoardResponse
      */
-    'boards'?: Array<BoardListResponse>;
+    'boards': Array<BoardListResponse>;
     /**
      * 
      * @type {number}
      * @memberof BoardResponse
      */
-    'totalPages'?: number;
+    'totalPages': number;
     /**
      * 
      * @type {number}
      * @memberof BoardResponse
      */
-    'totalElements'?: number;
+    'totalElements': number;
     /**
      * 
      * @type {number}
      * @memberof BoardResponse
      */
-    'currentPage'?: number;
+    'currentPage': number;
 }
 

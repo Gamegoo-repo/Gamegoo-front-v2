@@ -6,8 +6,6 @@ All URIs are relative to *https://api.gamegoo.co.kr*
 |------------- | ------------- | -------------|
 |[**blindMember**](#blindmember) | **DELETE** /api/v2/auth | 탈퇴 API입니다.|
 |[**getTestAccessToken1**](#gettestaccesstoken1) | **GET** /api/v2/auth/token/{memberId} | 임시 access token 발급 API|
-|[**join**](#join) | **POST** /api/v2/auth/join | 회원가입|
-|[**login**](#login) | **POST** /api/v2/auth/login | 로그인|
 |[**logout**](#logout) | **POST** /api/v2/auth/logout | logout API 입니다.|
 |[**updateToken**](#updatetoken) | **POST** /api/v2/auth/refresh | refresh   토큰을 통한 access, refresh 토큰 재발급 API 입니다.|
 
@@ -45,13 +43,15 @@ This endpoint does not have any parameters.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -96,117 +96,14 @@ const { status, data } = await apiInstance.getTestAccessToken1(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **join**
-> ApiResponseString join(joinRequest)
-
-회원가입 API입니다.
-
-### Example
-
-```typescript
-import {
-    AuthControllerApi,
-    Configuration,
-    JoinRequest
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new AuthControllerApi(configuration);
-
-let joinRequest: JoinRequest; //
-
-const { status, data } = await apiInstance.join(
-    joinRequest
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **joinRequest** | **JoinRequest**|  | |
-
-
-### Return type
-
-**ApiResponseString**
-
-### Authorization
-
-[JWT TOKEN](../README.md#JWT TOKEN)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **login**
-> ApiResponseLoginResponse login(loginRequest)
-
-로그인 API입니다.
-
-### Example
-
-```typescript
-import {
-    AuthControllerApi,
-    Configuration,
-    LoginRequest
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new AuthControllerApi(configuration);
-
-let loginRequest: LoginRequest; //
-
-const { status, data } = await apiInstance.login(
-    loginRequest
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **loginRequest** | **LoginRequest**|  | |
-
-
-### Return type
-
-**ApiResponseLoginResponse**
-
-### Authorization
-
-[JWT TOKEN](../README.md#JWT TOKEN)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: */*
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -244,13 +141,15 @@ This endpoint does not have any parameters.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -296,13 +195,16 @@ const { status, data } = await apiInstance.updateToken(
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**400** | [AUTH_409] 사용할 수 없는 리프레쉬 토큰입니다.  |  -  |
+|**401** | [AUTH_403] JWT 서명이 유효하지 않습니다. [AUTH_404] JWT의 형식이 올바르지 않습니다. [AUTH_406] 기존 토큰이 만료되었습니다. 토큰을 재발급해주세요. [AUTH_405] 지원되지 않는 JWT입니다. [AUTH_407] JWT의 클레임이 유효하지 않습니다. |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

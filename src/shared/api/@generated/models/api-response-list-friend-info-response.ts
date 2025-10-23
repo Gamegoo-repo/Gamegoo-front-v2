@@ -28,13 +28,13 @@ export interface ApiResponseListFriendInfoResponse {
      * @type {number}
      * @memberof ApiResponseListFriendInfoResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseListFriendInfoResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

@@ -15,34 +15,34 @@
 
 
 /**
- * 
+ * 공통 에러 응답 포맷
  * @export
- * @interface ApiResponseListLong
+ * @interface ApiErrorResponse
  */
-export interface ApiResponseListLong {
+export interface ApiErrorResponse {
     /**
-     * 
+     * HTTP 상태 코드
      * @type {number}
-     * @memberof ApiResponseListLong
+     * @memberof ApiErrorResponse
      */
-    'status': number;
+    'status'?: number;
     /**
-     * 
+     * 에러 메시지
      * @type {string}
-     * @memberof ApiResponseListLong
+     * @memberof ApiErrorResponse
      */
-    'message': string;
+    'message'?: string;
     /**
-     * 
+     * 비즈니스 에러 코드
      * @type {string}
-     * @memberof ApiResponseListLong
+     * @memberof ApiErrorResponse
      */
     'code'?: string;
     /**
-     * 
-     * @type {Array<number>}
-     * @memberof ApiResponseListLong
+     * 응답 데이터 (에러 시 null)
+     * @type {object}
+     * @memberof ApiErrorResponse
      */
-    'data'?: Array<number>;
+    'data'?: object | null;
 }
 

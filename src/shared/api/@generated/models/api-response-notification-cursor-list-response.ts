@@ -28,13 +28,13 @@ export interface ApiResponseNotificationCursorListResponse {
      * @type {number}
      * @memberof ApiResponseNotificationCursorListResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseNotificationCursorListResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

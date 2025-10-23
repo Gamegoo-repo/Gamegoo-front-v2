@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**totalPage** | **number** |  | [optional] [default to undefined]
-**totalCount** | **number** |  | [optional] [default to undefined]
-**myBoards** | [**Array&lt;MyBoardListResponse&gt;**](MyBoardListResponse.md) |  | [optional] [default to undefined]
+**totalPage** | **number** |  | [default to undefined]
+**totalCount** | **number** |  | [default to undefined]
+**myBoards** | [**Array&lt;MyBoardListResponse&gt;**](MyBoardListResponse.md) |  | [default to undefined]
 
 ## Example
 

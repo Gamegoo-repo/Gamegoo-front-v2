@@ -28,13 +28,13 @@ export interface ApiResponsePriorityListResponse {
      * @type {number}
      * @memberof ApiResponsePriorityListResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponsePriorityListResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

@@ -25,19 +25,19 @@ export interface BlockedMemberResponse {
      * @type {number}
      * @memberof BlockedMemberResponse
      */
-    'memberId'?: number;
+    'memberId': number;
     /**
      * 
      * @type {number}
      * @memberof BlockedMemberResponse
      */
-    'profileImg'?: number;
+    'profileImg': number;
     /**
      * 
      * @type {string}
      * @memberof BlockedMemberResponse
      */
-    'name'?: string;
+    'name': string;
     /**
      * 
      * @type {boolean}

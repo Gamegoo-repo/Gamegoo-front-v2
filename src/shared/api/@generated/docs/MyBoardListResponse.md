@@ -5,17 +5,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**boardId** | **number** |  | [optional] [default to undefined]
-**memberId** | **number** |  | [optional] [default to undefined]
-**profileImage** | **number** |  | [optional] [default to undefined]
-**gameName** | **string** |  | [optional] [default to undefined]
-**tag** | **string** |  | [optional] [default to undefined]
-**tier** | [**Tier**](Tier.md) |  | [optional] [default to undefined]
-**rank** | **number** |  | [optional] [default to undefined]
+**boardId** | **number** |  | [default to undefined]
+**memberId** | **number** |  | [default to undefined]
+**profileImage** | **number** |  | [default to undefined]
+**gameName** | **string** |  | [default to undefined]
+**tag** | **string** |  | [default to undefined]
+**tier** | [**Tier**](Tier.md) |  | [default to undefined]
+**rank** | **number** |  | [default to undefined]
 **contents** | **string** |  | [optional] [default to undefined]
-**createdAt** | **string** |  | [optional] [default to undefined]
+**createdAt** | **string** |  | [default to undefined]
 **bumpTime** | **string** |  | [optional] [default to undefined]
-**mannerLevel** | **number** |  | [optional] [default to undefined]
+**mannerLevel** | **number** |  | [default to undefined]
 
 ## Example
 

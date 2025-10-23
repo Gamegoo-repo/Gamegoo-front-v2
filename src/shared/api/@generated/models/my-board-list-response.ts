@@ -28,43 +28,43 @@ export interface MyBoardListResponse {
      * @type {number}
      * @memberof MyBoardListResponse
      */
-    'boardId'?: number;
+    'boardId': number;
     /**
      * 
      * @type {number}
      * @memberof MyBoardListResponse
      */
-    'memberId'?: number;
+    'memberId': number;
     /**
      * 
      * @type {number}
      * @memberof MyBoardListResponse
      */
-    'profileImage'?: number;
+    'profileImage': number;
     /**
      * 
      * @type {string}
      * @memberof MyBoardListResponse
      */
-    'gameName'?: string;
+    'gameName': string;
     /**
      * 
      * @type {string}
      * @memberof MyBoardListResponse
      */
-    'tag'?: string;
+    'tag': string;
     /**
      * 
      * @type {Tier}
      * @memberof MyBoardListResponse
      */
-    'tier'?: Tier;
+    'tier': Tier;
     /**
      * 
      * @type {number}
      * @memberof MyBoardListResponse
      */
-    'rank'?: number;
+    'rank': number;
     /**
      * 
      * @type {string}
@@ -76,7 +76,7 @@ export interface MyBoardListResponse {
      * @type {string}
      * @memberof MyBoardListResponse
      */
-    'createdAt'?: string;
+    'createdAt': string;
     /**
      * 
      * @type {string}
@@ -88,7 +88,7 @@ export interface MyBoardListResponse {
      * @type {number}
      * @memberof MyBoardListResponse
      */
-    'mannerLevel'?: number;
+    'mannerLevel': number;
 }
 
 

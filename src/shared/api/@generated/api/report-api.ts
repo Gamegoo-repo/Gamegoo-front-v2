@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { ApiErrorResponse } from '../models';
+// @ts-ignore
 import type { ApiResponseReportInsertResponse } from '../models';
 // @ts-ignore
 import type { ApiResponseReportPageResponse } from '../models';

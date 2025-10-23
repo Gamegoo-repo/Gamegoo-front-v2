@@ -55,10 +55,10 @@ export interface BoardUpdateRequest {
     'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof BoardUpdateRequest
      */
-    'wantP': Array<Position>;
+    'wantP': Array<BoardUpdateRequestWantP>;
     /**
      * 
      * @type {Mike}
@@ -79,5 +79,15 @@ export interface BoardUpdateRequest {
     'contents'?: string;
 }
 
+export const BoardUpdateRequestWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type BoardUpdateRequestWantP = typeof BoardUpdateRequestWantP[keyof typeof BoardUpdateRequestWantP];
 
 

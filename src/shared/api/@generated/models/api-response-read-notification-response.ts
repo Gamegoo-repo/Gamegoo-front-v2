@@ -28,13 +28,13 @@ export interface ApiResponseReadNotificationResponse {
      * @type {number}
      * @memberof ApiResponseReadNotificationResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseReadNotificationResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

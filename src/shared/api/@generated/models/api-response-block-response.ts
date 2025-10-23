@@ -28,13 +28,13 @@ export interface ApiResponseBlockResponse {
      * @type {number}
      * @memberof ApiResponseBlockResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseBlockResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

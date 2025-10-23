@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**notificationId** | **number** |  | [optional] [default to undefined]
-**notificationType** | **number** |  | [optional] [default to undefined]
-**content** | **string** |  | [optional] [default to undefined]
+**notificationId** | **number** |  | [default to undefined]
+**notificationType** | **number** |  | [default to undefined]
+**content** | **string** |  | [default to undefined]
 **pageUrl** | **string** |  | [optional] [default to undefined]
-**read** | **boolean** |  | [optional] [default to undefined]
-**createdAt** | **string** |  | [optional] [default to undefined]
+**read** | **boolean** |  | [default to undefined]
+**createdAt** | **string** |  | [default to undefined]
 
 ## Example
 

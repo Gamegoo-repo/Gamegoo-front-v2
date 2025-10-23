@@ -28,13 +28,13 @@ export interface ApiResponseDeleteFriendResponse {
      * @type {number}
      * @memberof ApiResponseDeleteFriendResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseDeleteFriendResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

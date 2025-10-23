@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**reportCodeList** | [**Array&lt;ReportType&gt;**](ReportType.md) |  | [default to undefined]
+**reportCodeList** | **Array&lt;number&gt;** |  | [default to undefined]
 **contents** | **string** |  | [optional] [default to undefined]
 **pathCode** | **number** |  | [default to undefined]
 **boardId** | **number** |  | [optional] [default to undefined]

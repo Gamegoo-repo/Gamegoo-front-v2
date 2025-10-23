@@ -25,36 +25,36 @@ export interface ChatCreateResponse {
      * @type {number}
      * @memberof ChatCreateResponse
      */
-    'senderId'?: number;
+    'senderId': number;
     /**
      * 
      * @type {string}
      * @memberof ChatCreateResponse
      */
-    'senderName'?: string;
+    'senderName': string;
     /**
      * 
      * @type {number}
      * @memberof ChatCreateResponse
      */
-    'senderProfileImg'?: number;
+    'senderProfileImg': number;
     /**
      * 
      * @type {string}
      * @memberof ChatCreateResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}
      * @memberof ChatCreateResponse
      */
-    'createdAt'?: string;
+    'createdAt': string;
     /**
      * 
      * @type {number}
      * @memberof ChatCreateResponse
      */
-    'timestamp'?: number;
+    'timestamp': number;
 }
 

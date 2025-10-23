@@ -25,12 +25,12 @@ export interface DeleteFriendResponse {
      * @type {number}
      * @memberof DeleteFriendResponse
      */
-    'targetMemberId'?: number;
+    'targetMemberId': number;
     /**
      * 
      * @type {string}
      * @memberof DeleteFriendResponse
      */
-    'message'?: string;
+    'message': string;
 }
 

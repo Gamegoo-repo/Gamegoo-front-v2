@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**notificationId** | **number** |  | [optional] [default to undefined]
-**message** | **string** |  | [optional] [default to undefined]
+**notificationId** | **number** |  | [default to undefined]
+**message** | **string** |  | [default to undefined]
 
 ## Example
 

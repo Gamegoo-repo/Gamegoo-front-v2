@@ -31,18 +31,18 @@ export interface PriorityListResponse {
      * @type {Array<PriorityValue>}
      * @memberof PriorityListResponse
      */
-    'myPriorityList'?: Array<PriorityValue>;
+    'myPriorityList': Array<PriorityValue>;
     /**
      * 
      * @type {Array<PriorityValue>}
      * @memberof PriorityListResponse
      */
-    'otherPriorityList'?: Array<PriorityValue>;
+    'otherPriorityList': Array<PriorityValue>;
     /**
      * 
      * @type {MatchingMemberInfoResponse}
      * @memberof PriorityListResponse
      */
-    'myMatchingInfo'?: MatchingMemberInfoResponse;
+    'myMatchingInfo': MatchingMemberInfoResponse;
 }
 

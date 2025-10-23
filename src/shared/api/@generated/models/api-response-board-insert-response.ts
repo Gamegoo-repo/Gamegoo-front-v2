@@ -28,13 +28,13 @@ export interface ApiResponseBoardInsertResponse {
      * @type {number}
      * @memberof ApiResponseBoardInsertResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseBoardInsertResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

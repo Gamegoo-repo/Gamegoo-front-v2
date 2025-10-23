@@ -25,7 +25,7 @@ export interface ChatMessageResponse {
      * @type {number}
      * @memberof ChatMessageResponse
      */
-    'senderId'?: number;
+    'senderId': number;
     /**
      * 
      * @type {string}
@@ -43,18 +43,18 @@ export interface ChatMessageResponse {
      * @type {string}
      * @memberof ChatMessageResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}
      * @memberof ChatMessageResponse
      */
-    'createdAt'?: string;
+    'createdAt': string;
     /**
      * 
      * @type {number}
      * @memberof ChatMessageResponse
      */
-    'timestamp'?: number;
+    'timestamp': number;
 }
 

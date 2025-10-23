@@ -55,13 +55,17 @@ const { status, data } = await apiInstance.addChat(
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [CHAT_401] 채팅방을 찾을 수 없습니다. |  -  |
+|**403** | [BAN_403] 채팅 사용이 제한된 상태입니다. [CHAT_410] 채팅 상대 회원을 차단한 상태입니다. 메시지 전송이 불가능합니다. [CHAT_411] 채팅 상대 회원이 나를 차단했습니다. 메시지 전송이 불가능합니다. |  -  |
+|**400** | [CHAT_402] 접근할 수 없는 채팅방 입니다. [CHAT_409] 채팅 상대 회원이 탈퇴했습니다. 메시지 전송이 불가능합니다. [CHAT_412] 해당 게시글을 찾을 수 없습니다. 게시글 시스템 메시지 등록에 실패했습니다. |  -  |
+|**500** | [CHAT_413] 시스템 메시지 등록에 실패했습니다. 관리자에게 문의 바랍니다. [CHAT_414] 시스템 메시지 타입 조회에 실패했습니다. 관리자에게 문의 바랍니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -106,13 +110,14 @@ const { status, data } = await apiInstance.getChatroomUuid(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
