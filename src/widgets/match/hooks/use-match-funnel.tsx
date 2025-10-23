@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuthUser } from "@/shared/providers";
 import type { FunnelStep } from "../lib/types";
 
 export interface UseMatchFunnelReturn {
@@ -21,6 +22,7 @@ export interface UseMatchFunnelReturn {
 }
 
 export const useMatchFunnel = (): UseMatchFunnelReturn => {
+	const { authUser } = useAuthUser();
 	const [currentStep, setCurrentStep] = useState<FunnelStep>("match-type");
 	const [context, setContext] = useState<UseMatchFunnelReturn["context"]>({
 		type: "BASIC",
@@ -48,6 +50,10 @@ export const useMatchFunnel = (): UseMatchFunnelReturn => {
 		step: FunnelStep,
 		newContext?: Partial<UseMatchFunnelReturn["context"]>,
 	) => {
+		if (!authUser) {
+			return;
+		}
+
 		setCurrentStep(step);
 		const updatedContext = newContext ? { ...context, ...newContext } : context;
 		setContext(updatedContext);

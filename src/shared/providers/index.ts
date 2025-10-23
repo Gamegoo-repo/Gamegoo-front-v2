@@ -1,3 +1,4 @@
+export { AuthUserProvider, useAuthUser } from "./auth-user-provider";
 export { default as ChatSocketProvider } from "./chat-socket-provider";
 export {
 	ConfirmDialogProvider,
