@@ -37,11 +37,21 @@ export interface PositionRequest {
     'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof PositionRequest
      */
-    'wantP': Array<Position>;
+    'wantP': Array<PositionRequestWantP>;
 }
 
+export const PositionRequestWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type PositionRequestWantP = typeof PositionRequestWantP[keyof typeof PositionRequestWantP];
 
 

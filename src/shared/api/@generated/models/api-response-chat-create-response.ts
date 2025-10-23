@@ -28,13 +28,13 @@ export interface ApiResponseChatCreateResponse {
      * @type {number}
      * @memberof ApiResponseChatCreateResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseChatCreateResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

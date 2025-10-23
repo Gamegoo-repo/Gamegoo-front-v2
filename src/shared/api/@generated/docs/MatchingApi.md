@@ -54,13 +54,16 @@ const { status, data } = await apiInstance.findMatching(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MATCH_401] 해당 매칭이 존재하지 않습니다. [AUTH_412] 탈퇴한 사용자 입니다. [MATCH_402] 해당 회원과 매칭된 회원이 없습니다 |  -  |
+|**400** | [MATCH_407] sender와 receiver의 matchingUuid가 동일합니다. [COMMON400] 잘못된 요청입니다. [MATCH_403] 현재 매칭 상태에서는 요청할 수 없습니다. [MATCH_404] 상대방이 다른 매칭 로직을 진행 중입니다. |  -  |
+|**403** | [MEMBER_402] 대상 회원이 탈퇴했습니다. [MATCH_405] 매칭 상대 회원을 차단한 상태입니다. 매칭 FOUND 처리가 불가능합니다. [MATCH_406] 매칭 상대 회원이 나를 차단했습니다. 매칭 FOUND 처리가 불가능합니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -109,13 +112,15 @@ const { status, data } = await apiInstance.initializeMatching(
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [GAMESTYLE401] 해당 게임 스타일을 찾을 수 없습니다. |  -  |
+|**403** | [BAN_404] 매칭 사용이 제한된 상태입니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -163,13 +168,16 @@ const { status, data } = await apiInstance.successMatching(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MATCH_401] 해당 매칭이 존재하지 않습니다. [AUTH_412] 탈퇴한 사용자 입니다. [MATCH_402] 해당 회원과 매칭된 회원이 없습니다 |  -  |
+|**400** | [COMMON400] 잘못된 요청입니다. [MATCH_403] 현재 매칭 상태에서는 요청할 수 없습니다. [MATCH_404] 상대방이 다른 매칭 로직을 진행 중입니다. [CHAT_402] 접근할 수 없는 채팅방 입니다. |  -  |
+|**403** | [MEMBER_402] 대상 회원이 탈퇴했습니다. [MATCH_405] 매칭 상대 회원을 차단한 상태입니다. 매칭 FOUND 처리가 불가능합니다. [MATCH_406] 매칭 상대 회원이 나를 차단했습니다. 매칭 FOUND 처리가 불가능합니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -217,13 +225,14 @@ const { status, data } = await apiInstance.updateBothMatchingStatus(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MATCH_401] 해당 매칭이 존재하지 않습니다. [MATCH_402] 해당 회원과 매칭된 회원이 없습니다 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -271,13 +280,14 @@ const { status, data } = await apiInstance.updateMatchingStatus(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MATCH_401] 해당 매칭이 존재하지 않습니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

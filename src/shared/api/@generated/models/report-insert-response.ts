@@ -25,12 +25,12 @@ export interface ReportInsertResponse {
      * @type {number}
      * @memberof ReportInsertResponse
      */
-    'reportId'?: number;
+    'reportId': number;
     /**
      * 
      * @type {string}
      * @memberof ReportInsertResponse
      */
-    'message'?: string;
+    'message': string;
 }
 

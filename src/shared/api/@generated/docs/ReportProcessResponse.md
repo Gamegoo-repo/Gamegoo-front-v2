@@ -5,11 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**reportId** | **number** |  | [optional] [default to undefined]
-**targetMemberId** | **number** |  | [optional] [default to undefined]
-**appliedBanType** | [**BanType**](BanType.md) |  | [optional] [default to undefined]
+**reportId** | **number** |  | [default to undefined]
+**targetMemberId** | **number** |  | [default to undefined]
+**appliedBanType** | [**BanType**](BanType.md) |  | [default to undefined]
 **banExpireAt** | **string** |  | [optional] [default to undefined]
-**message** | **string** |  | [optional] [default to undefined]
+**message** | **string** |  | [default to undefined]
 
 ## Example
 

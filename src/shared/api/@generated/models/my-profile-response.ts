@@ -46,49 +46,49 @@ export interface MyProfileResponse {
      * @type {number}
      * @memberof MyProfileResponse
      */
-    'id'?: number;
+    'id': number;
     /**
      * 
      * @type {number}
      * @memberof MyProfileResponse
      */
-    'profileImg'?: number;
+    'profileImg': number;
     /**
      * 
      * @type {Mike}
      * @memberof MyProfileResponse
      */
-    'mike'?: Mike;
+    'mike': Mike;
     /**
      * 
      * @type {string}
      * @memberof MyProfileResponse
      */
-    'email'?: string;
+    'email': string;
     /**
      * 
      * @type {string}
      * @memberof MyProfileResponse
      */
-    'gameName'?: string;
+    'gameName': string;
     /**
      * 
      * @type {string}
      * @memberof MyProfileResponse
      */
-    'tag'?: string;
+    'tag': string;
     /**
      * 
      * @type {Tier}
      * @memberof MyProfileResponse
      */
-    'soloTier'?: Tier;
+    'soloTier': Tier;
     /**
      * 
      * @type {number}
      * @memberof MyProfileResponse
      */
-    'soloRank'?: number;
+    'soloRank': number;
     /**
      * 
      * @type {number}
@@ -100,13 +100,13 @@ export interface MyProfileResponse {
      * @type {Tier}
      * @memberof MyProfileResponse
      */
-    'freeTier'?: Tier;
+    'freeTier': Tier;
     /**
      * 
      * @type {number}
      * @memberof MyProfileResponse
      */
-    'freeRank'?: number;
+    'freeRank': number;
     /**
      * 
      * @type {number}
@@ -130,49 +130,49 @@ export interface MyProfileResponse {
      * @type {Position}
      * @memberof MyProfileResponse
      */
-    'mainP'?: Position;
+    'mainP': Position;
     /**
      * 
      * @type {Position}
      * @memberof MyProfileResponse
      */
-    'subP'?: Position;
+    'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof MyProfileResponse
      */
-    'wantP'?: Array<Position>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof MyProfileResponse
-     */
-    'isAgree'?: boolean;
+    'wantP': Array<MyProfileResponseWantP>;
     /**
      * 
      * @type {boolean}
      * @memberof MyProfileResponse
      */
-    'isBlind'?: boolean;
+    'isAgree': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MyProfileResponse
+     */
+    'isBlind': boolean;
     /**
      * 
      * @type {LoginType}
      * @memberof MyProfileResponse
      */
-    'loginType'?: LoginType;
+    'loginType': LoginType;
     /**
      * 
      * @type {Array<GameStyleResponse>}
      * @memberof MyProfileResponse
      */
-    'gameStyleResponseList'?: Array<GameStyleResponse>;
+    'gameStyleResponseList': Array<GameStyleResponse>;
     /**
      * 
      * @type {Array<ChampionStatsResponse>}
      * @memberof MyProfileResponse
      */
-    'championStatsResponseList'?: Array<ChampionStatsResponse>;
+    'championStatsResponseList': Array<ChampionStatsResponse>;
     /**
      * 
      * @type {MemberRecentStatsResponse}
@@ -184,8 +184,18 @@ export interface MyProfileResponse {
      * @type {boolean}
      * @memberof MyProfileResponse
      */
-    'canRefresh'?: boolean;
+    'canRefresh': boolean;
 }
 
+export const MyProfileResponseWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type MyProfileResponseWantP = typeof MyProfileResponseWantP[keyof typeof MyProfileResponseWantP];
 
 

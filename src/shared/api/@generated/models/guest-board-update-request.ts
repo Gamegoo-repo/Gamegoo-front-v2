@@ -55,10 +55,10 @@ export interface GuestBoardUpdateRequest {
     'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof GuestBoardUpdateRequest
      */
-    'wantP': Array<Position>;
+    'wantP': Array<GuestBoardUpdateRequestWantP>;
     /**
      * 
      * @type {Mike}
@@ -85,5 +85,15 @@ export interface GuestBoardUpdateRequest {
     'password': string;
 }
 
+export const GuestBoardUpdateRequestWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type GuestBoardUpdateRequestWantP = typeof GuestBoardUpdateRequestWantP[keyof typeof GuestBoardUpdateRequestWantP];
 
 

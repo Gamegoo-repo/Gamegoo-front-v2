@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**boards** | [**Array&lt;BoardListResponse&gt;**](BoardListResponse.md) |  | [optional] [default to undefined]
-**hasNext** | **boolean** |  | [optional] [default to undefined]
+**boards** | [**Array&lt;BoardListResponse&gt;**](BoardListResponse.md) |  | [default to undefined]
+**hasNext** | **boolean** |  | [default to undefined]
 **nextCursor** | **string** |  | [optional] [default to undefined]
 **cursorId** | **number** |  | [optional] [default to undefined]
 

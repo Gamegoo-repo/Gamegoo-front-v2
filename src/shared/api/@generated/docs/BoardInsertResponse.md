@@ -5,19 +5,19 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**boardId** | **number** |  | [optional] [default to undefined]
+**boardId** | **number** |  | [default to undefined]
 **memberId** | **number** |  | [optional] [default to undefined]
-**profileImage** | **number** |  | [optional] [default to undefined]
-**gameName** | **string** |  | [optional] [default to undefined]
-**tag** | **string** |  | [optional] [default to undefined]
-**tier** | [**Tier**](Tier.md) |  | [optional] [default to undefined]
-**rank** | **number** |  | [optional] [default to undefined]
-**gameMode** | [**GameMode**](GameMode.md) |  | [optional] [default to undefined]
-**mainP** | [**Position**](Position.md) |  | [optional] [default to undefined]
-**subP** | [**Position**](Position.md) |  | [optional] [default to undefined]
-**wantP** | [**Array&lt;Position&gt;**](Position.md) |  | [optional] [default to undefined]
-**mike** | [**Mike**](Mike.md) |  | [optional] [default to undefined]
-**gameStyles** | **Array&lt;number&gt;** |  | [optional] [default to undefined]
+**profileImage** | **number** |  | [default to undefined]
+**gameName** | **string** |  | [default to undefined]
+**tag** | **string** |  | [default to undefined]
+**tier** | [**Tier**](Tier.md) |  | [default to undefined]
+**rank** | **number** |  | [default to undefined]
+**gameMode** | [**GameMode**](GameMode.md) |  | [default to undefined]
+**mainP** | [**Position**](Position.md) |  | [default to undefined]
+**subP** | [**Position**](Position.md) |  | [default to undefined]
+**wantP** | **Array&lt;string&gt;** |  | [default to undefined]
+**mike** | [**Mike**](Mike.md) |  | [default to undefined]
+**gameStyles** | **Array&lt;number&gt;** |  | [default to undefined]
 **contents** | **string** |  | [optional] [default to undefined]
 
 ## Example

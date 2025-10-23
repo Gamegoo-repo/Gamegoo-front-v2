@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**myMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |  | [optional] [default to undefined]
-**targetMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |  | [optional] [default to undefined]
+**myMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |  | [default to undefined]
+**targetMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |  | [default to undefined]
 
 ## Example
 

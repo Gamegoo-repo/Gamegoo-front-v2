@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **mainP** | [**Position**](Position.md) |  | [default to undefined]
 **subP** | [**Position**](Position.md) |  | [default to undefined]
-**wantP** | [**Array&lt;Position&gt;**](Position.md) |  | [default to undefined]
+**wantP** | **Array&lt;string&gt;** |  | [default to undefined]
 
 ## Example
 

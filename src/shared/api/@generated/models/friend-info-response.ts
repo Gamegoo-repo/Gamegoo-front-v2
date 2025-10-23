@@ -25,30 +25,30 @@ export interface FriendInfoResponse {
      * @type {number}
      * @memberof FriendInfoResponse
      */
-    'memberId'?: number;
+    'memberId': number;
     /**
      * 
      * @type {string}
      * @memberof FriendInfoResponse
      */
-    'name'?: string;
+    'name': string;
     /**
      * 
      * @type {number}
      * @memberof FriendInfoResponse
      */
-    'profileImg'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof FriendInfoResponse
-     */
-    'liked'?: boolean;
+    'profileImg': number;
     /**
      * 
      * @type {boolean}
      * @memberof FriendInfoResponse
      */
     'blind'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof FriendInfoResponse
+     */
+    'liked'?: boolean;
 }
 

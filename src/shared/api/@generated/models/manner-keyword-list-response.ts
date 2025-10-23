@@ -28,6 +28,6 @@ export interface MannerKeywordListResponse {
      * @type {Array<MannerKeywordResponse>}
      * @memberof MannerKeywordListResponse
      */
-    'mannerKeywords'?: Array<MannerKeywordResponse>;
+    'mannerKeywords': Array<MannerKeywordResponse>;
 }
 

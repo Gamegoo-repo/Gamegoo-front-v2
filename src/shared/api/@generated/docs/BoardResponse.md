@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**boards** | [**Array&lt;BoardListResponse&gt;**](BoardListResponse.md) |  | [optional] [default to undefined]
-**totalPages** | **number** |  | [optional] [default to undefined]
-**totalElements** | **number** |  | [optional] [default to undefined]
-**currentPage** | **number** |  | [optional] [default to undefined]
+**boards** | [**Array&lt;BoardListResponse&gt;**](BoardListResponse.md) |  | [default to undefined]
+**totalPages** | **number** |  | [default to undefined]
+**totalElements** | **number** |  | [default to undefined]
+**currentPage** | **number** |  | [default to undefined]
 
 ## Example
 

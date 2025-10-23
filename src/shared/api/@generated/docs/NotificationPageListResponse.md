@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**notificationList** | [**Array&lt;NotificationResponse&gt;**](NotificationResponse.md) |  | [optional] [default to undefined]
-**listSize** | **number** |  | [optional] [default to undefined]
-**totalPage** | **number** |  | [optional] [default to undefined]
-**totalElements** | **number** |  | [optional] [default to undefined]
-**isFirst** | **boolean** |  | [optional] [default to undefined]
-**isLast** | **boolean** |  | [optional] [default to undefined]
+**notificationList** | [**Array&lt;NotificationResponse&gt;**](NotificationResponse.md) |  | [default to undefined]
+**listSize** | **number** |  | [default to undefined]
+**totalPage** | **number** |  | [default to undefined]
+**totalElements** | **number** |  | [default to undefined]
+**isFirst** | **boolean** |  | [default to undefined]
+**isLast** | **boolean** |  | [default to undefined]
 
 ## Example
 

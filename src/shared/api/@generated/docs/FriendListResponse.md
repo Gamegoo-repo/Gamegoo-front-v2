@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**friendInfoList** | [**Array&lt;FriendInfoResponse&gt;**](FriendInfoResponse.md) |  | [optional] [default to undefined]
-**listSize** | **number** |  | [optional] [default to undefined]
+**friendInfoList** | [**Array&lt;FriendInfoResponse&gt;**](FriendInfoResponse.md) |  | [default to undefined]
+**listSize** | **number** |  | [default to undefined]
 
 ## Example
 

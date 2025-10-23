@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**mannerLevel** | **number** |  | [optional] [default to undefined]
+**mannerLevel** | **number** |  | [default to undefined]
 **mannerRank** | **number** |  | [optional] [default to undefined]
-**mannerRatingCount** | **number** |  | [optional] [default to undefined]
+**mannerRatingCount** | **number** |  | [default to undefined]
 
 ## Example
 

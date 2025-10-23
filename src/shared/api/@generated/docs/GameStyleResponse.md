@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**gameStyleId** | **number** |  | [optional] [default to undefined]
-**gameStyleName** | **string** |  | [optional] [default to undefined]
+**gameStyleId** | **number** |  | [default to undefined]
+**gameStyleName** | **string** |  | [default to undefined]
 
 ## Example
 

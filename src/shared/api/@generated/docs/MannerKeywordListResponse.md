@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**mannerKeywords** | [**Array&lt;MannerKeywordResponse&gt;**](MannerKeywordResponse.md) |  | [optional] [default to undefined]
+**mannerKeywords** | [**Array&lt;MannerKeywordResponse&gt;**](MannerKeywordResponse.md) |  | [default to undefined]
 
 ## Example
 

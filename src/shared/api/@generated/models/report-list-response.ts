@@ -25,7 +25,7 @@ export interface ReportListResponse {
      * @type {number}
      * @memberof ReportListResponse
      */
-    'reportId'?: number;
+    'reportId': number;
     /**
      * 
      * @type {number}
@@ -37,31 +37,31 @@ export interface ReportListResponse {
      * @type {string}
      * @memberof ReportListResponse
      */
-    'fromMemberName'?: string;
+    'fromMemberName': string;
     /**
      * 
      * @type {string}
      * @memberof ReportListResponse
      */
-    'fromMemberTag'?: string;
+    'fromMemberTag': string;
     /**
      * 
      * @type {number}
      * @memberof ReportListResponse
      */
-    'toMemberId'?: number;
+    'toMemberId': number;
     /**
      * 
      * @type {string}
      * @memberof ReportListResponse
      */
-    'toMemberName'?: string;
+    'toMemberName': string;
     /**
      * 
      * @type {string}
      * @memberof ReportListResponse
      */
-    'toMemberTag'?: string;
+    'toMemberTag': string;
     /**
      * 
      * @type {string}
@@ -73,19 +73,19 @@ export interface ReportListResponse {
      * @type {string}
      * @memberof ReportListResponse
      */
-    'reportType'?: string;
+    'reportType': string;
     /**
      * 
      * @type {string}
      * @memberof ReportListResponse
      */
-    'path'?: string;
+    'path': string;
     /**
      * 
      * @type {string}
      * @memberof ReportListResponse
      */
-    'createdAt'?: string;
+    'createdAt': string;
     /**
      * 
      * @type {number}

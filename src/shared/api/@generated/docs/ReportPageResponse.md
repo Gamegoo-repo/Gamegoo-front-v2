@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**reports** | [**Array&lt;ReportListResponse&gt;**](ReportListResponse.md) |  | [optional] [default to undefined]
-**totalPages** | **number** |  | [optional] [default to undefined]
-**totalElements** | **number** |  | [optional] [default to undefined]
-**currentPage** | **number** |  | [optional] [default to undefined]
+**reports** | [**Array&lt;ReportListResponse&gt;**](ReportListResponse.md) |  | [default to undefined]
+**totalPages** | **number** |  | [default to undefined]
+**totalElements** | **number** |  | [default to undefined]
+**currentPage** | **number** |  | [default to undefined]
 
 ## Example
 

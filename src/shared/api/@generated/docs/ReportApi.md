@@ -54,13 +54,17 @@ const { status, data } = await apiInstance.addReport(
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [BOARD_401] 게시글을 찾을 수 없습니다. |  -  |
+|**400** | [COMMON400] 잘못된 요청입니다. [REPORT_404] 해당 회원에 대한 신고가 이미 등록되었습니다. 내일 다시 시도해주세요. |  -  |
+|**403** | [MEMBER_402] 대상 회원이 탈퇴했습니다. |  -  |
+|**500** | [REPORT_403] 신고 접수 경로 정보를 찾을 수 없습니다. 관리자에게 문의 바랍니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -105,13 +109,15 @@ const { status, data } = await apiInstance.deleteReportedPost(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [REPORT_402] 해당 신고 건을 찾을 수 없습니다. [BOARD_401] 게시글을 찾을 수 없습니다. |  -  |
+|**401** | [BOARD_404] 게시글 삭제 권한이 없습니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -196,13 +202,15 @@ const { status, data } = await apiInstance.getReportList(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**403** | [COMMON403] 금지된 요청입니다. |  -  |
+|**400** | [COMMON400] 잘못된 요청입니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -251,13 +259,14 @@ const { status, data } = await apiInstance.processReport(
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [REPORT_402] 해당 신고 건을 찾을 수 없습니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

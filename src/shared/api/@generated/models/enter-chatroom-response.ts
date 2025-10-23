@@ -31,43 +31,43 @@ export interface EnterChatroomResponse {
      * @type {string}
      * @memberof EnterChatroomResponse
      */
-    'uuid'?: string;
+    'uuid': string;
     /**
      * 
      * @type {number}
      * @memberof EnterChatroomResponse
      */
-    'memberId'?: number;
+    'memberId': number;
     /**
      * 
      * @type {string}
      * @memberof EnterChatroomResponse
      */
-    'gameName'?: string;
+    'gameName': string;
     /**
      * 
      * @type {number}
      * @memberof EnterChatroomResponse
      */
-    'memberProfileImg'?: number;
+    'memberProfileImg': number;
     /**
      * 
      * @type {boolean}
      * @memberof EnterChatroomResponse
      */
-    'friend'?: boolean;
+    'friend': boolean;
     /**
      * 
      * @type {boolean}
      * @memberof EnterChatroomResponse
      */
-    'blocked'?: boolean;
+    'blocked': boolean;
     /**
      * 
      * @type {boolean}
      * @memberof EnterChatroomResponse
      */
-    'blind'?: boolean;
+    'blind': boolean;
     /**
      * 
      * @type {number}
@@ -85,6 +85,6 @@ export interface EnterChatroomResponse {
      * @type {ChatMessageListResponse}
      * @memberof EnterChatroomResponse
      */
-    'chatMessageListResponse'?: ChatMessageListResponse;
+    'chatMessageListResponse': ChatMessageListResponse;
 }
 

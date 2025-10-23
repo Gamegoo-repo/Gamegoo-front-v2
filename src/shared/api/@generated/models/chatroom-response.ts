@@ -25,49 +25,49 @@ export interface ChatroomResponse {
      * @type {number}
      * @memberof ChatroomResponse
      */
-    'chatroomId'?: number;
+    'chatroomId': number;
     /**
      * 
      * @type {string}
      * @memberof ChatroomResponse
      */
-    'uuid'?: string;
+    'uuid': string;
     /**
      * 
      * @type {number}
      * @memberof ChatroomResponse
      */
-    'targetMemberId'?: number;
+    'targetMemberId': number;
     /**
      * 
      * @type {number}
      * @memberof ChatroomResponse
      */
-    'targetMemberImg'?: number;
+    'targetMemberImg': number;
     /**
      * 
      * @type {string}
      * @memberof ChatroomResponse
      */
-    'targetMemberName'?: string;
+    'targetMemberName': string;
     /**
      * 
      * @type {boolean}
      * @memberof ChatroomResponse
      */
-    'friend'?: boolean;
+    'friend': boolean;
     /**
      * 
      * @type {boolean}
      * @memberof ChatroomResponse
      */
-    'blocked'?: boolean;
+    'blocked': boolean;
     /**
      * 
      * @type {boolean}
      * @memberof ChatroomResponse
      */
-    'blind'?: boolean;
+    'blind': boolean;
     /**
      * 
      * @type {number}
@@ -91,7 +91,7 @@ export interface ChatroomResponse {
      * @type {number}
      * @memberof ChatroomResponse
      */
-    'notReadMsgCnt'?: number;
+    'notReadMsgCnt': number;
     /**
      * 
      * @type {number}

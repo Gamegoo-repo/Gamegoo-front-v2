@@ -5,18 +5,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**chatroomId** | **number** |  | [optional] [default to undefined]
-**uuid** | **string** |  | [optional] [default to undefined]
-**targetMemberId** | **number** |  | [optional] [default to undefined]
-**targetMemberImg** | **number** |  | [optional] [default to undefined]
-**targetMemberName** | **string** |  | [optional] [default to undefined]
-**friend** | **boolean** |  | [optional] [default to undefined]
-**blocked** | **boolean** |  | [optional] [default to undefined]
-**blind** | **boolean** |  | [optional] [default to undefined]
+**chatroomId** | **number** |  | [default to undefined]
+**uuid** | **string** |  | [default to undefined]
+**targetMemberId** | **number** |  | [default to undefined]
+**targetMemberImg** | **number** |  | [default to undefined]
+**targetMemberName** | **string** |  | [default to undefined]
+**friend** | **boolean** |  | [default to undefined]
+**blocked** | **boolean** |  | [default to undefined]
+**blind** | **boolean** |  | [default to undefined]
 **friendRequestMemberId** | **number** |  | [optional] [default to undefined]
 **lastMsg** | **string** |  | [optional] [default to undefined]
 **lastMsgAt** | **string** |  | [optional] [default to undefined]
-**notReadMsgCnt** | **number** |  | [optional] [default to undefined]
+**notReadMsgCnt** | **number** |  | [default to undefined]
 **lastMsgTimestamp** | **number** |  | [optional] [default to undefined]
 
 ## Example

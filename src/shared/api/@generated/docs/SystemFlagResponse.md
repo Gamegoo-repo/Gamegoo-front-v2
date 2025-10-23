@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**flag** | **number** |  | [optional] [default to undefined]
+**flag** | **number** |  | [default to undefined]
 **boardId** | **number** |  | [optional] [default to undefined]
 
 ## Example

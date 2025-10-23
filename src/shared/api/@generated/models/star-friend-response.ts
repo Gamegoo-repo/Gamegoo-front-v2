@@ -25,12 +25,12 @@ export interface StarFriendResponse {
      * @type {number}
      * @memberof StarFriendResponse
      */
-    'friendMemberId'?: number;
+    'friendMemberId': number;
     /**
      * 
      * @type {string}
      * @memberof StarFriendResponse
      */
-    'message'?: string;
+    'message': string;
 }
 

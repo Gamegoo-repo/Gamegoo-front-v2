@@ -28,13 +28,13 @@ export interface ApiResponseFriendRequestResponse {
      * @type {number}
      * @memberof ApiResponseFriendRequestResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseFriendRequestResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

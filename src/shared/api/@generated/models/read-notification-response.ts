@@ -25,12 +25,12 @@ export interface ReadNotificationResponse {
      * @type {number}
      * @memberof ReadNotificationResponse
      */
-    'notificationId'?: number;
+    'notificationId': number;
     /**
      * 
      * @type {string}
      * @memberof ReadNotificationResponse
      */
-    'message'?: string;
+    'message': string;
 }
 
