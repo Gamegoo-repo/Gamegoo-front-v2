@@ -1,308 +1,337 @@
 @import 'tailwindcss';
 @theme {
-    /*기본 색상 비활성화*/
-    --color-violet-*: initial;
-    --color-gray-*: initial;
-    --color-red-*: initial;
-    --color-green-*: initial;
-    /*violet*/
-    --color-violet-100: #F0F0FC;
-    --color-violet-200: #DFDEFF;
-    --color-violet-300: #C1B7FF;
-    --color-violet-400: #9F90F9;
-    --color-violet-500: #7B65FF;
-    --color-violet-600: #5A42EE;
-    --color-violet-700: #452AEA;
-    --color-violet-800: #2811BA;
-    --color-violet-900: #1C0A88;
-    /*gray*/
-    --color-gray-100: #F1F5FA;
-    --color-gray-200: #EDF2F8;
-    --color-gray-300: #D7DFEA;
-    --color-gray-400: #B5C1D2;
-    --color-gray-500: #9099A5;
-    --color-gray-600: #747A83;
-    --color-gray-700: #41454A;
-    --color-gray-800: #2E3032;
-    --color-gray-900: #191B1E;
-    /*red*/
-    --color-red-100: #FEF2F2;
-    --color-red-200: #FDD;
-    --color-red-300: #FFB9B9;
-    --color-red-400: #FF9090;
-    --color-red-500: #FF5252;
-    --color-red-600: #F52E2E;
-    --color-red-700: #EE173C;
-    --color-red-900: #5C0E0E;
-    /*green*/
-    --color-green-100: #EAFFEF;
-    --color-green-400: #8AEA9F;
-    --color-green-500: #69D180;
-    --color-green-600: #41BF5D;
-    --color-green-900: #165524;
+	/*기본 색상 비활성화*/
+	--color-violet-*: initial;
+	--color-gray-*: initial;
+	--color-red-*: initial;
+	--color-green-*: initial;
+	/*violet*/
+	--color-violet-100: #F0F0FC;
+	--color-violet-200: #DFDEFF;
+	--color-violet-300: #C1B7FF;
+	--color-violet-400: #9F90F9;
+	--color-violet-500: #7B65FF;
+	--color-violet-600: #5A42EE;
+	--color-violet-700: #452AEA;
+	--color-violet-800: #2811BA;
+	--color-violet-900: #1C0A88;
+	/*gray*/
+	--color-gray-100: #F1F5FA;
+	--color-gray-200: #EDF2F8;
+	--color-gray-300: #D7DFEA;
+	--color-gray-400: #B5C1D2;
+	--color-gray-500: #9099A5;
+	--color-gray-600: #747A83;
+	--color-gray-700: #41454A;
+	--color-gray-800: #2E3032;
+	--color-gray-900: #191B1E;
+	/*red*/
+	--color-red-100: #FEF2F2;
+	--color-red-200: #FDD;
+	--color-red-300: #FFB9B9;
+	--color-red-400: #FF9090;
+	--color-red-500: #FF5252;
+	--color-red-600: #F52E2E;
+	--color-red-700: #EE173C;
+	--color-red-900: #5C0E0E;
+	/*green*/
+	--color-green-100: #EAFFEF;
+	--color-green-400: #8AEA9F;
+	--color-green-500: #69D180;
+	--color-green-600: #41BF5D;
+	--color-green-900: #165524;
 
-    --color-secondary: #CA1FCF;
-    /*폰트*/
-    --font-pretendard: 'Pretendard', sans-serif;
+	--color-secondary: #CA1FCF;
+	/*폰트*/
+	--font-pretendard: 'Pretendard', sans-serif;
 
-    /*브레이크 포인트*/
-    --breakpoint-mobile: 700px;
-    --breakpoint-tablet: 950px;
-    --breakpoint-desktop: 1200px;
+	/*브레이크 포인트*/
+	--breakpoint-mobile: 700px;
+	--breakpoint-tablet: 950px;
+	--breakpoint-desktop: 1200px;
 }
 
 @font-face {
-    font-family: 'Pretendard';
-    src: url('/src/shared/assets/fonts/PretendardVariable.woff2')
-        format('woff2');
-    font-weight: 100 900; /* 모든 weight를 하나의 파일로 */
-    font-display: swap;
+  font-family: 'Pretendard';
+  src: url('/src/shared/assets/fonts/PretendardVariable.woff2') format('woff2');
+  font-weight: 100 900; /* 모든 weight를 하나의 파일로 */
+  font-display: swap;
 }
 
 @layer base {
-    body {
-        @apply font-pretendard;
-    }
+  body {
+    @apply font-pretendard;
+  }
 
-    body:has(dialog[open]) {
-        overflow: hidden;
-    }
+  body:has(dialog[open]) {
+    overflow: hidden;
+  }
 
-    dialog {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        overscroll-behavior: contain;
-        border: none;
-        padding: 0;
-        margin: 0;
-        background: transparent;
-        max-width: none;
-        max-height: none;
-    }
+  dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    overscroll-behavior: contain;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    max-width: none;
+    max-height: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 
-    /* 스크롤바 숨기기 */
-    dialog::-webkit-scrollbar {
-        display: none;
-    }
+  /* 스크롤바 숨기기 */
+  dialog::-webkit-scrollbar {
+    display: none;
+  }
 
-    dialog {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    /* 모달 내용 컨테이너 중앙 정렬 */
-    dialog > div {
-        margin: 100px auto;
-    }
+  /* 모달 내용 컨테이너 중앙 정렬 */
+  dialog > div {
+    margin: 100px auto;
+  }
 }
 
 @layer utilities {
+  .centered {
+    @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
 
-    .centered {
-        @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
-    }
+  /* Regular 11 */
+  .regular-11 {
+    font-family: Pretendard;
+    font-size: 0.688rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
 
-    /* Regular 11 */
-    .regular-11 {
-        font-family: Pretendard;
-        font-size: 0.688rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
-    }
+  /* Regular 14 */
+  .regular-14 {
+    font-family: Pretendard;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
 
-    /* Regular 13*/
-    .regular-13 {
-        font-family: Pretendard;
-        font-size: 0.813rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
-    }
+  /* Regular 18 */
+  .regular-18 {
+    font-family: Pretendard;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
 
-    
-    /* Regular 14 */
-    .regular-14 {
-        font-family: Pretendard;
-        font-size: 0.875rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
-    }
+  /* Regular 20 */
+  .regular-20 {
+    font-family: Pretendard;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
 
-    /* Regular 18 */
-    .regular-18 {
-        font-family: Pretendard;
-        font-size: 1.125rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
-    }
+  /* Regular 25 */
+  .regular-25 {
+    font-family: Pretendard;
+    font-size: 1.563rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
 
-    /* Regular 20 */
-    .regular-20 {
-        font-family: Pretendard;
-        font-size: 1.25rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
-    }
+  /* Regular 32 */
+  .regular-32 {
+    font-family: Pretendard;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
 
-    /* Regular 25 */
-    .regular-25 {
-        font-family: Pretendard;
-        font-size: 1.563rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
-    }
+  /* Medium 14 */
+  .medium-11 {
+    font-family: Pretendard;
+    font-size: 0.688rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+  }
 
-    /* Regular 32 */
-    .regular-32 {
-        font-family: Pretendard;
-        font-size: 2rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 150%;
-    }
+  .medium-14 {
+    font-family: Pretendard;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+  }
 
-    /* Medium 14 */
-    .medium-11 {
-        font-family: Pretendard;
-        font-size: 0.688rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 150%;
-    }
+  /* Medium 16 */
+  .medium-16 {
+    font-family: Pretendard;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+  }
 
-    .medium-14 {
-        font-family: Pretendard;
-        font-size: 0.875rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 150%;
-    }
+  .semibold-16 {
+    font-family: Pretendard;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+  }
 
-    /* Medium 16 */
-    .medium-16 {
-        font-family: Pretendard;
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 150%;
-    }
+  .semibold-18 {
+    font-family: Pretendard;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+  }
 
-    .semibold-16{
-        font-family: Pretendard;
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 150%;
-    }
+  .bold-11 {
+    font-family: Pretendard;
+    font-size: 0.688rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
 
-    .semibold-18{
-        font-family: Pretendard;
-        font-size: 1.125rem;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 150%;
-    }
+  .rounded-10 {
+    border-radius: 0.625rem;
+  }
 
-    .bold-11{
-        font-family: Pretendard;
-        font-size: 0.688rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 150%;
-    }
+  .bold-12 {
+    font-family: Pretendard;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
 
-    .rounded-10{
-        border-radius: 0.625rem;
-    }
+  .bold-14 {
+    font-family: Pretendard;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
 
-    .bold-12{
-        font-family: Pretendard;
-        font-size: 0.75rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 150%;
-    }
+  .bold-16 {
+    font-family: Pretendard;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
 
-    .bold-14{
-        font-family: Pretendard;
-        font-size: 0.875rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 150%;
-    }
-    
-    .bold-16{
-        font-family: Pretendard;
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 150%;
-    }
+  .bold-18 {
+    font-family: Pretendard;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
 
-    .bold-18{
-        font-family: Pretendard;
-        font-size: 1.125rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 150%;
-    }
+  .bold-20 {
+    font-family: Pretendard;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
 
-    .bold-20{
-        font-family: Pretendard;
-        font-size: 1.25rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 150%;
-    }
+  .bold-25 {
+    font-family: Pretendard;
+    font-size: 1.563rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
 
-    .bold-25{
-        font-family: Pretendard;
-        font-size: 1.563rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 150%;
-    }
+  .bold-32 {
+    font-family: Pretendard;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+  }
 
-    .bold-32{
-        font-family: Pretendard;
-        font-size: 2rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 150%;
-    }    
+  /* Regular 9 */
+  .regular-9 {
+    font-family: Pretendard;
+    font-size: 0.563rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  /* Semi Bold 13 */
+  .semi-bold-13 {
+    font-family: Pretendard;
+    font-size: 0.813rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%;
+  }
+
+  /* Custom animations */
+  @keyframes slideDown {
+    0% {
+      margin-top: -3px;
+      opacity: 0;
+    }
+    100% {
+      margin-top: 0;
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  /* 스크롤바 숨기기 */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
 }
 
 @layer components {
-    .position-icon .primary {
-        fill: #B5C1D2;
-    }
+  .position-icon .primary {
+    fill: #b5c1d2;
+  }
 
-    .position-icon.selected .primary {
-        fill: #9099A5;
-    }
+  .position-icon.selected .primary {
+    fill: #9099a5;
+  }
 
-    .modal-overlay {
-        @apply bg-black/60 w-screen h-screen z-0 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
-    } 
-    
-    .primary-btn {
-        @apply bg-violet-600 rounded-[10px] text-sm font-bold text-white cursor-pointer transition-all duration-250
-    }
+  .modal-overlay {
+    @apply bg-black/60 w-screen h-screen z-0 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
 
-    .label {
-        @apply text-sm font-semibold text-gray-800
-    }
+  .primary-btn {
+    @apply bg-violet-600 rounded-[10px] text-sm font-bold text-white cursor-pointer transition-all duration-250;
+  }
 
-    .popover {
-        @apply rounded-[20px] bg-black/70 shadow-[0_6.823px_15.18px_0_rgba(0,0,0,0.25)] backdrop-blur-[12.87748908996582px]
-    }
+  .label {
+    @apply text-sm font-semibold text-gray-800;
+  }
+
+  .popover {
+    @apply rounded-[20px] bg-black/70 shadow-[0_6.823px_15.18px_0_rgba(0,0,0,0.25)] backdrop-blur-[12.87748908996582px];
+  }
 }

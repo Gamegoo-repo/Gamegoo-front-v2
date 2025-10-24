@@ -1,11 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
-import type {
-	RefreshTokenRequest,
-	RiotJoinRequest,
-} from "@/shared/api/@generated";
-import { AuthControllerApi, RiotApi } from "@/shared/api/@generated";
-import { apiConfiguration, tokenManager } from "@/shared/api/config";
+import type { RefreshTokenRequest } from "@/shared/api/@generated";
+import { AuthControllerApi } from "@/shared/api/@generated";
+import { tokenManager } from "@/shared/api/config";
 
 const authApi = new AuthControllerApi();
 
@@ -27,6 +23,7 @@ export const useRefreshToken = () => {
 	});
 };
 
+/* TODO: 회원가입시 바로 로그인까지 처리
 export const useSignUpMutation = () => {
 	const navigate = useNavigate();
 
@@ -64,3 +61,4 @@ export const useSignUpMutation = () => {
 		},
 	});
 };
+*/

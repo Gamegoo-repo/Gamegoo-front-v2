@@ -199,13 +199,15 @@ import { chatModel } from '@/entities/chat';
 
 **File-based Routing**: Routes are automatically generated from files in `src/app/routes/`. The route tree is auto-generated in `src/routeTree.gen.ts`. Route files starting with `-` are ignored.
 
-**Socket System**: A comprehensive WebSocket system built on Socket.io with:
-- JWT token-based authentication
-- Automatic reconnection with configurable retry limits
-- Heartbeat monitoring (PING/PONG)
-- React Provider/Hook pattern for easy integration
-- Type-safe event handling
-- Connection state management with enums
+**Socket System**: A comprehensive WebSocket system built on Socket.io with singleton pattern:
+- **Singleton Socket Manager**: Single instance prevents multiple connections and memory leaks
+- JWT token-based authentication with automatic token refresh
+- Smart reconnection logic that prevents unnecessary reconnections
+- Connection state management with detailed logging for debugging
+- React Provider/Hook pattern for seamless React integration
+- Type-safe event handling with centralized event management
+- Automatic cleanup of event listeners to prevent memory leaks
+- Connection persistence across component re-renders
 
 **Import Path Mapping**: Use `@/*` for imports from the `src/` directory (configured in tsconfig.json).
 
@@ -234,7 +236,7 @@ import { chatModel } from '@/entities/chat';
 1. **API Changes**: Run `pnpm openapi` to regenerate the API client after backend updates
 2. **Code Quality**: Use `pnpm format` to format and lint code (Biome handles both)
 3. **Git Hooks**: Configured via postinstall script to use `.githooks/` directory
-4. **Socket Integration**: Use the provided React hooks for WebSocket functionality instead of direct Socket.io usage
+4. **Socket Integration**: Use the singleton socket manager and provided React hooks for WebSocket functionality instead of direct Socket.io usage
 
 ### FSD Development Guidelines
 
@@ -318,9 +320,120 @@ const FloatingButton = ({ children, ...props }) => (
 
 - Generated API code in `@generated` folder should never be edited manually
 - Biome is configured to ignore the generated API code during linting/formatting  
-- Socket system includes comprehensive authentication and reconnection logic
+- Socket system uses singleton pattern for connection management and includes comprehensive authentication and reconnection logic
 - TanStack Router automatically generates route tree - don't edit `routeTree.gen.ts`
 - Project uses ESM modules throughout (type: "module" in package.json)
+
+## Socket System Usage
+
+### Architecture Overview
+
+The socket system is built with a singleton pattern to ensure:
+- Single connection instance across the entire application
+- Prevention of memory leaks from multiple socket instances
+- Consistent connection state management
+- Automatic event listener cleanup
+
+### Core Components
+
+1. **SocketManager (Singleton)**: `src/shared/api/socket/socket-manager.ts`
+   - Manages single socket instance globally
+   - Handles connection/disconnection logic
+   - Centralizes event management
+   - Provides connection state tracking
+
+2. **SocketProvider**: `src/shared/api/socket/provider.tsx`
+   - React context provider for socket access
+   - Manages React-specific state synchronization
+   - Handles component lifecycle integration
+
+3. **GamegooSocketProvider**: `src/shared/providers/gamegoo-socket-provider.tsx`
+   - Application-level socket provider
+   - Handles authentication token management
+   - Provides authentication-based connection control
+
+### Usage Patterns
+
+#### Basic Socket Event Handling
+```typescript
+import { useSocketMessage } from '@/shared/api/socket';
+
+function MyComponent() {
+  // Listen to socket events
+  useSocketMessage('event-name', (data) => {
+    console.log('Received:', data);
+  });
+
+  return <div>Component content</div>;
+}
+```
+
+#### Friend Online Status Example
+```typescript
+import { useFriendOnline, useChatStore } from '@/entities/chat';
+
+function FriendList() {
+  const { onlineFriends } = useChatStore();
+  
+  // Initialize friend online status tracking
+  useFriendOnline();
+
+  return (
+    <div>
+      {friends.map(friend => (
+        <div key={friend.id}>
+          {friend.name} 
+          {onlineFriends.includes(friend.id) && <span>🟢 Online</span>}
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+#### Manual Socket Control
+```typescript
+import { socketManager } from '@/shared/api/socket';
+
+// Check connection status
+if (socketManager.connected) {
+  // Send event
+  socketManager.send('my-event', { data: 'value' });
+}
+
+// Manual reconnection (rarely needed)
+socketManager.reconnect();
+```
+
+### Best Practices
+
+1. **Use Provided Hooks**: Always use `useSocketMessage` instead of direct socket.on()
+2. **Automatic Cleanup**: Hooks automatically clean up event listeners on unmount
+3. **Single Instance**: Never create multiple socket instances - use the singleton manager
+4. **State Management**: Use Zustand stores (like `useChatStore`) for socket-derived state
+5. **Connection Status**: Check `socketManager.connected` before sending events
+
+### Debugging
+
+The socket system includes comprehensive logging:
+- Connection attempts and status changes
+- Event registration and cleanup
+- Authentication token usage
+- Reconnection attempts
+
+Monitor browser console for socket-related logs prefixed with:
+- 🔌 Connection operations
+- 🟢/🔴 Online/offline events  
+- 📊 State changes
+- 🔧 Event listener management
+
+### Common Issues and Solutions
+
+1. **Multiple Connections**: The singleton pattern prevents this automatically
+2. **Memory Leaks**: Event listeners are auto-cleaned by hooks
+3. **Connection Drops**: Smart reconnection logic handles this transparently
+4. **Authentication**: Token refresh is handled automatically
+5. **Component Re-renders**: Connection persists across re-renders
 
 ## Code Conventions
 

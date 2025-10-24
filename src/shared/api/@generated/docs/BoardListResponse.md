@@ -14,7 +14,6 @@ Name | Type | Description | Notes
 **wantP** | **Array&lt;string&gt;** |  | [default to undefined]
 **mike** | [**Mike**](Mike.md) |  | [default to undefined]
 **contents** | **string** |  | [optional] [default to undefined]
-**boardProfileImage** | **number** |  | [default to undefined]
 **createdAt** | **string** |  | [default to undefined]
 **profileImage** | **number** |  | [default to undefined]
 **mannerLevel** | **number** |  | [default to undefined]
@@ -45,7 +44,6 @@ const instance: BoardListResponse = {
     wantP,
     mike,
     contents,
-    boardProfileImage,
     createdAt,
     profileImage,
     mannerLevel,
