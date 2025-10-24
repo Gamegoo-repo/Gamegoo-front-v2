@@ -25,7 +25,7 @@ export interface SystemFlagResponse {
      * @type {number}
      * @memberof SystemFlagResponse
      */
-    'flag'?: number;
+    'flag': number;
     /**
      * 
      * @type {number}

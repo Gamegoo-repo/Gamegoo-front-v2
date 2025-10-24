@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**boardId** | **number** |  | [optional] [default to undefined]
-**bumpTime** | **string** |  | [optional] [default to undefined]
+**boardId** | **number** |  | [default to undefined]
+**bumpTime** | **string** |  | [default to undefined]
 
 ## Example
 

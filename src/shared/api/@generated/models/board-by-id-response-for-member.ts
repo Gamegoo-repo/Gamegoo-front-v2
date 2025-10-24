@@ -43,25 +43,25 @@ export interface BoardByIdResponseForMember {
      * @type {number}
      * @memberof BoardByIdResponseForMember
      */
-    'boardId'?: number;
+    'boardId': number;
     /**
      * 
      * @type {number}
      * @memberof BoardByIdResponseForMember
      */
-    'memberId'?: number;
+    'memberId': number;
     /**
      * 
      * @type {boolean}
      * @memberof BoardByIdResponseForMember
      */
-    'isBlocked'?: boolean;
+    'isBlocked': boolean;
     /**
      * 
      * @type {boolean}
      * @memberof BoardByIdResponseForMember
      */
-    'isFriend'?: boolean;
+    'isFriend': boolean;
     /**
      * 
      * @type {number}
@@ -73,31 +73,31 @@ export interface BoardByIdResponseForMember {
      * @type {string}
      * @memberof BoardByIdResponseForMember
      */
-    'createdAt'?: string;
+    'createdAt': string;
     /**
      * 
      * @type {number}
      * @memberof BoardByIdResponseForMember
      */
-    'profileImage'?: number;
+    'profileImage': number;
     /**
      * 
      * @type {string}
      * @memberof BoardByIdResponseForMember
      */
-    'gameName'?: string;
+    'gameName': string;
     /**
      * 
      * @type {string}
      * @memberof BoardByIdResponseForMember
      */
-    'tag'?: string;
+    'tag': string;
     /**
      * 
      * @type {number}
      * @memberof BoardByIdResponseForMember
      */
-    'mannerLevel'?: number;
+    'mannerLevel': number;
     /**
      * 
      * @type {number}
@@ -109,7 +109,7 @@ export interface BoardByIdResponseForMember {
      * @type {number}
      * @memberof BoardByIdResponseForMember
      */
-    'mannerRatingCount'?: number;
+    'mannerRatingCount': number;
     /**
      * 
      * @type {Tier}
@@ -145,7 +145,7 @@ export interface BoardByIdResponseForMember {
      * @type {Array<ChampionStatsResponse>}
      * @memberof BoardByIdResponseForMember
      */
-    'championStatsResponseList'?: Array<ChampionStatsResponse>;
+    'championStatsResponseList': Array<ChampionStatsResponse>;
     /**
      * 
      * @type {MemberRecentStatsResponse}
@@ -157,25 +157,25 @@ export interface BoardByIdResponseForMember {
      * @type {GameMode}
      * @memberof BoardByIdResponseForMember
      */
-    'gameMode'?: GameMode;
+    'gameMode': GameMode;
     /**
      * 
      * @type {Position}
      * @memberof BoardByIdResponseForMember
      */
-    'mainP'?: Position;
+    'mainP': Position;
     /**
      * 
      * @type {Position}
      * @memberof BoardByIdResponseForMember
      */
-    'subP'?: Position;
+    'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof BoardByIdResponseForMember
      */
-    'wantP'?: Array<Position>;
+    'wantP': Array<BoardByIdResponseForMemberWantP>;
     /**
      * 
      * @type {number}
@@ -193,7 +193,7 @@ export interface BoardByIdResponseForMember {
      * @type {Array<number>}
      * @memberof BoardByIdResponseForMember
      */
-    'gameStyles'?: Array<number>;
+    'gameStyles': Array<number>;
     /**
      * 
      * @type {string}
@@ -202,5 +202,15 @@ export interface BoardByIdResponseForMember {
     'contents'?: string;
 }
 
+export const BoardByIdResponseForMemberWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type BoardByIdResponseForMemberWantP = typeof BoardByIdResponseForMemberWantP[keyof typeof BoardByIdResponseForMemberWantP];
 
 

@@ -25,12 +25,12 @@ export interface MannerKeywordResponse {
      * @type {number}
      * @memberof MannerKeywordResponse
      */
-    'mannerKeywordId'?: number;
+    'mannerKeywordId': number;
     /**
      * 
      * @type {number}
      * @memberof MannerKeywordResponse
      */
-    'count'?: number;
+    'count': number;
 }
 

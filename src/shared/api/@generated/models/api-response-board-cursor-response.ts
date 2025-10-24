@@ -28,13 +28,13 @@ export interface ApiResponseBoardCursorResponse {
      * @type {number}
      * @memberof ApiResponseBoardCursorResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseBoardCursorResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

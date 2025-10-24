@@ -25,12 +25,12 @@ export interface GameStyleResponse {
      * @type {number}
      * @memberof GameStyleResponse
      */
-    'gameStyleId'?: number;
+    'gameStyleId': number;
     /**
      * 
      * @type {string}
      * @memberof GameStyleResponse
      */
-    'gameStyleName'?: string;
+    'gameStyleName': string;
 }
 

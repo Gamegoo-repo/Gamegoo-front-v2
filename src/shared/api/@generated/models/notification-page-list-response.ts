@@ -28,36 +28,36 @@ export interface NotificationPageListResponse {
      * @type {Array<NotificationResponse>}
      * @memberof NotificationPageListResponse
      */
-    'notificationList'?: Array<NotificationResponse>;
+    'notificationList': Array<NotificationResponse>;
     /**
      * 
      * @type {number}
      * @memberof NotificationPageListResponse
      */
-    'listSize'?: number;
+    'listSize': number;
     /**
      * 
      * @type {number}
      * @memberof NotificationPageListResponse
      */
-    'totalPage'?: number;
+    'totalPage': number;
     /**
      * 
      * @type {number}
      * @memberof NotificationPageListResponse
      */
-    'totalElements'?: number;
+    'totalElements': number;
     /**
      * 
      * @type {boolean}
      * @memberof NotificationPageListResponse
      */
-    'isFirst'?: boolean;
+    'isFirst': boolean;
     /**
      * 
      * @type {boolean}
      * @memberof NotificationPageListResponse
      */
-    'isLast'?: boolean;
+    'isLast': boolean;
 }
 

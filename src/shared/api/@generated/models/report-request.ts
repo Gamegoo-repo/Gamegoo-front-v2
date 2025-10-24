@@ -13,9 +13,6 @@
  */
 
 
-// May contain unused imports in some cases
-// @ts-ignore
-import type { ReportType } from './report-type';
 
 /**
  * 
@@ -25,10 +22,10 @@ import type { ReportType } from './report-type';
 export interface ReportRequest {
     /**
      * 
-     * @type {Array<ReportType>}
+     * @type {Array<number>}
      * @memberof ReportRequest
      */
-    'reportCodeList': Array<ReportType>;
+    'reportCodeList': Array<number>;
     /**
      * 
      * @type {string}

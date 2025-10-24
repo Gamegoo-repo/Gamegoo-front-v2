@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**myPriorityList** | [**Array&lt;PriorityValue&gt;**](PriorityValue.md) |  | [optional] [default to undefined]
-**otherPriorityList** | [**Array&lt;PriorityValue&gt;**](PriorityValue.md) |  | [optional] [default to undefined]
-**myMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |  | [optional] [default to undefined]
+**myPriorityList** | [**Array&lt;PriorityValue&gt;**](PriorityValue.md) |  | [default to undefined]
+**otherPriorityList** | [**Array&lt;PriorityValue&gt;**](PriorityValue.md) |  | [default to undefined]
+**myMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |  | [default to undefined]
 
 ## Example
 

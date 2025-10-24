@@ -28,13 +28,13 @@ export interface ApiResponseNotificationPageListResponse {
      * @type {number}
      * @memberof ApiResponseNotificationPageListResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseNotificationPageListResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**status** | **number** |  | [optional] [default to undefined]
-**message** | **string** |  | [optional] [default to undefined]
+**status** | **number** |  | [default to undefined]
+**message** | **string** |  | [default to undefined]
 **code** | **string** |  | [optional] [default to undefined]
 **data** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 

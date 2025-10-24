@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**notificationList** | [**Array&lt;NotificationResponse&gt;**](NotificationResponse.md) |  | [optional] [default to undefined]
-**listSize** | **number** |  | [optional] [default to undefined]
-**hasNext** | **boolean** |  | [optional] [default to undefined]
+**notificationList** | [**Array&lt;NotificationResponse&gt;**](NotificationResponse.md) |  | [default to undefined]
+**listSize** | **number** |  | [default to undefined]
+**hasNext** | **boolean** |  | [default to undefined]
 **nextCursor** | **number** |  | [optional] [default to undefined]
 
 ## Example

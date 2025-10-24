@@ -22,15 +22,11 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { ApiResponseLoginResponse } from '../models';
+import type { ApiErrorResponse } from '../models';
 // @ts-ignore
 import type { ApiResponseRefreshTokenResponse } from '../models';
 // @ts-ignore
 import type { ApiResponseString } from '../models';
-// @ts-ignore
-import type { JoinRequest } from '../models';
-// @ts-ignore
-import type { LoginRequest } from '../models';
 // @ts-ignore
 import type { RefreshTokenRequest } from '../models';
 /**
@@ -105,86 +101,6 @@ export const AuthControllerApiAxiosParamCreator = function (configuration?: Conf
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 회원가입 API입니다.
-         * @summary 회원가입
-         * @param {JoinRequest} joinRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        join: async (joinRequest: JoinRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'joinRequest' is not null or undefined
-            assertParamExists('join', 'joinRequest', joinRequest)
-            const localVarPath = `/api/v2/auth/join`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication JWT TOKEN required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(joinRequest, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 로그인 API입니다.
-         * @summary 로그인
-         * @param {LoginRequest} loginRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        login: async (loginRequest: LoginRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'loginRequest' is not null or undefined
-            assertParamExists('login', 'loginRequest', loginRequest)
-            const localVarPath = `/api/v2/auth/login`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication JWT TOKEN required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(loginRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -301,32 +217,6 @@ export const AuthControllerApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 회원가입 API입니다.
-         * @summary 회원가입
-         * @param {JoinRequest} joinRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async join(joinRequest: JoinRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseString>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.join(joinRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AuthControllerApi.join']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 로그인 API입니다.
-         * @summary 로그인
-         * @param {LoginRequest} loginRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async login(loginRequest: LoginRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseLoginResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.login(loginRequest, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AuthControllerApi.login']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
          * API for logout
          * @summary logout API 입니다.
          * @param {*} [options] Override http request option.
@@ -381,26 +271,6 @@ export const AuthControllerApiFactory = function (configuration?: Configuration,
             return localVarFp.getTestAccessToken1(memberId, options).then((request) => request(axios, basePath));
         },
         /**
-         * 회원가입 API입니다.
-         * @summary 회원가입
-         * @param {JoinRequest} joinRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        join(joinRequest: JoinRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseString> {
-            return localVarFp.join(joinRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 로그인 API입니다.
-         * @summary 로그인
-         * @param {LoginRequest} loginRequest 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        login(loginRequest: LoginRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseLoginResponse> {
-            return localVarFp.login(loginRequest, options).then((request) => request(axios, basePath));
-        },
-        /**
          * API for logout
          * @summary logout API 입니다.
          * @param {*} [options] Override http request option.
@@ -450,30 +320,6 @@ export class AuthControllerApi extends BaseAPI {
      */
     public getTestAccessToken1(memberId: number, options?: RawAxiosRequestConfig) {
         return AuthControllerApiFp(this.configuration).getTestAccessToken1(memberId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 회원가입 API입니다.
-     * @summary 회원가입
-     * @param {JoinRequest} joinRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthControllerApi
-     */
-    public join(joinRequest: JoinRequest, options?: RawAxiosRequestConfig) {
-        return AuthControllerApiFp(this.configuration).join(joinRequest, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 로그인 API입니다.
-     * @summary 로그인
-     * @param {LoginRequest} loginRequest 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthControllerApi
-     */
-    public login(loginRequest: LoginRequest, options?: RawAxiosRequestConfig) {
-        return AuthControllerApiFp(this.configuration).login(loginRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

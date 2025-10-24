@@ -5,11 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**boardProfileImage** | **number** |  | [default to undefined]
 **gameMode** | [**GameMode**](GameMode.md) |  | [default to undefined]
 **mainP** | [**Position**](Position.md) |  | [default to undefined]
 **subP** | [**Position**](Position.md) |  | [default to undefined]
-**wantP** | [**Array&lt;Position&gt;**](Position.md) |  | [default to undefined]
+**wantP** | **Array&lt;string&gt;** |  | [default to undefined]
 **mike** | [**Mike**](Mike.md) |  | [optional] [default to undefined]
 **gameStyles** | **Array&lt;number&gt;** |  | [default to undefined]
 **contents** | **string** | 게시글 내용 (선택) | [optional] [default to undefined]
@@ -20,7 +19,6 @@ Name | Type | Description | Notes
 import { BoardInsertRequest } from './api';
 
 const instance: BoardInsertRequest = {
-    boardProfileImage,
     gameMode,
     mainP,
     subP,

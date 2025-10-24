@@ -25,12 +25,12 @@ export interface BlockResponse {
      * @type {number}
      * @memberof BlockResponse
      */
-    'targetMemberId'?: number;
+    'targetMemberId': number;
     /**
      * 
      * @type {string}
      * @memberof BlockResponse
      */
-    'message'?: string;
+    'message': string;
 }
 

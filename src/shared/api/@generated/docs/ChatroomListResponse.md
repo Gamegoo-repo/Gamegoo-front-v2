@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**chatroomResponseList** | [**Array&lt;ChatroomResponse&gt;**](ChatroomResponse.md) |  | [optional] [default to undefined]
-**listSize** | **number** |  | [optional] [default to undefined]
+**chatroomResponseList** | [**Array&lt;ChatroomResponse&gt;**](ChatroomResponse.md) |  | [default to undefined]
+**listSize** | **number** |  | [default to undefined]
 
 ## Example
 

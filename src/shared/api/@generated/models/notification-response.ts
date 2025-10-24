@@ -25,19 +25,19 @@ export interface NotificationResponse {
      * @type {number}
      * @memberof NotificationResponse
      */
-    'notificationId'?: number;
+    'notificationId': number;
     /**
      * 
      * @type {number}
      * @memberof NotificationResponse
      */
-    'notificationType'?: number;
+    'notificationType': number;
     /**
      * 
      * @type {string}
      * @memberof NotificationResponse
      */
-    'content'?: string;
+    'content': string;
     /**
      * 
      * @type {string}
@@ -49,12 +49,12 @@ export interface NotificationResponse {
      * @type {boolean}
      * @memberof NotificationResponse
      */
-    'read'?: boolean;
+    'read': boolean;
     /**
      * 
      * @type {string}
      * @memberof NotificationResponse
      */
-    'createdAt'?: string;
+    'createdAt': string;
 }
 

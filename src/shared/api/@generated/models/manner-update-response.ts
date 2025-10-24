@@ -25,18 +25,18 @@ export interface MannerUpdateResponse {
      * @type {number}
      * @memberof MannerUpdateResponse
      */
-    'mannerRatingId'?: number;
+    'mannerRatingId': number;
     /**
      * 
      * @type {number}
      * @memberof MannerUpdateResponse
      */
-    'targetMemberId'?: number;
+    'targetMemberId': number;
     /**
      * 
      * @type {Array<number>}
      * @memberof MannerUpdateResponse
      */
-    'mannerKeywordIdList'?: Array<number>;
+    'mannerKeywordIdList': Array<number>;
 }
 

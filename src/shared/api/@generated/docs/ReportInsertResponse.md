@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**reportId** | **number** |  | [optional] [default to undefined]
-**message** | **string** |  | [optional] [default to undefined]
+**reportId** | **number** |  | [default to undefined]
+**message** | **string** |  | [default to undefined]
 
 ## Example
 

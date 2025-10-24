@@ -31,12 +31,6 @@ import type { Position } from './position';
 export interface BoardInsertRequest {
     /**
      * 
-     * @type {number}
-     * @memberof BoardInsertRequest
-     */
-    'boardProfileImage': number;
-    /**
-     * 
      * @type {GameMode}
      * @memberof BoardInsertRequest
      */
@@ -55,10 +49,10 @@ export interface BoardInsertRequest {
     'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof BoardInsertRequest
      */
-    'wantP': Array<Position>;
+    'wantP': Array<BoardInsertRequestWantP>;
     /**
      * 
      * @type {Mike}
@@ -79,5 +73,15 @@ export interface BoardInsertRequest {
     'contents'?: string;
 }
 
+export const BoardInsertRequestWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type BoardInsertRequestWantP = typeof BoardInsertRequestWantP[keyof typeof BoardInsertRequestWantP];
 
 

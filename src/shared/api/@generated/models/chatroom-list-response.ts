@@ -28,12 +28,12 @@ export interface ChatroomListResponse {
      * @type {Array<ChatroomResponse>}
      * @memberof ChatroomListResponse
      */
-    'chatroomResponseList'?: Array<ChatroomResponse>;
+    'chatroomResponseList': Array<ChatroomResponse>;
     /**
      * 
      * @type {number}
      * @memberof ChatroomListResponse
      */
-    'listSize'?: number;
+    'listSize': number;
 }
 

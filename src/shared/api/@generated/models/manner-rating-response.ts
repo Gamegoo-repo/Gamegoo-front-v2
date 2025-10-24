@@ -31,6 +31,6 @@ export interface MannerRatingResponse {
      * @type {Array<number>}
      * @memberof MannerRatingResponse
      */
-    'mannerKeywordIdList'?: Array<number>;
+    'mannerKeywordIdList': Array<number>;
 }
 

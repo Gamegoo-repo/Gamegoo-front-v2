@@ -28,19 +28,19 @@ export interface ReportProcessResponse {
      * @type {number}
      * @memberof ReportProcessResponse
      */
-    'reportId'?: number;
+    'reportId': number;
     /**
      * 
      * @type {number}
      * @memberof ReportProcessResponse
      */
-    'targetMemberId'?: number;
+    'targetMemberId': number;
     /**
      * 
      * @type {BanType}
      * @memberof ReportProcessResponse
      */
-    'appliedBanType'?: BanType;
+    'appliedBanType': BanType;
     /**
      * 
      * @type {string}
@@ -52,7 +52,7 @@ export interface ReportProcessResponse {
      * @type {string}
      * @memberof ReportProcessResponse
      */
-    'message'?: string;
+    'message': string;
 }
 
 

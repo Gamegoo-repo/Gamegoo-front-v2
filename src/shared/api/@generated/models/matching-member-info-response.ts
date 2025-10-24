@@ -40,98 +40,108 @@ export interface MatchingMemberInfoResponse {
      * @type {number}
      * @memberof MatchingMemberInfoResponse
      */
-    'memberId'?: number;
+    'memberId': number;
     /**
      * 
      * @type {string}
      * @memberof MatchingMemberInfoResponse
      */
-    'matchingUuid'?: string;
+    'matchingUuid': string;
     /**
      * 
      * @type {string}
      * @memberof MatchingMemberInfoResponse
      */
-    'gameName'?: string;
+    'gameName': string;
     /**
      * 
      * @type {string}
      * @memberof MatchingMemberInfoResponse
      */
-    'tag'?: string;
+    'tag': string;
     /**
      * 
      * @type {Tier}
      * @memberof MatchingMemberInfoResponse
      */
-    'soloTier'?: Tier;
+    'soloTier': Tier;
     /**
      * 
      * @type {number}
      * @memberof MatchingMemberInfoResponse
      */
-    'soloRank'?: number;
+    'soloRank': number;
     /**
      * 
      * @type {Tier}
      * @memberof MatchingMemberInfoResponse
      */
-    'freeTier'?: Tier;
+    'freeTier': Tier;
     /**
      * 
      * @type {number}
      * @memberof MatchingMemberInfoResponse
      */
-    'freeRank'?: number;
+    'freeRank': number;
     /**
      * 
      * @type {number}
      * @memberof MatchingMemberInfoResponse
      */
-    'mannerLevel'?: number;
+    'mannerLevel': number;
     /**
      * 
      * @type {number}
      * @memberof MatchingMemberInfoResponse
      */
-    'profileImg'?: number;
+    'profileImg': number;
     /**
      * 
      * @type {GameMode}
      * @memberof MatchingMemberInfoResponse
      */
-    'gameMode'?: GameMode;
+    'gameMode': GameMode;
     /**
      * 
      * @type {Position}
      * @memberof MatchingMemberInfoResponse
      */
-    'mainP'?: Position;
+    'mainP': Position;
     /**
      * 
      * @type {Position}
      * @memberof MatchingMemberInfoResponse
      */
-    'subP'?: Position;
+    'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof MatchingMemberInfoResponse
      */
-    'wantP'?: Array<Position>;
+    'wantP': Array<MatchingMemberInfoResponseWantP>;
     /**
      * 
      * @type {Mike}
      * @memberof MatchingMemberInfoResponse
      */
-    'mike'?: Mike;
+    'mike': Mike;
     /**
      * 
      * @type {Array<GameStyleResponse>}
      * @memberof MatchingMemberInfoResponse
      */
-    'gameStyleResponseList'?: Array<GameStyleResponse>;
+    'gameStyleResponseList': Array<GameStyleResponse>;
 }
 
+export const MatchingMemberInfoResponseWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type MatchingMemberInfoResponseWantP = typeof MatchingMemberInfoResponseWantP[keyof typeof MatchingMemberInfoResponseWantP];
 
 

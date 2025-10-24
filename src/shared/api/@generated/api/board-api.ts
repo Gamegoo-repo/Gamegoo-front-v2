@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { ApiErrorResponse } from '../models';
+// @ts-ignore
 import type { ApiResponseBoardBumpResponse } from '../models';
 // @ts-ignore
 import type { ApiResponseBoardByIdResponse } from '../models';
@@ -254,7 +256,7 @@ export const BoardApiAxiosParamCreator = function (configuration?: Configuration
             };
         },
         /**
-         * 게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 1시간 제한이 적용됩니다.
+         * 게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
          * @summary 게시글 끌올 API
          * @param {number} boardId 끌올할 게시판 글 id 입니다.
          * @param {*} [options] Override http request option.
@@ -265,6 +267,40 @@ export const BoardApiAxiosParamCreator = function (configuration?: Configuration
             assertParamExists('bumpBoard', 'boardId', boardId)
             const localVarPath = `/api/v2/posts/{boardId}/bump`
                 .replace(`{${"boardId"}}`, encodeURIComponent(String(boardId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWT TOKEN required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 사용자가 작성한 가장 최근 게시글을 자동으로 끌올하는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
+         * @summary 최신글 자동 끌올 API
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        bumpLatestBoard: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v2/posts/my/latest/bump`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -712,7 +748,7 @@ export const BoardApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 1시간 제한이 적용됩니다.
+         * 게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
          * @summary 게시글 끌올 API
          * @param {number} boardId 끌올할 게시판 글 id 입니다.
          * @param {*} [options] Override http request option.
@@ -722,6 +758,18 @@ export const BoardApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.bumpBoard(boardId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BoardApi.bumpBoard']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 사용자가 작성한 가장 최근 게시글을 자동으로 끌올하는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
+         * @summary 최신글 자동 끌올 API
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async bumpLatestBoard(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseBoardBumpResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.bumpLatestBoard(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BoardApi.bumpLatestBoard']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -892,7 +940,7 @@ export const BoardApiFactory = function (configuration?: Configuration, basePath
             return localVarFp.boardUpdate(boardId, boardUpdateRequest, options).then((request) => request(axios, basePath));
         },
         /**
-         * 게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 1시간 제한이 적용됩니다.
+         * 게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
          * @summary 게시글 끌올 API
          * @param {number} boardId 끌올할 게시판 글 id 입니다.
          * @param {*} [options] Override http request option.
@@ -900,6 +948,15 @@ export const BoardApiFactory = function (configuration?: Configuration, basePath
          */
         bumpBoard(boardId: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseBoardBumpResponse> {
             return localVarFp.bumpBoard(boardId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 사용자가 작성한 가장 최근 게시글을 자동으로 끌올하는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
+         * @summary 최신글 자동 끌올 API
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        bumpLatestBoard(options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseBoardBumpResponse> {
+            return localVarFp.bumpLatestBoard(options).then((request) => request(axios, basePath));
         },
         /**
          * 비회원이 게시판에서 글을 삭제하는 API 입니다.
@@ -1053,7 +1110,7 @@ export class BoardApi extends BaseAPI {
     }
 
     /**
-     * 게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 1시간 제한이 적용됩니다.
+     * 게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
      * @summary 게시글 끌올 API
      * @param {number} boardId 끌올할 게시판 글 id 입니다.
      * @param {*} [options] Override http request option.
@@ -1062,6 +1119,17 @@ export class BoardApi extends BaseAPI {
      */
     public bumpBoard(boardId: number, options?: RawAxiosRequestConfig) {
         return BoardApiFp(this.configuration).bumpBoard(boardId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 사용자가 작성한 가장 최근 게시글을 자동으로 끌올하는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
+     * @summary 최신글 자동 끌올 API
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BoardApi
+     */
+    public bumpLatestBoard(options?: RawAxiosRequestConfig) {
+        return BoardApiFp(this.configuration).bumpLatestBoard(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

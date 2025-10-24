@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**mannerRatingId** | **number** |  | [optional] [default to undefined]
-**targetMemberId** | **number** |  | [optional] [default to undefined]
-**mannerKeywordIdList** | **Array&lt;number&gt;** |  | [optional] [default to undefined]
+**mannerRatingId** | **number** |  | [default to undefined]
+**targetMemberId** | **number** |  | [default to undefined]
+**mannerKeywordIdList** | **Array&lt;number&gt;** |  | [default to undefined]
 
 ## Example
 

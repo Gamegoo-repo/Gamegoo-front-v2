@@ -28,36 +28,36 @@ export interface BlockListResponse {
      * @type {Array<BlockedMemberResponse>}
      * @memberof BlockListResponse
      */
-    'blockedMemberList'?: Array<BlockedMemberResponse>;
+    'blockedMemberList': Array<BlockedMemberResponse>;
     /**
      * 
      * @type {number}
      * @memberof BlockListResponse
      */
-    'listSize'?: number;
+    'listSize': number;
     /**
      * 
      * @type {number}
      * @memberof BlockListResponse
      */
-    'totalPage'?: number;
+    'totalPage': number;
     /**
      * 
      * @type {number}
      * @memberof BlockListResponse
      */
-    'totalElements'?: number;
+    'totalElements': number;
     /**
      * 
      * @type {boolean}
      * @memberof BlockListResponse
      */
-    'isFirst'?: boolean;
+    'isFirst': boolean;
     /**
      * 
      * @type {boolean}
      * @memberof BlockListResponse
      */
-    'isLast'?: boolean;
+    'isLast': boolean;
 }
 

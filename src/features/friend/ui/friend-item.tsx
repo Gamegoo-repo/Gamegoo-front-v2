@@ -51,8 +51,7 @@ function FriendItem({
 	}
 
 	return (
-		<button
-			type="button"
+		<div
 			className="flex items-center cursor-pointer w-full text-left"
 			onClick={handleFriendClick}
 			onKeyDown={handleKeyDown}
@@ -79,7 +78,7 @@ function FriendItem({
 					{friend.liked ? <StarVioletIcon /> : <StarIcon />}
 				</button>
 			)}
-		</button>
+		</div>
 	);
 }
 

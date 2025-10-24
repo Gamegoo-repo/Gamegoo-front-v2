@@ -37,7 +37,7 @@ export interface BoardInsertResponse {
      * @type {number}
      * @memberof BoardInsertResponse
      */
-    'boardId'?: number;
+    'boardId': number;
     /**
      * 
      * @type {number}
@@ -49,67 +49,67 @@ export interface BoardInsertResponse {
      * @type {number}
      * @memberof BoardInsertResponse
      */
-    'profileImage'?: number;
+    'profileImage': number;
     /**
      * 
      * @type {string}
      * @memberof BoardInsertResponse
      */
-    'gameName'?: string;
+    'gameName': string;
     /**
      * 
      * @type {string}
      * @memberof BoardInsertResponse
      */
-    'tag'?: string;
+    'tag': string;
     /**
      * 
      * @type {Tier}
      * @memberof BoardInsertResponse
      */
-    'tier'?: Tier;
+    'tier': Tier;
     /**
      * 
      * @type {number}
      * @memberof BoardInsertResponse
      */
-    'rank'?: number;
+    'rank': number;
     /**
      * 
      * @type {GameMode}
      * @memberof BoardInsertResponse
      */
-    'gameMode'?: GameMode;
+    'gameMode': GameMode;
     /**
      * 
      * @type {Position}
      * @memberof BoardInsertResponse
      */
-    'mainP'?: Position;
+    'mainP': Position;
     /**
      * 
      * @type {Position}
      * @memberof BoardInsertResponse
      */
-    'subP'?: Position;
+    'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof BoardInsertResponse
      */
-    'wantP'?: Array<Position>;
+    'wantP': Array<BoardInsertResponseWantP>;
     /**
      * 
      * @type {Mike}
      * @memberof BoardInsertResponse
      */
-    'mike'?: Mike;
+    'mike': Mike;
     /**
      * 
      * @type {Array<number>}
      * @memberof BoardInsertResponse
      */
-    'gameStyles'?: Array<number>;
+    'gameStyles': Array<number>;
     /**
      * 
      * @type {string}
@@ -118,5 +118,15 @@ export interface BoardInsertResponse {
     'contents'?: string;
 }
 
+export const BoardInsertResponseWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type BoardInsertResponseWantP = typeof BoardInsertResponseWantP[keyof typeof BoardInsertResponseWantP];
 
 

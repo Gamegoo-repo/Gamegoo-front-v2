@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**accessToken** | **string** |  | [optional] [default to undefined]
-**refreshToken** | **string** |  | [optional] [default to undefined]
+**id** | **number** |  | [default to undefined]
+**accessToken** | **string** |  | [default to undefined]
+**refreshToken** | **string** |  | [default to undefined]
 
 ## Example
 

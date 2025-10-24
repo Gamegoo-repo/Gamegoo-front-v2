@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**memberId** | **number** |  | [optional] [default to undefined]
-**profileImg** | **number** |  | [optional] [default to undefined]
-**name** | **string** |  | [optional] [default to undefined]
+**memberId** | **number** |  | [default to undefined]
+**profileImg** | **number** |  | [default to undefined]
+**name** | **string** |  | [default to undefined]
 **blind** | **boolean** |  | [optional] [default to undefined]
 
 ## Example

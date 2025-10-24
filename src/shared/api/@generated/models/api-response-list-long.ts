@@ -25,13 +25,13 @@ export interface ApiResponseListLong {
      * @type {number}
      * @memberof ApiResponseListLong
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseListLong
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

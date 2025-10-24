@@ -28,13 +28,13 @@ export interface ApiResponsePasswordCheckResponse {
      * @type {number}
      * @memberof ApiResponsePasswordCheckResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponsePasswordCheckResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

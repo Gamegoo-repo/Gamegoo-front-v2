@@ -25,18 +25,18 @@ export interface RefreshTokenResponse {
      * @type {number}
      * @memberof RefreshTokenResponse
      */
-    'id'?: number;
+    'id': number;
     /**
      * 
      * @type {string}
      * @memberof RefreshTokenResponse
      */
-    'accessToken'?: string;
+    'accessToken': string;
     /**
      * 
      * @type {string}
      * @memberof RefreshTokenResponse
      */
-    'refreshToken'?: string;
+    'refreshToken': string;
 }
 

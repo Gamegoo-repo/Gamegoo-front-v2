@@ -5,15 +5,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**recTotalWins** | **number** |  | [optional] [default to undefined]
-**recTotalLosses** | **number** |  | [optional] [default to undefined]
-**recWinRate** | **number** |  | [optional] [default to undefined]
-**recAvgKDA** | **number** |  | [optional] [default to undefined]
-**recAvgKills** | **number** |  | [optional] [default to undefined]
-**recAvgDeaths** | **number** |  | [optional] [default to undefined]
-**recAvgAssists** | **number** |  | [optional] [default to undefined]
-**recAvgCsPerMinute** | **number** |  | [optional] [default to undefined]
-**recTotalCs** | **number** |  | [optional] [default to undefined]
+**recTotalWins** | **number** |  | [default to undefined]
+**recTotalLosses** | **number** |  | [default to undefined]
+**recWinRate** | **number** |  | [default to undefined]
+**recAvgKDA** | **number** |  | [default to undefined]
+**recAvgKills** | **number** |  | [default to undefined]
+**recAvgDeaths** | **number** |  | [default to undefined]
+**recAvgAssists** | **number** |  | [default to undefined]
+**recAvgCsPerMinute** | **number** |  | [default to undefined]
+**recTotalCs** | **number** |  | [default to undefined]
 
 ## Example
 

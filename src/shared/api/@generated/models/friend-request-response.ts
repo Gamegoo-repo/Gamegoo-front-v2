@@ -25,12 +25,12 @@ export interface FriendRequestResponse {
      * @type {number}
      * @memberof FriendRequestResponse
      */
-    'targetMemberId'?: number;
+    'targetMemberId': number;
     /**
      * 
      * @type {string}
      * @memberof FriendRequestResponse
      */
-    'message'?: string;
+    'message': string;
 }
 

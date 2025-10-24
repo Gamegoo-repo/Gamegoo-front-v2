@@ -25,7 +25,7 @@ export interface MannerResponse {
      * @type {number}
      * @memberof MannerResponse
      */
-    'mannerLevel'?: number;
+    'mannerLevel': number;
     /**
      * 
      * @type {number}
@@ -37,6 +37,6 @@ export interface MannerResponse {
      * @type {number}
      * @memberof MannerResponse
      */
-    'mannerRatingCount'?: number;
+    'mannerRatingCount': number;
 }
 

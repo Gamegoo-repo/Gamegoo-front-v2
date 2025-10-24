@@ -28,13 +28,13 @@ export interface ApiResponseMannerRatingResponse {
      * @type {number}
      * @memberof ApiResponseMannerRatingResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseMannerRatingResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

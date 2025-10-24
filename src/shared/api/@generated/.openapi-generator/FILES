@@ -20,6 +20,7 @@ api/riot-api.ts
 base.ts
 common.ts
 configuration.ts
+docs/ApiErrorResponse.md
 docs/ApiResponseBlockListResponse.md
 docs/ApiResponseBlockResponse.md
 docs/ApiResponseBoardBumpResponse.md
@@ -40,7 +41,6 @@ docs/ApiResponseInteger.md
 docs/ApiResponseListFriendInfoResponse.md
 docs/ApiResponseListLong.md
 docs/ApiResponseListString.md
-docs/ApiResponseLoginResponse.md
 docs/ApiResponseLong.md
 docs/ApiResponseMannerInsertResponse.md
 docs/ApiResponseMannerKeywordListResponse.md
@@ -109,9 +109,6 @@ docs/GuestBoardUpdateRequest.md
 docs/HomeApi.md
 docs/InitializingMatchingRequest.md
 docs/IsMikeRequest.md
-docs/JoinRequest.md
-docs/LoginRequest.md
-docs/LoginResponse.md
 docs/LoginType.md
 docs/MannerApi.md
 docs/MannerInsertRequest.md
@@ -173,6 +170,7 @@ docs/SystemFlagResponse.md
 docs/Tier.md
 git_push.sh
 index.ts
+models/api-error-response.ts
 models/api-response-block-list-response.ts
 models/api-response-block-response.ts
 models/api-response-board-bump-response.ts
@@ -193,7 +191,6 @@ models/api-response-integer.ts
 models/api-response-list-friend-info-response.ts
 models/api-response-list-long.ts
 models/api-response-list-string.ts
-models/api-response-login-response.ts
 models/api-response-long.ts
 models/api-response-manner-insert-response.ts
 models/api-response-manner-keyword-list-response.ts
@@ -254,9 +251,6 @@ models/guest-board-update-request.ts
 models/index.ts
 models/initializing-matching-request.ts
 models/is-mike-request.ts
-models/join-request.ts
-models/login-request.ts
-models/login-response.ts
 models/login-type.ts
 models/manner-insert-request.ts
 models/manner-insert-response.ts

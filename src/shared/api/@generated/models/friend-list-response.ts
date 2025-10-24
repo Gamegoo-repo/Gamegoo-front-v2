@@ -28,12 +28,12 @@ export interface FriendListResponse {
      * @type {Array<FriendInfoResponse>}
      * @memberof FriendListResponse
      */
-    'friendInfoList'?: Array<FriendInfoResponse>;
+    'friendInfoList': Array<FriendInfoResponse>;
     /**
      * 
      * @type {number}
      * @memberof FriendListResponse
      */
-    'listSize'?: number;
+    'listSize': number;
 }
 

@@ -28,19 +28,19 @@ export interface MyBoardCursorResponse {
      * @type {Array<MyBoardListResponse>}
      * @memberof MyBoardCursorResponse
      */
-    'myBoards'?: Array<MyBoardListResponse>;
+    'myBoards': Array<MyBoardListResponse>;
     /**
      * 
      * @type {number}
      * @memberof MyBoardCursorResponse
      */
-    'size'?: number;
+    'size': number;
     /**
      * 
      * @type {boolean}
      * @memberof MyBoardCursorResponse
      */
-    'hasNext'?: boolean;
+    'hasNext': boolean;
     /**
      * 
      * @type {string}

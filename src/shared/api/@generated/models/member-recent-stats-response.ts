@@ -25,54 +25,54 @@ export interface MemberRecentStatsResponse {
      * @type {number}
      * @memberof MemberRecentStatsResponse
      */
-    'recTotalWins'?: number;
+    'recTotalWins': number;
     /**
      * 
      * @type {number}
      * @memberof MemberRecentStatsResponse
      */
-    'recTotalLosses'?: number;
+    'recTotalLosses': number;
     /**
      * 
      * @type {number}
      * @memberof MemberRecentStatsResponse
      */
-    'recWinRate'?: number;
+    'recWinRate': number;
     /**
      * 
      * @type {number}
      * @memberof MemberRecentStatsResponse
      */
-    'recAvgKDA'?: number;
+    'recAvgKDA': number;
     /**
      * 
      * @type {number}
      * @memberof MemberRecentStatsResponse
      */
-    'recAvgKills'?: number;
+    'recAvgKills': number;
     /**
      * 
      * @type {number}
      * @memberof MemberRecentStatsResponse
      */
-    'recAvgDeaths'?: number;
+    'recAvgDeaths': number;
     /**
      * 
      * @type {number}
      * @memberof MemberRecentStatsResponse
      */
-    'recAvgAssists'?: number;
+    'recAvgAssists': number;
     /**
      * 
      * @type {number}
      * @memberof MemberRecentStatsResponse
      */
-    'recAvgCsPerMinute'?: number;
+    'recAvgCsPerMinute': number;
     /**
      * 
      * @type {number}
      * @memberof MemberRecentStatsResponse
      */
-    'recTotalCs'?: number;
+    'recTotalCs': number;
 }
 
