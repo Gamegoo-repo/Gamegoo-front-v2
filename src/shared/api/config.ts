@@ -1,7 +1,6 @@
 import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { Configuration } from "./@generated/configuration";
 
-let accessToken: string | null = null;
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
 let failedQueue: Array<{
@@ -22,7 +21,12 @@ const processQueue = (error: Error | null, token: string | null = null) => {
 };
 
 export const tokenManager = {
-	getAccessToken: () => accessToken,
+	getAccessToken: () => {
+		if (typeof window !== "undefined" && window.localStorage) {
+			return localStorage.getItem("accessToken");
+		}
+		return null;
+	},
 	getRefreshToken: () => {
 		if (typeof window !== "undefined" && window.localStorage) {
 			return localStorage.getItem("refreshToken");
@@ -30,7 +34,7 @@ export const tokenManager = {
 		return null;
 	},
 	setTokens: (newAccessToken: string, newRefreshToken?: string) => {
-		accessToken = newAccessToken;
+		localStorage.setItem("accessToken", newAccessToken);
 		if (
 			newRefreshToken &&
 			typeof window !== "undefined" &&
@@ -40,10 +44,10 @@ export const tokenManager = {
 		}
 	},
 	clearTokens: () => {
-		accessToken = null;
 		isRefreshing = false;
 		refreshPromise = null;
 		if (typeof window !== "undefined" && window.localStorage) {
+			localStorage.removeItem("accessToken");
 			localStorage.removeItem("refreshToken");
 		}
 	},
