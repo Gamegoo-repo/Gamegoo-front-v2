@@ -35,7 +35,6 @@ class SocketManager {
 		}
 
 		this.isConnecting = true;
-		console.log("🔌 싱글톤 소켓 연결을 시도합니다...", endpoint);
 
 		try {
 			// 기존 소켓이 있으면 정리

@@ -43,29 +43,18 @@ function RootLayout() {
 			const accessToken = tokenManager.getAccessToken();
 			const refreshToken = tokenManager.getRefreshToken();
 
-			console.log("Auth initialization:", {
-				accessToken: !!accessToken,
-				refreshToken: !!refreshToken,
-			});
-
 			// accessToken이 없고 refreshToken이 있을 때만 refresh 시도
 			if (!accessToken && refreshToken) {
 				try {
-					console.log("Attempting token refresh...");
 					await refreshTokenMutation.mutateAsync(refreshToken);
-					console.log("Token refresh successful");
-				} catch (error) {
-					console.warn("Token refresh error on app initialization:", error);
+				} catch (_error) {
 					// refresh 실패 시에만 리다이렉트
 					tokenManager.clearTokens();
 					navigate({ to: "/riot" });
 				}
 			} else if (!accessToken && !refreshToken) {
-				// 토큰이 모두 없으면 로그인 페이지로 리다이렉트
-				console.log("No tokens available, redirecting to login");
+				// 토큰이 모두 없으면 로그인페이지로 리다이렉트
 				navigate({ to: "/riot" });
-			} else {
-				console.log("User is authenticated");
 			}
 		};
 
