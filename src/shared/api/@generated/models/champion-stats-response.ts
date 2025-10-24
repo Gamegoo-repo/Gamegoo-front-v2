@@ -25,66 +25,66 @@ export interface ChampionStatsResponse {
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'championId'?: number;
+    'championId': number;
     /**
      * 
      * @type {string}
      * @memberof ChampionStatsResponse
      */
-    'championName'?: string;
+    'championName': string;
     /**
      * 
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'winRate'?: number;
+    'winRate': number;
     /**
      * 
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'wins'?: number;
+    'wins': number;
     /**
      * 
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'games'?: number;
+    'games': number;
     /**
      * 
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'csPerMinute'?: number;
+    'csPerMinute': number;
     /**
      * 
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'averageCs'?: number;
+    'averageCs': number;
     /**
      * 
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'kda'?: number;
+    'kda': number;
     /**
      * 
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'kills'?: number;
+    'kills': number;
     /**
      * 
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'deaths'?: number;
+    'deaths': number;
     /**
      * 
      * @type {number}
      * @memberof ChampionStatsResponse
      */
-    'assists'?: number;
+    'assists': number;
 }
 

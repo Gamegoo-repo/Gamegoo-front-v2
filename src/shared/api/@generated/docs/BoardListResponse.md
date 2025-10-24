@@ -5,30 +5,29 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**boardId** | **number** |  | [optional] [default to undefined]
-**memberId** | **number** |  | [optional] [default to undefined]
-**gameName** | **string** |  | [optional] [default to undefined]
-**tag** | **string** |  | [optional] [default to undefined]
-**mainP** | [**Position**](Position.md) |  | [optional] [default to undefined]
-**subP** | [**Position**](Position.md) |  | [optional] [default to undefined]
-**wantP** | [**Array&lt;Position&gt;**](Position.md) |  | [optional] [default to undefined]
-**mike** | [**Mike**](Mike.md) |  | [optional] [default to undefined]
+**boardId** | **number** |  | [default to undefined]
+**memberId** | **number** |  | [default to undefined]
+**gameName** | **string** |  | [default to undefined]
+**tag** | **string** |  | [default to undefined]
+**mainP** | [**Position**](Position.md) |  | [default to undefined]
+**subP** | [**Position**](Position.md) |  | [default to undefined]
+**wantP** | **Array&lt;string&gt;** |  | [default to undefined]
+**mike** | [**Mike**](Mike.md) |  | [default to undefined]
 **contents** | **string** |  | [optional] [default to undefined]
-**boardProfileImage** | **number** |  | [optional] [default to undefined]
-**createdAt** | **string** |  | [optional] [default to undefined]
-**profileImage** | **number** |  | [optional] [default to undefined]
-**mannerLevel** | **number** |  | [optional] [default to undefined]
-**tier** | [**Tier**](Tier.md) |  | [optional] [default to undefined]
-**rank** | **number** |  | [optional] [default to undefined]
-**gameMode** | [**GameMode**](GameMode.md) |  | [optional] [default to undefined]
+**createdAt** | **string** |  | [default to undefined]
+**profileImage** | **number** |  | [default to undefined]
+**mannerLevel** | **number** |  | [default to undefined]
+**tier** | [**Tier**](Tier.md) |  | [default to undefined]
+**rank** | **number** |  | [default to undefined]
+**gameMode** | [**GameMode**](GameMode.md) |  | [default to undefined]
 **winRate** | **number** |  | [optional] [default to undefined]
 **bumpTime** | **string** |  | [optional] [default to undefined]
-**championStatsResponseList** | [**Array&lt;ChampionStatsResponse&gt;**](ChampionStatsResponse.md) |  | [optional] [default to undefined]
+**championStatsResponseList** | [**Array&lt;ChampionStatsResponse&gt;**](ChampionStatsResponse.md) |  | [default to undefined]
 **memberRecentStats** | [**MemberRecentStatsResponse**](MemberRecentStatsResponse.md) |  | [optional] [default to undefined]
-**freeTier** | [**Tier**](Tier.md) |  | [optional] [default to undefined]
-**freeRank** | **number** |  | [optional] [default to undefined]
-**soloTier** | [**Tier**](Tier.md) |  | [optional] [default to undefined]
-**soloRank** | **number** |  | [optional] [default to undefined]
+**freeTier** | [**Tier**](Tier.md) |  | [default to undefined]
+**freeRank** | **number** |  | [default to undefined]
+**soloTier** | [**Tier**](Tier.md) |  | [default to undefined]
+**soloRank** | **number** |  | [default to undefined]
 
 ## Example
 
@@ -45,7 +44,6 @@ const instance: BoardListResponse = {
     wantP,
     mike,
     contents,
-    boardProfileImage,
     createdAt,
     profileImage,
     mannerLevel,

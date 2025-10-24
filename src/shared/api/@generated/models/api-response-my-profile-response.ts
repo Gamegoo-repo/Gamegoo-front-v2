@@ -28,13 +28,13 @@ export interface ApiResponseMyProfileResponse {
      * @type {number}
      * @memberof ApiResponseMyProfileResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseMyProfileResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

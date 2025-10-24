@@ -54,13 +54,17 @@ const { status, data } = await apiInstance.enterChatroom(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [CHAT_401] 채팅방을 찾을 수 없습니다. [CHAT_407] 채팅 상대 회원이 탈퇴했습니다. 채팅 시작이 불가능합니다. [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**400** | [CHAT_402] 접근할 수 없는 채팅방 입니다. |  -  |
+|**403** | [CHAT_405] 채팅 상대 회원을 차단한 상태입니다. 채팅 시작이 불가능합니다. [CHAT_406] 채팅 상대 회원이 나를 차단했습니다. 채팅 시작이 불가능합니다. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -105,13 +109,16 @@ const { status, data } = await apiInstance.exitChatroom(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [CHAT_401] 채팅방을 찾을 수 없습니다. [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**400** | [CHAT_402] 접근할 수 없는 채팅방 입니다. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -159,13 +166,16 @@ const { status, data } = await apiInstance.getChatMessages(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [CHAT_401] 채팅방을 찾을 수 없습니다. [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**400** | [CHAT_402] 접근할 수 없는 채팅방 입니다. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -203,13 +213,15 @@ This endpoint does not have any parameters.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -247,13 +259,15 @@ This endpoint does not have any parameters.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -301,13 +315,17 @@ const { status, data } = await apiInstance.readChatMessage(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [CHAT_401] 채팅방을 찾을 수 없습니다. [CHAT_403] 해당 메시지를 찾을 수 없습니다 [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**400** | [CHAT_402] 접근할 수 없는 채팅방 입니다. |  -  |
+|**403** | [CHAT_408] 해당 채팅방에 입장 상태가 아닙니다. 채팅방 입장 후 메시지 읽음 처리하세요. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -352,13 +370,17 @@ const { status, data } = await apiInstance.startChatroomByBoardId(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**403** | [BAN_403] 채팅 사용이 제한된 상태입니다. [CHAT_406] 채팅 상대 회원이 나를 차단했습니다. 채팅 시작이 불가능합니다. [CHAT_405] 채팅 상대 회원을 차단한 상태입니다. 채팅 시작이 불가능합니다. |  -  |
+|**404** | [BOARD_401] 게시글을 찾을 수 없습니다. [MEMBER_401] 사용자를 찾을 수 없습니다. [CHAT_407] 채팅 상대 회원이 탈퇴했습니다. 채팅 시작이 불가능합니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**400** | [COMMON400] 잘못된 요청입니다. [CHAT_402] 접근할 수 없는 채팅방 입니다. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -403,13 +425,17 @@ const { status, data } = await apiInstance.startChatroomByMemberId(
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: */*
+ - **Accept**: */*, application/json
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [CHAT_407] 채팅 상대 회원이 탈퇴했습니다. 채팅 시작이 불가능합니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**400** | [COMMON400] 잘못된 요청입니다. [CHAT_402] 접근할 수 없는 채팅방 입니다. |  -  |
+|**403** | [CHAT_405] 채팅 상대 회원을 차단한 상태입니다. 채팅 시작이 불가능합니다. [CHAT_406] 채팅 상대 회원이 나를 차단했습니다. 채팅 시작이 불가능합니다. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -5,16 +5,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**uuid** | **string** |  | [optional] [default to undefined]
-**memberId** | **number** |  | [optional] [default to undefined]
-**gameName** | **string** |  | [optional] [default to undefined]
-**memberProfileImg** | **number** |  | [optional] [default to undefined]
-**friend** | **boolean** |  | [optional] [default to undefined]
-**blocked** | **boolean** |  | [optional] [default to undefined]
-**blind** | **boolean** |  | [optional] [default to undefined]
+**uuid** | **string** |  | [default to undefined]
+**memberId** | **number** |  | [default to undefined]
+**gameName** | **string** |  | [default to undefined]
+**memberProfileImg** | **number** |  | [default to undefined]
+**friend** | **boolean** |  | [default to undefined]
+**blocked** | **boolean** |  | [default to undefined]
+**blind** | **boolean** |  | [default to undefined]
 **friendRequestMemberId** | **number** |  | [optional] [default to undefined]
 **system** | [**SystemFlagResponse**](SystemFlagResponse.md) |  | [optional] [default to undefined]
-**chatMessageListResponse** | [**ChatMessageListResponse**](ChatMessageListResponse.md) |  | [optional] [default to undefined]
+**chatMessageListResponse** | [**ChatMessageListResponse**](ChatMessageListResponse.md) |  | [default to undefined]
 
 ## Example
 

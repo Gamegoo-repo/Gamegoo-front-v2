@@ -25,13 +25,13 @@ export interface ApiResponseInteger {
      * @type {number}
      * @memberof ApiResponseInteger
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseInteger
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

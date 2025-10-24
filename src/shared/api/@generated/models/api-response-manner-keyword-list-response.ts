@@ -28,13 +28,13 @@ export interface ApiResponseMannerKeywordListResponse {
      * @type {number}
      * @memberof ApiResponseMannerKeywordListResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseMannerKeywordListResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

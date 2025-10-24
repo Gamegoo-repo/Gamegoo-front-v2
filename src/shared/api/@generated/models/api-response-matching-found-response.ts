@@ -28,13 +28,13 @@ export interface ApiResponseMatchingFoundResponse {
      * @type {number}
      * @memberof ApiResponseMatchingFoundResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseMatchingFoundResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

@@ -37,79 +37,79 @@ export interface BoardUpdateResponse {
      * @type {number}
      * @memberof BoardUpdateResponse
      */
-    'boardId'?: number;
+    'boardId': number;
     /**
      * 
      * @type {number}
      * @memberof BoardUpdateResponse
      */
-    'memberId'?: number;
+    'memberId': number;
     /**
      * 
      * @type {number}
      * @memberof BoardUpdateResponse
      */
-    'profileImage'?: number;
+    'profileImage': number;
     /**
      * 
      * @type {string}
      * @memberof BoardUpdateResponse
      */
-    'gameName'?: string;
+    'gameName': string;
     /**
      * 
      * @type {string}
      * @memberof BoardUpdateResponse
      */
-    'tag'?: string;
+    'tag': string;
     /**
      * 
      * @type {Tier}
      * @memberof BoardUpdateResponse
      */
-    'tier'?: Tier;
+    'tier': Tier;
     /**
      * 
      * @type {number}
      * @memberof BoardUpdateResponse
      */
-    'rank'?: number;
+    'rank': number;
     /**
      * 
      * @type {GameMode}
      * @memberof BoardUpdateResponse
      */
-    'gameMode'?: GameMode;
+    'gameMode': GameMode;
     /**
      * 
      * @type {Position}
      * @memberof BoardUpdateResponse
      */
-    'mainP'?: Position;
+    'mainP': Position;
     /**
      * 
      * @type {Position}
      * @memberof BoardUpdateResponse
      */
-    'subP'?: Position;
+    'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof BoardUpdateResponse
      */
-    'wantP'?: Array<Position>;
+    'wantP': Array<BoardUpdateResponseWantP>;
     /**
      * 
      * @type {Mike}
      * @memberof BoardUpdateResponse
      */
-    'mike'?: Mike;
+    'mike': Mike;
     /**
      * 
      * @type {Array<number>}
      * @memberof BoardUpdateResponse
      */
-    'gameStyles'?: Array<number>;
+    'gameStyles': Array<number>;
     /**
      * 
      * @type {string}
@@ -118,5 +118,15 @@ export interface BoardUpdateResponse {
     'contents'?: string;
 }
 
+export const BoardUpdateResponseWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type BoardUpdateResponseWantP = typeof BoardUpdateResponseWantP[keyof typeof BoardUpdateResponseWantP];
 
 

@@ -28,19 +28,19 @@ export interface NotificationCursorListResponse {
      * @type {Array<NotificationResponse>}
      * @memberof NotificationCursorListResponse
      */
-    'notificationList'?: Array<NotificationResponse>;
+    'notificationList': Array<NotificationResponse>;
     /**
      * 
      * @type {number}
      * @memberof NotificationCursorListResponse
      */
-    'listSize'?: number;
+    'listSize': number;
     /**
      * 
      * @type {boolean}
      * @memberof NotificationCursorListResponse
      */
-    'hasNext'?: boolean;
+    'hasNext': boolean;
     /**
      * 
      * @type {number}

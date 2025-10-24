@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**myBoards** | [**Array&lt;MyBoardListResponse&gt;**](MyBoardListResponse.md) |  | [optional] [default to undefined]
-**size** | **number** |  | [optional] [default to undefined]
-**hasNext** | **boolean** |  | [optional] [default to undefined]
+**myBoards** | [**Array&lt;MyBoardListResponse&gt;**](MyBoardListResponse.md) |  | [default to undefined]
+**size** | **number** |  | [default to undefined]
+**hasNext** | **boolean** |  | [default to undefined]
 **nextCursor** | **string** |  | [optional] [default to undefined]
 
 ## Example

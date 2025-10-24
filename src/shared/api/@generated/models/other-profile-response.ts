@@ -46,43 +46,43 @@ export interface OtherProfileResponse {
      * @type {number}
      * @memberof OtherProfileResponse
      */
-    'id'?: number;
+    'id': number;
     /**
      * 
      * @type {number}
      * @memberof OtherProfileResponse
      */
-    'profileImg'?: number;
+    'profileImg': number;
     /**
      * 
      * @type {Mike}
      * @memberof OtherProfileResponse
      */
-    'mike'?: Mike;
+    'mike': Mike;
     /**
      * 
      * @type {string}
      * @memberof OtherProfileResponse
      */
-    'gameName'?: string;
+    'gameName': string;
     /**
      * 
      * @type {string}
      * @memberof OtherProfileResponse
      */
-    'tag'?: string;
+    'tag': string;
     /**
      * 
      * @type {Tier}
      * @memberof OtherProfileResponse
      */
-    'soloTier'?: Tier;
+    'soloTier': Tier;
     /**
      * 
      * @type {number}
      * @memberof OtherProfileResponse
      */
-    'soloRank'?: number;
+    'soloRank': number;
     /**
      * 
      * @type {number}
@@ -94,13 +94,13 @@ export interface OtherProfileResponse {
      * @type {Tier}
      * @memberof OtherProfileResponse
      */
-    'freeTier'?: Tier;
+    'freeTier': Tier;
     /**
      * 
      * @type {number}
      * @memberof OtherProfileResponse
      */
-    'freeRank'?: number;
+    'freeRank': number;
     /**
      * 
      * @type {number}
@@ -118,49 +118,49 @@ export interface OtherProfileResponse {
      * @type {Position}
      * @memberof OtherProfileResponse
      */
-    'mainP'?: Position;
+    'mainP': Position;
     /**
      * 
      * @type {Position}
      * @memberof OtherProfileResponse
      */
-    'subP'?: Position;
+    'subP': Position;
     /**
      * 
-     * @type {Array<Position>}
+     * @type {Array<string>}
      * @memberof OtherProfileResponse
      */
-    'wantP'?: Array<Position>;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof OtherProfileResponse
-     */
-    'isAgree'?: boolean;
+    'wantP': Array<OtherProfileResponseWantP>;
     /**
      * 
      * @type {boolean}
      * @memberof OtherProfileResponse
      */
-    'isBlind'?: boolean;
+    'isAgree': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof OtherProfileResponse
+     */
+    'isBlind': boolean;
     /**
      * 
      * @type {LoginType}
      * @memberof OtherProfileResponse
      */
-    'loginType'?: LoginType;
+    'loginType': LoginType;
     /**
      * 
      * @type {boolean}
      * @memberof OtherProfileResponse
      */
-    'blocked'?: boolean;
+    'blocked': boolean;
     /**
      * 
      * @type {boolean}
      * @memberof OtherProfileResponse
      */
-    'friend'?: boolean;
+    'friend': boolean;
     /**
      * 
      * @type {number}
@@ -172,13 +172,13 @@ export interface OtherProfileResponse {
      * @type {Array<GameStyleResponse>}
      * @memberof OtherProfileResponse
      */
-    'gameStyleResponseList'?: Array<GameStyleResponse>;
+    'gameStyleResponseList': Array<GameStyleResponse>;
     /**
      * 
      * @type {Array<ChampionStatsResponse>}
      * @memberof OtherProfileResponse
      */
-    'championStatsResponseList'?: Array<ChampionStatsResponse>;
+    'championStatsResponseList': Array<ChampionStatsResponse>;
     /**
      * 
      * @type {MemberRecentStatsResponse}
@@ -190,8 +190,18 @@ export interface OtherProfileResponse {
      * @type {boolean}
      * @memberof OtherProfileResponse
      */
-    'canRefresh'?: boolean;
+    'canRefresh': boolean;
 }
 
+export const OtherProfileResponseWantP = {
+    ANY: 'ANY',
+    TOP: 'TOP',
+    JUNGLE: 'JUNGLE',
+    MID: 'MID',
+    ADC: 'ADC',
+    SUP: 'SUP'
+} as const;
+
+export type OtherProfileResponseWantP = typeof OtherProfileResponseWantP[keyof typeof OtherProfileResponseWantP];
 
 

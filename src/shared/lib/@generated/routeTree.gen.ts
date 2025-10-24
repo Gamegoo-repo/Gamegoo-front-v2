@@ -10,8 +10,9 @@
 
 import { Route as rootRouteImport } from './../../../pages/__root'
 import { Route as AboutRouteImport } from './../../../pages/about'
-import { Route as IndexRouteImport } from './../../../pages/index'
+import { Route as HeaderLayoutRouteRouteImport } from './../../../pages/_header-layout/route'
 import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
+import { Route as HeaderLayoutIndexRouteImport } from './../../../pages/_header-layout/index'
 import { Route as SignUpTermsRouteImport } from './../../../pages/sign-up/terms'
 import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
 
@@ -20,15 +21,19 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const HeaderLayoutRouteRoute = HeaderLayoutRouteRouteImport.update({
+  id: '/_header-layout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RiotIndexRoute = RiotIndexRouteImport.update({
   id: '/riot/',
   path: '/riot/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const HeaderLayoutIndexRoute = HeaderLayoutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HeaderLayoutRouteRoute,
 } as any)
 const SignUpTermsRoute = SignUpTermsRouteImport.update({
   id: '/sign-up/terms',
@@ -42,43 +47,45 @@ const RiotCallbackRoute = RiotCallbackRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
+  '/': typeof HeaderLayoutIndexRoute
   '/riot': typeof RiotIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
+  '/': typeof HeaderLayoutIndexRoute
   '/riot': typeof RiotIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_header-layout': typeof HeaderLayoutRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
+  '/_header-layout/': typeof HeaderLayoutIndexRoute
   '/riot/': typeof RiotIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/riot/callback' | '/sign-up/terms' | '/riot'
+  fullPaths: '/about' | '/riot/callback' | '/sign-up/terms' | '/' | '/riot'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/riot/callback' | '/sign-up/terms' | '/riot'
+  to: '/about' | '/riot/callback' | '/sign-up/terms' | '/' | '/riot'
   id:
     | '__root__'
-    | '/'
+    | '/_header-layout'
     | '/about'
     | '/riot/callback'
     | '/sign-up/terms'
+    | '/_header-layout/'
     | '/riot/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  HeaderLayoutRouteRoute: typeof HeaderLayoutRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   RiotCallbackRoute: typeof RiotCallbackRoute
   SignUpTermsRoute: typeof SignUpTermsRoute
@@ -94,11 +101,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/_header-layout': {
+      id: '/_header-layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof HeaderLayoutRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/riot/': {
@@ -107,6 +114,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/riot'
       preLoaderRoute: typeof RiotIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_header-layout/': {
+      id: '/_header-layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof HeaderLayoutIndexRouteImport
+      parentRoute: typeof HeaderLayoutRouteRoute
     }
     '/sign-up/terms': {
       id: '/sign-up/terms'
@@ -125,8 +139,19 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface HeaderLayoutRouteRouteChildren {
+  HeaderLayoutIndexRoute: typeof HeaderLayoutIndexRoute
+}
+
+const HeaderLayoutRouteRouteChildren: HeaderLayoutRouteRouteChildren = {
+  HeaderLayoutIndexRoute: HeaderLayoutIndexRoute,
+}
+
+const HeaderLayoutRouteRouteWithChildren =
+  HeaderLayoutRouteRoute._addFileChildren(HeaderLayoutRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  HeaderLayoutRouteRoute: HeaderLayoutRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   RiotCallbackRoute: RiotCallbackRoute,
   SignUpTermsRoute: SignUpTermsRoute,

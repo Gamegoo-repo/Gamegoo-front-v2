@@ -28,13 +28,13 @@ export interface BoardCursorResponse {
      * @type {Array<BoardListResponse>}
      * @memberof BoardCursorResponse
      */
-    'boards'?: Array<BoardListResponse>;
+    'boards': Array<BoardListResponse>;
     /**
      * 
      * @type {boolean}
      * @memberof BoardCursorResponse
      */
-    'hasNext'?: boolean;
+    'hasNext': boolean;
     /**
      * 
      * @type {string}

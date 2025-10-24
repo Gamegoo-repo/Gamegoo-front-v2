@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**chatMessageList** | [**Array&lt;ChatMessageResponse&gt;**](ChatMessageResponse.md) |  | [optional] [default to undefined]
-**listSize** | **number** |  | [optional] [default to undefined]
-**hasNext** | **boolean** |  | [optional] [default to undefined]
+**chatMessageList** | [**Array&lt;ChatMessageResponse&gt;**](ChatMessageResponse.md) |  | [default to undefined]
+**listSize** | **number** |  | [default to undefined]
+**hasNext** | **boolean** |  | [default to undefined]
 **nextCursor** | **number** |  | [optional] [default to undefined]
 
 ## Example

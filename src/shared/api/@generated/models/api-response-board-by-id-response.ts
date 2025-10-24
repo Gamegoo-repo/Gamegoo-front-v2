@@ -28,13 +28,13 @@ export interface ApiResponseBoardByIdResponse {
      * @type {number}
      * @memberof ApiResponseBoardByIdResponse
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseBoardByIdResponse
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

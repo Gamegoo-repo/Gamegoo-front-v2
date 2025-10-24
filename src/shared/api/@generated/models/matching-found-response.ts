@@ -28,12 +28,12 @@ export interface MatchingFoundResponse {
      * @type {MatchingMemberInfoResponse}
      * @memberof MatchingFoundResponse
      */
-    'myMatchingInfo'?: MatchingMemberInfoResponse;
+    'myMatchingInfo': MatchingMemberInfoResponse;
     /**
      * 
      * @type {MatchingMemberInfoResponse}
      * @memberof MatchingFoundResponse
      */
-    'targetMatchingInfo'?: MatchingMemberInfoResponse;
+    'targetMatchingInfo': MatchingMemberInfoResponse;
 }
 

@@ -28,18 +28,18 @@ export interface MyBoardResponse {
      * @type {number}
      * @memberof MyBoardResponse
      */
-    'totalPage'?: number;
+    'totalPage': number;
     /**
      * 
      * @type {number}
      * @memberof MyBoardResponse
      */
-    'totalCount'?: number;
+    'totalCount': number;
     /**
      * 
      * @type {Array<MyBoardListResponse>}
      * @memberof MyBoardResponse
      */
-    'myBoards'?: Array<MyBoardListResponse>;
+    'myBoards': Array<MyBoardListResponse>;
 }
 

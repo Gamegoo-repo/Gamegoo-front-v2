@@ -25,13 +25,13 @@ export interface ApiResponseObject {
      * @type {number}
      * @memberof ApiResponseObject
      */
-    'status'?: number;
+    'status': number;
     /**
      * 
      * @type {string}
      * @memberof ApiResponseObject
      */
-    'message'?: string;
+    'message': string;
     /**
      * 
      * @type {string}

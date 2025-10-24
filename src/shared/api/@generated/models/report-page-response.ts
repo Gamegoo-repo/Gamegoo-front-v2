@@ -28,24 +28,24 @@ export interface ReportPageResponse {
      * @type {Array<ReportListResponse>}
      * @memberof ReportPageResponse
      */
-    'reports'?: Array<ReportListResponse>;
+    'reports': Array<ReportListResponse>;
     /**
      * 
      * @type {number}
      * @memberof ReportPageResponse
      */
-    'totalPages'?: number;
+    'totalPages': number;
     /**
      * 
      * @type {number}
      * @memberof ReportPageResponse
      */
-    'totalElements'?: number;
+    'totalElements': number;
     /**
      * 
      * @type {number}
      * @memberof ReportPageResponse
      */
-    'currentPage'?: number;
+    'currentPage': number;
 }
 

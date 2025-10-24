@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**friendMemberId** | **number** |  | [optional] [default to undefined]
-**message** | **string** |  | [optional] [default to undefined]
+**friendMemberId** | **number** |  | [default to undefined]
+**message** | **string** |  | [default to undefined]
 
 ## Example
 

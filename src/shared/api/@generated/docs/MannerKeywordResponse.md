@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**mannerKeywordId** | **number** |  | [optional] [default to undefined]
-**count** | **number** |  | [optional] [default to undefined]
+**mannerKeywordId** | **number** |  | [default to undefined]
+**count** | **number** |  | [default to undefined]
 
 ## Example
 
