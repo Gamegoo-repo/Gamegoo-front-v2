@@ -1,13 +1,28 @@
 import { ProfileAvatar } from "@/features/profile";
+import type { MyProfileResponse } from "@/shared/api";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../hooks";
 import MatchHeader from "../match-header";
 
 interface ProfileStepProps {
 	funnel: UseMatchFunnelReturn;
+	user: MyProfileResponse | null;
 }
 
-function ProfileStep({ funnel }: ProfileStepProps) {
+function ProfileStep({ funnel, user }: ProfileStepProps) {
+	const handleMatchStart = () => {
+		/**
+		 * todo: gameStyleIdList 추가
+		 */
+		funnel.context.profile = {
+			mike: user?.mike || undefined,
+			mainP: user?.mainP || undefined,
+			subP: user?.subP || undefined,
+			wantP: user?.wantP || undefined,
+		};
+		funnel.toStep("match-start");
+	};
+
 	return (
 		<>
 			<MatchHeader
@@ -24,7 +39,7 @@ function ProfileStep({ funnel }: ProfileStepProps) {
 						<Button
 							variant="default"
 							className="h-14 w-[380px] rounded-2xl px-8"
-							onClick={() => funnel.toStep("match-start")}
+							onClick={handleMatchStart}
 						>
 							매칭 시작하기
 						</Button>

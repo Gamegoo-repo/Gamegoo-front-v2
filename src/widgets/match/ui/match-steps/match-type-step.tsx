@@ -45,7 +45,7 @@ function MatchTypeStep({ funnel }: MatchTypeStepProps) {
 					}}
 					onClick={() => {
 						funnel.toStep("game-mode");
-						funnel.context.type = "CONDITIONAL";
+						funnel.context.type = "PRECISE";
 					}}
 				/>
 			</div>
