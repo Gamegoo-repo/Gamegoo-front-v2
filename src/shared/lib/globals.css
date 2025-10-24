@@ -44,6 +44,12 @@
 	--color-secondary: #CA1FCF;
 	/*폰트*/
 	--font-pretendard: 'Pretendard', sans-serif;
+  /*채팅방 input 높이*/
+  --chatroom-input-height: 138px;
+
+  /*채팅방 헤더 높이*/
+  --chatroom-header-height: 100px;
+
 
 	/*브레이크 포인트*/
 	--breakpoint-mobile: 700px;
