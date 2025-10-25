@@ -1,18 +1,11 @@
-import {
-	createRootRoute,
-	Link,
-	Outlet,
-	useNavigate,
-} from "@tanstack/react-router";
+import { createRootRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import {
-	LoginRequiredModal,
-	useLoginRequiredModalStore,
-} from "@/features/auth";
+import { useLoginRequiredModalStore } from "@/features/auth";
 import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-update-handler";
 import { tokenManager } from "@/shared/api/config";
+import { ResponsiveProvider } from "@/shared/model/responsive-context";
 import {
 	AuthUserProvider,
 	ChatSocketProvider,
@@ -20,8 +13,11 @@ import {
 	GamegooSocketProvider,
 	TanstackQueryProvider,
 } from "@/shared/providers";
-import FloatingChatButton from "@/widgets/floating-chat-dialog/ui/floating-chat-button";
-import FloatingChatDialog from "@/widgets/floating-chat-dialog/ui/floating-chat-dialog";
+
+import {
+	FloatingChatButton,
+	FloatingChatDialog,
+} from "@/widgets/floating-chat-dialog";
 
 function RootLayout() {
 	useChatroomUpdateHandler();
@@ -77,20 +73,12 @@ function RootLayout() {
 				<ChatSocketProvider>
 					<ConfirmDialogProvider>
 						<AuthUserProvider>
-							<div className="p-2 flex gap-2">
-								<Link to="/" className="[&.active]:font-bold">
-									Home
-								</Link>
-								<Link to="/about" className="[&.active]:font-bold">
-									About
-								</Link>
-							</div>
-							<hr />
-							<Outlet />
-							<FloatingChatButton onClick={handleChatButtonClick} />
-							<FloatingChatDialog />
-							<TanStackRouterDevtools />
-							<LoginRequiredModal />
+							<ResponsiveProvider>
+								<Outlet />
+								<FloatingChatButton onClick={handleChatButtonClick} />
+								<FloatingChatDialog />
+								<TanStackRouterDevtools />
+							</ResponsiveProvider>
 						</AuthUserProvider>
 					</ConfirmDialogProvider>
 				</ChatSocketProvider>
