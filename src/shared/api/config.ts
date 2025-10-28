@@ -32,10 +32,19 @@ export const tokenManager = {
 
 // API 기본 URL
 const API_BASE_URL =
-	import.meta.env.PUBLIC_API_BASE_URL || "https://api.gamegoo.co.kr";
+	import.meta.env.PUBLIC_API_BASE_URL || "https://dev.gamegoo.co.kr";
 
-// axios 인스턴스
-export const apiClient: AxiosInstance = axios.create({
+// axios 인스턴스 - 인증 필요
+export const privateApiClient: AxiosInstance = axios.create({
+	baseURL: API_BASE_URL,
+	timeout: 30000,
+	headers: {
+		"Content-Type": "application/json",
+	},
+});
+
+// axios 인스턴스 - 인증 불필요
+export const publicApiClient: AxiosInstance = axios.create({
 	baseURL: API_BASE_URL,
 	timeout: 30000,
 	headers: {
@@ -44,7 +53,7 @@ export const apiClient: AxiosInstance = axios.create({
 });
 
 // 요청 인터셉터 - JWT 토큰 자동 추가
-apiClient.interceptors.request.use(
+privateApiClient.interceptors.request.use(
 	(config) => {
 		const token = tokenManager.getAccessToken();
 		if (token) {
@@ -56,7 +65,7 @@ apiClient.interceptors.request.use(
 );
 
 // 응답 인터셉터 - 토큰 갱신 및 에러 처리
-apiClient.interceptors.response.use(
+privateApiClient.interceptors.response.use(
 	(response) => response,
 	async (error: AxiosError) => {
 		const originalRequest = error.config as any;
@@ -82,7 +91,7 @@ apiClient.interceptors.response.use(
 						if (originalRequest.headers) {
 							originalRequest.headers.Authorization = `Bearer ${result.accessToken}`;
 						}
-						return apiClient(originalRequest);
+						return privateApiClient(originalRequest);
 					} else {
 						throw new Error("Invalid refresh response");
 					}
@@ -106,10 +115,14 @@ apiClient.interceptors.response.use(
 );
 
 // OpenAPI Configuration
-export const apiConfiguration = new Configuration({
+export const privateApiConfiguration = new Configuration({
 	basePath: API_BASE_URL,
 	accessToken: () => {
 		const token = tokenManager.getAccessToken();
 		return token || "";
 	},
+});
+
+export const publicApiConfiguration = new Configuration({
+	basePath: API_BASE_URL,
 });

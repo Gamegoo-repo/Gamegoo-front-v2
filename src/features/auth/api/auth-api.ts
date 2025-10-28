@@ -5,7 +5,8 @@ import type {
 	RiotJoinRequest,
 } from "@/shared/api/@generated";
 import { AuthControllerApi, RiotApi } from "@/shared/api/@generated";
-import { apiConfiguration, tokenManager } from "@/shared/api/config";
+import { tokenManager } from "@/shared/api/config";
+import { api } from "@/shared/api";
 
 const authApi = new AuthControllerApi();
 
@@ -13,7 +14,7 @@ export const useRefreshToken = () => {
 	return useMutation({
 		mutationFn: async (refreshToken: string) => {
 			const request: RefreshTokenRequest = { refreshToken };
-			const response = await authApi.updateToken(request);
+			const response = await api.private.auth.updateToken(request);
 			return response.data;
 		},
 		onSuccess: (data) => {
@@ -32,20 +33,18 @@ export const useSignUpMutation = () => {
 
 	return useMutation({
 		mutationFn: async (riotJoinRequestDto: RiotJoinRequest) => {
-			const api = new RiotApi(apiConfiguration);
-			const response = await api.joinByRSO(riotJoinRequestDto);
+			const response = await api.public.riot.joinByRSO(riotJoinRequestDto);
 			return response.data.data;
 		},
 		onSuccess: (data) => {
 			if (data) {
-				const { accessToken, refreshToken } = data;
-
-				if (accessToken && refreshToken) {
-					tokenManager.setTokens(accessToken, refreshToken);
-					navigate({
-						to: "/",
-					});
-				}
+				// const { accessToken, refreshToken } = data;
+				// if (accessToken && refreshToken) {
+				// 	tokenManager.setTokens(accessToken, refreshToken);
+				// 	navigate({
+				// 		to: "/",
+				// 	});
+				// }
 			}
 		},
 		onError: (error) => {
