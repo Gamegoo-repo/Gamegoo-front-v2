@@ -1,0 +1,32 @@
+import { cn } from "@/shared/lib/utils";
+
+export default function AdcIcon({ className }: { className?: string }) {
+	return (
+		<svg
+			className={cn("position-icon w-6", className)}
+			viewBox="0 0 24 24"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<title>Position icon</title>
+
+			<path
+				className="primary"
+				d="M4 18.2221V4H18.2228L15.556 6.66664H6.66678V15.5554L4 18.2221Z"
+				fill="#B5C1D2"
+			/>
+			<path
+				d="M20 5.77793V20H5.77718L8.44396 17.3334H17.3332V8.44457L20 5.77793Z"
+				fill="currentColor"
+			/>
+			<rect
+				className="primary"
+				x="9.33203"
+				y="9.33203"
+				width="5.33356"
+				height="5.33328"
+				fill="#B5C1D2"
+			/>
+		</svg>
+	);
+}

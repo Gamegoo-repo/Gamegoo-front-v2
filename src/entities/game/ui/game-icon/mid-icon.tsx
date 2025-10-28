@@ -1,0 +1,29 @@
+import { cn } from "@/shared/lib/utils";
+
+export default function MidIcon({ className }: { className?: string }) {
+	return (
+		<svg
+			className={cn("position-icon w-6", className)}
+			viewBox="0 0 24 24"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<title>Position icon</title>
+
+			<path
+				className="primary"
+				d="M4 15.9271V4H15.9273L13.2768 6.65048H6.6505V13.2767L4 15.9271Z"
+				fill="#B5C1D2"
+			/>
+			<path
+				className="primary"
+				d="M20 8.07285V20H8.36365L10.9495 17.3495H17.4141V10.7233L20 8.07285Z"
+				fill="#B5C1D2"
+			/>
+			<path
+				d="M4 17.3332L17.3333 4H20V6.66664L6.66666 19.9998H4V17.3332Z"
+				fill="currentColor"
+			/>
+		</svg>
+	);
+}

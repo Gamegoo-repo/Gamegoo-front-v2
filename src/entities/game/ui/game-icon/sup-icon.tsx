@@ -1,0 +1,30 @@
+import { cn } from "@/shared/lib/utils";
+
+export default function SupIcon({ className }: { className?: string }) {
+	return (
+		<svg
+			className={cn("position-icon w-6", className)}
+			viewBox="0 0 24 24"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<title>Position icon</title>
+			<path
+				d="M9.58789 5.60001V4H14.4156V5.60001L12.0017 8.00003L9.58789 5.60001Z"
+				fill="currentColor"
+			/>
+			<path
+				d="M13.0362 10H10.9672L9.58789 18.0001L12.0017 20.0001L14.4156 18.0001L13.0362 10Z"
+				fill="currentColor"
+			/>
+			<path
+				d="M13.0342 9.00001L15.448 7H21.9999C20.3447 8.86668 17.4021 9.33335 16.1377 9.33335L17.8619 11.6667L15.1032 13.3334L13.0342 9.00001Z"
+				fill="currentColor"
+			/>
+			<path
+				d="M10.9658 9.00001L8.55197 7H2.0001C3.65531 8.86668 6.5979 9.33335 7.8623 9.33335L6.13812 11.6667L8.89681 13.3334L10.9658 9.00001Z"
+				fill="currentColor"
+			/>
+		</svg>
+	);
+}
