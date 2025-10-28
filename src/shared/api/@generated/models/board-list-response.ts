@@ -94,12 +94,6 @@ export interface BoardListResponse {
     'contents'?: string;
     /**
      * 
-     * @type {number}
-     * @memberof BoardListResponse
-     */
-    'boardProfileImage': number;
-    /**
-     * 
      * @type {string}
      * @memberof BoardListResponse
      */

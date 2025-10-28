@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **memberId** | **number** |  | [default to undefined]
 **name** | **string** |  | [default to undefined]
 **profileImg** | **number** |  | [default to undefined]
-**blind** | **boolean** |  | [optional] [default to undefined]
 **liked** | **boolean** |  | [optional] [default to undefined]
+**blind** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,8 +20,8 @@ const instance: FriendInfoResponse = {
     memberId,
     name,
     profileImg,
-    blind,
     liked,
+    blind,
 };
 ```
 

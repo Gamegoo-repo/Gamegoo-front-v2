@@ -9,6 +9,7 @@ All URIs are relative to *https://api.gamegoo.co.kr*
 |[**boardList**](#boardlist) | **GET** /api/v2/posts/list | 게시판 글 목록 조회 API|
 |[**boardUpdate**](#boardupdate) | **PUT** /api/v2/posts/{boardId} | 게시판 글 수정 API|
 |[**bumpBoard**](#bumpboard) | **POST** /api/v2/posts/{boardId}/bump | 게시글 끌올 API|
+|[**bumpLatestBoard**](#bumplatestboard) | **POST** /api/v2/posts/my/latest/bump | 최신글 자동 끌올 API|
 |[**deleteGuestBoard**](#deleteguestboard) | **DELETE** /api/v2/posts/guest/{boardId} | 비회원 게시판 글 삭제 API|
 |[**getBoardById**](#getboardbyid) | **GET** /api/v2/posts/list/{boardId} | 비회원용 게시판 글 조회 API|
 |[**getBoardByIdForMember**](#getboardbyidformember) | **GET** /api/v2/posts/member/list/{boardId} | 회원용 게시판 글 조회 API|
@@ -256,7 +257,7 @@ const { status, data } = await apiInstance.boardUpdate(
 # **bumpBoard**
 > ApiResponseBoardBumpResponse bumpBoard()
 
-게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 1시간 제한이 적용됩니다.
+게시글을 끌올하여 상단 노출시키는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
 
 ### Example
 
@@ -302,6 +303,54 @@ const { status, data } = await apiInstance.bumpBoard(
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
 |**403** | [BAN_402] 게시글 작성이 제한된 상태입니다. [BOARD_410] 게시글 끌어올리기 권한이 없습니다. |  -  |
+|**404** | [BOARD_401] 게시글을 찾을 수 없습니다. [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**400** | [BOARD_411] 게시글 끌어올리기는 5분에 1회만 가능합니다. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bumpLatestBoard**
+> ApiResponseBoardBumpResponse bumpLatestBoard()
+
+사용자가 작성한 가장 최근 게시글을 자동으로 끌올하는 API 입니다. 마지막 끌올 후 5분 제한이 적용됩니다.
+
+### Example
+
+```typescript
+import {
+    BoardApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new BoardApi(configuration);
+
+const { status, data } = await apiInstance.bumpLatestBoard();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**ApiResponseBoardBumpResponse**
+
+### Authorization
+
+[JWT TOKEN](../README.md#JWT TOKEN)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*, application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+|**403** | [BAN_402] 게시글 작성이 제한된 상태입니다. |  -  |
 |**404** | [BOARD_401] 게시글을 찾을 수 없습니다. [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
 |**400** | [BOARD_411] 게시글 끌어올리기는 5분에 1회만 가능합니다. |  -  |
 |**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |

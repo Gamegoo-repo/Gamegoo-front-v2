@@ -31,12 +31,6 @@ import type { Position } from './position';
 export interface GuestBoardInsertRequest {
     /**
      * 
-     * @type {number}
-     * @memberof GuestBoardInsertRequest
-     */
-    'boardProfileImage': number;
-    /**
-     * 
      * @type {GameMode}
      * @memberof GuestBoardInsertRequest
      */

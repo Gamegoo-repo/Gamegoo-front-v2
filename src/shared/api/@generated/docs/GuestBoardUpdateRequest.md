@@ -5,7 +5,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**boardProfileImage** | **number** |  | [default to undefined]
 **gameMode** | [**GameMode**](GameMode.md) |  | [default to undefined]
 **mainP** | [**Position**](Position.md) |  | [default to undefined]
 **subP** | [**Position**](Position.md) |  | [default to undefined]
@@ -21,7 +20,6 @@ Name | Type | Description | Notes
 import { GuestBoardUpdateRequest } from './api';
 
 const instance: GuestBoardUpdateRequest = {
-    boardProfileImage,
     gameMode,
     mainP,
     subP,

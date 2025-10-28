@@ -43,12 +43,12 @@ export interface FriendInfoResponse {
      * @type {boolean}
      * @memberof FriendInfoResponse
      */
-    'blind'?: boolean;
+    'liked'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof FriendInfoResponse
      */
-    'liked'?: boolean;
+    'blind'?: boolean;
 }
 
