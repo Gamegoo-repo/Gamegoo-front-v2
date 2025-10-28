@@ -196,6 +196,22 @@
         line-height: 150%;
     }
 
+    .semibold-13{
+        font-family: Pretendard;
+        font-size: 0.813rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%;
+    }
+
+    .semibold-14{
+        font-family: Pretendard;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%;
+    }
+
     .semibold-16{
         font-family: Pretendard;
         font-size: 1rem;
