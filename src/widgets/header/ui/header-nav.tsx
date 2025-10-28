@@ -19,13 +19,13 @@ export default function HeaderNav() {
 
 	const visibleMenus = menus.filter((menu) => {
 		if (isMobile) {
-			return menu.showOnMobile !== false; // 기본값 true
+			return menu.showOnMobile !== false;
 		}
-		return menu.showOnDesktop !== false; // 기본값 true
+		return menu.showOnDesktop !== false;
 	});
 
 	return (
-		<nav className="flex flex-grow justify-start ml-0 mobile:ml-[70px] px-5 mobile:px-0 gap-[42px] mobile:gap-10 mobile:col-span-2 w-full mobile:w-auto  mt-4 mobile:mt-0  border-b border-gray-300 mobile:border-none">
+		<nav className="flex grow justify-start ml-0 mobile:ml-[70px] px-5 mobile:px-0 gap-[42px] mobile:gap-10 mobile:col-span-2 w-full mobile:w-auto  mt-4 mobile:mt-0  border-b border-gray-300 mobile:border-none">
 			{visibleMenus.map((menu) => (
 				<Link
 					key={menu.href}
@@ -38,6 +38,7 @@ export default function HeaderNav() {
 						text-gray-800
 						[&.active]:border-b-[3px] [&.active]:border-gray-800
 						mobile:[&.active]:border-b-0
+						mobile:[&.active]:font-bold
 					"
 				>
 					{menu.label}
