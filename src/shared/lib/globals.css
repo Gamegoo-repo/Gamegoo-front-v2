@@ -103,203 +103,220 @@
 }
 
 @layer utilities {
-  .centered {
-    @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
-  }
 
-  /* Regular 11 */
-  .regular-11 {
-    font-family: Pretendard;
-    font-size: 0.688rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-  }
-
-  /* Regular 14 */
-  .regular-14 {
-    font-family: Pretendard;
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-  }
-
-  /* Regular 18 */
-  .regular-18 {
-    font-family: Pretendard;
-    font-size: 1.125rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-  }
-
-  /* Regular 20 */
-  .regular-20 {
-    font-family: Pretendard;
-    font-size: 1.25rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-  }
-
-  /* Regular 25 */
-  .regular-25 {
-    font-family: Pretendard;
-    font-size: 1.563rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-  }
-
-  /* Regular 32 */
-  .regular-32 {
-    font-family: Pretendard;
-    font-size: 2rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-  }
-
-  /* Medium 14 */
-  .medium-11 {
-    font-family: Pretendard;
-    font-size: 0.688rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 150%;
-  }
-
-  .medium-14 {
-    font-family: Pretendard;
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 150%;
-  }
-
-  /* Medium 16 */
-  .medium-16 {
-    font-family: Pretendard;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 150%;
-  }
-
-  .semibold-16 {
-    font-family: Pretendard;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 150%;
-  }
-
-  .semibold-18 {
-    font-family: Pretendard;
-    font-size: 1.125rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 150%;
-  }
-
-  .bold-11 {
-    font-family: Pretendard;
-    font-size: 0.688rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%;
-  }
-
-  .rounded-10 {
-    border-radius: 0.625rem;
-  }
-
-  .bold-12 {
-    font-family: Pretendard;
-    font-size: 0.75rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%;
-  }
-
-  .bold-14 {
-    font-family: Pretendard;
-    font-size: 0.875rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%;
-  }
-
-  .bold-16 {
-    font-family: Pretendard;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%;
-  }
-
-  .bold-18 {
-    font-family: Pretendard;
-    font-size: 1.125rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%;
-  }
-
-  .bold-20 {
-    font-family: Pretendard;
-    font-size: 1.25rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%;
-  }
-
-  .bold-25 {
-    font-family: Pretendard;
-    font-size: 1.563rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%;
-  }
-
-  .bold-32 {
-    font-family: Pretendard;
-    font-size: 2rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 150%;
-  }
-
-  /* Regular 9 */
-  .regular-9 {
-    font-family: Pretendard;
-    font-size: 0.563rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-  }
-
-  /* Semi Bold 13 */
-  .semi-bold-13 {
-    font-family: Pretendard;
-    font-size: 0.813rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 150%;
-  }
-
-  /* Custom animations */
-  @keyframes slideDown {
-    0% {
-      margin-top: -3px;
-      opacity: 0;
+    .centered {
+        @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
     }
-    100% {
-      margin-top: 0;
-      opacity: 1;
+  
+    .regular-9 {
+        font-family: Pretendard;
+        font-size: 0.563rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
     }
-  }
+
+    /* Regular 11 */
+    .regular-11 {
+        font-family: Pretendard;
+        font-size: 0.688rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 13*/
+    .regular-13 {
+        font-family: Pretendard;
+        font-size: 0.813rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    
+    /* Regular 14 */
+    .regular-14 {
+        font-family: Pretendard;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 18 */
+    .regular-18 {
+        font-family: Pretendard;
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 20 */
+    .regular-20 {
+        font-family: Pretendard;
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 25 */
+    .regular-25 {
+        font-family: Pretendard;
+        font-size: 1.563rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Regular 32 */
+    .regular-32 {
+        font-family: Pretendard;
+        font-size: 2rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+    }
+
+    /* Medium 14 */
+    .medium-11 {
+        font-family: Pretendard;
+        font-size: 0.688rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
+    }
+
+    .medium-14 {
+        font-family: Pretendard;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
+    }
+
+    /* Medium 16 */
+    .medium-16 {
+        font-family: Pretendard;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 150%;
+    }
+
+    .semibold-13{
+        font-family: Pretendard;
+        font-size: 0.813rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%;
+    }
+
+    .semibold-14{
+        font-family: Pretendard;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%;
+    }
+
+    .semibold-16{
+        font-family: Pretendard;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%;
+    }
+
+    .semibold-18{
+        font-family: Pretendard;
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 150%;
+    }
+
+    .bold-11{
+        font-family: Pretendard;
+        font-size: 0.688rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .rounded-10{
+        border-radius: 0.625rem;
+    }
+
+    .bold-12{
+        font-family: Pretendard;
+        font-size: 0.75rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-14{
+        font-family: Pretendard;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+    
+    .bold-16{
+        font-family: Pretendard;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-18{
+        font-family: Pretendard;
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-20{
+        font-family: Pretendard;
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-25{
+        font-family: Pretendard;
+        font-size: 1.563rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }
+
+    .bold-32{
+        font-family: Pretendard;
+        font-size: 2rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 150%;
+    }   
+  
+    /* Custom animations */
+    @keyframes slideDown {
+        0% {
+            margin-top: -3px;
+            opacity: 0;
+        }
+        100% {
+            margin-top: 0;
+            opacity: 1;
+        }
+    }
 
   .animate-slide-down {
     animation: slideDown 0.3s ease-out;
@@ -314,6 +331,7 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
+
 }
 
 @layer components {

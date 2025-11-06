@@ -11,7 +11,7 @@ export default function Header() {
 					<LogoButton className="w-[114px]" />
 				</div>
 
-				<div className="order-3 mobile:flex-grow w-full mobile:w-auto">
+				<div className="order-3 mobile:grow w-full mobile:w-auto">
 					<HeaderNav />
 				</div>
 
