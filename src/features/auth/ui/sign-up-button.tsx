@@ -3,7 +3,7 @@ import { type RiotJoinRequest } from "@/shared/api/@generated";
 import { cn } from "@/shared/lib/utils";
 import { api } from "@/shared/api";
 
-export default function SignUpButton({
+function SignUpButton({
 	isDisabled,
 	isAgreed,
 	puuid,
@@ -48,3 +48,5 @@ export default function SignUpButton({
 		</button>
 	);
 }
+
+export default SignUpButton;

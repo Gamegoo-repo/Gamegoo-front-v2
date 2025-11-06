@@ -1,0 +1,33 @@
+/* 모바일: 전체화면 */
+[data-draggable-container] {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  transform: none !important;
+}
+
+[data-draggable-container] > div {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 데스크톱: 드래그 가능한 다이얼로그 */
+@media (min-width: 768px) {
+  [data-draggable-container] {
+    top: var(--dialog-top, 50%) !important;
+    left: var(--dialog-left, 50%) !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: var(--dialog-transform, translate(-50%, -50%)) !important;
+  }
+
+  [data-draggable-container] > div {
+    width: var(--dialog-width, 420px) !important;
+    height: var(--dialog-height, 600px) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 46.7px 0 rgba(0, 0, 0, 0.1) !important;
+  }
+}

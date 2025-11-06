@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import Book from "@/shared/assets/characters/book.svg?react";
-import Character4 from "@/shared/assets/characters/character4.svg?react";
-import Character6 from "@/shared/assets/characters/character6.svg?react";
-import Character7 from "@/shared/assets/characters/character7.svg?react";
-import Character8 from "@/shared/assets/characters/character8.svg?react";
-import Arrow from "@/shared/assets/icons/arrow_right.svg?react";
+import Character4Icon from "@/shared/assets/characters/character4.svg?react";
+import Character6Icon from "@/shared/assets/characters/character6.svg?react";
+import Character7Icon from "@/shared/assets/characters/character7.svg?react";
+import Character8Icon from "@/shared/assets/characters/character8.svg?react";
+import RightArrowIcon from "@/shared/assets/icons/right_arrow.svg?react";
 import useResponsive from "@/shared/model/use-responsive";
 import { Logo } from "@/shared/ui/logo";
 
@@ -34,13 +34,13 @@ function Index() {
 			</article>
 			<section className="w-full flex tablet:flex-row items-center flex-col gap-4 tablet:gap-11 pb-20 mobile:pb-50 tablet:pb-[200px]">
 				<HomeCard to="/match" title="바로 매칭하기">
-					<Character8 className="w-[20%] absolute bottom-0 translate-y-[25%] left-[10%]" />
-					<Character6 className="w-[20%] absolute top-0 translate-y-[-36%] right-[10%]" />
+					<Character8Icon className="w-[20%] absolute bottom-0 translate-y-[25%] left-[10%]" />
+					<Character6Icon className="w-[20%] absolute top-0 translate-y-[-36%] right-[10%]" />
 				</HomeCard>
 				<HomeCard to="/board" title="게시판에서 찾기">
-					<Character4 className="w-[20%] absolute top-0 translate-y-[-36%] left-[10%]" />
+					<Character4Icon className="w-[20%] absolute top-0 translate-y-[-36%] left-[10%]" />
 					<Book className="w-[20%] absolute bottom-0 translate-y-[5%] right-[22%]" />
-					<Character7 className="w-[20%] absolute bottom-0 translate-y-[25%] right-[10%]" />
+					<Character7Icon className="w-[20%] absolute bottom-0 translate-y-[25%] right-[10%]" />
 				</HomeCard>
 			</section>
 		</div>
@@ -62,7 +62,7 @@ export default function HomeCard({ to, title, children }: HomeCardProps) {
 			{children}
 			<h2 className="font-bold text-base mobile:text-[32px] inline-block text-center text-white z-10 ">
 				{title}
-				<Arrow className="inline-block ml-2.5 w-1 mobile:w-[18px]" />
+				<RightArrowIcon className="inline-block ml-2.5 w-1 mobile:w-[18px]" />
 			</h2>
 		</Link>
 	);
