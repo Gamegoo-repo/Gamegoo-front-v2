@@ -22,6 +22,7 @@ function RootLayout() {
 	useChatroomUpdateHandler();
 
 	const { openDialog } = useChatDialogStore();
+
 	const refreshTokenMutation = useRefreshToken();
 	const navigate = useNavigate();
 

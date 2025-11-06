@@ -1,5 +1,5 @@
-import Tooltip from "@/shared/ui/tootip/tooltip";
 import InfoIcon from "@/shared/assets/icons/ic-info.svg?react";
+import Tooltip from "@/shared/ui/tooltip/tooltip";
 
 export default function WinRateTooltip() {
 	const content = (

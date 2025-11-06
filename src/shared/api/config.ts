@@ -126,7 +126,6 @@ privateApiClient.interceptors.response.use(
 			console.log("401 error detected, attempting token refresh...");
 			originalRequest._retry = true;
 
-
 			try {
 				const newAccessToken = await refreshAccessToken();
 				console.log("Token refresh successful, retrying original request");

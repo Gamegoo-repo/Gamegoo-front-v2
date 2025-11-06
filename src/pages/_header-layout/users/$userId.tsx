@@ -9,7 +9,6 @@ import {
 import { cn } from "@/shared/lib/utils";
 import MannerKeywordsCard from "@/widgets/user-info/manner-keywords-card";
 import MannerLevelCard from "@/widgets/user-info/manner-level-card";
-import UserMannerCard from "@/widgets/user-info/user-manner-card";
 import UserProfileCard from "@/widgets/user-info/user-profile-card";
 
 export const Route = createFileRoute("/_header-layout/users/$userId")({

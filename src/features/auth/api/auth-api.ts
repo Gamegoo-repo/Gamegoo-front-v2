@@ -1,14 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { useNavigate } from "@tanstack/react-router";
+import { api } from "@/shared/api";
 import type {
 	RefreshTokenRequest,
 	RiotJoinRequest,
 } from "@/shared/api/@generated";
 import { AuthControllerApi, RiotApi } from "@/shared/api/@generated";
 import { tokenManager } from "@/shared/api/config";
-import { api } from "@/shared/api";
-
 
 const authApi = new AuthControllerApi();
 

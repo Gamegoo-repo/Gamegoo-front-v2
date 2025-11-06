@@ -1,21 +1,21 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
+import { useBumpPost } from "@/features/board/api/use-bump-post";
 import BoardFilter from "@/features/board/ui/board-filter";
+import BumpButton from "@/features/board/ui/bump-button";
 import CreatePostModal from "@/features/board/ui/create-post-modal";
+import PostDetailModal from "@/features/board/ui/post-detail-modal";
+import RefetchButton from "@/features/board/ui/refetch-button";
 import {
+	type BoardListResponse,
 	GameMode,
 	Mike,
 	Position,
 	Tier,
-	type BoardListResponse,
 } from "@/shared/api";
 import BoardTable from "@/widgets/board-table/ui/board-table";
-import { useBumpPost } from "@/features/board/api/use-bump-post";
-import BumpButton from "@/features/board/ui/bump-button";
-import { useQueryClient } from "@tanstack/react-query";
-import PostDetailModal from "@/features/board/ui/post-detail-modal";
-import RefetchButton from "@/features/board/ui/refetch-button";
 
 const searchSchema = z.object({
 	page: z.number().min(1).optional().catch(1),

@@ -1,9 +1,9 @@
 import type { ReactNode, RefObject } from "react";
+import type { MannerKeywordListResponse } from "@/shared/api";
+import { cn } from "@/shared/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import PopoverHeader from "@/shared/ui/popover/popover-header";
-import type { MannerKeywordListResponse } from "@/shared/api";
 import { getMannerText } from "../lib/get-manner-text";
-import { cn } from "@/shared/lib/utils";
 
 export default function MannerLevelPopover({
 	children,

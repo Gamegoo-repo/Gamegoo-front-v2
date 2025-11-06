@@ -39,7 +39,6 @@ function SocketProvider({
 
 	// 싱글톤 소켓 매니저의 이벤트 리스너 설정
 	const setupSocketListeners = useCallback(() => {
-
 		const handleConnect = (..._args: unknown[]) => {
 			setSocketReadyState(SocketReadyState.OPEN);
 			setReconnectAttempts(0);

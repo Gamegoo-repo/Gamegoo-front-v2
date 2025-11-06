@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { type MyProfileResponse, api } from "@/shared/api";
+import { api, type MyProfileResponse } from "@/shared/api";
 
-export const useFetchUserInfo = () => {
+export const useFetchMyInfo = () => {
 	return useQuery({
 		queryKey: ["my-profile"],
 		queryFn: async () => {

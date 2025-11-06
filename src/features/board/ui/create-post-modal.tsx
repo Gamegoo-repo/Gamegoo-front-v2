@@ -1,15 +1,18 @@
+import type { AxiosError } from "axios";
 import { useRef, useState } from "react";
-import { useFetchUserInfo } from "@/entities/user/api/use-fetch-user-info";
+import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
 import UserProfileCard from "@/entities/user/ui/user-profile-card";
 import { GAME_MODE_ITEMS } from "@/features/board/config/dropdown-items";
 import { getGameModeTitle } from "@/features/board/lib/getGameModeTitle";
 import type {
+	ApiErrorResponse,
 	BoardInsertRequest,
 	GameMode,
 	Mike,
 	Position,
 } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
+import CloseButton from "@/shared/ui/button/close-button";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import Modal from "@/shared/ui/modal/modal";
 import { Switch } from "@/shared/ui/toggle-switch/switch";
@@ -17,7 +20,6 @@ import { useCreatePost } from "../api/use-create-post";
 import { GAME_STYLE } from "../config/game-styles";
 import GameStylePopover from "./game-style-popover";
 import PositionSelector from "./position-selector";
-import CloseButton from "@/shared/ui/button/close-button";
 
 export interface BoardFormData
 	extends Omit<BoardInsertRequest, "mainP" | "subP" | "mike" | "contents"> {
@@ -54,7 +56,7 @@ export default function CreatePostModal({
 	isOpen: boolean;
 	onClose: () => void;
 }) {
-	const { isPending, data, isError, error } = useFetchUserInfo();
+	const { isPending, data, isError, error } = useFetchMyInfo();
 	const [formData, setFormData] = useState(INITIAL_BOARD_FORM);
 	const [contentError, setContentError] = useState<string | undefined>(
 		undefined,
@@ -75,7 +77,7 @@ export default function CreatePostModal({
 
 	// TODO 이거 뭔가 잘못됨
 	if (!data) {
-		return <div>뭔가 잘못 됨</div>;
+		return <div>사용자 정보를 불러오는 데 실패했습니다.</div>;
 	}
 
 	const resetFormData = () => {
@@ -134,7 +136,7 @@ export default function CreatePostModal({
 				alert("성공적으로 제출하였습니다.");
 				handleClose();
 			},
-			onError: (error: any) => {
+			onError: (error: AxiosError<ApiErrorResponse>) => {
 				/** TODO: ANY 보다 더 좋은 타입이 있나 체크*/
 
 				if (error.response?.data?.code === "BOARD_408") {

@@ -1,6 +1,6 @@
 import { cn } from "@/shared/lib/utils";
 
-export function AnyIcon({ className }: { className?: string }) {
+export default function AnyIcon({ className }: { className?: string }) {
 	return (
 		<svg
 			className={cn("position-icon w-6", className)}

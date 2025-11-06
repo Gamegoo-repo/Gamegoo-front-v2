@@ -96,13 +96,7 @@ export default function Dropdown<T>({
 										{item.title}
 									</Link>
 								) : (
-									<button
-										className="w-full text-left"
-										onClick={() => () => handleItemClick(item.id)}
-										type="button"
-									>
-										{item.title}
-									</button>
+									<span className="w-full text-left">{item.title}</span>
 								)}
 							</button>
 						))}
