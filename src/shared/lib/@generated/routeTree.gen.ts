@@ -16,7 +16,6 @@ import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
 import { Route as HeaderLayoutIndexRouteImport } from './../../../pages/_header-layout/index'
 import { Route as SignUpTermsRouteImport } from './../../../pages/sign-up/terms'
 import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
-import { Route as HeaderLayoutMatchRouteImport } from './../../../pages/_header-layout/match'
 import { Route as HeaderLayoutMatchIndexRouteImport } from './../../../pages/_header-layout/match/index'
 import { Route as HeaderLayoutBoardIndexRouteImport } from './../../../pages/_header-layout/board/index'
 import { Route as HeaderLayoutUsersUserIdRouteImport } from './../../../pages/_header-layout/users/$userId'
@@ -55,15 +54,10 @@ const RiotCallbackRoute = RiotCallbackRouteImport.update({
   path: '/riot/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HeaderLayoutMatchRoute = HeaderLayoutMatchRouteImport.update({
-  id: '/match',
-  path: '/match',
-  getParentRoute: () => HeaderLayoutRouteRoute,
-} as any)
 const HeaderLayoutMatchIndexRoute = HeaderLayoutMatchIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => HeaderLayoutMatchRoute,
+  id: '/match/',
+  path: '/match/',
+  getParentRoute: () => HeaderLayoutRouteRoute,
 } as any)
 const HeaderLayoutBoardIndexRoute = HeaderLayoutBoardIndexRouteImport.update({
   id: '/board/',
@@ -79,14 +73,13 @@ const HeaderLayoutUsersUserIdRoute = HeaderLayoutUsersUserIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/test-login': typeof TestLoginRoute
-  '/match': typeof HeaderLayoutMatchRouteWithChildren
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/': typeof HeaderLayoutIndexRoute
   '/riot': typeof RiotIndexRoute
   '/users/$userId': typeof HeaderLayoutUsersUserIdRoute
   '/board': typeof HeaderLayoutBoardIndexRoute
-  '/match/': typeof HeaderLayoutMatchIndexRoute
+  '/match': typeof HeaderLayoutMatchIndexRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
@@ -104,7 +97,6 @@ export interface FileRoutesById {
   '/_header-layout': typeof HeaderLayoutRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/test-login': typeof TestLoginRoute
-  '/_header-layout/match': typeof HeaderLayoutMatchRouteWithChildren
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/_header-layout/': typeof HeaderLayoutIndexRoute
@@ -118,14 +110,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/about'
     | '/test-login'
-    | '/match'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/'
     | '/riot'
     | '/users/$userId'
     | '/board'
-    | '/match/'
+    | '/match'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
@@ -142,7 +133,6 @@ export interface FileRouteTypes {
     | '/_header-layout'
     | '/about'
     | '/test-login'
-    | '/_header-layout/match'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/_header-layout/'
@@ -212,19 +202,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiotCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_header-layout/match': {
-      id: '/_header-layout/match'
-      path: '/match'
-      fullPath: '/match'
-      preLoaderRoute: typeof HeaderLayoutMatchRouteImport
-      parentRoute: typeof HeaderLayoutRouteRoute
-    }
     '/_header-layout/match/': {
       id: '/_header-layout/match/'
-      path: '/'
-      fullPath: '/match/'
+      path: '/match'
+      fullPath: '/match'
       preLoaderRoute: typeof HeaderLayoutMatchIndexRouteImport
-      parentRoute: typeof HeaderLayoutMatchRoute
+      parentRoute: typeof HeaderLayoutRouteRoute
     }
     '/_header-layout/board/': {
       id: '/_header-layout/board/'
@@ -243,29 +226,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface HeaderLayoutMatchRouteChildren {
-  HeaderLayoutMatchIndexRoute: typeof HeaderLayoutMatchIndexRoute
-}
-
-const HeaderLayoutMatchRouteChildren: HeaderLayoutMatchRouteChildren = {
-  HeaderLayoutMatchIndexRoute: HeaderLayoutMatchIndexRoute,
-}
-
-const HeaderLayoutMatchRouteWithChildren =
-  HeaderLayoutMatchRoute._addFileChildren(HeaderLayoutMatchRouteChildren)
-
 interface HeaderLayoutRouteRouteChildren {
-  HeaderLayoutMatchRoute: typeof HeaderLayoutMatchRouteWithChildren
   HeaderLayoutIndexRoute: typeof HeaderLayoutIndexRoute
   HeaderLayoutUsersUserIdRoute: typeof HeaderLayoutUsersUserIdRoute
   HeaderLayoutBoardIndexRoute: typeof HeaderLayoutBoardIndexRoute
+  HeaderLayoutMatchIndexRoute: typeof HeaderLayoutMatchIndexRoute
 }
 
 const HeaderLayoutRouteRouteChildren: HeaderLayoutRouteRouteChildren = {
-  HeaderLayoutMatchRoute: HeaderLayoutMatchRouteWithChildren,
   HeaderLayoutIndexRoute: HeaderLayoutIndexRoute,
   HeaderLayoutUsersUserIdRoute: HeaderLayoutUsersUserIdRoute,
   HeaderLayoutBoardIndexRoute: HeaderLayoutBoardIndexRoute,
+  HeaderLayoutMatchIndexRoute: HeaderLayoutMatchIndexRoute,
 }
 
 const HeaderLayoutRouteRouteWithChildren =
