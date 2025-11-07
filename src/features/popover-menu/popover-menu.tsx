@@ -22,12 +22,9 @@ interface PopoverMenuProps {
 }
 
 function PopoverMenu({ menuItems }: PopoverMenuProps) {
-	const [isOpen, setIsOpen] = useState(false);
-
-	const handleClose = useCallback(() => {
-		setIsOpen(false);
-	}, []);
-
+	const handleClose = () => {
+		console.log("닫힘");
+	};
 	const menuItemsWithCloseHandler = useMemo(() => {
 		return menuItems.map((menuItem) => {
 			return React.cloneElement(menuItem, {
@@ -40,10 +37,11 @@ function PopoverMenu({ menuItems }: PopoverMenuProps) {
 	if (menuItems.length === 0) return null;
 
 	return (
-		<Popover open={isOpen} onOpenChange={setIsOpen}>
+		<Popover>
 			<PopoverTrigger asChild>
 				<Button
-					className="w-5 h-5 mt-1 flex items-center justify-center p-0.5 hover:bg-gray-100 rounded transition-colors cursor-pointer"
+					variant={"ghost"}
+					className="w-5 h-5 mt-1 flex items-center justify-center p-0.5 hover:bg-gray-300 rounded transition-colors cursor-pointer"
 					onClick={(e) => e.stopPropagation()}
 				>
 					<ThreeDotsButtonBlack />
@@ -52,9 +50,10 @@ function PopoverMenu({ menuItems }: PopoverMenuProps) {
 			<PopoverContent
 				side="right"
 				align="start"
-				className="w-48 p-0 bg-white rounded-lg shadow-lg border border-gray-200"
+				showArrow={false}
+				className="w-48 p-0 bg-white rounded-[10px] shadow-lg"
 			>
-				<div className="py-[2px] [&>*:not(:last-child)]:border-b [&>*:not(:last-child)]:border-gray-100">
+				<div className="[&>*:not(:last-child)]:border-b [&>*:not(:last-child)]:border-gray-200 text-gray-600 medium-14">
 					{menuItemsWithCloseHandler}
 				</div>
 			</PopoverContent>
