@@ -26,7 +26,7 @@ export function BlockMenuItem({
 
 	const blockUserMutation = useMutation({
 		mutationFn: async (targetUserId: number) => {
-			const response = await api.block.blockMember(targetUserId);
+			const response = await api.private.block.blockMember(targetUserId);
 			return response.data;
 		},
 		onSuccess: () => {
