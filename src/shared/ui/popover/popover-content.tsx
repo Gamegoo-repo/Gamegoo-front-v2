@@ -1,14 +1,21 @@
 import { type CSSProperties, type ReactNode, useContext } from "react";
 import { PopoverContext } from "./popover";
+import type { Align, Side } from "./popover-type";
 
 interface PopoverContentProps {
 	children: ReactNode;
 	className?: string;
+	side?: Side;
+	align?: Align;
+	showArrow?: boolean;
 }
 
 export function PopoverContent({
 	children,
 	className = "",
+	side = "bottom",
+	align = "center",
+	showArrow = true,
 }: PopoverContentProps) {
 	const context = useContext(PopoverContext);
 
@@ -47,7 +54,7 @@ export function PopoverContent({
 	return (
 		<div
 			ref={contentRef}
-			className={`popover fixed z-50 w-[388px] p-8 ${className}`}
+			className={`fixed z-50 ${className}`}
 			style={{
 				left: `${position.x}px`,
 				top: `${position.y}px`,
@@ -55,7 +62,7 @@ export function PopoverContent({
 			}}
 		>
 			{/** 화살표 */}
-			<div style={arrowStyle} />
+			{showArrow && <div style={arrowStyle} />}
 
 			{/** 컨텐츠 */}
 			{children}

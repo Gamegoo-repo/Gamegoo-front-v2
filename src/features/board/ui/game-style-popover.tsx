@@ -24,7 +24,7 @@ export default function GameStylePopover({
 					<PlusIcon />
 				</button>
 			</PopoverTrigger>
-			<PopoverContent className="w-[500px]">
+			<PopoverContent className="w-[500px] popover p-8">
 				<div className="w-full flex flex-col gap-7">
 					<PopoverHeader title="게임 스타일 선택 *최대 3개" />
 					<div className="w-full flex flex-wrap gap-2">

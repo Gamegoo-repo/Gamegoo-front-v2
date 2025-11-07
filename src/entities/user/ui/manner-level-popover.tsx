@@ -18,7 +18,7 @@ export default function MannerLevelPopover({
 	return (
 		<Popover containerRef={containerRef as RefObject<HTMLElement>}>
 			<PopoverTrigger asChild>{children}</PopoverTrigger>
-			<PopoverContent className="w-[472px]">
+			<PopoverContent className="w-[472px] popover p-8">
 				<div className="w-full flex flex-col gap-7">
 					<PopoverHeader title={`매너 레벨 LV. ${level}`} />
 					<div className="w-full flex gap-14">
