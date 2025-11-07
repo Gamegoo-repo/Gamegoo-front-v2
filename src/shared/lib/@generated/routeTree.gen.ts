@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './../../../pages/__root'
+import { Route as TestLoginRouteImport } from './../../../pages/test-login'
 import { Route as AboutRouteImport } from './../../../pages/about'
 import { Route as HeaderLayoutRouteRouteImport } from './../../../pages/_header-layout/route'
 import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
@@ -20,6 +21,11 @@ import { Route as HeaderLayoutMatchIndexRouteImport } from './../../../pages/_he
 import { Route as HeaderLayoutBoardIndexRouteImport } from './../../../pages/_header-layout/board/index'
 import { Route as HeaderLayoutUsersUserIdRouteImport } from './../../../pages/_header-layout/users/$userId'
 
+const TestLoginRoute = TestLoginRouteImport.update({
+  id: '/test-login',
+  path: '/test-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -72,6 +78,7 @@ const HeaderLayoutUsersUserIdRoute = HeaderLayoutUsersUserIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
+  '/test-login': typeof TestLoginRoute
   '/match': typeof HeaderLayoutMatchRouteWithChildren
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
+  '/test-login': typeof TestLoginRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/': typeof HeaderLayoutIndexRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_header-layout': typeof HeaderLayoutRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/test-login': typeof TestLoginRoute
   '/_header-layout/match': typeof HeaderLayoutMatchRouteWithChildren
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/about'
+    | '/test-login'
     | '/match'
     | '/riot/callback'
     | '/sign-up/terms'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
+    | '/test-login'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_header-layout'
     | '/about'
+    | '/test-login'
     | '/_header-layout/match'
     | '/riot/callback'
     | '/sign-up/terms'
@@ -143,6 +155,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   HeaderLayoutRouteRoute: typeof HeaderLayoutRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  TestLoginRoute: typeof TestLoginRoute
   RiotCallbackRoute: typeof RiotCallbackRoute
   SignUpTermsRoute: typeof SignUpTermsRoute
   RiotIndexRoute: typeof RiotIndexRoute
@@ -150,6 +163,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/test-login': {
+      id: '/test-login'
+      path: '/test-login'
+      fullPath: '/test-login'
+      preLoaderRoute: typeof TestLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -254,6 +274,7 @@ const HeaderLayoutRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   HeaderLayoutRouteRoute: HeaderLayoutRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  TestLoginRoute: TestLoginRoute,
   RiotCallbackRoute: RiotCallbackRoute,
   SignUpTermsRoute: SignUpTermsRoute,
   RiotIndexRoute: RiotIndexRoute,

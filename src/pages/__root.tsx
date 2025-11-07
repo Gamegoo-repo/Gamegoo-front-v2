@@ -34,12 +34,12 @@ function RootLayout() {
 			isInitialized = true;
 
 			// 이미 로그인 페이지에 있으면 리다이렉트하지 않음
-			if (
-				typeof window !== "undefined" &&
-				window.location.pathname === "/riot"
-			) {
-				return;
-			}
+			// if (
+			// 	typeof window !== "undefined" &&
+			// 	window.location.pathname === "/riot"
+			// ) {
+			// 	return;
+			// }
 
 			const accessToken = tokenManager.getAccessToken();
 			const refreshToken = tokenManager.getRefreshToken();
@@ -51,11 +51,11 @@ function RootLayout() {
 				} catch (_error) {
 					// refresh 실패 시에만 리다이렉트
 					tokenManager.clearTokens();
-					navigate({ to: "/riot" });
+					// navigate({ to: "/riot" });
 				}
 			} else if (!accessToken && !refreshToken) {
 				// 토큰이 모두 없으면 로그인페이지로 리다이렉트
-				navigate({ to: "/riot" });
+				// navigate({ to: "/riot" });
 			}
 		};
 
