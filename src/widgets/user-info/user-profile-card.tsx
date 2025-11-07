@@ -5,6 +5,11 @@ import PositionCard from "@/entities/game/ui/position-card";
 import RankInfo from "@/entities/game/ui/rank-info";
 import MikeTag from "@/entities/post/ui/mike-tag";
 import UserProfile from "@/entities/user/ui/user-profile";
+import {
+	BlockMenuItem,
+	PopoverMenu,
+	PopoverMenuItem,
+} from "@/features/popover-menu";
 import type { OtherProfileResponse } from "@/shared/api";
 import BackIcon from "@/shared/assets/icons/ic-arrow-back.svg?react";
 
@@ -50,6 +55,12 @@ export default function UserProfileCard({
 						>
 							친구 추가
 						</button>
+						<PopoverMenu
+							menuItems={[
+								<BlockMenuItem key={""} userId={data.id || 1} />,
+								<BlockMenuItem key={""} userId={data.id || 1} />,
+							]}
+						/>
 					</div>
 					<div className="w-full flex gap-3">
 						<RankInfo
