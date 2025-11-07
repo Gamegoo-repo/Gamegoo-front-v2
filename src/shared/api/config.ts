@@ -2,12 +2,16 @@ import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { Configuration } from "./@generated/configuration";
 
 // 토큰 관리 - 액세스 토큰은 메모리, 리프레시 토큰은 로컬스토리지
-let accessToken: string | null = null;
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
 
 export const tokenManager = {
-	getAccessToken: () => accessToken,
+	getAccessToken: () => {
+		if (typeof window !== "undefined" && window.localStorage) {
+			return localStorage.getItem("accessToken");
+		}
+		return null;
+	},
 	getRefreshToken: () => {
 		if (typeof window !== "undefined" && window.localStorage) {
 			return localStorage.getItem("refreshToken");
@@ -15,7 +19,8 @@ export const tokenManager = {
 		return null;
 	},
 	setTokens: (newAccessToken: string, newRefreshToken?: string) => {
-		accessToken = newAccessToken;
+		localStorage.setItem("accessToken", newAccessToken);
+
 		if (
 			newRefreshToken &&
 			typeof window !== "undefined" &&
@@ -25,11 +30,11 @@ export const tokenManager = {
 		}
 	},
 	clearTokens: () => {
-		accessToken = null;
 		isRefreshing = false;
 		refreshPromise = null;
 		if (typeof window !== "undefined" && window.localStorage) {
 			localStorage.removeItem("refreshToken");
+			localStorage.removeItem("accessToken");
 		}
 	},
 };
@@ -134,7 +139,7 @@ privateApiClient.interceptors.response.use(
 				if (originalRequest.headers) {
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 				}
-				return apiClient(originalRequest);
+				return privateApiClient(originalRequest);
 			} catch (refreshError) {
 				console.error("Token refresh failed:", refreshError);
 				// refresh 실패 시 토큰 정리하고 원래 에러 반환
