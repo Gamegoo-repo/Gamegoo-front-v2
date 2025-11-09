@@ -21,8 +21,8 @@ function GameModeStep({ funnel }: GameModeStepProps) {
 					width="278px"
 					hoverBackgroundColor="violet-600"
 					onClick={() => {
-						funnel.toStep("profile");
 						funnel.context.gameMode = "FAST";
+						funnel.toStep("profile");
 					}}
 				/>
 				<GraphicButton
@@ -31,8 +31,8 @@ function GameModeStep({ funnel }: GameModeStepProps) {
 					width="278px"
 					hoverBackgroundColor="violet-600"
 					onClick={() => {
-						funnel.toStep("profile");
 						funnel.context.gameMode = "SOLO";
+						funnel.toStep("profile");
 					}}
 				/>
 				<GraphicButton
@@ -41,8 +41,8 @@ function GameModeStep({ funnel }: GameModeStepProps) {
 					width="278px"
 					hoverBackgroundColor="violet-600"
 					onClick={() => {
-						funnel.toStep("profile");
 						funnel.context.gameMode = "FREE";
+						funnel.toStep("profile");
 					}}
 				/>
 				{funnel.context.type === "BASIC" && (
@@ -52,8 +52,8 @@ function GameModeStep({ funnel }: GameModeStepProps) {
 						width="278px"
 						hoverBackgroundColor="violet-600"
 						onClick={() => {
-							funnel.toStep("profile");
 							funnel.context.gameMode = "ARAM";
+							funnel.toStep("profile");
 						}}
 					/>
 				)}

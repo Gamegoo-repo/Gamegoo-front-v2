@@ -10,11 +10,28 @@ export interface MatchingRequest {
 }
 
 export interface MatchingCountData {
-	tierCount: Record<string, number>;
-	userCount: number;
+	data: {
+		tierCount: Record<string, number>;
+		userCount: number;
+	};
+	event: string;
+	timestamp: string;
 }
 
 export interface MatchingFoundData {
+	data: {
+		senderMatchingInfo?: {
+			matchingUuid: string;
+		};
+		senderMatchingUuid?: string;
+		opponent?: {
+			gameName: string;
+			tag: string;
+			tier: string;
+			mainP: string;
+			subP: string;
+		};
+	};
 	senderMatchingUuid?: string;
 	opponent?: {
 		gameName: string;
@@ -23,6 +40,8 @@ export interface MatchingFoundData {
 		mainP: string;
 		subP: string;
 	};
+	event: string;
+	timestamp: string;
 }
 
 export interface MatchingSuccessData {

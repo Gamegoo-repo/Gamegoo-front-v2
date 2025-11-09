@@ -41,8 +41,10 @@ function SocketProvider({
 	const setupSocketListeners = useCallback(() => {
 
 		const handleConnect = (..._args: unknown[]) => {
+			console.log("🔥 handleConnect 호출됨 - 상태 업데이트 중...");
 			setSocketReadyState(SocketReadyState.OPEN);
 			setReconnectAttempts(0);
+			console.log("🔥 SocketReadyState.OPEN으로 설정됨");
 			onSocketOpen?.();
 		};
 
@@ -105,9 +107,20 @@ function SocketProvider({
 
 	const createSocket = useCallback(async () => {
 		try {
+			console.log("🔄 createSocket 호출됨:", {
+				endpoint,
+				hasAuthData: !!authData,
+				authDataUserId: authData?.userId,
+				hasTokenProvider: !!tokenProvider,
+				timestamp: new Date().toISOString(),
+			});
+			
 			setSocketReadyState(SocketReadyState.CONNECTING);
 			await socketManager.connect(endpoint, authData, options, tokenProvider);
+			
+			console.log("✅ socketManager.connect 완료");
 		} catch (error) {
+			console.error("❌ createSocket 에러:", error);
 			setSocketReadyState(SocketReadyState.CLOSED);
 			if (error instanceof Error) {
 				onSocketError?.(error);
@@ -146,7 +159,17 @@ function SocketProvider({
 	enabledRef.current = enabled;
 
 	useEffect(() => {
+		console.log("🔌 SocketProvider enabled 상태 변경:", {
+			enabled,
+			endpoint,
+			hasAuthData: !!authData,
+			authDataToken: authData?.token ? `${authData.token.substring(0, 10)}...` : "없음",
+			authDataUserId: authData?.userId,
+			timestamp: new Date().toISOString(),
+		});
+
 		if (enabled) {
+			console.log("🚀 소켓 연결 시작...");
 			createSocket();
 		} else {
 			console.log("🔌 enabled=false로 인한 disconnect");
@@ -162,13 +185,25 @@ function SocketProvider({
 		}
 	}, []);
 
+	const isConnected = socketReadyState === SocketReadyState.OPEN;
+	
+	// 🔍 디버깅: 연결 상태 변화 감지
+	useEffect(() => {
+		console.log("🔥 SocketProvider 상태 변화:", {
+			socketReadyState,
+			isConnected,
+			socketManagerConnected: socketManager.connected,
+			timestamp: new Date().toISOString(),
+		});
+	}, [socketReadyState, isConnected]);
+
 	const socketConnection: SocketConnection = {
 		socket: socketManager.socketInstance ?? undefined,
 		socketReadyState,
 		reconnect,
 		disconnect,
 		send,
-		isConnected: socketReadyState === SocketReadyState.OPEN,
+		isConnected,
 		reconnectAttempts,
 	};
 

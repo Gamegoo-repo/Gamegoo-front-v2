@@ -69,20 +69,20 @@ function RootLayout() {
 
 	return (
 		<TanstackQueryProvider>
-			<GamegooSocketProvider>
-				<ChatSocketProvider>
-					<ConfirmDialogProvider>
-						<AuthUserProvider>
+			<AuthUserProvider>
+				<GamegooSocketProvider>
+					<ChatSocketProvider>
+						<ConfirmDialogProvider>
 							<ResponsiveProvider>
 								<Outlet />
 								<FloatingChatButton onClick={handleChatButtonClick} />
 								<FloatingChatDialog />
 								<TanStackRouterDevtools />
 							</ResponsiveProvider>
-						</AuthUserProvider>
-					</ConfirmDialogProvider>
-				</ChatSocketProvider>
-			</GamegooSocketProvider>
+						</ConfirmDialogProvider>
+					</ChatSocketProvider>
+				</GamegooSocketProvider>
+			</AuthUserProvider>
 		</TanstackQueryProvider>
 	);
 }
