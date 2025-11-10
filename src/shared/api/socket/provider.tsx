@@ -39,7 +39,6 @@ function SocketProvider({
 
 	// 싱글톤 소켓 매니저의 이벤트 리스너 설정
 	const setupSocketListeners = useCallback(() => {
-
 		const handleConnect = (..._args: unknown[]) => {
 			console.log("🔥 handleConnect 호출됨 - 상태 업데이트 중...");
 			setSocketReadyState(SocketReadyState.OPEN);
@@ -114,10 +113,10 @@ function SocketProvider({
 				hasTokenProvider: !!tokenProvider,
 				timestamp: new Date().toISOString(),
 			});
-			
+
 			setSocketReadyState(SocketReadyState.CONNECTING);
 			await socketManager.connect(endpoint, authData, options, tokenProvider);
-			
+
 			console.log("✅ socketManager.connect 완료");
 		} catch (error) {
 			console.error("❌ createSocket 에러:", error);
@@ -163,7 +162,9 @@ function SocketProvider({
 			enabled,
 			endpoint,
 			hasAuthData: !!authData,
-			authDataToken: authData?.token ? `${authData.token.substring(0, 10)}...` : "없음",
+			authDataToken: authData?.token
+				? `${authData.token.substring(0, 10)}...`
+				: "없음",
 			authDataUserId: authData?.userId,
 			timestamp: new Date().toISOString(),
 		});
@@ -186,7 +187,7 @@ function SocketProvider({
 	}, []);
 
 	const isConnected = socketReadyState === SocketReadyState.OPEN;
-	
+
 	// 🔍 디버깅: 연결 상태 변화 감지
 	useEffect(() => {
 		console.log("🔥 SocketProvider 상태 변화:", {

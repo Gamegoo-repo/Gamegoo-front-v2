@@ -70,7 +70,10 @@ export class GamegooSocket {
 
 		if (authData) {
 			this.authData = authData;
-			console.log("🔑 authData 설정됨:", { userId: authData.userId, hasToken: !!authData.token });
+			console.log("🔑 authData 설정됨:", {
+				userId: authData.userId,
+				hasToken: !!authData.token,
+			});
 		} else if (this.tokenProvider) {
 			try {
 				console.log("🔄 tokenProvider에서 토큰 가져오는 중...");
@@ -135,7 +138,7 @@ export class GamegooSocket {
 		this.socket = io(this.endpoint, socketConfig);
 
 		this.setupEventHandlers();
-		
+
 		console.log("🔌 소켓 연결 시작...");
 		this.socket.connect();
 	}

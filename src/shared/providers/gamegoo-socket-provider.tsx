@@ -72,7 +72,7 @@ export function GamegooSocketProvider({
 			const reason = args[0] as string;
 			console.log("🔴 소켓 연결 해제:", reason);
 			setIsConnected(false);
-			
+
 			// 안전한 재연결: 무한 재연결 방지
 			if (reason === "transport close" || reason === "transport error") {
 				console.log("🔄 소켓 재연결 준비 중... (5초 후)");
@@ -80,7 +80,7 @@ export function GamegooSocketProvider({
 					// 재연결 시도 전 상태 재확인
 					if (isAuthenticated && authUser?.id && !hasConnectedRef.current) {
 						console.log("🔄 안전한 소켓 재연결 시도...");
-						connectSocket().catch(error => {
+						connectSocket().catch((error) => {
 							console.error("❌ 재연결 실패:", error);
 						});
 					} else {

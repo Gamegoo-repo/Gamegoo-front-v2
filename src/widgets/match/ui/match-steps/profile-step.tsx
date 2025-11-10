@@ -29,13 +29,6 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 		};
 
 		funnel.toStep("match-start");
-
-	};
-
-	const sendMatchingQuitEvent = (): void => {
-		if (socketManager.connected) {
-			socketManager.send("matching-quit");
-		}
 	};
 
 	// matching-found-sender
