@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { RiotApi, type RiotJoinRequest } from "@/shared/api/@generated";
-import { apiConfiguration } from "@/shared/api/config";
+import { type RiotJoinRequest } from "@/shared/api/@generated";
 import { cn } from "@/shared/lib/utils";
+import { api } from "@/shared/api";
 
 function SignUpButton({
 	isDisabled,
@@ -22,8 +22,7 @@ function SignUpButton({
 				isAgree: isAgreed,
 			};
 
-			const api = new RiotApi(apiConfiguration);
-			const response = await api.joinByRSO(riotJoinRequestDto);
+			const response = await api.public.riot.joinByRSO(riotJoinRequestDto);
 
 			return response.data;
 		} catch (error) {
