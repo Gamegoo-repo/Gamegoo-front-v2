@@ -29,7 +29,7 @@ export function AuthUserProvider({ children }: AuthUserProviderProps) {
 	} = useQuery({
 		queryKey: ["member", "getMemberJWT"],
 		queryFn: async (): Promise<MyProfileResponse> => {
-			const response = await api.member.getMemberJWT();
+			const response = await api.private.member.getMemberJWT();
 
 			if (response.status !== 200 || !response.data?.data) {
 				throw new Error(
@@ -41,7 +41,7 @@ export function AuthUserProvider({ children }: AuthUserProviderProps) {
 
 			if (userData.canRefresh) {
 				// 응답을 기다리지 않고 백그라운드에서 실행
-				api.member.refreshChampionStats(userData.id);
+				api.private.member.refreshChampionStats(userData.id);
 			}
 
 			return userData;
