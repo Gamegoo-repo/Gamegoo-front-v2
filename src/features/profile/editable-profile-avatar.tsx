@@ -8,7 +8,7 @@ function EditableProfileAvatar() {
 	return (
 		<div>
 			<div className="relative">
-				<UserProfile id={userInfo?.profileImg ?? 0} size={186} />
+				<UserProfile id={userInfo?.profileImg ?? 0} size={180} />
 				<div className="absolute bottom-0 left-0 w-[56px] h-[56px] bg-gray-800/75 rounded-full flex items-center justify-center">
 					<PencilIcon className="w-[56px] h-[56px]" />
 				</div>

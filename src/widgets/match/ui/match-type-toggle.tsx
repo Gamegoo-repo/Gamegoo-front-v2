@@ -1,17 +1,17 @@
 import { cn } from "@/shared/lib/utils";
-import { useMatchFunnel } from "../hooks";
+import type { UseMatchFunnelReturn } from "../hooks";
 
 interface MatchTypeToggleProps {
+	funnel: UseMatchFunnelReturn;
 	className?: string;
 }
 
-export default function MatchTypeToggle({ className }: MatchTypeToggleProps) {
-	const {
-		toStep,
-		context: { type },
-	} = useMatchFunnel();
+export default function MatchTypeToggle({
+	funnel,
+	className,
+}: MatchTypeToggleProps) {
 	const handleTypeChange = (newType: "BASIC" | "PRECISE") => {
-		toStep("profile", {
+		funnel.toStep("profile", {
 			type: newType,
 		});
 	};
@@ -22,7 +22,7 @@ export default function MatchTypeToggle({ className }: MatchTypeToggleProps) {
 				onClick={() => handleTypeChange("BASIC")}
 				className={cn(
 					"px-6 py-2 rounded-full transition-all duration-200 font-semibold text-sm",
-					type === "BASIC"
+					funnel.context.type === "BASIC"
 						? "bg-white text-gray-800"
 						: "text-gray-400 hover:text-gray-300",
 				)}
@@ -34,7 +34,7 @@ export default function MatchTypeToggle({ className }: MatchTypeToggleProps) {
 				onClick={() => handleTypeChange("PRECISE")}
 				className={cn(
 					"px-6 py-2 rounded-full transition-all duration-200 font-semibold text-sm",
-					type === "PRECISE"
+					funnel.context.type === "PRECISE"
 						? "bg-white text-gray-800"
 						: "text-gray-400 hover:text-gray-300",
 				)}

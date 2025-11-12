@@ -1,4 +1,5 @@
 import BackIcon from "@/shared/assets/icons/back.svg?react";
+import type { UseMatchFunnelReturn } from "../hooks";
 import MatchTypeToggle from "./match-type-toggle";
 
 interface MatchHeaderProps {
@@ -7,6 +8,7 @@ interface MatchHeaderProps {
 	onBack?: () => void;
 	showBackButton?: boolean;
 	showMatchTypeToggle?: boolean;
+	funnel?: UseMatchFunnelReturn;
 }
 
 function MatchHeader({
@@ -15,6 +17,7 @@ function MatchHeader({
 	onBack,
 	showBackButton = true,
 	showMatchTypeToggle = false,
+	funnel,
 }: MatchHeaderProps) {
 	return (
 		<div className="w-full bg-white sticky top-0 z-50">
@@ -36,7 +39,7 @@ function MatchHeader({
 						</div>
 					</div>
 
-					{showMatchTypeToggle && <MatchTypeToggle />}
+					{showMatchTypeToggle && funnel && <MatchTypeToggle funnel={funnel} />}
 				</div>
 			</div>
 		</div>

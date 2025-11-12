@@ -59,11 +59,14 @@ export const useMatchFunnel = (): UseMatchFunnelReturn => {
 		}
 
 		setCurrentStep(step);
-		const updatedContext = newContext ? { ...context, ...newContext } : context;
-		setContext(updatedContext);
-
-		sessionStorage.setItem("funnel-step", step);
-		sessionStorage.setItem("funnel-context", JSON.stringify(updatedContext));
+		setContext((prevContext) => {
+			const updatedContext = newContext
+				? { ...prevContext, ...newContext }
+				: prevContext;
+			sessionStorage.setItem("funnel-step", step);
+			sessionStorage.setItem("funnel-context", JSON.stringify(updatedContext));
+			return updatedContext;
+		});
 	};
 
 	return {
