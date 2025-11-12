@@ -192,17 +192,23 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				return;
 			}
 
+			const profile = funnel.context.profile || {};
 			const matchingData = {
 				matchingType: funnel.context.type,
 				gameMode: gameMode,
 				threshold: GAME_MODE_THRESHOLD[gameMode] || GAME_MODE_THRESHOLD.FAST,
-				mike: user?.mike ?? "UNAVAILABLE",
-				mainP: (user?.mainP ?? 0).toString(),
-				subP: (user?.subP ?? 0).toString(),
-				wantP: user?.wantP?.map((p) => p ?? "ANY") || [],
+				mike: profile.mike ?? user?.mike ?? "UNAVAILABLE",
+				mainP: (profile.mainP ?? user?.mainP ?? 0).toString(),
+				subP: (profile.subP ?? user?.subP ?? 0).toString(),
+				wantP:
+					profile.wantP?.map((p) => p ?? "ANY") ||
+					user?.wantP?.map((p) => p ?? "ANY") ||
+					[],
 				gameStyleIdList: (() => {
 					const ids =
-						user?.gameStyleResponseList?.map((s) => s.gameStyleId) || [];
+						profile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
+						user?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
+						[];
 					return ids.length > 0 ? ids : null;
 				})(),
 			};
