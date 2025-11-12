@@ -182,7 +182,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	return (
 		<>
 			<MatchHeader
-				step="match-complete"
 				title="매칭 완료"
 				onBack={() => funnel.toStep("match-start")}
 			/>

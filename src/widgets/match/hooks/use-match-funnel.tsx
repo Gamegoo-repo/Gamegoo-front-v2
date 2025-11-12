@@ -32,7 +32,7 @@ export interface UseMatchFunnelReturn {
 export const useMatchFunnel = (): UseMatchFunnelReturn => {
 	const { authUser } = useAuthUser();
 	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
-	const [currentStep, setCurrentStep] = useState<FunnelStep>("match-type");
+	const [currentStep, setCurrentStep] = useState<FunnelStep>("profile");
 	const [context, setContext] = useState<UseMatchFunnelReturn["context"]>({
 		type: null,
 		gameMode: null,

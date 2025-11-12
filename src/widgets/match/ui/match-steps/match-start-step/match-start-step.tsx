@@ -310,7 +310,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 	return (
 		<>
 			<MatchHeader
-				step="match-start"
 				title="매칭 중"
 				subtitle="나와 꼭 맞는 상대를 찾는 중..."
 				onBack={handleBack}

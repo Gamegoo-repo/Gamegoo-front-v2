@@ -1,3 +1,4 @@
+import { useRouter } from "@tanstack/react-router";
 import { useRef } from "react";
 import TierFullNameBadge from "@/entities/game/ui/tier-full-name-badge";
 import { GAME_STYLE } from "@/features/board/config/game-styles";
@@ -18,8 +19,15 @@ interface ProfileStepProps {
 
 function ProfileStep({ funnel, user }: ProfileStepProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
+	const router = useRouter();
 
 	if (!user) return null;
+
+	const _handleTypeChange = (type: "BASIC" | "PRECISE") => {
+		funnel.toStep("profile", {
+			type,
+		});
+	};
 
 	const currentProfile = funnel.context.profile || {};
 	const selectedGameStyleIds =
@@ -109,9 +117,9 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 	return (
 		<>
 			<MatchHeader
-				step="profile"
 				title="프로필 등록"
-				onBack={() => funnel.toStep("game-mode")}
+				onBack={() => router.navigate({ to: "/" })}
+				showMatchTypeToggle
 			/>
 			<div
 				className="w-full flex justify-center items-center"
