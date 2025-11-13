@@ -102,9 +102,9 @@ export default function BasicProfileForm({
 		funnel.toStep("match-start", {
 			profile: {
 				mike: currentMike,
-				mainP: user?.mainP || undefined,
-				subP: user?.subP || undefined,
-				wantP: user?.wantP || undefined,
+				mainP: currentProfile.mainP || user?.mainP || undefined,
+				subP: currentProfile.subP || user?.subP || undefined,
+				wantP: currentProfile.wantP || user?.wantP || undefined,
 				gameStyleResponseList:
 					selectedGameStyleIds
 						.map((id) => {

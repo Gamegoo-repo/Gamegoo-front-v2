@@ -34,8 +34,8 @@ export const useMatchFunnel = (): UseMatchFunnelReturn => {
 	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
 	const [currentStep, setCurrentStep] = useState<FunnelStep>("profile");
 	const [context, setContext] = useState<UseMatchFunnelReturn["context"]>({
-		type: null,
-		gameMode: null,
+		type: "BASIC",
+		gameMode: "FAST",
 		profile: null,
 	});
 

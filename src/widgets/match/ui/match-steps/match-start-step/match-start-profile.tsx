@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
 import { ProfileAvatar } from "@/features/profile";
 import type { MyProfileResponse, OtherProfileResponse } from "@/shared/api";
 import MicOffIcon from "@/shared/assets/icons/mic_off.svg?react";
@@ -12,6 +13,9 @@ interface MatchStartProfileProps {
 function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 	if (!user) return null;
 
+	const MainPositionIcon = getPositionIcon(user.mainP ?? "ANY");
+	const SubPositionIcon = getPositionIcon(user.subP ?? "ANY");
+	const WantPositionIcon = getPositionIcon(user.wantP?.[0] ?? "ANY");
 	const isMicOn = user.mike === "AVAILABLE";
 
 	return (
@@ -69,13 +73,32 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 			</div>
 
 			{/* 포지션 */}
-			<div className="flex w-full items-center gap-2">
-				<div className="flex items-center justify-center gap-2 w-[240px] h-[100px] bg-gray-100 rounded-lg p-2">
-					<span className="semi-bold-13 text-gray-800">주 포지션</span>
-					<span className="semi-bold-13 text-gray-800">부 포지션</span>
+			<div className="flex gap-[12px] h-[104px] w-full">
+				<div className="bg-gray-100 flex-1 rounded-[10px] h-full px-11 py-4">
+					<ul className="w-full flex justify-between h-full gap-[8px]">
+						<li className="h-full flex flex-col items-center justify-between w-[49px]">
+							<span className="text-gray-700 bold-12 w-full text-center">
+								주 포지션
+							</span>
+							<MainPositionIcon className="w-12 text-gray-700" />
+						</li>
+
+						<li className="h-full flex flex-col items-center justify-between w-[49px]">
+							<span className="text-gray-700 bold-12 w-full text-center">
+								부 포지션
+							</span>
+							<SubPositionIcon className="w-12 text-gray-700" />
+						</li>
+					</ul>
 				</div>
-				<div className="flex items-center justify-center gap-2 w-[240px] h-[100px] bg-gray-100 rounded-lg p-2">
-					<span className="semi-bold-13 text-gray-800">내가 찾는 포지션</span>
+				<div className="bg-gray-100 flex-1 rounded-[10px] h-full px-11 py-4 flex flex-col items-center justify-between">
+					<span className="text-gray-700 bold-12">내가 찾는 포지션</span>
+
+					<ul className="flex w-full justify-center gap-4 items-end">
+						<li className="flex flex-col items-center justify-between">
+							<WantPositionIcon className="w-12 text-gray-700" />
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
