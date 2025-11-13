@@ -201,9 +201,9 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				mainP: (profile.mainP ?? user?.mainP ?? 0).toString(),
 				subP: (profile.subP ?? user?.subP ?? 0).toString(),
 				wantP:
-					profile.wantP?.map((p) => p ?? "ANY") ||
-					user?.wantP?.map((p) => p ?? "ANY") ||
-					[],
+					funnel.context.type === "PRECISE"
+						? profile.wantP?.map((p) => p ?? "ANY")
+						: ["ANY"],
 				gameStyleIdList: (() => {
 					const ids =
 						profile.gameStyleResponseList?.map((s) => s.gameStyleId) ||

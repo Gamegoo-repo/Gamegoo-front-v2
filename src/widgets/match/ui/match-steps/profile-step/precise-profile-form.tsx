@@ -3,7 +3,8 @@ import { GAME_MODE_ITEMS } from "@/features/board/config/dropdown-items";
 import { GAME_STYLE } from "@/features/board/config/game-styles";
 import { getGameModeTitle } from "@/features/board/lib/getGameModeTitle";
 import GameStylePopover from "@/features/board/ui/game-style-popover";
-import type { GameMode, MyProfileResponse } from "@/shared/api";
+import PositionSelector from "@/features/board/ui/position-selector";
+import type { GameMode, MyProfileResponse, Position } from "@/shared/api";
 import { socketManager } from "@/shared/api/socket";
 import { Button } from "@/shared/ui";
 import CloseButton from "@/shared/ui/button/close-button";
@@ -30,9 +31,8 @@ export default function PreciseProfileForm({
 	const currentMike = currentProfile.mike || user?.mike || "UNAVAILABLE";
 	const currentGameMode = funnel.context.gameMode || undefined;
 
-	// PRECISE: 솔로랭크, 자유랭크, 빠른대전 (칼바람 제외)
 	const gameModeItems = useMemo(() => {
-		const allModes = GAME_MODE_ITEMS.slice(1); // "모든 모드" 제외
+		const allModes = GAME_MODE_ITEMS.slice(1);
 		return allModes.filter(
 			(item) => item.id === "SOLO" || item.id === "FREE" || item.id === "FAST",
 		);
@@ -41,6 +41,33 @@ export default function PreciseProfileForm({
 	const handleGameModeChange = (value: GameMode | undefined) => {
 		funnel.toStep("profile", {
 			gameMode: value || null,
+		});
+	};
+
+	const handleMainPositionChange = (position: Position | undefined) => {
+		funnel.toStep("profile", {
+			profile: {
+				...currentProfile,
+				mainP: position,
+			},
+		});
+	};
+
+	const handleSubPositionChange = (position: Position | undefined) => {
+		funnel.toStep("profile", {
+			profile: {
+				...currentProfile,
+				subP: position,
+			},
+		});
+	};
+
+	const handleWantPositionChange = (position: Position | undefined) => {
+		funnel.toStep("profile", {
+			profile: {
+				...currentProfile,
+				wantP: position ? [position] : [currentProfile.wantP?.[0] ?? "ANY"],
+			},
 		});
 	};
 
@@ -136,6 +163,58 @@ export default function PreciseProfileForm({
 					}
 					items={gameModeItems}
 				/>
+			</div>
+			<div>
+				<p className="label mb-1.5">포지션</p>
+				<div className="flex gap-[12px] h-[104px] w-full">
+					<div className="bg-white flex-1 rounded-[10px] h-full px-11 py-4">
+						<ul className="w-full flex justify-between h-full gap-[8px]">
+							<li className="h-full flex flex-col items-center justify-between w-[49px]">
+								<span className="text-gray-700 bold-12 w-full text-center">
+									주 포지션
+								</span>
+								<PositionSelector
+									onChangePosition={(newState) =>
+										handleMainPositionChange(newState)
+									}
+									selectedPosition={currentProfile.mainP}
+									title={"주 포지션 선택"}
+									containerRef={containerRef}
+								/>
+							</li>
+
+							<li className="h-full flex flex-col items-center justify-between w-[49px]">
+								<span className="text-gray-700 bold-12 w-full text-center">
+									부 포지션
+								</span>
+								<PositionSelector
+									onChangePosition={(newState) =>
+										handleSubPositionChange(newState)
+									}
+									selectedPosition={currentProfile.subP}
+									title={"부 포지션 선택"}
+									containerRef={containerRef}
+								/>
+							</li>
+						</ul>
+					</div>
+					<div className="bg-white flex-1 rounded-[10px] h-full px-11 py-4 flex flex-col items-center justify-between">
+						<span className="text-gray-700 bold-12">내가 찾는 포지션</span>
+
+						<ul className="flex w-full justify-center gap-4 items-end">
+							<li className="flex flex-col items-center justify-between">
+								<PositionSelector
+									onChangePosition={(newState) => {
+										handleWantPositionChange(newState);
+									}}
+									selectedPosition={currentProfile.wantP?.[0]}
+									title={"내가 찾는 포지션"}
+									containerRef={containerRef}
+								/>
+							</li>
+						</ul>
+					</div>
+				</div>
 			</div>
 			<div className="flex flex-col gap-2 w-full">
 				<p className="label">게임 스타일</p>
