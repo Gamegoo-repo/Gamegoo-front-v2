@@ -186,26 +186,28 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				onBack={() => funnel.toStep("match-start")}
 			/>
 			<div className="flex flex-col justify-center p-10 items-center h-fit gap-[59px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
-				<div className="flex justify-center items-center gap-[59px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
+				<div className="flex justify-center gap-[59px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
 					<MatchStartProfile user={authUser} />
-					<MatchStartProfile
-						user={matchComplete?.opponent as Partial<OtherProfileResponse>}
-						opponent
-					/>
-				</div>
-				<div className="flex flex-col items-center gap-4 mt-4">
-					<div className="text-lg font-semibold text-gray-700">
-						{timeLeft > 0
-							? `${timeLeft}초 후 자동으로 매칭이 진행됩니다`
-							: "매칭 대기 중..."}
+					<div>
+						<MatchStartProfile
+							user={matchComplete?.opponent as Partial<OtherProfileResponse>}
+							opponent
+						/>
+						<div className="flex flex-col items-center w-[560px] gap-4 mt-4">
+							<div className="text-lg font-semibold text-gray-700">
+								{timeLeft > 0
+									? `${timeLeft}초 후 자동으로 매칭이 진행됩니다`
+									: "매칭 대기 중..."}
+							</div>
+							<Button
+								variant="default"
+								className="h-12 w-full rounded-2xl px-8 bg-gray-800"
+								onClick={handleCancel}
+							>
+								매칭 다시하기
+							</Button>
+						</div>
 					</div>
-					<Button
-						variant="outline"
-						className="h-12 w-[300px] rounded-2xl px-8"
-						onClick={handleCancel}
-					>
-						매칭 취소
-					</Button>
 				</div>
 			</div>
 		</>
