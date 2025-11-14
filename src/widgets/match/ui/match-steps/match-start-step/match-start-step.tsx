@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { socketManager } from "@/shared/api/socket";
+import {
+	getAuthUserId,
+	makeMatchingRequestKeyFromId,
+} from "@/shared/lib/auth-user";
 import { useAuthUser } from "@/shared/providers";
 import type { UseMatchFunnelReturn } from "@/widgets/match/hooks";
 import type { MatchingFoundData } from "@/widgets/match/lib/matching-types";
@@ -198,8 +202,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				gameMode: gameMode,
 				threshold: GAME_MODE_THRESHOLD[gameMode] || GAME_MODE_THRESHOLD.FAST,
 				mike: profile.mike ?? user?.mike ?? "UNAVAILABLE",
-				mainP: (profile.mainP ?? user?.mainP ?? 0).toString(),
-				subP: (profile.subP ?? user?.subP ?? 0).toString(),
+				mainP: profile.mainP ?? user?.mainP ?? "ANY",
+				subP: profile.subP ?? user?.subP ?? "ANY",
 				wantP:
 					funnel.context.type === "PRECISE"
 						? profile.wantP?.map((p) => p ?? "ANY")
@@ -214,17 +218,10 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 			};
 
 			// memberId 기반 중복 전송 방지 (id가 유효할 때만 적용)
-			const rawId =
-				(authUser as any)?.memberId ?? (authUser as any)?.id ?? null;
-			const numericId =
-				typeof rawId === "number"
-					? rawId
-					: typeof rawId === "string"
-						? Number.parseInt(rawId, 10)
-						: NaN;
-			const hasValidId = Number.isFinite(numericId);
+			const userId = getAuthUserId(authUser);
+			const hasValidId = typeof userId === "number";
 			const requestDedupKey = hasValidId
-				? `matching-request-sent:${numericId}`
+				? makeMatchingRequestKeyFromId(userId as number)
 				: null;
 
 			const shouldBlock =
@@ -246,7 +243,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				console.log("✅ [V2-Progress] matching-request 전송 완료");
 			} else {
 				console.warn("⚠️ [V2-Progress] 중복 matching-request 차단", {
-					userId: numericId,
+					userId,
 				});
 			}
 
@@ -291,15 +288,9 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 		didSendMatchingRequestRef.current = false;
 		didSendFoundSuccessRef.current = false;
 		// 세션 스토리지 dedup 키 제거
-		const rawId = (authUser as any)?.memberId ?? (authUser as any)?.id ?? null;
-		const numericId =
-			typeof rawId === "number"
-				? rawId
-				: typeof rawId === "string"
-					? Number.parseInt(rawId, 10)
-					: NaN;
-		if (Number.isFinite(numericId)) {
-			sessionStorage.removeItem(`matching-request-sent:${numericId}`);
+		const userId = getAuthUserId(authUser);
+		if (typeof userId === "number") {
+			sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
 		}
 		// 혹시 'unknown'으로 저장된 키가 있다면 제거
 		sessionStorage.removeItem("matching-request-sent:unknown");

@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import type { OtherProfileResponse } from "@/shared/api";
 import { socketManager } from "@/shared/api/socket";
+import {
+	getAuthUserId,
+	makeMatchingRequestKeyFromId,
+} from "@/shared/lib/auth-user";
 import { useAuthUser } from "@/shared/providers";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../../hooks";
@@ -45,16 +49,9 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		clearAllTimers();
 
 		// 중복 전송 방지 키 해제
-		const currentUserId =
-			(authUser as any)?.memberId ?? (authUser as any)?.id ?? null;
-		const numericId =
-			typeof currentUserId === "number"
-				? currentUserId
-				: typeof currentUserId === "string"
-					? Number.parseInt(currentUserId, 10)
-					: NaN;
-		if (Number.isFinite(numericId)) {
-			sessionStorage.removeItem(`matching-request-sent:${numericId}`);
+		const userId = getAuthUserId(authUser);
+		if (typeof userId === "number") {
+			sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
 		}
 		sessionStorage.removeItem("matching-request-sent:unknown");
 
@@ -123,10 +120,11 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 			console.log("🎉 [V2-Complete] matching-success 수신:", res);
 			clearAllTimers();
 			// 중복 전송 방지 키 해제 (새 매칭 허용)
-			const currentUserId =
-				(authUser as any)?.memberId ?? (authUser as any)?.id ?? "unknown";
-			const requestDedupKey = `matching-request-sent:${currentUserId}`;
-			sessionStorage.removeItem(requestDedupKey);
+			const userId = getAuthUserId(authUser);
+			if (typeof userId === "number") {
+				sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
+			}
+			sessionStorage.removeItem("matching-request-sent:unknown");
 			// 채팅 전환 로직을 여기에서 처리 가능
 		};
 
@@ -134,10 +132,11 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 			console.log("❌ [V2-Complete] matching-fail 수신 - 프로필로 복귀");
 			clearAllTimers();
 			// 중복 전송 방지 키 해제 (새 매칭 허용)
-			const currentUserId =
-				(authUser as any)?.memberId ?? (authUser as any)?.id ?? "unknown";
-			const requestDedupKey = `matching-request-sent:${currentUserId}`;
-			sessionStorage.removeItem(requestDedupKey);
+			const userId = getAuthUserId(authUser);
+			if (typeof userId === "number") {
+				sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
+			}
+			sessionStorage.removeItem("matching-request-sent:unknown");
 			funnel.toStep("profile");
 		};
 
