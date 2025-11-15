@@ -31,6 +31,7 @@ export const useBoardList = (props: UseBoardListProps) => {
 		staleTime: 5 * 60 * 1000,
 	});
 
+	/** TODO: data. 반복 확인하기 */
 	return {
 		...query,
 		boards: query.data?.data.data?.boards,

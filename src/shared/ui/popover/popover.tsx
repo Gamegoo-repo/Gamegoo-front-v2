@@ -89,11 +89,11 @@ export function PopoverProvider({
 				x = containerRect.right - padding - contentRect.width;
 			}
 
-			// bottom 경계
-			if (y + contentRect.height > containerRect.bottom - padding) {
-				y = triggerRect.top - contentRect.height - gap;
-				arrowPosition = "bottom";
-			}
+			// // bottom 경계
+			// if (y + contentRect.height > containerRect.bottom - padding) {
+			// 	y = triggerRect.top - contentRect.height - gap;
+			// 	arrowPosition = "bottom";
+			// }
 
 			// 팝오버를 기준으로 화살표의 상대 좌표 구하기
 			const arrowX = triggerRect.left + triggerRect.width / 2 - x;

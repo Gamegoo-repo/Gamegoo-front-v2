@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import ChampionInfo from "@/entities/game/ui/champion-info";
 import TierBadge from "@/entities/game/ui/tier-badge";
 import MannerLevelBadge from "@/entities/user/ui/manner-level-badge";
@@ -15,15 +16,20 @@ export const COLUMNS: Column<BoardListResponse>[] = [
 		width: "17%",
 		accessor: (row) => {
 			return (
-				<div className="flex gap-2 items-center ">
-					<UserProfile id={row.profileImage} />
-					<div className="flex flex-col gap-0.5 flex-grow">
+				<Link
+					to={"/users/$userId"}
+					onClick={(e) => e.stopPropagation()}
+					params={{ userId: row.memberId.toString() }}
+					className="flex gap-2 items-center"
+				>
+					<UserProfile id={row.profileImage} hasDropShadow={false} />
+					<div className="flex flex-col gap-0.5 flex-grow items-start">
 						<span className="inline-block text-gray-800 semibold-16 max-w-[13ch] whitespace-nowrap overflow-hidden text-ellipsis">
 							{row.gameName}
 						</span>
 						<span className="text-gray-600 regular-13">#{row.tag}</span>
 					</div>
-				</div>
+				</Link>
 			);
 		},
 	},
@@ -58,7 +64,7 @@ export const COLUMNS: Column<BoardListResponse>[] = [
 				{row.championStatsResponseList?.map((champion) => {
 					return (
 						<li key={`${row.boardId}-${champion.championId}`}>
-							<ChampionInfo {...champion} />
+							<ChampionInfo {...champion} badgeClassName="w-[31px]" />
 						</li>
 					);
 				})}

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { type RiotJoinRequest } from "@/shared/api/@generated";
-import { cn } from "@/shared/lib/utils";
 import { api } from "@/shared/api";
+import type { RiotJoinRequest } from "@/shared/api/@generated";
+import { cn } from "@/shared/lib/utils";
 
 function SignUpButton({
 	isDisabled,

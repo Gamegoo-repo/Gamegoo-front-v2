@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import { cn } from "@/shared/lib/utils";
 
 type ArrowPosition = "left" | "center" | "right";
@@ -8,6 +8,7 @@ interface TooltipProps {
 	content: string | ReactNode;
 	arrowPosition?: ArrowPosition;
 	showOnHover?: boolean;
+	className?: string;
 }
 
 export default function Tooltip({
@@ -15,10 +16,10 @@ export default function Tooltip({
 	content,
 	arrowPosition = "center",
 	showOnHover = true,
+	className,
 }: TooltipProps) {
 	const [isVisible, setIsVisible] = useState(false);
 
-	// 툴팁 본체 위치 (화살표 기준)
 	const getTooltipBodyPositionClass = () => {
 		switch (arrowPosition) {
 			case "left":
@@ -73,6 +74,7 @@ export default function Tooltip({
 						className={cn(
 							"absolute top-0 text-white p-5 rounded-xl min-w-[200px]",
 							getTooltipBodyPositionClass(),
+							className,
 						)}
 						style={{
 							background: "rgba(0, 0, 0, 0.70)",

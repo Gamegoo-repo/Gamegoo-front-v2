@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { PopoverContext } from "./popover";
 import CloseButton from "@/shared/ui/button/close-button";
+import { PopoverContext } from "./popover";
 
 export default function PopoverHeader({ title }: { title: string }) {
 	const context = useContext(PopoverContext);

@@ -12,7 +12,7 @@ export default function UserProfileCard({
 	return (
 		<div className="flex gap-3 items-center">
 			<p className="relative">
-				<UserProfile id={profileImage} size={74} />
+				<UserProfile id={profileImage} size={74} hasDropShadow />
 			</p>
 			<p className="flex flex-col h-fit gap-1">
 				<span className="flex items-center justify-start gap-1.5 text-gray-800 bold-20 w-full">

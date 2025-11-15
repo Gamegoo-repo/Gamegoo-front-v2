@@ -2,8 +2,8 @@ import { useContext } from "react";
 import type { Position } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
 import { PopoverContext } from "@/shared/ui/popover/popover";
-import { POSITION_BUTTON_ITEMS } from "../config/position-button-items";
 import PopoverHeader from "@/shared/ui/popover/popover-header";
+import { POSITION_BUTTON_ITEMS } from "../config/position-button-items";
 
 export default function PositionSelectorContent({
 	selectedPosition,

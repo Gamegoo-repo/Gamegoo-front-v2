@@ -9,14 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './../../../pages/__root'
+import { Route as TestLoginRouteImport } from './../../../pages/test-login'
 import { Route as AboutRouteImport } from './../../../pages/about'
 import { Route as HeaderLayoutRouteRouteImport } from './../../../pages/_header-layout/route'
 import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
-import { Route as MatchIndexRouteImport } from './../../../pages/match/index'
 import { Route as HeaderLayoutIndexRouteImport } from './../../../pages/_header-layout/index'
 import { Route as SignUpTermsRouteImport } from './../../../pages/sign-up/terms'
 import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
+import { Route as HeaderLayoutMatchIndexRouteImport } from './../../../pages/_header-layout/match/index'
+import { Route as HeaderLayoutBoardIndexRouteImport } from './../../../pages/_header-layout/board/index'
+import { Route as HeaderLayoutUsersUserIdRouteImport } from './../../../pages/_header-layout/users/$userId'
 
+const TestLoginRoute = TestLoginRouteImport.update({
+  id: '/test-login',
+  path: '/test-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -29,11 +37,6 @@ const HeaderLayoutRouteRoute = HeaderLayoutRouteRouteImport.update({
 const RiotIndexRoute = RiotIndexRouteImport.update({
   id: '/riot/',
   path: '/riot/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MatchIndexRoute = MatchIndexRouteImport.update({
-  id: '/match/',
-  path: '/match/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HeaderLayoutIndexRoute = HeaderLayoutIndexRouteImport.update({
@@ -51,66 +54,112 @@ const RiotCallbackRoute = RiotCallbackRouteImport.update({
   path: '/riot/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HeaderLayoutMatchIndexRoute = HeaderLayoutMatchIndexRouteImport.update({
+  id: '/match/',
+  path: '/match/',
+  getParentRoute: () => HeaderLayoutRouteRoute,
+} as any)
+const HeaderLayoutBoardIndexRoute = HeaderLayoutBoardIndexRouteImport.update({
+  id: '/board/',
+  path: '/board/',
+  getParentRoute: () => HeaderLayoutRouteRoute,
+} as any)
+const HeaderLayoutUsersUserIdRoute = HeaderLayoutUsersUserIdRouteImport.update({
+  id: '/users/$userId',
+  path: '/users/$userId',
+  getParentRoute: () => HeaderLayoutRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
+  '/test-login': typeof TestLoginRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/': typeof HeaderLayoutIndexRoute
-  '/match': typeof MatchIndexRoute
   '/riot': typeof RiotIndexRoute
+  '/users/$userId': typeof HeaderLayoutUsersUserIdRoute
+  '/board': typeof HeaderLayoutBoardIndexRoute
+  '/match': typeof HeaderLayoutMatchIndexRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
+  '/test-login': typeof TestLoginRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/': typeof HeaderLayoutIndexRoute
-  '/match': typeof MatchIndexRoute
   '/riot': typeof RiotIndexRoute
+  '/users/$userId': typeof HeaderLayoutUsersUserIdRoute
+  '/board': typeof HeaderLayoutBoardIndexRoute
+  '/match': typeof HeaderLayoutMatchIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_header-layout': typeof HeaderLayoutRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/test-login': typeof TestLoginRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/_header-layout/': typeof HeaderLayoutIndexRoute
-  '/match/': typeof MatchIndexRoute
   '/riot/': typeof RiotIndexRoute
+  '/_header-layout/users/$userId': typeof HeaderLayoutUsersUserIdRoute
+  '/_header-layout/board/': typeof HeaderLayoutBoardIndexRoute
+  '/_header-layout/match/': typeof HeaderLayoutMatchIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/about'
+    | '/test-login'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/'
-    | '/match'
     | '/riot'
+    | '/users/$userId'
+    | '/board'
+    | '/match'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/riot/callback' | '/sign-up/terms' | '/' | '/match' | '/riot'
+  to:
+    | '/about'
+    | '/test-login'
+    | '/riot/callback'
+    | '/sign-up/terms'
+    | '/'
+    | '/riot'
+    | '/users/$userId'
+    | '/board'
+    | '/match'
   id:
     | '__root__'
     | '/_header-layout'
     | '/about'
+    | '/test-login'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/_header-layout/'
-    | '/match/'
     | '/riot/'
+    | '/_header-layout/users/$userId'
+    | '/_header-layout/board/'
+    | '/_header-layout/match/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   HeaderLayoutRouteRoute: typeof HeaderLayoutRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
+  TestLoginRoute: typeof TestLoginRoute
   RiotCallbackRoute: typeof RiotCallbackRoute
   SignUpTermsRoute: typeof SignUpTermsRoute
-  MatchIndexRoute: typeof MatchIndexRoute
   RiotIndexRoute: typeof RiotIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/test-login': {
+      id: '/test-login'
+      path: '/test-login'
+      fullPath: '/test-login'
+      preLoaderRoute: typeof TestLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -130,13 +179,6 @@ declare module '@tanstack/react-router' {
       path: '/riot'
       fullPath: '/riot'
       preLoaderRoute: typeof RiotIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/match/': {
-      id: '/match/'
-      path: '/match'
-      fullPath: '/match'
-      preLoaderRoute: typeof MatchIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_header-layout/': {
@@ -160,15 +202,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiotCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_header-layout/match/': {
+      id: '/_header-layout/match/'
+      path: '/match'
+      fullPath: '/match'
+      preLoaderRoute: typeof HeaderLayoutMatchIndexRouteImport
+      parentRoute: typeof HeaderLayoutRouteRoute
+    }
+    '/_header-layout/board/': {
+      id: '/_header-layout/board/'
+      path: '/board'
+      fullPath: '/board'
+      preLoaderRoute: typeof HeaderLayoutBoardIndexRouteImport
+      parentRoute: typeof HeaderLayoutRouteRoute
+    }
+    '/_header-layout/users/$userId': {
+      id: '/_header-layout/users/$userId'
+      path: '/users/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof HeaderLayoutUsersUserIdRouteImport
+      parentRoute: typeof HeaderLayoutRouteRoute
+    }
   }
 }
 
 interface HeaderLayoutRouteRouteChildren {
   HeaderLayoutIndexRoute: typeof HeaderLayoutIndexRoute
+  HeaderLayoutUsersUserIdRoute: typeof HeaderLayoutUsersUserIdRoute
+  HeaderLayoutBoardIndexRoute: typeof HeaderLayoutBoardIndexRoute
+  HeaderLayoutMatchIndexRoute: typeof HeaderLayoutMatchIndexRoute
 }
 
 const HeaderLayoutRouteRouteChildren: HeaderLayoutRouteRouteChildren = {
   HeaderLayoutIndexRoute: HeaderLayoutIndexRoute,
+  HeaderLayoutUsersUserIdRoute: HeaderLayoutUsersUserIdRoute,
+  HeaderLayoutBoardIndexRoute: HeaderLayoutBoardIndexRoute,
+  HeaderLayoutMatchIndexRoute: HeaderLayoutMatchIndexRoute,
 }
 
 const HeaderLayoutRouteRouteWithChildren =
@@ -177,9 +246,9 @@ const HeaderLayoutRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   HeaderLayoutRouteRoute: HeaderLayoutRouteRouteWithChildren,
   AboutRoute: AboutRoute,
+  TestLoginRoute: TestLoginRoute,
   RiotCallbackRoute: RiotCallbackRoute,
   SignUpTermsRoute: SignUpTermsRoute,
-  MatchIndexRoute: MatchIndexRoute,
   RiotIndexRoute: RiotIndexRoute,
 }
 export const routeTree = rootRouteImport
