@@ -1,11 +1,14 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { OAuthStatus } from "@/features/auth";
+import { isError, isLoginSuccess, isNeedSignup } from "@/features/auth";
 import { parseAuthCallbackParams } from "@/features/auth/api/mappers";
-import { tokenManager } from "@/shared/api";
+import { useAuthStore } from "@/shared/model/use-auth-store";
 
 export default function AuthCallback() {
+	const login = useAuthStore((s) => s.login);
+
 	const navigate = useNavigate();
+
 	useEffect(() => {
 		const response = parseAuthCallbackParams();
 
@@ -13,23 +16,18 @@ export default function AuthCallback() {
 			throw new Error("예상치 못한 params입니다.");
 		}
 
-		const { status, accessToken, refreshToken, puuid } = response;
-
-		if (status === OAuthStatus.ERROR) {
+		if (isError(response)) {
 			navigate({ from: "/riot/callback", to: "/riot" });
-		} else if (status === OAuthStatus.LOGIN_SUCCESS) {
-			if (accessToken && refreshToken) {
-				tokenManager.setTokens(accessToken, refreshToken);
-				navigate({
-					to: "/",
-				});
-			} else {
-				throw new Error("토큰이 존재하지 않습니다.");
-			}
-		} else if (status === OAuthStatus.NEED_SIGNUP) {
+		} else if (isLoginSuccess(response)) {
+			/** TODO: 저장할 값들이 더 있다면 여기서 저장하기 */
+			login(response);
+			navigate({
+				to: "/",
+			});
+		} else if (isNeedSignup(response)) {
 			navigate({
 				to: "/sign-up/terms",
-				search: { puuid: puuid ?? "" },
+				search: { puuid: response.puuid },
 			});
 		} else {
 			throw new Error("잘못된 status입니다.");
