@@ -75,7 +75,6 @@ export default function CreatePostModal({
 		return <div>{error.message}</div>;
 	}
 
-	// TODO 이거 뭔가 잘못됨
 	if (!data) {
 		return <div>사용자 정보를 불러오는 데 실패했습니다.</div>;
 	}
