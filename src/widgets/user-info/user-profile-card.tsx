@@ -3,7 +3,7 @@ import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
 import ChampionInfo from "@/entities/game/ui/champion-info";
 import PositionCard from "@/entities/game/ui/position-card";
 import RankInfo from "@/entities/game/ui/rank-info";
-import MikeTag from "@/entities/post/ui/mike-tag";
+import MikeTag from "@/shared/ui/mike-tag";
 import UserProfile from "@/entities/user/ui/user-profile";
 import {
 	BlockMenuItem,
