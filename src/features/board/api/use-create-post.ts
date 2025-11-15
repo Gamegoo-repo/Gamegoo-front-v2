@@ -5,6 +5,7 @@ import {
 	api,
 	type BoardInsertRequest,
 } from "@/shared/api";
+import { boardKeys } from "./query-keys";
 
 export const useCreatePost = () => {
 	const queryClient = useQueryClient();
@@ -16,7 +17,7 @@ export const useCreatePost = () => {
 		},
 		onSuccess: () => {
 			return queryClient.invalidateQueries({
-				queryKey: ["boards"],
+				queryKey: boardKeys.all,
 			});
 		},
 		onError: (error: AxiosError<ApiErrorResponse>) => {

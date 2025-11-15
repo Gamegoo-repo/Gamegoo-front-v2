@@ -2,11 +2,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
+import { boardKeys } from "@/features/board/api/query-keys";
 import { useBumpPost } from "@/features/board/api/use-bump-post";
 import BoardFilter from "@/features/board/ui/board-filter";
 import BumpButton from "@/features/board/ui/bump-button";
-import CreatePostModal from "@/features/board/ui/create-post-modal";
 import PostDetailModal from "@/features/board/ui/post-detail-modal";
+import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
 import RefetchButton from "@/features/board/ui/refetch-button";
 import {
 	type BoardListResponse,
@@ -39,11 +40,10 @@ function BoardPage() {
 
 	const refetchPost = async () => {
 		await queryClient.refetchQueries({
-			queryKey: ["boards"],
+			queryKey: boardKeys.all,
 			type: "active",
 		});
 	};
-	// const { gameMode, tier, position, mike } = useBoardFilterStore();
 
 	const { page: currentPage, ...search } = useSearch({
 		from: "/_header-layout/board/",
@@ -76,11 +76,18 @@ function BoardPage() {
 				</div>
 			</div>
 			<BoardTable onRowClick={handleRowClick} />
-			{/* <PaginationButtons totalPages={totalPages || 1} /> */}
 
-			{/** TODO: 모달을 조건부 렌더링하는게 맞는 방법인지 확인하기 */}
 			{isOpen && (
-				<CreatePostModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+				// <PostFormModal
+				// 	mode="create"
+				// 	isOpen={isOpen}
+				// 	onClose={() => setIsOpen(false)}
+				// />
+				<PostFormModalContainer
+					isOpen={isOpen}
+					onClose={() => setIsOpen(false)}
+					mode="create"
+				/>
 			)}
 			{selectedPostId && (
 				<PostDetailModal
