@@ -3,9 +3,6 @@ import { cn } from "@/shared/lib/utils";
 import ArrowLeftIcon from "./assets/arrow-left.svg?react";
 import ArrowRightIcon from "./assets/arrow-right.svg?react";
 
-// import DoubleArrowLeftIcon from "./assets/double-arrow-left.svg?react";
-// import DoubleArrowRightIcon from "./assets/double-arrow-right.svg?react";
-
 interface PaginationButtonsProps {
 	totalPages: number;
 	pageGroupSize?: number; // 한 번에 보여줄 페이지 버튼 개수
@@ -30,10 +27,6 @@ export default function PaginationButtons({
 		(_, i) => startPage + i,
 	);
 
-	const handleClickFirstPage = () => {
-		navigation({ to: ".", search: { ...search, page: 1 } });
-	};
-
 	const handleClickPrevPage = () => {
 		if (currentPage > 1) {
 			navigation({ to: ".", search: { ...search, page: currentPage - 1 } });
@@ -46,25 +39,8 @@ export default function PaginationButtons({
 		}
 	};
 
-	const handleClickLastPage = () => {
-		navigation({ to: ".", search: { ...search, page: totalPages } });
-	};
-
 	return (
 		<div className="flex gap-4 items-center w-full justify-center">
-			{/* 첫 페이지 */}
-			{/* <button
-				type="button"
-				onClick={handleClickFirstPage}
-				disabled={currentPage === 1}
-				className={cn(
-					"cursor-pointer w-[14px]",
-					currentPage === 1 && "opacity-30 cursor-not-allowed",
-				)}
-			>
-				<DoubleArrowLeftIcon />
-			</button> */}
-
 			{/* 이전 페이지 */}
 			<button
 				type="button"
@@ -113,19 +89,6 @@ export default function PaginationButtons({
 			>
 				<ArrowRightIcon />
 			</button>
-
-			{/* 마지막 페이지 */}
-			{/* <button
-				type="button"
-				onClick={handleClickLastPage}
-				disabled={currentPage === totalPages}
-				className={cn(
-					"cursor-pointer w-[14px]",
-					currentPage === totalPages && "opacity-30 cursor-not-allowed",
-				)}
-			>
-				<DoubleArrowRightIcon />
-			</button> */}
 		</div>
 	);
 }
