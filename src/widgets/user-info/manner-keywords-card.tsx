@@ -36,7 +36,6 @@ export default function MannerKeywordsCard({
 							<span
 								className={cn(
 									"bold-16",
-									mannerKeyword,
 									mannerKeyword.count > 0 &&
 										type === "positive" &&
 										"text-violet-500",

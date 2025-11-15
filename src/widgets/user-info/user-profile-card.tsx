@@ -92,7 +92,7 @@ export default function UserProfileCard({
 
 						<div className="bg-white rounded-[10px] px-5 pt-4 pb-3 flex gap-4 justify-center w-[200px]">
 							<PositionCard
-								title={"부포지션"}
+								title={"내가 찾는 포지션"}
 								className="medium-16 gap-1"
 								positionIcons={
 									wantPositions.length
@@ -110,7 +110,7 @@ export default function UserProfileCard({
 								<ul className="flex gap-2">
 									{data.championStatsResponseList.map((champion) => (
 										<ChampionInfo
-											key={champion.championName}
+											key={champion.championId}
 											{...champion}
 											badgeClassName="text-sm min-w-[39px]"
 											imageClassName="w-12 h-12"
