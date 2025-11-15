@@ -2,16 +2,16 @@ import type { ReactNode } from "react";
 import CheckIcon from "@/shared/assets/icons/ic-manner-check.svg?react";
 import { cn } from "@/shared/lib/utils";
 
-const STEPPER_COLORS = ["#C1B7FF", "#9F90F9", "#7B65FF", "#5A42EE", "#452AEA"];
+const STEPPER_COLORS = ["#C1B7FF", "#9F90F9", "#7B65FF", "#5A42EE", "#452AEA"]; //violet-300 ~ violet-700
 
 export default function StepperLevelProgress({
 	userLevel,
 	rankPercentile,
 }: {
-	userLevel: number;
+	userLevel: number; // 1 ~ 5
 	rankPercentile: number | undefined;
 }) {
-	const LEVEL_NUMBERS = Array.from({ length: 5 }, (_, i) => i + 1);
+	const LEVEL_NUMBERS = Array.from({ length: 5 }, (_, i) => i + 1); // [1, 2, 3, 4, 5]
 	const progressPercent = ((userLevel - 1) / 4) * 100;
 	return (
 		<div className="w-full progress flex items-center justify-between">
@@ -25,7 +25,7 @@ export default function StepperLevelProgress({
 					className="left-5 h-full"
 					style={{
 						width: `${progressPercent}%`,
-						background: `linear-gradient(to right, #DBD6FE, ${STEPPER_COLORS[userLevel]})`,
+						background: `linear-gradient(to right, #DBD6FE, ${STEPPER_COLORS[userLevel - 1]})`,
 					}}
 				/>
 				<div
@@ -38,22 +38,32 @@ export default function StepperLevelProgress({
 
 			<ol className="progress-items w-full">
 				{LEVEL_NUMBERS.map((num) => {
+					// 유저 레벨보다 높은 노드들의 경우
 					if (num > userLevel) {
 						return <UnCheckedStepItem key={num} level={num} />;
 					} else if (num === userLevel) {
+						// 유저의 현재 레벨인 노드의 경우
 						return (
 							<div className="flex flex-col relative">
 								<CheckedStepItem key={num} level={num}>
 									<div
 										className="absolute bold-11 -top-14 -translate-y-[100%] text-nowrap flex flex-col items-center"
-										style={{ color: STEPPER_COLORS[num] }}
+										style={{
+											color:
+												num > 3 ? STEPPER_COLORS[num - 1] : STEPPER_COLORS[1],
+										}}
 									>
 										{rankPercentile && (
 											<>
 												<span>상위 {rankPercentile}%</span>
 												<div
 													className="w-0 h-0 border-x-4 border-x-transparent border-t-8"
-													style={{ borderTopColor: STEPPER_COLORS[num] }}
+													style={{
+														borderTopColor:
+															num > 3
+																? STEPPER_COLORS[num - 1]
+																: STEPPER_COLORS[1],
+													}}
 												/>
 											</>
 										)}
