@@ -2,17 +2,14 @@ import { createRootRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import { useRefreshToken } from "@/features/auth";
 import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-update-handler";
-import { tokenManager } from "@/shared/api/config";
 import { ResponsiveProvider } from "@/shared/model/responsive-context";
+import { useAuth } from "@/shared/model/use-auth";
 import {
 	ChatSocketProvider,
 	ConfirmDialogProvider,
 	GamegooSocketProvider,
-	TanstackQueryProvider,
 } from "@/shared/providers";
-
 import {
 	FloatingChatButton,
 	FloatingChatDialog,
@@ -22,45 +19,12 @@ function RootLayout() {
 	useChatroomUpdateHandler();
 
 	const { openDialog } = useChatDialogStore();
+	const { initializeAuth } = useAuth();
 
-	const refreshTokenMutation = useRefreshToken();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		let isInitialized = false;
-
-		const initializeAuth = async () => {
-			if (isInitialized) return;
-			isInitialized = true;
-
-			// 이미 로그인 페이지에 있으면 리다이렉트하지 않음
-			// if (
-			// 	typeof window !== "undefined" &&
-			// 	window.location.pathname === "/riot"
-			// ) {
-			// 	return;
-			// }
-
-			const accessToken = tokenManager.getAccessToken();
-			const refreshToken = tokenManager.getRefreshToken();
-
-			// accessToken이 없고 refreshToken이 있을 때만 refresh 시도
-			if (!accessToken && refreshToken) {
-				try {
-					await refreshTokenMutation.mutateAsync(refreshToken);
-				} catch (_error) {
-					// refresh 실패 시에만 리다이렉트
-					tokenManager.clearTokens();
-					// navigate({ to: "/riot" });
-				}
-			} else if (!accessToken && !refreshToken) {
-				// 토큰이 모두 없으면 로그인페이지로 리다이렉트
-				// navigate({ to: "/riot" });
-			}
-		};
-
 		initializeAuth();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleChatButtonClick = () => {
@@ -68,20 +32,20 @@ function RootLayout() {
 	};
 
 	return (
-		<TanstackQueryProvider>
-			<GamegooSocketProvider>
-				<ChatSocketProvider>
-					<ConfirmDialogProvider>
-						<ResponsiveProvider>
-							<Outlet />
-							<FloatingChatButton onClick={handleChatButtonClick} />
-							<FloatingChatDialog />
-							<TanStackRouterDevtools />
-						</ResponsiveProvider>
-					</ConfirmDialogProvider>
-				</ChatSocketProvider>
-			</GamegooSocketProvider>
-		</TanstackQueryProvider>
+		// <TanstackQueryProvider>
+		<GamegooSocketProvider>
+			<ChatSocketProvider>
+				<ConfirmDialogProvider>
+					<ResponsiveProvider>
+						<Outlet />
+						<FloatingChatButton onClick={handleChatButtonClick} />
+						<FloatingChatDialog />
+						<TanStackRouterDevtools />
+					</ResponsiveProvider>
+				</ConfirmDialogProvider>
+			</ChatSocketProvider>
+		</GamegooSocketProvider>
+		// </TanstackQueryProvider>
 	);
 }
 
