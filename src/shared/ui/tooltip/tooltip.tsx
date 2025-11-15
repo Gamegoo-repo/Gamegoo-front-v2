@@ -1,10 +1,15 @@
-import { type ReactNode, useState } from "react";
+import {
+	cloneElement,
+	type ReactElement,
+	type ReactNode,
+	useState,
+} from "react";
 import { cn } from "@/shared/lib/utils";
 
 type ArrowPosition = "left" | "center" | "right";
 
 interface TooltipProps {
-	children: ReactNode;
+	children: ReactElement;
 	content: string | ReactNode;
 	arrowPosition?: ArrowPosition;
 	showOnHover?: boolean;
@@ -51,14 +56,15 @@ export default function Tooltip({
 		}
 	};
 
+	const triggerElement = cloneElement(children, {
+		onMouseEnter: handleMouseEnter,
+		onMouseLeave: handleMouseLeave,
+		onClick: handleClick,
+	} as React.HTMLAttributes<HTMLElement>);
+
 	return (
-		<div
-			className="relative inline-block"
-			onMouseEnter={handleMouseEnter}
-			onMouseLeave={handleMouseLeave}
-			onClick={handleClick}
-		>
-			{children}
+		<div className="relative inline-block">
+			{triggerElement}
 
 			{isVisible && (
 				<div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50">

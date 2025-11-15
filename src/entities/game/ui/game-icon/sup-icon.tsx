@@ -8,7 +8,7 @@ export default function SupIcon({ className }: { className?: string }) {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<title>Position icon</title>
+			<title>SUP</title>
 			<path
 				d="M9.58789 5.60001V4H14.4156V5.60001L12.0017 8.00003L9.58789 5.60001Z"
 				fill="currentColor"

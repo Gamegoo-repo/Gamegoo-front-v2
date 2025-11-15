@@ -21,11 +21,11 @@ export default function PositionCard({
 		>
 			<span className="w-full text-center">{title}</span>
 			<ul className="flex w-full justify-center gap-4 items-end">
-				{positionIcons.map((positionIcon, idx) => {
+				{positionIcons.map((positionIcon) => {
 					const PositionIcon = positionIcon;
 					return (
 						<li
-							key={`${title}-position-${idx}`}
+							key={`${title}-position-${crypto.randomUUID()}`}
 							className="flex flex-col items-center justify-between"
 						>
 							<PositionIcon className="w-12 text-gray-700" />

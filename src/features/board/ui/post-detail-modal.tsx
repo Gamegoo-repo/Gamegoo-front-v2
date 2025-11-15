@@ -24,7 +24,7 @@ export default function PostDetailModal({
 	const modalRef = useRef<HTMLDivElement>(null);
 
 	if (isPending) {
-		return <>로딩 중...</>;
+		return "로딩 중...";
 	}
 
 	if (isError) {
@@ -95,11 +95,11 @@ export default function PostDetailModal({
 									내가 찾는 포지션
 								</span>
 								<ul className="flex w-full justify-center gap-4 items-end">
-									{wantPositions.map((wantPosition, idx) => {
+									{wantPositions.map((wantPosition) => {
 										const PositionIcon = wantPosition;
 										return (
 											<li
-												key={`position-${idx}`}
+												key={`position-${crypto.randomUUID()}`}
 												className="flex flex-col items-center justify-between"
 											>
 												<PositionIcon className="w-12 text-gray-700" />
