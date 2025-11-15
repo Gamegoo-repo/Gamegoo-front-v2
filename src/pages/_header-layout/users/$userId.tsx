@@ -100,7 +100,7 @@ function RouteComponent() {
 
 						<div className="flex flex-col">
 							<span className="bold-20 text-gray-700">
-								평균 CS {recAvgCsPerMinute?.toFixed(1) || 0.0}
+								평균 CS {(recAvgCsPerMinute || 0).toFixed(1)}
 							</span>
 							<span className="semibold-14 text-gray-500">
 								CS {recTotalCs || 0}

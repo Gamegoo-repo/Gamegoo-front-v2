@@ -15,7 +15,7 @@ export default function MikeTag({
 				isMikeAvailable
 					? "border-violet-600 text-violet-600"
 					: "border-gray-600 text-gray-600",
-				className && className,
+				className,
 			)}
 		>
 			<MikeIcon className="h-fit" /> 마이크 {isMikeAvailable ? "ON" : "OFF"}
