@@ -4,6 +4,7 @@ import {
 	PopoverMenuItem,
 	type PopoverMenuItemProps,
 } from "../popover-menu-item";
+import { userKeys } from "@/entities/user/config/query-keys";
 
 interface FriendAddMenuItemProps {
 	userId: number;
@@ -22,11 +23,11 @@ export function FriendAddMenuItem({
 
 	const addFriendMutation = useMutation({
 		mutationFn: async (targetUserId: number) => {
-			const response = await api.friend.sendFriendRequest(targetUserId);
+			const response = await api.private.friend.sendFriendRequest(targetUserId);
 			return response.data;
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["friends"] });
+			queryClient.invalidateQueries({ queryKey: userKeys.friend() });
 			onSuccess?.();
 		},
 		onError: (error) => {

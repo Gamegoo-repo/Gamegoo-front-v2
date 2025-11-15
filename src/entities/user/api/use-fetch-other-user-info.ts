@@ -1,38 +1,82 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@/shared/api";
+import { userKeys } from "@/entities/user/config/query-keys";
+import {
+	api,
+	type MannerKeywordListResponse,
+	type MannerResponse,
+	type OtherProfileResponse,
+} from "@/shared/api";
 
-export const useFetchOtherUserProfileInfo = (userId: number) => {
-	const query = useQuery({
-		queryKey: ["users", "profile", userId],
-		queryFn: () => api.private.member.getMember(userId),
+export const useFetchOtherUserProfile = (
+	userId: number,
+	options?: UseFetchOtherUserOptions,
+) => {
+	return useQuery({
+		queryKey: userKeys.profile(userId),
+		queryFn: async () => {
+			const response = await api.private.member.getMember(userId);
+			return response.data?.data as OtherProfileResponse | undefined;
+		},
+		...options,
 	});
-
-	return {
-		...query,
-		data: query.data?.data.data,
-	};
 };
 
-export const useFetchOtherUserMannerKeywordsInfo = (userId: number) => {
-	const query = useQuery({
-		queryKey: ["users", "manner", "keywords", userId],
-		queryFn: () => api.private.manner.getMannerKeywordInfo(userId),
+export const useFetchOtherUserMannerKeywords = (
+	userId: number,
+	options?: UseFetchOtherUserOptions,
+) => {
+	return useQuery({
+		queryKey: userKeys.mannerDetail(userId, "keywords"),
+		queryFn: async () => {
+			const response = await api.private.manner.getMannerKeywordInfo(userId);
+			return response.data?.data as MannerKeywordListResponse | undefined;
+		},
+		...options,
 	});
-
-	return {
-		...query,
-		data: query.data?.data.data,
-	};
 };
 
-export const useFetchOtherUserMannerLevelInfo = (userId: number) => {
-	const query = useQuery({
-		queryKey: ["users", "manner", "level", userId],
-		queryFn: () => api.private.manner.getMannerLevelInfo(userId),
+export const useFetchOtherUserMannerLevel = (
+	userId: number,
+	options?: UseFetchOtherUserOptions,
+) => {
+	return useQuery({
+		queryKey: userKeys.mannerDetail(userId, "level"),
+		queryFn: async () => {
+			const response = await api.private.manner.getMannerLevelInfo(userId);
+			return response.data?.data as MannerResponse | undefined;
+		},
+		...options,
 	});
+};
+
+type UseFetchOtherUserOptions = {
+	enabled?: boolean;
+};
+
+export const useFetchOtherUserInfo = (
+	userId: number,
+	options?: UseFetchOtherUserOptions,
+) => {
+	const profile = useFetchOtherUserProfile(userId, options);
+	const mannerKeywords = useFetchOtherUserMannerKeywords(userId, options);
+	const mannerLevel = useFetchOtherUserMannerLevel(userId, options);
+
+	const isPending =
+		profile.isPending || mannerKeywords.isPending || mannerLevel.isPending;
+	const isError =
+		profile.isError || mannerKeywords.isError || mannerLevel.isError;
+	const error = profile.error || mannerKeywords.error || mannerLevel.error;
 
 	return {
-		...query,
-		data: query.data?.data.data,
+		data: {
+			profile: profile.data,
+			mannerKeywords: mannerKeywords.data,
+			mannerLevel: mannerLevel.data,
+		},
+		isPending,
+		isError,
+		error,
+		isSuccess:
+			profile.isSuccess && mannerKeywords.isSuccess && mannerLevel.isSuccess,
 	};
 };
