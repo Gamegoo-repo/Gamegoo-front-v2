@@ -1,9 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import NotificationComponent from "@/widgets/notification/ui/notification-component";
 
 export const Route = createFileRoute("/_header-layout/mypage/notification")({
-	component: RouteComponent,
+	component: NotificationComponent,
 });
-
-function RouteComponent() {
-	return <div className="w-full h-full">My Page - Notification</div>;
-}
