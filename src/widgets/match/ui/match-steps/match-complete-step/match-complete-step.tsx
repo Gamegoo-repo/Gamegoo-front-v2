@@ -38,8 +38,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 	// 매칭 취소 핸들러
 	const handleCancel = () => {
-		console.log("🚪 [V2-Complete] 매칭 취소 - matching-quit 전송");
-
 		// 매칭 취소 이벤트 전송
 		if (socketManager.connected) {
 			socketManager.send("matching-quit");
@@ -67,12 +65,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 					clearInterval(mainTimerRef.current!);
 					// Receiver: 타임아웃 시 성공 응답 전송
 					if (role === "receiver" && matchingUuid) {
-						console.log(
-							"⏰ [V2-Complete] Receiver 타임아웃 - matching-success-receiver 전송:",
-							{
-								senderMatchingUuid: matchingUuid,
-							},
-						);
 						if (!didSendSuccessReceiverRef.current) {
 							didSendSuccessReceiverRef.current = true;
 							socketManager.send("matching-success-receiver", {
@@ -85,9 +77,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 						}
 						// 5초 대기 후 실패 처리
 						secondaryTimerRef.current = setTimeout(() => {
-							console.log(
-								"⏰ [V2-Complete] Receiver 5초 타임아웃 - matching-fail 전송",
-							);
 							socketManager.send("matching-fail");
 						}, 5000);
 					}
@@ -99,9 +88,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 		// Sender: 서버에서 성공 알림 수신 시 최종 성공 전송 후 3초 타이머
 		const handleMatchingSuccessSender = () => {
-			console.log(
-				"✅ [V2-Complete] matching-success-sender 수신 - matching-success-final 전송",
-			);
 			if (!didSendSuccessFinalRef.current) {
 				didSendSuccessFinalRef.current = true;
 				socketManager.send("matching-success-final");
@@ -109,15 +95,11 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				console.warn("⚠️ [V2-Complete] 중복 matching-success-final 차단");
 			}
 			finalTimerRef.current = setTimeout(() => {
-				console.log(
-					"⏰ [V2-Complete] Sender 3초 타임아웃 - matching-fail 전송",
-				);
 				socketManager.send("matching-fail");
 			}, 3000);
 		};
 
-		const handleMatchingSuccess = (res: any) => {
-			console.log("🎉 [V2-Complete] matching-success 수신:", res);
+		const handleMatchingSuccess = (_res: any) => {
 			clearAllTimers();
 			// 중복 전송 방지 키 해제 (새 매칭 허용)
 			const userId = getAuthUserId(authUser);
@@ -129,7 +111,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		};
 
 		const handleMatchingFail = () => {
-			console.log("❌ [V2-Complete] matching-fail 수신 - 프로필로 복귀");
 			clearAllTimers();
 			// 중복 전송 방지 키 해제 (새 매칭 허용)
 			const userId = getAuthUserId(authUser);

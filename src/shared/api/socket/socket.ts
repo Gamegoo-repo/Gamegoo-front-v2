@@ -53,35 +53,17 @@ export class GamegooSocket {
 	}
 
 	async connect(authData?: SocketAuthData): Promise<void> {
-		console.log("🎯 GamegooSocket.connect 호출됨:", {
-			endpoint: this.endpoint,
-			hasExistingSocket: !!this.socket,
-			isSocketConnected: this.socket?.connected,
-			hasAuthData: !!authData,
-			authDataUserId: authData?.userId,
-			hasTokenProvider: !!this.tokenProvider,
-			timestamp: new Date().toISOString(),
-		});
-
 		if (this.socket?.connected) {
-			console.log("⚠️ GamegooSocket 이미 연결됨 - 연결 시도 건너뜀");
 			return;
 		}
 
 		if (authData) {
 			this.authData = authData;
-			console.log("🔑 authData 설정됨:", {
-				userId: authData.userId,
-				hasToken: !!authData.token,
-			});
 		} else if (this.tokenProvider) {
 			try {
-				console.log("🔄 tokenProvider에서 토큰 가져오는 중...");
 				const token = await this.tokenProvider();
 				this.authData = { token, userId: "auto" }; // TODO: 실제 userId로 수정
-				console.log("✅ tokenProvider에서 토큰 획득 성공");
-			} catch (error) {
-				console.error("❌ tokenProvider에서 토큰 획득 실패:", error);
+			} catch (_error) {
 				throw new Error("Failed to get auth token");
 			}
 		}
@@ -91,19 +73,12 @@ export class GamegooSocket {
 			throw new Error("No authentication data provided");
 		}
 
-		console.log("🔧 소켓 생성 준비:", {
-			endpoint: this.endpoint,
-			authUserId: this.authData.userId,
-			hasToken: !!this.authData.token,
-		});
-
 		this.isManualDisconnect = false;
 		this.createSocket();
 	}
 
 	private createSocket(): void {
 		if (this.socket) {
-			console.log("🧹 기존 소켓 정리 중...");
 			this.socket.disconnect();
 		}
 
@@ -120,26 +95,10 @@ export class GamegooSocket {
 			transports: ["websocket"],
 		};
 
-		console.log("🚀 Socket.IO 인스턴스 생성:", {
-			endpoint: this.endpoint,
-			auth: {
-				hasToken: !!socketConfig.auth.token,
-				tokenPrefix: socketConfig.auth.token?.substring(0, 10) + "...",
-				userId: socketConfig.auth.userId,
-			},
-			options: {
-				reconnectionAttempts: socketConfig.reconnectionAttempts,
-				reconnectionDelay: socketConfig.reconnectionDelay,
-				timeout: socketConfig.timeout,
-				transports: socketConfig.transports,
-			},
-		});
-
 		this.socket = io(this.endpoint, socketConfig);
 
 		this.setupEventHandlers();
 
-		console.log("🔌 소켓 연결 시작...");
 		this.socket.connect();
 	}
 
@@ -147,23 +106,12 @@ export class GamegooSocket {
 		if (!this.socket) return;
 
 		this.socket.on("connect", () => {
-			console.log("✅ Socket.IO 연결 성공!", {
-				socketId: this.socket?.id,
-				endpoint: this.endpoint,
-				timestamp: new Date().toISOString(),
-			});
 			this.reconnectAttempts = 0;
 			this.startHeartbeat();
 			this.emit("connect");
 		});
 
 		this.socket.on("disconnect", (reason: string) => {
-			console.log("🔴 Socket.IO 연결 해제:", {
-				reason,
-				isManualDisconnect: this.isManualDisconnect,
-				endpoint: this.endpoint,
-				timestamp: new Date().toISOString(),
-			});
 			this.stopHeartbeat();
 			this.emit("disconnect", reason);
 

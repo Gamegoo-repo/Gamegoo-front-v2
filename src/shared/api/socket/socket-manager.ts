@@ -33,24 +33,13 @@ class SocketManager {
 		options?: SocketOptions,
 		tokenProvider?: () => Promise<string>,
 	): Promise<void> {
-		console.log("🔌 SocketManager.connect 호출됨:", {
-			endpoint,
-			hasAuthData: !!authData,
-			authDataUserId: authData?.userId,
-			isAlreadyConnected: this.socket?.connected,
-			isConnecting: this.isConnecting,
-			timestamp: new Date().toISOString(),
-		});
-
 		// 이미 연결되어 있으면 재연결하지 않음
 		if (this.socket?.connected) {
-			console.log("⚠️ 이미 연결되어 있음 - 연결 시도 건너뜀");
 			return;
 		}
 
 		// 연결 중이면 대기
 		if (this.isConnecting) {
-			console.log("⚠️ 이미 연결 중 - 연결 시도 건너뜀");
 			return;
 		}
 
@@ -59,20 +48,16 @@ class SocketManager {
 		try {
 			// 기존 소켓이 있으면 정리
 			if (this.socket) {
-				console.log("🧹 기존 소켓 정리 중...");
 				this.socket.disconnect();
 				this.socket = null;
 			}
 
 			// 새 소켓 생성
-			console.log("🔧 새 GamegooSocket 생성 중...");
 			this.socket = new GamegooSocket(endpoint, options, tokenProvider);
 			this.setupSocketListeners();
 
 			// 연결 시도
-			console.log("🚀 소켓 연결 시도 중...");
 			await this.socket.connect(authData);
-			console.log("✅ 소켓 연결 완료!");
 		} catch (error) {
 			console.error("❌ SocketManager 연결 실패:", error);
 			this.socket = null;

@@ -57,22 +57,14 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				if (prevTime === 1) {
 					// 5분 타이머가 끝나면 매칭 실패 처리
 					clearTimers(); // 타이머 정리
-					console.log(
-						"⏰ [V2-Progress] 매칭 시간 초과 - matching-not-found 전송",
-					);
 					socketManager.send("matching-not-found");
-					console.log("✅ [V2-Progress] matching-not-found 전송 완료");
 					handleRetry(); // 매칭 실패 모달 결정 함수
 				} else if (prevTime < 300 && prevTime % 30 === 0) {
 					// 30초마다 threshold 값을 감소시키며 매칭 재시도
 					thresholdRef.current -= 1.5;
-					console.log(
-						`🔁 [V2-Progress] matching-retry 전송 (threshold: ${thresholdRef.current})`,
-					);
 					socketManager.send("matching-retry", {
 						threshold: thresholdRef.current,
 					});
-					console.log(`✅ [V2-Progress] matching-retry 전송 완료`);
 				}
 				return prevTime - 1;
 			});
@@ -81,37 +73,23 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 	useEffect(
 		() => {
-			console.log("🔍 [V2-Debug] useEffect 실행:", {
-				socketConnected: socketManager.connected,
-				socketInstance: !!socketManager.socketInstance,
-				socketSocket: !!socketManager.socketInstance?.socket,
-				funnelContext: funnel.context,
-			});
-
 			if (!socketManager.connected) {
 				console.error("❌ [V2-Debug] Socket is not connected.");
 				return;
 			}
 
-			const handleMatchingStarted = (data: any) => {
-				console.log("🟢 [V2-Progress] matching-started 수신:", data);
-			};
+			const handleMatchingStarted = (_data: any) => {};
 
 			const handleMatchingCount = (data: any) => {
-				console.log("📊 [V2-Progress] matching-count 수신:", data);
-				console.log("📊 [V2-Progress] 이전 tierCounts:", tierCounts);
 				const newTierCounts = {
 					...data.data.tierCount,
 					total: data.data.userCount,
 				};
-				console.log("📊 [V2-Progress] 새로운 tierCounts:", newTierCounts);
 				setTierCounts(newTierCounts);
 			};
 
 			const handleMatchingFoundSender = (data: any) => {
-				console.log("🎯 [V2-Progress] matching-found-sender 수신:", data);
 				clearTimers();
-				console.log("🚀 [V2-Progress] Complete 페이지로 이동 (sender)");
 				const opponentData = data?.data ?? {};
 				const matchingUuid =
 					data?.data?.senderMatchingInfo?.matchingUuid ??
@@ -127,11 +105,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 			};
 
 			const handleMatchingFoundReceiver = (data: any) => {
-				console.log("🎯 [V2-Progress] matching-found-receiver 수신:", data);
 				clearTimers();
-				console.log("🚀 [V2-Progress] matching-found-success 전송:", {
-					senderMatchingUuid: data.data.senderMatchingInfo.matchingUuid,
-				});
 				if (!didSendFoundSuccessRef.current) {
 					didSendFoundSuccessRef.current = true;
 					socketManager.send("matching-found-success", {
@@ -140,7 +114,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				} else {
 					console.warn("⚠️ [V2-Progress] 중복 matching-found-success 차단");
 				}
-				console.log("🚀 [V2-Progress] Complete 페이지로 이동 (receiver)");
 				funnel.toStep("match-complete", {
 					matchComplete: {
 						role: "receiver",
@@ -148,13 +121,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 						matchingUuid: data.data.senderMatchingInfo.matchingUuid,
 					},
 				});
-			};
-
-			// 모든 소켓 이벤트 로깅 (디버그용)
-			const _handleAllEvents = (eventName: string) => {
-				return (...args: any[]) => {
-					console.log(`🔊 [V2-Debug] 소켓 이벤트 수신: ${eventName}`, args);
-				};
 			};
 
 			// 기존 리스너 제거
@@ -182,15 +148,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				socket.on("matching-found-receiver", handleMatchingFoundReceiver);
 				socket.on("jwt-expired-error", handleJwtExpired as any);
 				socket.on("connect", handleReconnectSend as any);
-
-				// 모든 이벤트 로깅
-				socket.onAny((eventName, ...args) => {
-					console.log(`🔊 [V2-Debug] Raw 소켓 이벤트: ${eventName}`, args);
-					// 에러 이벤트 상세 로깅
-					if (eventName === "error") {
-						console.error(`❌ [V2-Debug] 소켓 에러 상세:`, args[0]);
-					}
-				});
 			}
 
 			// gameMode 검증
@@ -245,9 +202,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 					// id가 아직 로드 전이라면 dedup을 스킵하고 전송
 					console.warn("⚠️ [V2-Progress] 유효하지 않은 userId로 dedup 스킵");
 				}
-				console.log("🚀 [V2-Progress] matching-request 전송:", matchingData);
 				socketManager.send("matching-request", matchingData);
-				console.log("✅ [V2-Progress] matching-request 전송 완료");
 			} else {
 				console.warn("⚠️ [V2-Progress] 중복 matching-request 차단", {
 					userId,
@@ -289,7 +244,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 	// JWT 만료 처리: dedup 해제 및 재전송 플래그 설정
 	const handleJwtExpired = () => {
-		console.log("⏳ [V2-Auth] JWT 만료 수신 - 재전송 준비");
 		const userId = getAuthUserId(authUser);
 		if (typeof userId === "number") {
 			sessionStorage.removeItem(`matching-request-sent:${userId}`);
@@ -324,10 +278,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				return ids.length > 0 ? ids : null;
 			})(),
 		};
-		console.log(
-			"🔁 [V2-Auth] 재연결 후 matching-request 재전송:",
-			matchingData,
-		);
 		socketManager.send("matching-request", matchingData);
 	};
 
@@ -335,7 +285,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 	const handleBack = () => {
 		// 매칭 취소 이벤트 전송
-		console.log("🚪 [V2-Progress] 뒤로가기 - matching-quit 전송");
 		socketManager.send("matching-quit");
 		// 타이머 정리
 		clearTimers();

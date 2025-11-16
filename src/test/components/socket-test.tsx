@@ -11,40 +11,25 @@ function SocketTestInner() {
 
 	// 연결 관련 이벤트 로깅
 	useSocketConnectionEvents({
-		onConnect: () => {
-			console.log("✅ 소켓 연결됨");
-			console.log("📡 연결 시각:", new Date().toLocaleTimeString());
-		},
-		onDisconnect: (reason) => {
-			console.log("❌ 소켓 끊어짐:", reason);
-			console.log("💭 끊어짐 사유 상세:", reason);
-			console.log("📡 끊어짐 시각:", new Date().toLocaleTimeString());
-		},
+		onConnect: () => {},
+		onDisconnect: (_reason) => {},
 		onError: (error) => {
 			console.error("🔥 소켓 오류:", error);
 			console.error("🔥 오류 메시지:", error.message);
 			console.error("🔥 오류 스택:", error.stack);
 		},
-		onReconnect: (attempt) => {
-			console.log("🔄 재연결됨 (시도:", attempt, ")");
-		},
+		onReconnect: (_attempt) => {},
 		onReconnectFailed: () => {
-			console.log("💥 재연결 실패 - 최대 시도 횟수 초과");
+			console.warn("💥 재연결 실패 - 최대 시도 횟수 초과");
 		},
 	});
 
 	// 모든 메시지 수신 로깅 (채팅 메시지 예시)
-	useSocketMessage("chat_message", (data) => {
-		console.log("📩 채팅 메시지 수신:", data);
-	});
+	useSocketMessage("chat_message", (_data) => {});
 
-	useSocketMessage("notification", (data) => {
-		console.log("🔔 알림 수신:", data);
-	});
+	useSocketMessage("notification", (_data) => {});
 
-	useSocketMessage("match_found", (data) => {
-		console.log("🎮 매치 찾음:", data);
-	});
+	useSocketMessage("match_found", (_data) => {});
 
 	// 소켓 저수준 이벤트 모니터링
 	useSocketMessage("connect_error", (error) => {
@@ -57,7 +42,7 @@ function SocketTestInner() {
 
 	// 추가 디버깅 이벤트들
 	useSocketMessage("reconnect_attempt", (attemptNumber) => {
-		console.log("🔄 재연결 시도 #", attemptNumber);
+		console.warn("🔄 재연결 시도 #", attemptNumber);
 	});
 
 	useSocketMessage("reconnect_error", (error) => {

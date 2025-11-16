@@ -60,10 +60,6 @@ function MatchLoadingCard({
 			const tierUserCount = tierCounts[userTier] ?? 0;
 			const totalUserCount = tierCounts.total ?? 0;
 
-			console.log("tierCounts", tierCounts);
-			console.log("tierUserCount", tierUserCount);
-			console.log("totalUserCount", totalUserCount);
-
 			if (messagesWithTierN.includes(randomMessage)) {
 				setCurrentMessage(
 					randomMessage.replace(/n/g, tierUserCount.toString()),

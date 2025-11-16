@@ -44,8 +44,6 @@ export function GamegooSocketProvider({
 
 		const connectSocket = async () => {
 			try {
-				console.log("🚀 소켓 연결 시작");
-
 				await socketManager.connect(
 					SOCKET_ENDPOINT,
 					{
@@ -65,7 +63,6 @@ export function GamegooSocketProvider({
 					},
 				);
 
-				console.log("✅ 소켓 연결 완료");
 				hasConnectedRef.current = true;
 			} catch (error) {
 				console.error("❌ 소켓 연결 실패:", error);
@@ -73,7 +70,6 @@ export function GamegooSocketProvider({
 		};
 
 		const handleConnect = (..._args: unknown[]) => {
-			console.log("🟢 소켓 연결됨");
 			setIsConnected(true);
 			// 연결되면 인증 에러 플래그 초기화
 			lastAuthErrorRef.current = false;
@@ -81,7 +77,6 @@ export function GamegooSocketProvider({
 
 		const handleDisconnect = (...args: unknown[]) => {
 			const reason = args[0] as string;
-			console.log("🔴 소켓 연결 해제:", reason);
 			setIsConnected(false);
 			// 다음 연결 시도를 허용하기 위해 가드 리셋
 			hasConnectedRef.current = false;
@@ -92,7 +87,6 @@ export function GamegooSocketProvider({
 
 			if (maybeAuthExpired) {
 				(async () => {
-					console.log("⏳ 토큰 만료 의심 - 토큰 재발급 및 재연결 시도");
 					try {
 						await tokenManager.refreshToken();
 					} catch (e) {
@@ -113,23 +107,19 @@ export function GamegooSocketProvider({
 
 			// 안전한 재연결: 네트워크/전송 문제일 때만 지연 재연결
 			if (reason === "transport close" || reason === "transport error") {
-				console.log("🔄 소켓 재연결 준비 중... (5초 후)");
 				setTimeout(() => {
 					// 재연결 시도 전 상태 재확인
 					if (isAuthenticated && authUser?.id && !hasConnectedRef.current) {
-						console.log("🔄 안전한 소켓 재연결 시도...");
 						connectSocket().catch((error) => {
 							console.error("❌ 재연결 실패:", error);
 						});
 					} else {
-						console.log("⚠️ 재연결 조건 불충족 - 재연결 취소");
 					}
 				}, 5000); // 5초로 연장
 			}
 		};
 
-		const handleJwtExpired = async (...args: unknown[]) => {
-			console.log("⏳ JWT 만료 이벤트 수신 - 토큰 재발급 및 재연결 진행", args);
+		const handleJwtExpired = async (..._args: unknown[]) => {
 			try {
 				await tokenManager.refreshToken();
 			} catch (e) {
