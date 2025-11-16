@@ -10,7 +10,10 @@ export const useChatMessageFetcher = (chatroomUuid: string | null) => {
 				throw new Error("Chatroom UUID is required");
 			}
 
-			const response = await api.chat.getChatMessages(chatroomUuid, pageParam);
+			const response = await api.private.chat.getChatMessages(
+				chatroomUuid,
+				pageParam,
+			);
 			return (
 				response.data.data || {
 					chatMessageList: [],

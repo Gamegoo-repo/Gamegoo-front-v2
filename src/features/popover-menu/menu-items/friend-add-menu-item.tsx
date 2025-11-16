@@ -22,7 +22,7 @@ export function FriendAddMenuItem({
 
 	const addFriendMutation = useMutation({
 		mutationFn: async (targetUserId: number) => {
-			const response = await api.friend.sendFriendRequest(targetUserId);
+			const response = await api.private.friend.sendFriendRequest(targetUserId);
 			return response.data;
 		},
 		onSuccess: () => {
