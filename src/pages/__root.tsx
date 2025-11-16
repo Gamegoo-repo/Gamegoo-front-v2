@@ -14,6 +14,7 @@ import {
 	FloatingChatButton,
 	FloatingChatDialog,
 } from "@/widgets/floating-chat-dialog";
+import Page404Component from "@/widgets/page-404-component";
 
 function RootLayout() {
 	useChatroomUpdateHandler();
@@ -51,4 +52,5 @@ function RootLayout() {
 
 export const Route = createRootRoute({
 	component: RootLayout,
+	notFoundComponent: () => <Page404Component />,
 });
