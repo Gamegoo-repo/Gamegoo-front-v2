@@ -35,6 +35,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 	const thresholdRef = useRef(51.5);
 	const didSendMatchingRequestRef = useRef(false);
 	const didSendFoundSuccessRef = useRef(false);
+	const shouldResendRequestRef = useRef(false);
 	const user = funnel.context.profile;
 
 	const clearTimers = () => {
@@ -161,12 +162,16 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 			socketManager.off("matching-count", handleMatchingCount);
 			socketManager.off("matching-found-sender", handleMatchingFoundSender);
 			socketManager.off("matching-found-receiver", handleMatchingFoundReceiver);
+			socketManager.off("jwt-expired-error", handleJwtExpired);
+			socketManager.off("connect", handleReconnectSend);
 
 			// 새 리스너 등록 (두 가지 방식 모두 시도)
 			socketManager.on("matching-started", handleMatchingStarted);
 			socketManager.on("matching-count", handleMatchingCount);
 			socketManager.on("matching-found-sender", handleMatchingFoundSender);
 			socketManager.on("matching-found-receiver", handleMatchingFoundReceiver);
+			socketManager.on("jwt-expired-error", handleJwtExpired);
+			socketManager.on("connect", handleReconnectSend);
 
 			// 직접 소켓에도 등록 (백업)
 			if (socketManager.socketInstance?.socket) {
@@ -175,6 +180,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				socket.on("matching-count", handleMatchingCount);
 				socket.on("matching-found-sender", handleMatchingFoundSender);
 				socket.on("matching-found-receiver", handleMatchingFoundReceiver);
+				socket.on("jwt-expired-error", handleJwtExpired as any);
+				socket.on("connect", handleReconnectSend as any);
 
 				// 모든 이벤트 로깅
 				socket.onAny((eventName, ...args) => {
@@ -258,6 +265,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 					"matching-found-receiver",
 					handleMatchingFoundReceiver,
 				);
+				socketManager.off("jwt-expired-error", handleJwtExpired);
+				socketManager.off("connect", handleReconnectSend);
 
 				// 직접 소켓에서도 제거
 				if (socketManager.socketInstance?.socket) {
@@ -266,6 +275,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 					socket.off("matching-count", handleMatchingCount);
 					socket.off("matching-found-sender", handleMatchingFoundSender);
 					socket.off("matching-found-receiver", handleMatchingFoundReceiver);
+					socket.off("jwt-expired-error", handleJwtExpired as any);
+					socket.off("connect", handleReconnectSend as any);
 					socket.offAny();
 				}
 
@@ -275,6 +286,50 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[socketManager.connected],
 	);
+
+	// JWT 만료 처리: dedup 해제 및 재전송 플래그 설정
+	const handleJwtExpired = () => {
+		console.log("⏳ [V2-Auth] JWT 만료 수신 - 재전송 준비");
+		const userId = getAuthUserId(authUser);
+		if (typeof userId === "number") {
+			sessionStorage.removeItem(`matching-request-sent:${userId}`);
+		}
+		shouldResendRequestRef.current = true;
+		didSendMatchingRequestRef.current = false;
+	};
+
+	// 재연결 시 재요청 처리
+	const handleReconnectSend = () => {
+		if (!shouldResendRequestRef.current) return;
+		shouldResendRequestRef.current = false;
+		const gameMode = funnel.context.gameMode;
+		const profile = funnel.context.profile || {};
+		if (!gameMode) return;
+		const matchingData = {
+			matchingType: funnel.context.type,
+			gameMode: gameMode,
+			threshold: GAME_MODE_THRESHOLD[gameMode] || GAME_MODE_THRESHOLD.FAST,
+			mike: profile.mike ?? user?.mike ?? "UNAVAILABLE",
+			mainP: profile.mainP ?? user?.mainP ?? "ANY",
+			subP: profile.subP ?? user?.subP ?? "ANY",
+			wantP:
+				funnel.context.type === "PRECISE"
+					? profile.wantP?.map((p) => p ?? "ANY")
+					: ["ANY"],
+			gameStyleIdList: (() => {
+				const ids =
+					profile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
+					user?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
+					[];
+				return ids.length > 0 ? ids : null;
+			})(),
+		};
+		console.log(
+			"🔁 [V2-Auth] 재연결 후 matching-request 재전송:",
+			matchingData,
+		);
+		socketManager.send("matching-request", matchingData);
+	};
 
 	const handleRetry = async () => {};
 

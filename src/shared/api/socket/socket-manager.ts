@@ -8,6 +8,15 @@ class SocketManager {
 	private socket: GamegooSocket | null = null;
 	private isConnecting = false;
 	private eventCallbacks = new Map<string, Set<SocketEventCallback>>();
+	private readonly internalEvents = new Set([
+		"connect",
+		"disconnect",
+		"error",
+		"connect_error",
+		"reconnect",
+		"reconnect_attempt",
+		"reconnect_failed",
+	]);
 
 	private constructor() {}
 
@@ -78,6 +87,8 @@ class SocketManager {
 
 		this.socket.on("connect", () => {
 			this.emitToCallbacks("connect");
+			// 소켓 연결 이후 커스텀 이벤트 리스너 재부착
+			this.attachCustomEventListeners();
 		});
 
 		this.socket.on("disconnect", (reason: string) => {
@@ -105,6 +116,17 @@ class SocketManager {
 		});
 	}
 
+	private attachCustomEventListeners(): void {
+		// 저장된 콜백 중 내부 이벤트를 제외한 커스텀 이벤트를 소켓에 부착
+		if (!this.socket?.socket) return;
+		for (const [event, callbacks] of this.eventCallbacks.entries()) {
+			if (this.internalEvents.has(event)) continue;
+			for (const callback of callbacks) {
+				this.socket.socket.on(event, callback);
+			}
+		}
+	}
+
 	private emitToCallbacks(event: string, ...args: unknown[]): void {
 		const callbacks = this.eventCallbacks.get(event);
 		if (callbacks) {
@@ -124,18 +146,7 @@ class SocketManager {
 		}
 		this.eventCallbacks.get(event)?.add(callback);
 
-		if (
-			this.socket?.socket &&
-			![
-				"connect",
-				"disconnect",
-				"error",
-				"connect_error",
-				"reconnect",
-				"reconnect_attempt",
-				"reconnect_failed",
-			].includes(event)
-		) {
+		if (this.socket?.socket && !this.internalEvents.has(event)) {
 			this.socket.socket.on(event, callback);
 		}
 	}
