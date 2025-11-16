@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import type { OtherProfileResponse } from "@/shared/api";
 import { socketManager } from "@/shared/api/socket";
 import {
@@ -55,6 +56,8 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 		// 프로필 단계로 이동
 		funnel.toStep("profile");
+		// 토스트 노출
+		toast.error("화면 이탈로 매칭이 종료되었습니다.");
 	};
 
 	useEffect(() => {

@@ -13,6 +13,7 @@ import {
 	GamegooSocketProvider,
 	TanstackQueryProvider,
 } from "@/shared/providers";
+import { Toaster } from "@/shared/ui/toaster";
 
 import {
 	FloatingChatButton,
@@ -78,6 +79,7 @@ function RootLayout() {
 								<FloatingChatButton onClick={handleChatButtonClick} />
 								<FloatingChatDialog />
 								<TanStackRouterDevtools />
+								<Toaster />
 							</ResponsiveProvider>
 						</ConfirmDialogProvider>
 					</ChatSocketProvider>
