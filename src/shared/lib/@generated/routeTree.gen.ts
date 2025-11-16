@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './../../../pages/__root'
 import { Route as TestLoginRouteImport } from './../../../pages/test-login'
-import { Route as Page404RouteImport } from './../../../pages/page-404'
 import { Route as AboutRouteImport } from './../../../pages/about'
 import { Route as HeaderLayoutRouteRouteImport } from './../../../pages/_header-layout/route'
 import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
@@ -24,11 +23,6 @@ import { Route as HeaderLayoutUsersUserIdRouteImport } from './../../../pages/_h
 const TestLoginRoute = TestLoginRouteImport.update({
   id: '/test-login',
   path: '/test-login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const Page404Route = Page404RouteImport.update({
-  id: '/page-404',
-  path: '/page-404',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -78,7 +72,6 @@ const HeaderLayoutUsersUserIdRoute = HeaderLayoutUsersUserIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
-  '/page-404': typeof Page404Route
   '/test-login': typeof TestLoginRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
@@ -90,7 +83,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
-  '/page-404': typeof Page404Route
   '/test-login': typeof TestLoginRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
@@ -104,7 +96,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_header-layout': typeof HeaderLayoutRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/page-404': typeof Page404Route
   '/test-login': typeof TestLoginRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
@@ -118,7 +109,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/about'
-    | '/page-404'
     | '/test-login'
     | '/riot/callback'
     | '/sign-up/terms'
@@ -130,7 +120,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
-    | '/page-404'
     | '/test-login'
     | '/riot/callback'
     | '/sign-up/terms'
@@ -143,7 +132,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_header-layout'
     | '/about'
-    | '/page-404'
     | '/test-login'
     | '/riot/callback'
     | '/sign-up/terms'
@@ -157,7 +145,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   HeaderLayoutRouteRoute: typeof HeaderLayoutRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
-  Page404Route: typeof Page404Route
   TestLoginRoute: typeof TestLoginRoute
   RiotCallbackRoute: typeof RiotCallbackRoute
   SignUpTermsRoute: typeof SignUpTermsRoute
@@ -171,13 +158,6 @@ declare module '@tanstack/react-router' {
       path: '/test-login'
       fullPath: '/test-login'
       preLoaderRoute: typeof TestLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/page-404': {
-      id: '/page-404'
-      path: '/page-404'
-      fullPath: '/page-404'
-      preLoaderRoute: typeof Page404RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -266,7 +246,6 @@ const HeaderLayoutRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   HeaderLayoutRouteRoute: HeaderLayoutRouteRouteWithChildren,
   AboutRoute: AboutRoute,
-  Page404Route: Page404Route,
   TestLoginRoute: TestLoginRoute,
   RiotCallbackRoute: RiotCallbackRoute,
   SignUpTermsRoute: SignUpTermsRoute,
