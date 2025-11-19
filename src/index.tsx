@@ -1,14 +1,16 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-
 import { routeTree } from "@/shared/lib/@generated/routeTree.gen";
-
 import "@/shared/lib/globals.css";
-import { queryClient } from "./shared/lib/query-client";
+import UnPredictableErrorBoundary from "./shared/ui/error-boundary/unpredictable-error-boundary";
+import ToastContainer from "./shared/ui/toast/toast-container";
+import QueryClientBoundary from "./shared/ui/error-boundary/query-client-boundary";
+import { ErrorCatcher } from "./shared/ui/error-boundary/error-catcher";
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+	routeTree,
+});
 
 declare module "@tanstack/react-router" {
 	interface Register {
@@ -21,9 +23,14 @@ if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(
 		<StrictMode>
-			<QueryClientProvider client={queryClient}>
-				<RouterProvider router={router} />
-			</QueryClientProvider>
+			<UnPredictableErrorBoundary>
+				<ErrorCatcher>
+					<QueryClientBoundary>
+						<ToastContainer />
+						<RouterProvider router={router} />
+					</QueryClientBoundary>
+				</ErrorCatcher>
+			</UnPredictableErrorBoundary>
 		</StrictMode>,
 	);
 }
