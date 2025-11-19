@@ -33,7 +33,6 @@ function RootLayout() {
 	};
 
 	return (
-		// <TanstackQueryProvider>
 		<GamegooSocketProvider>
 			<ChatSocketProvider>
 				<ConfirmDialogProvider>
@@ -46,7 +45,6 @@ function RootLayout() {
 				</ConfirmDialogProvider>
 			</ChatSocketProvider>
 		</GamegooSocketProvider>
-		// </TanstackQueryProvider>
 	);
 }
 
