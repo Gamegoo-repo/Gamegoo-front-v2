@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { userKeys } from "@/entities/user/config/query-keys";
 import { api } from "@/shared/api";
 import {
 	PopoverMenuItem,
 	type PopoverMenuItemProps,
 } from "../popover-menu-item";
-import { userKeys } from "@/entities/user/config/query-keys";
 
 interface FriendAddMenuItemProps {
 	userId: number;
