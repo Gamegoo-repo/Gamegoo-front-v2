@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import { SERVER_ERROR_MESSAGES } from "../../config/error-message/index.ts";
 import { useAppErrorStore } from "./app-error-store";
 import toast from "@/shared/lib/toast/api.ts";
-import {
-	isApiError,
-	isServerError,
-} from "@/shared/config/error-message/auth-error.ts";
+import { isApiError, isServerError } from "@/shared/lib/error-type-fn.ts";
 
 // 서버가 주는 에러 코드인지 확인
 const isPredictableError = (error: unknown): boolean => {

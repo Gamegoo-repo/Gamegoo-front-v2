@@ -2,12 +2,9 @@ import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import type { Method } from "axios";
 import type { ApiErrorResponse } from "@/shared/api";
 import { useAppErrorStore } from "../ui/error-boundary/app-error-store";
-import {
-	isAuthError,
-	isApiError,
-	isServerError,
-} from "../config/error-message/auth-error";
+
 import { toast } from "./toast";
+import { isApiError, isAuthError, isServerError } from "./error-type-fn";
 
 type ErrorHandlingStrategy = "toast" | "errorBoundary" | "ignore";
 

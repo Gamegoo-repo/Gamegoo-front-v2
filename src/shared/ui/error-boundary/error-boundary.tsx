@@ -1,4 +1,4 @@
-import { isApiError } from "@/shared/config/error-message/auth-error";
+import { isApiError } from "@/shared/lib/error-type-fn";
 import { Component, type ErrorInfo, type ReactNode } from "react";
 
 interface Props {
