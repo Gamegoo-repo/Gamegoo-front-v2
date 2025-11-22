@@ -32,7 +32,7 @@ export default function BoardToolbarMobile({
 		});
 	};
 
-	const { gameMode, tier, mike, setFilte } = useBoardFilterStore();
+	const { gameMode, tier, mike, setFilter } = useBoardFilterStore();
 
 	return (
 		<div className="w-full  mt-3 flex flex-col">
