@@ -3,11 +3,13 @@ import type { PositionIconFn } from "../lib/getPositionIcon";
 
 interface PositionCardProps {
 	title?: string;
+	size?: "md" | "lg";
 	className?: string;
 	positionIcons: PositionIconFn[];
 }
 
 export default function PositionCard({
+	size = "lg",
 	title,
 	className,
 	positionIcons,
@@ -15,7 +17,10 @@ export default function PositionCard({
 	return (
 		<div
 			className={cn(
-				"text-gray-700 text-xs font-bold flex flex-col items-center justify-between",
+				size === "md" &&
+					"text-gray-700 medium-11 flex flex-col items-center justify-between",
+				size === "lg" &&
+					"text-gray-800 text-xs font-bold flex flex-col items-center justify-between",
 				className,
 			)}
 		>
@@ -28,7 +33,12 @@ export default function PositionCard({
 							key={`${title}-position-${crypto.randomUUID()}`}
 							className="flex flex-col items-center justify-between"
 						>
-							<PositionIcon className="w-12 text-gray-700" />
+							<PositionIcon
+								className={cn(
+									size === "lg" && "w-12 text-gray-700",
+									size === "md" && "w-8 text-gray-700",
+								)}
+							/>
 						</li>
 					);
 				})}
