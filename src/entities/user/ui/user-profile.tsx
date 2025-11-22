@@ -16,7 +16,7 @@ export default function UserProfile({
 	return (
 		<div
 			className={cn(
-				"rounded-full flex items-center justify-center shrink-0",
+				"rounded-full flex items-center justify-center shrink-0 overflow-hidden",
 				getUserProfileBg(id),
 			)}
 			style={{
