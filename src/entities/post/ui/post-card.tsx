@@ -24,6 +24,7 @@ export default function PostCard({
 	championStatsResponseList,
 	contents,
 	createdAt,
+	profileImage,
 	winRate,
 }: BoardListResponse) {
 	const { text: textColor } = getWinRateColors(winRate || 0);
@@ -38,7 +39,7 @@ export default function PostCard({
 		<div className="w-full p-4 bg-gray-100 rounded-lg flex flex-col gap-4">
 			<div className="flex gap-2">
 				<div className="relative">
-					<UserProfile id={1} size={44} hasDropShadow />
+					<UserProfile id={profileImage} size={44} hasDropShadow />
 
 					<span className="inline-block py-[1px] px-1.5 rounded-full text-violet-300 bg-black/65 absolute left-1/2 bottom-0 -translate-x-1/2 font-bold text-[9px] translate-y-2/5">
 						LV.{mannerLevel}
