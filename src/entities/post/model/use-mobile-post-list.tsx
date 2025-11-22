@@ -25,7 +25,7 @@ export const useFetchPostsWithCursorQuery = (
 		isFetchingNextPage,
 		hasNextPage,
 	} = useInfiniteQuery({
-		queryKey: boardKeys.list(params),
+		queryKey: boardKeys.infiniteList(params),
 		queryFn: ({ pageParam }) => fetchPostsWithCursor(params, pageParam),
 		initialPageParam: { cursor: undefined, cursorId: undefined } as PageParam,
 		getNextPageParam: (lastPage) => {
