@@ -6,7 +6,7 @@ export default function PositionButtons() {
 	const { position, setFilter } = useBoardFilterStore();
 
 	return (
-		<ul className="h-full w-full mobile:w-[286px] flex rounded-lg bg-gray-100 overflow-hidden">
+		<ul className="h-full w-full flex rounded-lg bg-gray-100 overflow-hidden">
 			{POSITION_BUTTON_ITEMS.map((item) => {
 				const Icon = item.icon;
 				const isSelected = position === item.position;

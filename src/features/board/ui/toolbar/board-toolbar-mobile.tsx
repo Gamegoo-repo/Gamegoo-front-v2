@@ -51,7 +51,9 @@ export default function BoardToolbarMobile({
 				</div>
 			</div>
 			<div className="w-full grid px-5 grid-rows-1 grid-cols-[1fr_auto] gap-x-2 mb-2">
-				<PositionButtons />
+				<div className="flex-1 max-w-[284px]">
+					<PositionButtons />
+				</div>
 				<RefetchButton onClick={refetchPost} />
 			</div>
 			<div className="w-full grid grid-rows-1 grid-cols-[114px_100px_89px] gap-x-2 px-5">
