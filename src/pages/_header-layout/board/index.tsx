@@ -1,8 +1,12 @@
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import PostList from "@/entities/post/ui/post-list";
+import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
 import PostDetailModal from "@/features/board/ui/post-detail-modal";
 import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
+import BoardToolbarDesktop from "@/features/board/ui/toolbar/board-toolbar-desktop";
+import BoardToolbarMobile from "@/features/board/ui/toolbar/board-toolbar-mobile";
 import {
 	type BoardListResponse,
 	GameMode,
@@ -10,12 +14,8 @@ import {
 	Position,
 	Tier,
 } from "@/shared/api";
-import BoardTable from "@/widgets/board-view/ui/board-table";
 import { useResponsive } from "@/shared/model/responsive-context";
-import BoardToolbarDesktop from "@/features/board/ui/toolbar/board-toolbar-desktop";
-import BoardToolbarMobile from "@/features/board/ui/toolbar/board-toolbar-mobile";
-import PostList from "@/entities/post/ui/post-list";
-import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
+import BoardTable from "@/widgets/board-view/ui/board-table";
 
 const searchSchema = z.object({
 	page: z.number().min(1).optional().catch(1),

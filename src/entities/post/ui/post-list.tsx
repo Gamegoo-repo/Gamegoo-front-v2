@@ -1,8 +1,8 @@
-import { useFetchPostsWithCursorQuery } from "../model/use-mobile-post-list";
-import PostCard from "./post-card";
-import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
+import { useFetchPostsWithCursorQuery } from "../model/use-mobile-post-list";
+import PostCard from "./post-card";
 import PostCardSkeletons from "./post-card-skeleton";
 
 export default function PostList() {
