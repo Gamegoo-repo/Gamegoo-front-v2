@@ -1,7 +1,7 @@
 import { useFetchPostsWithCursorQuery } from "../model/use-mobile-post-list";
 import PostCard from "./post-card";
 import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import PostCardSkeletons from "./post-card-skeleton";
 
@@ -45,17 +45,19 @@ export default function PostList() {
 
 	return (
 		<div className="w-full px-5 pt-4 flex flex-col gap-4">
-			{pages.map((posts) => {
-				return (
-					<ul key={posts?.cursorId} className="flex flex-col gap-4">
-						{posts?.boards.map((post) => (
-							<li key={post.boardId}>
-								<PostCard {...post} />
-							</li>
-						))}
-					</ul>
-				);
-			})}
+			<ul className="flex flex-col gap-4">
+				{pages.map((page) => {
+					return (
+						<Fragment key={page?.cursorId}>
+							{page?.boards.map((post) => (
+								<li key={post.boardId}>
+									<PostCard {...post} />
+								</li>
+							))}
+						</Fragment>
+					);
+				})}
+			</ul>
 			{pages && !isFetchingNextPage && hasNextPage && <div ref={ref} />}
 
 			{isFetchingNextPage && <PostCardSkeletons />}

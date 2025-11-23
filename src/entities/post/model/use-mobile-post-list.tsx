@@ -2,7 +2,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { boardKeys } from "@/features/board/api/query-keys";
 import { GameMode, Mike, Position, Tier } from "@/shared/api";
 import { fetchPostsWithCursor } from "../api/api";
-import { useMemo } from "react";
 import type { PageParam } from "../api/api.types";
 
 interface UseMobilePostListParams {
