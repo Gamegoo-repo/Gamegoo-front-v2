@@ -1,5 +1,5 @@
-import { isApiError } from "@/shared/lib/error-type-fn";
 import { Component, type ErrorInfo, type ReactNode } from "react";
+import { isApiError } from "@/shared/lib/error-type-fn";
 
 interface Props {
 	children: ReactNode;
@@ -25,7 +25,7 @@ const classifyError = (error: unknown) => {
 	}
 
 	const status = error.response?.status;
-	const code = error.response?.data?.code;
+	const _code = error.response?.data?.code;
 	const errorMessage = error.response?.data?.message;
 
 	// 401: 인증 오류 - 재시도 불가
@@ -170,7 +170,10 @@ class ErrorBoundary extends Component<Props, State> {
 
 			// 커스텀 fallback이 제공된 경우
 			if (this.props.fallbackRender) {
-				return this.props.fallbackRender(this.state.error!, this.handleReset);
+				return this.props.fallbackRender(
+					this.state.error ?? new Error("Unknown error"),
+					this.handleReset,
+				);
 			}
 
 			// 기본 에러 UI

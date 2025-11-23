@@ -64,7 +64,10 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		mainTimerRef.current = setInterval(() => {
 			setTimeLeft((prev) => {
 				if (prev <= 1) {
-					clearInterval(mainTimerRef.current!);
+					if (mainTimerRef.current) {
+						clearInterval(mainTimerRef.current);
+						mainTimerRef.current = null;
+					}
 					// Receiver: 타임아웃 시 성공 응답 전송
 					if (role === "receiver" && matchingUuid) {
 						if (!didSendSuccessReceiverRef.current) {
@@ -101,7 +104,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 			}, 3000);
 		};
 
-		const handleMatchingSuccess = (_res: any) => {
+		const handleMatchingSuccess = (_res: unknown) => {
 			clearAllTimers();
 			// 중복 전송 방지 키 해제 (새 매칭 허용)
 			const userId = getAuthUserId(authUser);

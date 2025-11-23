@@ -44,7 +44,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 					const { accessToken, refreshToken } = response.data.data;
 					get().login({ accessToken, refreshToken });
 				}
-			} catch (e) {
+			} catch (_e) {
 				set({ isAuthenticated: false, user: null });
 				return;
 			}
@@ -69,7 +69,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 					},
 				});
 			}
-		} catch (error) {
+		} catch (_error) {
 			tokenManager.clearTokens();
 			set({ isAuthenticated: false, user: null });
 		}

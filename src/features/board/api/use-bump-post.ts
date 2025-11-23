@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {  api } from "@/shared/api";
+import { api } from "@/shared/api";
 import { boardKeys } from "./query-keys";
 
 export const useBumpPost = () => {

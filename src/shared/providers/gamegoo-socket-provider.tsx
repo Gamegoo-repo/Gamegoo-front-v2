@@ -27,7 +27,7 @@ export function GamegooSocketProvider({
 	children,
 }: GamegooSocketProviderProps) {
 	const accessToken = tokenManager.getAccessToken();
-	const SOCKET_ENDPOINT = process.env.PUBLIC_SOCKET_URL!;
+	const SOCKET_ENDPOINT = process.env.PUBLIC_SOCKET_URL || "";
 	const { user: authUser, isAuthenticated } = useAuth();
 	const [isConnected, setIsConnected] = useState(false);
 	const hasConnectedRef = useRef(false);

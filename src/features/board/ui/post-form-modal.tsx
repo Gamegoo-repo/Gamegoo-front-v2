@@ -180,7 +180,7 @@ export default function PostFormModal({
 			isOpen={isOpen}
 			onClose={handleClose}
 			className="w-[555px]"
-			ref={modalRef}
+			contentRef={modalRef}
 		>
 			<form className="flex flex-col gap-5">
 				{/* MODAL-CONTENT */}
@@ -281,7 +281,7 @@ export default function PostFormModal({
 					<div className="flex flex-col gap-2">
 						<p className="label">게임 스타일</p>
 						<div className="w-full flex gap-2 items-center flex-wrap gap-y-3">
-							{formData.gameStyles.map((styleId, idx) => {
+							{formData.gameStyles.map((styleId, _idx) => {
 								const style = GAME_STYLE.find(
 									(item) => item.gameStyleId === styleId,
 								);
