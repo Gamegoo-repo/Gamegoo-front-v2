@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import {
@@ -10,7 +11,6 @@ import { getGameModeTitle } from "../lib/getGameModeTitle";
 import { getMike } from "../lib/getMike";
 import { getTierTitle } from "../lib/getTierTitle";
 import { useBoardFilterStore } from "../model/board-filter-store";
-import { useEffect } from "react";
 
 export default function BoardFilter() {
 	const { gameMode, tier, mike, setFilter, resetFilters } =

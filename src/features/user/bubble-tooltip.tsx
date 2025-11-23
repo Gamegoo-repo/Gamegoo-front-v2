@@ -1,5 +1,5 @@
-import { cn } from "@/shared/lib/utils";
 import { useEffect, useState } from "react";
+import { cn } from "@/shared/lib/utils";
 
 export default function BubbleTooltip() {
 	const [isVisible, setIsVisible] = useState(false);

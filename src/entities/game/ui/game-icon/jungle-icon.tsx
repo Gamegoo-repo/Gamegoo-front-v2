@@ -8,7 +8,7 @@ export default function JungleIcon({ className }: { className?: string }) {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<title>Position icon</title>
+			<title>JUNGLE</title>
 
 			<path
 				d="M12.622 20.5C13.9488 13.5341 10.9634 5.9878 7.23171 3.5C8.89024 6.48537 9.30488 10.5488 9.30488 12.2073C7.64634 9.22195 4.7439 7.92276 3.5 7.64634C5.15854 8.97317 6.12602 11.2398 6.40244 12.2073C7.06585 17.8463 10.8252 20.0854 12.622 20.5Z"

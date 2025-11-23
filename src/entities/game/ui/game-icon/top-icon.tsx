@@ -8,7 +8,7 @@ export default function TopIcon({ className }: { className?: string }) {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<title>Position icon</title>
+			<title>TOP</title>
 
 			<path
 				d="M4 18.2218V4H18.2228L15.556 6.66659H6.66678V15.5552L4 18.2218Z"

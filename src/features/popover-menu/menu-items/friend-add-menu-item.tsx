@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { userKeys } from "@/entities/user/config/query-keys";
 import { api } from "@/shared/api";
 import {
 	PopoverMenuItem,
@@ -26,7 +27,7 @@ export function FriendAddMenuItem({
 			return response.data;
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["friends"] });
+			queryClient.invalidateQueries({ queryKey: userKeys.friend() });
 			onSuccess?.();
 		},
 		onError: (error) => {

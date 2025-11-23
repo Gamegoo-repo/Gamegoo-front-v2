@@ -1,17 +1,18 @@
 import type { ReactNode } from "react";
 import type { Position } from "@/shared/api";
 import AdcIcon from "../ui/game-icon/adc-icon";
-import { AnyIcon } from "../ui/game-icon/any-icon";
+import AnyIcon from "../ui/game-icon/any-icon";
 import JungleIcon from "../ui/game-icon/jungle-icon";
 import MidIcon from "../ui/game-icon/mid-icon";
 import SupIcon from "../ui/game-icon/sup-icon";
 import TopIcon from "../ui/game-icon/top-icon";
 
-type PositionIconFn = ({
-	isSelected,
+export type PositionIconFn = ({
+	className,
+	// isSelected,
 }: {
 	className?: string | undefined;
-	isSelected?: boolean | undefined;
+	// isSelected?: boolean | undefined;
 }) => ReactNode;
 
 export const POSITION_ICONS: Record<

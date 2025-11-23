@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { type ReactNode, useMemo } from "react";
+import { Skeleton } from "../skeleton/skeleton-ui";
 import TableHeader from "./table-header";
 
 export type RowData = object;
@@ -13,6 +14,7 @@ interface TableProps<T extends { id: number }> {
 	data?: T[];
 	columns: Column<T>[];
 	ariaLabel: string;
+	isLoading?: boolean;
 	onRowClick?: (row: T) => void;
 }
 
@@ -20,6 +22,7 @@ export default function Table<T extends { id: number }>({
 	data,
 	columns,
 	ariaLabel,
+	isLoading,
 	onRowClick,
 }: TableProps<T>) {
 	const memoizedColumns = useMemo(() => columns, [columns]);
@@ -27,6 +30,29 @@ export default function Table<T extends { id: number }>({
 	const handleRowClick = (row: T) => {
 		onRowClick?.(row);
 	};
+
+	let content: ReactNode;
+
+	if (isLoading) {
+		content = Array.from({ length: 8 }).map(() => (
+			<tr key={crypto.randomUUID()} className="pt-2 pb-2 ">
+				<td colSpan={10}>
+					<Skeleton height={83} variant="rounded" width={"100%"} />
+				</td>
+			</tr>
+		));
+	} else if (!data?.length) {
+		content = (
+			<tr>
+				<td
+					colSpan={memoizedColumns.length}
+					className="text-center py-10 text-gray-700 regular-16"
+				>
+					게시된 글이 없습니다.
+				</td>
+			</tr>
+		);
+	}
 
 	return (
 		<table
@@ -57,7 +83,7 @@ export default function Table<T extends { id: number }>({
 							{memoizedColumns.map((column) => (
 								<td
 									key={column.header}
-									className="h-[86px] pt-5 pb-3 px-3 first:pl-3 last:pr-3"
+									className="h-[86px] pt-5 pb-3 px-3 first:pl-3 last:px-0"
 								>
 									{column.accessor(row)}
 								</td>
@@ -66,16 +92,7 @@ export default function Table<T extends { id: number }>({
 					))}
 				</tbody>
 			) : (
-				<tbody>
-					<tr>
-						<td
-							colSpan={memoizedColumns.length}
-							className="text-center py-10 text-gray-700 regular-16"
-						>
-							게시된 글이 없습니다.
-						</td>
-					</tr>
-				</tbody>
+				<tbody>{content}</tbody>
 			)}
 		</table>
 	);

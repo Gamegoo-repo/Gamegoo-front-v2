@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { boardKeys } from "@/features/board/api/query-keys";
 import {
 	api,
 	type GameMode,
@@ -18,7 +19,7 @@ interface UseBoardListProps {
 
 export const useBoardList = (props: UseBoardListProps) => {
 	const query = useQuery({
-		queryKey: ["boards", props],
+		queryKey: boardKeys.list(props),
 		queryFn: () =>
 			api.public.board.boardList(
 				props.page || 1,
@@ -31,6 +32,7 @@ export const useBoardList = (props: UseBoardListProps) => {
 		staleTime: 5 * 60 * 1000,
 	});
 
+	/** TODO: data. 반복 확인하기 */
 	return {
 		...query,
 		boards: query.data?.data.data?.boards,

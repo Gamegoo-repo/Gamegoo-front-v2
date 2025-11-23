@@ -8,10 +8,10 @@ export default function SearchingPosition({
 }) {
 	return (
 		<ul className="flex gap-0.5 justify-center">
-			{wantingPositions.map((pos, idx) => {
+			{wantingPositions.map((pos) => {
 				const PositionIcon = getPositionIcon(pos);
 				return (
-					<li key={idx}>
+					<li key={crypto.randomUUID()}>
 						<PositionIcon className="w-8 text-gray-700" />
 					</li>
 				);

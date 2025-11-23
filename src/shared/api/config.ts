@@ -1,6 +1,7 @@
 import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { Configuration } from "./@generated/configuration";
 
+// 토큰 관리 - 액세스 토큰은 메모리, 리프레시 토큰은 로컬스토리지
 let isRefreshing = false;
 let refreshPromise: Promise<string> | null = null;
 let failedQueue: Array<{
@@ -49,6 +50,7 @@ export const tokenManager = {
 		if (typeof window !== "undefined" && window.localStorage) {
 			localStorage.removeItem("accessToken");
 			localStorage.removeItem("refreshToken");
+			localStorage.removeItem("accessToken");
 		}
 	},
 	refreshToken: () => refreshAccessToken(),
@@ -150,7 +152,6 @@ privateApiClient.interceptors.response.use(
 		if (error.response?.status === 401 && !originalRequest._retry) {
 			originalRequest._retry = true;
 
-
 			try {
 				const newAccessToken = await refreshAccessToken();
 
@@ -158,8 +159,9 @@ privateApiClient.interceptors.response.use(
 				if (originalRequest.headers) {
 					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 				}
-				return apiClient(originalRequest);
-			} catch (_refreshError) {
+				return privateApiClient(originalRequest);
+			} catch (refreshError) {
+				console.error("Token refresh failed:", refreshError);
 				// refresh 실패 시 토큰 정리하고 원래 에러 반환
 				tokenManager.clearTokens();
 				return Promise.reject(error);

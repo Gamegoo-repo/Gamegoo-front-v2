@@ -43,7 +43,7 @@ export default function PositionSelector({
 					</button>
 				)}
 			</PopoverTrigger>
-			<PopoverContent>
+			<PopoverContent className="popover p-8">
 				<PositionSelectorContent
 					{...{ selectedPosition, onChangePosition, title }}
 				/>

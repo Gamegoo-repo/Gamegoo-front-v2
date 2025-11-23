@@ -11,9 +11,9 @@ export default function UserProfileCard({
 }) {
 	return (
 		<div className="flex gap-3 items-center">
-			<div className="relative">
-				<UserProfile id={profileImage} size={74} />
-			</div>
+			<p className="relative">
+				<UserProfile id={profileImage} size={74} hasDropShadow />
+			</p>
 			<div className="flex flex-col h-fit gap-1">
 				<span className="flex items-center justify-start gap-1.5 text-gray-800 bold-20 w-full">
 					{gameName}

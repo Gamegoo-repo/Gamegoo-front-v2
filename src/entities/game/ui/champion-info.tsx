@@ -1,22 +1,36 @@
 import type { ChampionStatsResponse } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
+import Tooltip from "@/shared/ui/tooltip/tooltip";
+import { getWinRateString } from "../lib/get-win-rate-string";
 import { getWinRateColors } from "../lib/getWinRateColor";
-import Tooltip from "@/shared/ui/tootip/tooltip";
+import { formatKDA, formatKDAStats } from "../lib/kda";
 
-export default function ChampionInfo({ ...champion }: ChampionStatsResponse) {
+interface ChampionInfoProps extends ChampionStatsResponse {
+	imageClassName?: string;
+	badgeClassName?: string;
+	className?: string;
+}
+
+export default function ChampionInfo({
+	badgeClassName,
+	imageClassName,
+	...champion
+}: ChampionInfoProps) {
+	const isMaxWinRate = champion.winRate === 100;
+	const { championName, games, wins, kda, kills, deaths, assists } = champion;
 	const championInfo = (
 		<div className="flex flex-col gap-3">
-			<span className="semibold-18">{champion.championName}</span>
+			<span className="semibold-18">{championName}</span>
 			<StatItem
 				label="승률"
 				value={`${champion.winRate.toFixed(0)}%`}
-				subText={`${champion.wins}승 ${champion.games - champion.wins}패`}
+				subText={getWinRateString(games, wins)}
 			/>
 
 			<StatItem
 				label="KDA"
-				value={champion.kda.toFixed(2)}
-				subText={`${champion.kills.toFixed(1)} / ${champion.deaths.toFixed(1)} / ${champion.assists.toFixed(1)}`}
+				value={formatKDA(kda)}
+				subText={`${formatKDAStats(kills, deaths, assists).join(" / ")}`}
 			/>
 
 			<StatItem
@@ -31,13 +45,15 @@ export default function ChampionInfo({ ...champion }: ChampionStatsResponse) {
 			<div className=" flex flex-col justify-center items-center">
 				<img
 					src={`/champion/${champion.championId}.png`}
-					alt={`Champion ${champion.championId}`}
-					className="w-8 h-8 rounded-full shrink-0"
+					alt={champion.championName}
+					className={cn("rounded-full shrink-0 w-8 h-8", imageClassName)}
 				/>
 				<span
 					className={cn(
-						"w-full text-center px-1 py-0.5 rounded-full text-[11px] font-bold -mt-1 text-white leading-none",
+						"text-center px-1 py-0.5 rounded-full font-bold text-[11px] -mt-1 text-white leading-none",
 						getWinRateColors(champion.winRate).bg,
+						badgeClassName,
+						isMaxWinRate && "px-0",
 					)}
 				>
 					{Math.round(champion.winRate)}%

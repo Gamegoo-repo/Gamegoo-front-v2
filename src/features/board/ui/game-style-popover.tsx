@@ -2,8 +2,8 @@ import type { RefObject } from "react";
 import PlusIcon from "@/shared/assets/icons/ic-plus.svg?react";
 import { cn } from "@/shared/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
-import { GAME_STYLE } from "../config/game-styles";
 import PopoverHeader from "@/shared/ui/popover/popover-header";
+import { GAME_STYLE } from "../config/game-styles";
 
 export default function GameStylePopover({
 	selectedGameStyle,
@@ -24,7 +24,7 @@ export default function GameStylePopover({
 					<PlusIcon />
 				</button>
 			</PopoverTrigger>
-			<PopoverContent className="w-[500px]">
+			<PopoverContent className="w-[500px] popover p-8">
 				<div className="w-full flex flex-col gap-7">
 					<PopoverHeader title="게임 스타일 선택 *최대 3개" />
 					<div className="w-full flex flex-wrap gap-2">

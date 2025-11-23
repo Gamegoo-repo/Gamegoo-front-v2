@@ -8,7 +8,7 @@ export const login = () => {
 	sessionStorage.setItem(STORAGE_KEYS.csrfToken, csrfToken);
 
 	const riotAuthUrl = process.env.PUBLIC_RIOT_AUTH_URL;
-	const SERVER_CALLBACK = process.env.PUBLIC_RIOT_REDIRECT_URI!;
+	const SERVER_CALLBACK = import.meta.env.PUBLIC_RIOT_REDIRECT_URI;
 	const clientId = process.env.PUBLIC_RIOT_CLIENT_ID;
 	const responseType = process.env.PUBLIC_RIOT_RESPONSE_TYPE;
 	const scope = process.env.PUBLIC_RIOT_SCOPE;

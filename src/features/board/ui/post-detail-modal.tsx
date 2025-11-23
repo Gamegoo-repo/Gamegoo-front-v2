@@ -1,21 +1,17 @@
 import { useRef } from "react";
-
-import Modal from "@/shared/ui/modal/modal";
-
-import { usePostDetail } from "@/entities/post/model/use-post-detail";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
-import { getGameModeTitle } from "../lib/getGameModeTitle";
-import CheckIcon from "@/shared/assets/icons/ic-check.svg?react";
-import ChampionInfo from "@/entities/game/ui/champion-info";
 import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
-import { cn } from "@/shared/lib/utils";
-
+import ChampionInfo from "@/entities/game/ui/champion-info";
+import TierLabel from "@/entities/game/ui/tier-label";
 import { getGameStyle } from "@/entities/post/lib/get-game-style";
-import { formatDateTime } from "@/shared/lib/format-date-time";
-import InteractiveUserProfileCard from "@/features/user/interactive-user-profile-card";
+import { usePostDetail } from "@/entities/post/model/use-post-detail";
 import WinRateTooltip from "@/entities/user/ui/win-rate-tooltip";
-import { capitalize } from "@/shared/lib/capitalize";
-import TierFullNameBadge from "@/entities/game/ui/tier-full-name-badge";
+import InteractiveUserProfileCard from "@/features/user/interactive-user-profile-card";
+import CheckIcon from "@/shared/assets/icons/ic-check.svg?react";
+import { formatDateTime } from "@/shared/lib/format-date-time";
+import { cn } from "@/shared/lib/utils";
+import Modal from "@/shared/ui/modal/modal";
+import { getGameModeTitle } from "../lib/getGameModeTitle";
 
 export default function PostDetailModal({
 	postId,
@@ -28,15 +24,15 @@ export default function PostDetailModal({
 	const modalRef = useRef<HTMLDivElement>(null);
 
 	if (isPending) {
-		return <>로딩 중...</>;
+		return "로딩 중...";
 	}
 
 	if (isError) {
 		return <div>{error.message}</div>;
 	}
 
-	if (!data) {
-		return <div>뭔가 잘못 됨</div>;
+	if (!data || !data.memberId) {
+		return <div>게시글 정보를 불러오는 데 실패했습니다.</div>;
 	}
 
 	const MainPositionIcon = getPositionIcon(data.mainP);
@@ -55,7 +51,7 @@ export default function PostDetailModal({
 				<section className="flex flex-col gap-[30px]">
 					<p className="flex w-full justify-between items-center">
 						<InteractiveUserProfileCard
-							memberId={data.memberId!}
+							memberId={data.memberId}
 							modalRef={modalRef}
 							profileImage={data.profileImage}
 							gameName={data.gameName}
@@ -67,11 +63,11 @@ export default function PostDetailModal({
 					<div className="w-full flex gap">
 						<div className="w-1/2">
 							<span className="mb-1.5 text-gray-800 semibold-14">솔로랭크</span>
-							<TierFullNameBadge tier={data.soloTier} rank={data.soloRank} />
+							<TierLabel tier={data.soloTier} rank={data.soloRank} />
 						</div>
 						<div className="w-1/2">
 							<span className="mb-1.5 text-gray-800 semibold-14">자유랭크</span>
-							<TierFullNameBadge tier={data.freeTier} rank={data.freeRank} />
+							<TierLabel tier={data.freeTier} rank={data.freeRank} />
 						</div>
 					</div>
 					{/** TODO: 재사용 컴포넌트 만들기 */}
@@ -99,11 +95,11 @@ export default function PostDetailModal({
 									내가 찾는 포지션
 								</span>
 								<ul className="flex w-full justify-center gap-4 items-end">
-									{wantPositions.map((wantPosition, idx) => {
+									{wantPositions.map((wantPosition) => {
 										const PositionIcon = wantPosition;
 										return (
 											<li
-												key={`position-${idx}`}
+												key={`position-${crypto.randomUUID()}`}
 												className="flex flex-col items-center justify-between"
 											>
 												<PositionIcon className="w-12 text-gray-700" />
@@ -144,7 +140,7 @@ export default function PostDetailModal({
 								</ul>
 							) : (
 								<div className="medium-14 h-full flex items-center text-gray-400">
-									<span>챔피언 정보가 없습니다.</span>
+									챔피언 정보가 없습니다.
 								</div>
 							)}
 						</p>

@@ -1,4 +1,4 @@
-import { BlockApi, MannerApi, ReportApi, RiotApi } from "./@generated";
+import { BlockApi, HomeApi, MannerApi, ReportApi, RiotApi } from "./@generated";
 import { AuthControllerApi } from "./@generated/api/auth-controller-api";
 import { BoardApi } from "./@generated/api/board-api";
 import { ChatApi } from "./@generated/api/chat-api";
@@ -29,11 +29,12 @@ export const api = {
 			undefined,
 			privateApiClient,
 		),
-		block: new BlockApi(publicApiConfiguration, undefined, publicApiClient),
-		report: new ReportApi(publicApiConfiguration, undefined, publicApiClient),
+		block: new BlockApi(privateApiConfiguration, undefined, privateApiClient),
+		report: new ReportApi(privateApiConfiguration, undefined, privateApiClient),
 		manner: new MannerApi(privateApiConfiguration, undefined, privateApiClient),
 	},
 	public: {
+		home: new HomeApi(publicApiConfiguration, undefined, publicApiClient),
 		board: new BoardApi(publicApiConfiguration, undefined, publicApiClient),
 		riot: new RiotApi(publicApiConfiguration, undefined, publicApiClient),
 	},

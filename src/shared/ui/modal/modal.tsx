@@ -22,34 +22,25 @@ export default function Modal({
 	const dialogRef = useRef<HTMLDialogElement>(null);
 
 	useEffect(() => {
+		document.body.style.cssText = `
+    position: fixed; 
+    top: -${window.scrollY}px;
+    overflow-y: scroll;	
+    width: 100%;`;
+
 		const dialog = dialogRef.current;
+
 		if (!dialog) {
 			return;
 		}
 
 		if (isOpen) {
-			/** TODO 스크롤 투 탑 안됨 */
-			dialog.scrollTo({ top: 0, left: 0, behavior: "instant" });
-
-			// // 스크롤바 너비 계산
-			const scrollbarWidth =
-				window.innerWidth - document.documentElement.clientWidth;
-
-			// // body 스크롤 막기 + 레이아웃 shift 방지
-			document.body.style.overflow = "hidden";
-			document.body.style.paddingRight = `${scrollbarWidth}px`;
-
 			dialog.showModal();
-		} else {
-			document.body.style.overflow = "";
-			document.body.style.paddingRight = "";
-
-			dialog.close();
 		}
-
 		return () => {
-			document.body.style.overflow = "";
-			document.body.style.paddingRight = "";
+			const scrollY = document.body.style.top;
+			document.body.style.cssText = "";
+			window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
 		};
 	}, [isOpen]);
 

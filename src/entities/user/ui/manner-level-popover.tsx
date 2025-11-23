@@ -1,9 +1,9 @@
 import type { ReactNode, RefObject } from "react";
+import type { MannerKeywordListResponse } from "@/shared/api";
+import { cn } from "@/shared/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import PopoverHeader from "@/shared/ui/popover/popover-header";
-import type { MannerKeywordListResponse } from "@/shared/api";
 import { getMannerText } from "../lib/get-manner-text";
-import { cn } from "@/shared/lib/utils";
 
 export default function MannerLevelPopover({
 	children,
@@ -18,7 +18,7 @@ export default function MannerLevelPopover({
 	return (
 		<Popover containerRef={containerRef as RefObject<HTMLElement>}>
 			<PopoverTrigger asChild>{children}</PopoverTrigger>
-			<PopoverContent className="w-[472px]">
+			<PopoverContent className="w-[472px] popover p-8">
 				<div className="w-full flex flex-col gap-7">
 					<PopoverHeader title={`매너 레벨 LV. ${level}`} />
 					<div className="w-full flex gap-14">

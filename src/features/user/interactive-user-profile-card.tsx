@@ -1,9 +1,9 @@
 import type { RefObject } from "react";
-import MikeTag from "@/entities/post/ui/mike-tag";
 import { useFetchMannerKeywords } from "@/entities/user/api/use-fetch-manner-keywords";
 import MannerLevelPopover from "@/entities/user/ui/manner-level-popover";
 import UserProfile from "@/entities/user/ui/user-profile";
 import type { Mike } from "@/shared/api";
+import MikeTag from "@/shared/ui/mike-tag";
 import BubbleTooltip from "./bubble-tooltip";
 
 export default function InteractiveUserProfileCard({
@@ -45,7 +45,7 @@ export default function InteractiveUserProfileCard({
 		<div className="flex gap-3 items-center">
 			<p className="relative">
 				<BubbleTooltip />
-				<UserProfile id={profileImage} size={74} />
+				<UserProfile id={profileImage} size={74} hasDropShadow />
 				<MannerLevelPopover
 					containerRef={modalRef}
 					userMannerInfo={userMannerInfo}
