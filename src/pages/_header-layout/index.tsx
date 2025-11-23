@@ -6,7 +6,7 @@ import Character7Icon from "@/shared/assets/characters/character7.svg?react";
 import Character8Icon from "@/shared/assets/characters/character8.svg?react";
 import RightArrowIcon from "@/shared/assets/icons/right_arrow.svg?react";
 import useResponsive from "@/shared/model/use-responsive";
-import { Logo } from "@/shared/ui/logo";
+import { LogoButton } from "@/shared/ui/logo";
 
 export const Route = createFileRoute("/_header-layout/")({
 	component: Index,
@@ -29,7 +29,7 @@ function Index() {
 					게임 친구를 쉽고 빠르게 구해줄게요!
 				</p>
 				{!isMobile && (
-					<Logo className="absolute text-violet-300 right-[41px] top-1/2 -translate-y-1/2 opacity-40 w-[254px]" />
+					<LogoButton className="absolute text-violet-300 right-[41px] top-1/2 -translate-y-1/2 opacity-40 w-[254px]" />
 				)}
 			</article>
 			<section className="w-full flex tablet:flex-row items-center flex-col gap-4 tablet:gap-11 pb-20 mobile:pb-50 tablet:pb-[200px]">

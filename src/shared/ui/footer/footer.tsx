@@ -4,7 +4,7 @@ import { useState } from "react";
 import PaperPlaneIcon from "@/shared/assets/icons/ic-paper-plane.svg?react";
 import { cn } from "@/shared/lib/utils";
 import useResponsive from "@/shared/model/use-responsive";
-import { Logo } from "../logo";
+import { LogoButton } from "../logo";
 
 export default function Footer() {
 	const { isMobile } = useResponsive();
@@ -13,7 +13,7 @@ export default function Footer() {
 		return (
 			<footer className="w-full flex flex-col gap-8 p-5">
 				<section className="w-full mobile:w-[417px] flex flex-col gap-4">
-					<Logo className="w-[87px] text-gray-400 h-fit" />
+					<LogoButton className="w-[87px] text-gray-400 h-fit" />
 					<FeedbackForm />
 				</section>
 				<section className="flex flex-col gap-1.5">
@@ -26,7 +26,7 @@ export default function Footer() {
 	return (
 		<footer className="w-full flex flex-col mobile:flex-row justify-start pb-8 tablet:pb-[100px] desktop:pb-[120px] px-5 mobile:px-0">
 			<section className="w-full mobile:w-[417px] flex flex-col gap-7">
-				<Logo className="w-[118px] text-gray-400 h-fit" />
+				<LogoButton className="w-[118px] text-gray-400 h-fit" />
 				<TermsLink />
 				<FooterInfo />
 			</section>

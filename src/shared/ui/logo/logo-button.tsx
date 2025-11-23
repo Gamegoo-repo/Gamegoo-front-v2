@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Logo } from "./logo";
+import LogoIcon from "@/shared/assets/icons/logo.svg?react";
+import { cn } from "@/shared/lib/utils";
 
 type LogoProps = {
 	className?: string;
@@ -9,7 +10,7 @@ type LogoProps = {
 export function LogoButton({ className, size }: LogoProps) {
 	return (
 		<Link to="/">
-			<Logo className={className} size={size} />
+			<LogoIcon className={cn(className, size === "md" ? "w-[314px]" : "")} />
 		</Link>
 	);
 }
