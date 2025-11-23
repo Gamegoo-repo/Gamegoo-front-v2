@@ -1,9 +1,11 @@
-import { tokenManager } from "@/shared/api";
+import UserProfileMenu from "@/features/user/user-profile-menu";
+import { useAuth } from "@/shared/model/use-auth";
 import { LogoButton } from "@/shared/ui/logo";
 import HeaderNav from "./header-nav";
 import LoginButton from "./login-button";
 
 export default function Header() {
+	const { isAuthenticated, user } = useAuth();
 	return (
 		<header className="w-full max-w-[1440px] mt-5 mobile:mt-16 mx-auto my-0 flex items-center justify-center box-border relative">
 			<div className="flex flex-row flex-wrap mobile:flex-nowrap justify-between items-center w-full">
@@ -16,7 +18,13 @@ export default function Header() {
 				</div>
 
 				<div className="order-2 mobile:order-3 pr-5 mobile:pr-0">
-					{tokenManager.getRefreshToken() == null && <LoginButton />}
+					{!isAuthenticated && <LoginButton />}
+					{isAuthenticated && user && (
+						<UserProfileMenu
+							profileImage={user.profileImage}
+							name={user.name}
+						/>
+					)}
 				</div>
 			</div>
 		</header>

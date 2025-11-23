@@ -2,17 +2,19 @@ import StepperLevelProgress from "@/entities/user/ui/stepper-level-progress";
 import type { MannerResponse, OtherProfileResponse } from "@/shared/api";
 import InfoTooltip from "@/shared/ui/tooltip/info-tooltip";
 
+type GameName = Pick<OtherProfileResponse, "gameName">;
+
 export default function MannerLevelCard({
-	userProfileData,
+	userProfile,
 	userMannerLevelData,
 }: {
-	userProfileData: OtherProfileResponse;
+	userProfile: GameName;
 	userMannerLevelData: MannerResponse;
 }) {
 	return (
 		<section className="w-full">
 			<h3 className="text-gray-800 regular-25 mb-2">
-				{userProfileData.gameName}님의 매너레벨
+				{userProfile.gameName}님의 매너레벨
 				<InfoTooltip
 					title={"매너레벨"}
 					className="w-[319px]"
@@ -25,9 +27,9 @@ export default function MannerLevelCard({
 				<p className="text-gray-800 text-[1rem] font-medium">
 					최근{" "}
 					<span className="text-violet-600 bold-16">
-						{userMannerLevelData.mannerRatingCount}명의
+						{userMannerLevelData?.mannerRatingCount}명의
 					</span>{" "}
-					사용자가 {userProfileData.gameName}님에게 긍정적 매너 평가를 남겼어요.
+					사용자가 {userProfile.gameName}님에게 긍정적 매너 평가를 남겼어요.
 				</p>
 
 				<StepperLevelProgress

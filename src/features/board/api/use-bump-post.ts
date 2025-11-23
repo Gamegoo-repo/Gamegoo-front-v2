@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { type ApiErrorResponse, api } from "@/shared/api";
+import { boardKeys } from "./query-keys";
 
 export const useBumpPost = () => {
 	const queryClient = useQueryClient();
@@ -16,7 +17,7 @@ export const useBumpPost = () => {
 
 			// 쿼리 무효
 			return queryClient.invalidateQueries({
-				queryKey: ["boards"],
+				queryKey: boardKeys.all,
 			});
 		},
 		onError: (error: AxiosError<ApiErrorResponse>) => {

@@ -6,9 +6,9 @@ import ReactDOM from "react-dom/client";
 import { routeTree } from "@/shared/lib/@generated/routeTree.gen";
 
 import "@/shared/lib/globals.css";
+import { queryClient } from "./shared/lib/query-client";
 
 const router = createRouter({ routeTree });
-const queryClient = new QueryClient();
 
 declare module "@tanstack/react-router" {
 	interface Register {

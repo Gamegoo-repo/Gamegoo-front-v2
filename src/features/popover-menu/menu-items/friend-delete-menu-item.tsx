@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { userKeys } from "@/entities/user/config/query-keys";
 import { api } from "@/shared/api";
 import { useConfirmDialog } from "@/shared/providers";
 import {
@@ -26,11 +27,11 @@ export function FriendDeleteMenuItem({
 
 	const deleteFriendMutation = useMutation({
 		mutationFn: async (targetUserId: number) => {
-			const response = await api.friend.deleteFriend(targetUserId);
+			const response = await api.private.friend.deleteFriend(targetUserId);
 			return response.data;
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["friends"] });
+			queryClient.invalidateQueries({ queryKey: userKeys.friend() });
 			onSuccess?.();
 		},
 		onError: (error) => {

@@ -1,5 +1,5 @@
-import { tokenManager } from "@/shared/api/config";
 import { api } from "@/shared/api";
+import { tokenManager } from "@/shared/api/config";
 
 /**
  * 테스트용 로그인 함수

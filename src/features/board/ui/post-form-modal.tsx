@@ -1,14 +1,15 @@
 import type { AxiosError } from "axios";
 import { useRef, useState } from "react";
-import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
 import UserProfileCard from "@/entities/user/ui/user-profile-card";
 import { GAME_MODE_ITEMS } from "@/features/board/config/dropdown-items";
 import { getGameModeTitle } from "@/features/board/lib/getGameModeTitle";
 import type {
 	ApiErrorResponse,
 	BoardInsertRequest,
+	BoardUpdateRequest,
 	GameMode,
 	Mike,
+	MyProfileResponse,
 	Position,
 } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
@@ -49,15 +50,22 @@ export const validateBoardForm = (formData: BoardFormData): boolean => {
 	);
 };
 
-export default function CreatePostModal({
+export default function PostFormModal({
 	isOpen,
 	onClose,
+	mode,
+	postToEdit,
+	userInfo,
 }: {
 	isOpen: boolean;
 	onClose: () => void;
+	mode: "create" | "edit";
+	postToEdit?: BoardFormData;
+	userInfo: MyProfileResponse;
 }) {
-	const { isPending, data, isError, error } = useFetchMyInfo();
-	const [formData, setFormData] = useState(INITIAL_BOARD_FORM);
+	const [formData, setFormData] = useState(() =>
+		!postToEdit ? INITIAL_BOARD_FORM : postToEdit,
+	);
 	const [contentError, setContentError] = useState<string | undefined>(
 		undefined,
 	);
@@ -66,18 +74,6 @@ export default function CreatePostModal({
 	const { mutate } = useCreatePost();
 
 	const isFormValid = validateBoardForm(formData);
-
-	if (isPending) {
-		return <>로딩 중...</>;
-	}
-
-	if (isError) {
-		return <div>{error.message}</div>;
-	}
-
-	if (!data) {
-		return <div>사용자 정보를 불러오는 데 실패했습니다.</div>;
-	}
 
 	const resetFormData = () => {
 		setFormData(INITIAL_BOARD_FORM);
@@ -146,6 +142,37 @@ export default function CreatePostModal({
 		});
 	};
 
+	const onEditPost = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		if (
+			!formData.mainP ||
+			!formData.subP ||
+			!formData.gameStyles.length ||
+			!formData.wantP.length
+		) {
+			console.error("필수 값이 누락되었습니다");
+			return;
+		}
+
+		const form: BoardUpdateRequest = {
+			...formData,
+			mainP: formData.mainP,
+			subP: formData.subP,
+		};
+		mutate(form, {
+			onSuccess: () => {
+				alert("성공적으로 수정하였습니다.");
+				handleClose();
+			},
+			onError: (error: AxiosError<ApiErrorResponse>) => {
+				if (error.response?.data?.code === "BOARD_408") {
+					textareaRef.current?.focus();
+					setContentError(error.response?.data.message);
+				}
+			},
+		});
+	};
+
 	return (
 		<Modal
 			isOpen={isOpen}
@@ -159,9 +186,9 @@ export default function CreatePostModal({
 					{/** TODO: profileImag와 profileImg중 하나로 통일해주실 수 있나요  -> 바꿔준다고 하면 고치기*/}
 					<UserProfileCard
 						{...{
-							profileImage: data.profileImg,
-							tag: data.tag,
-							gameName: data.gameName,
+							profileImage: userInfo.profileImg,
+							tag: userInfo.tag,
+							gameName: userInfo.gameName,
 						}}
 					/>
 					<div className="w-full">
@@ -330,12 +357,12 @@ export default function CreatePostModal({
 				{/* MODAL-ACTION */}
 				<section className="modal-actions">
 					<button
-						disabled={!isFormValid}
-						onClick={onCreatePost}
+						disabled={!isFormValid || postToEdit === formData}
+						onClick={mode === "create" ? onCreatePost : onEditPost}
 						type="button"
 						className="primary-btn w-full py-[18px] disabled:bg-gray-400"
 					>
-						작성 완료
+						{mode === "create" ? "작성 완료" : "수정 완료"}
 					</button>
 				</section>
 			</form>

@@ -11,7 +11,7 @@ export default function MikeTag({
 	return (
 		<p
 			className={cn(
-				`flex w-fit h-fit items-center justify-center gap-1 rounded-full px-3 py-0.5 border-2 text-[13px] font-semibold`,
+				`flex w-fit h-fit items-center justify-center gap-1 rounded-full px-2.5 py-1 border-2 text-[13px] font-semibold leading-none`,
 				isMikeAvailable
 					? "border-violet-600 text-violet-600"
 					: "border-gray-600 text-gray-600",

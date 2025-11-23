@@ -1,6 +1,5 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { createFileRoute } from "@tanstack/react-router";
 import { testLogin } from "@/features/auth/api/test-login";
 
 export const Route = createFileRoute("/test-login")({
@@ -90,7 +89,6 @@ function TestLoginPage() {
 							<div className="flex gap-2">
 								<input
 									type="number"
-									id="memberId"
 									value={memberId}
 									onChange={(e) => setMemberId(Number(e.target.value))}
 									className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500"

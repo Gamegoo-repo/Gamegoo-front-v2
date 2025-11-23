@@ -73,9 +73,9 @@ export function PopoverProvider({
 			const padding = 16;
 
 			let x = triggerRect.left + triggerRect.width / 2 - contentRect.width / 2;
-			let y = triggerRect.bottom + gap;
+			const y = triggerRect.bottom + gap;
 
-			let arrowPosition: "top" | "bottom" = "top";
+			const arrowPosition: "top" | "bottom" = "top";
 
 			// left 경계
 			if (x < containerRect.left + padding) {

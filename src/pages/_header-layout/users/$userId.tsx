@@ -1,15 +1,15 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { formatKDAStats } from "@/entities/game/lib/kda";
-import ChampionInfo from "@/entities/game/ui/champion-info";
+import { useFetchOtherUserInfo } from "@/entities/user/api/use-fetch-other-user-info";
 import {
-	useFetchOtherUserMannerKeywordsInfo,
-	useFetchOtherUserMannerLevelInfo,
-	useFetchOtherUserProfileInfo,
-} from "@/entities/user/api/use-fetch-other-user-info";
-import { cn } from "@/shared/lib/utils";
-import MannerKeywordsCard from "@/widgets/user-info/manner-keywords-card";
-import MannerLevelCard from "@/widgets/user-info/manner-level-card";
-import UserProfileCard from "@/widgets/user-info/user-profile-card";
+	MOCK_MANNER_KEYWORDS,
+	MOCK_MANNER_LEVEL,
+	MOCK_USER_PROFILE,
+} from "@/entities/user/config/user-mock-data";
+import { useAuth } from "@/shared/model/use-auth";
+import DeletedUserView from "@/widgets/user-info/deleted-user-view";
+import type { UserRelationshipStatus } from "@/widgets/user-info/model/user-info.types";
+import UserInfoSkeleton from "@/widgets/user-info/user-info-skeleton";
+import UserInfoWidget from "@/widgets/user-info/user-info-widget";
 
 export const Route = createFileRoute("/_header-layout/users/$userId")({
 	component: RouteComponent,
@@ -17,119 +17,84 @@ export const Route = createFileRoute("/_header-layout/users/$userId")({
 
 function RouteComponent() {
 	const { userId } = useParams({ from: "/_header-layout/users/$userId" });
+	const { isAuthenticated, user } = useAuth();
 
-	const { data: userProfileData } = useFetchOtherUserProfileInfo(
-		Number(userId),
-	);
+	// 로그인 한 유저만 타유저 정보 패칭
+	const { data, isPending, isError } = useFetchOtherUserInfo(Number(userId), {
+		enabled: isAuthenticated,
+	});
 
-	const { data: userMannerKeywordData } = useFetchOtherUserMannerKeywordsInfo(
-		Number(userId),
-	);
-
-	const { data: userMannerLevelData } = useFetchOtherUserMannerLevelInfo(
-		Number(userId),
-	);
-
-	if (!userProfileData || !userMannerKeywordData || !userMannerLevelData) {
-		return;
+	function getRelationshipStatus(
+		userId: number,
+		isAuthenticated: boolean,
+		profile: {
+			blocked: boolean;
+			friend: boolean;
+			id: number;
+			friendRequestMemberId?: number;
+			isBlind: boolean;
+		},
+	): UserRelationshipStatus {
+		if (!isAuthenticated) return "guest";
+		if (profile.blocked) return "blocked";
+		if (profile.friend) return "friend";
+		if (userId === user?.id) return "me";
+		if (profile.isBlind) return "deleted";
+		if (profile.friendRequestMemberId === profile.id) return "pending-received";
+		if (profile.friendRequestMemberId === user?.id) return "pending-sent";
+		return "stranger";
 	}
 
-	const {
-		recTotalWins = 0,
-		recTotalCs,
-		recTotalLosses = 0,
-		recWinRate = 0,
-		recAvgKDA = 0,
-		recAvgKills = 0,
-		recAvgDeaths = 0,
-		recAvgAssists = 0,
-		recAvgCsPerMinute,
-	} = userProfileData.memberRecentStats || {};
-	return (
-		<div className="w-full h-full pt-[68px] flex flex-col gap-9 mb-48">
-			<UserProfileCard data={userProfileData} />
-			<div className="grid grid-cols-[1fr_auto_auto] grid-rows-2 gap-y-9 gap-x-3">
-				<MannerLevelCard
-					userProfileData={userProfileData}
-					userMannerLevelData={userMannerLevelData}
-				/>
-				<MannerKeywordsCard
-					title={"받은 매너 평가"}
-					keywords={userMannerKeywordData.mannerKeywords.slice(0, 6)}
-					type="positive"
-				/>
-				<MannerKeywordsCard
-					title={"받은 비매너 평가"}
-					keywords={userMannerKeywordData.mannerKeywords.slice(6)}
-					type="negative"
-				/>
-				<section className="w-full">
-					<h3 className="text-gray-800 regular-25 mb-2">최근 30게임</h3>
+	// 로그인 안 한 경우 바로 렌더링
+	if (!isAuthenticated) {
+		return (
+			<UserInfoWidget
+				userMannerKeywordData={MOCK_MANNER_KEYWORDS}
+				userMannerLevelData={MOCK_MANNER_LEVEL}
+				userProfileData={MOCK_USER_PROFILE}
+				relationshipStatus={"guest"}
+			/>
+		);
+	}
 
-					<div className="bg-gray-100 rounded-xl flex items-center px-8 py-4 justify-between">
-						<div className="flex flex-col w-fit">
-							<span className="bold-20 text-gray-700">{`${recTotalWins}승 ${recTotalLosses}패`}</span>
-							<span className="text-gray-500 semibold-14">{recWinRate}%</span>
-						</div>
+	// 로그인을 했고 데이터 패칭 중인 경우
+	if (isPending) {
+		return <UserInfoSkeleton />;
+	}
 
-						<div className="flex flex-col w-fit">
-							<p className="flex items-center gap-1">
-								{formatKDAStats(recAvgKills, recAvgDeaths, recAvgAssists).map(
-									(text, idx) => {
-										return (
-											<>
-												<span
-													className={cn(
-														"bold-20 text-gray-700",
-														idx === 1 && "text-red-500",
-													)}
-												>
-													{text}
-												</span>
-
-												{idx !== 2 && (
-													<span className="regular-20 text-gray-400">/</span>
-												)}
-											</>
-										);
-									},
-								)}
-							</p>
-							<span className="text-gray-500 semibold-14">KDA {recAvgKDA}</span>
-						</div>
-
-						<div className="flex flex-col">
-							<span className="bold-20 text-gray-700">
-								평균 CS {(recAvgCsPerMinute || 0).toFixed(1)}
-							</span>
-							<span className="semibold-14 text-gray-500">
-								CS {recTotalCs || 0}
-							</span>
-						</div>
-						<div className="flex flex-col gap-2">
-							<span className="regular-14 text-gray-800">최근 선호 챔피언</span>
-							{userProfileData.championStatsResponseList.length ? (
-								<div className="flex gap-2">
-									{userProfileData.championStatsResponseList.map((champion) => {
-										return (
-											<ChampionInfo
-												badgeClassName="text-sm min-w-[39px]"
-												imageClassName="w-12 h-12"
-												key={champion.championId}
-												{...champion}
-											/>
-										);
-									})}
-								</div>
-							) : (
-								<span className="medium-14 text-gray-400">
-									챔피언 정보가 없습니다
-								</span>
-							)}
-						</div>
-					</div>
-				</section>
+	// 로그인 사용자 에러
+	if (isError || !data.profile || !data.mannerLevel || !data.mannerKeywords) {
+		return (
+			<div className="w-full h-full pt-[68px] flex items-center justify-center">
+				<div className="text-center">
+					<h2 className="text-2xl font-bold text-gray-800 mb-2">
+						사용자를 찾을 수 없습니다
+					</h2>
+					<p className="text-gray-600">존재하지 않는 사용자입니다.</p>
+				</div>
 			</div>
-		</div>
+		);
+	}
+
+	// 차단한 사용자
+	if (data.profile.isBlind) {
+		return <DeletedUserView />;
+	}
+
+	const relationshipStatus: UserRelationshipStatus = getRelationshipStatus(
+		Number(userId),
+		isAuthenticated,
+		data.profile,
+	);
+
+	console.log(data);
+
+	return (
+		<UserInfoWidget
+			userMannerKeywordData={data.mannerKeywords}
+			userMannerLevelData={data.mannerLevel}
+			userProfileData={data.profile}
+			relationshipStatus={relationshipStatus}
+		/>
 	);
 }

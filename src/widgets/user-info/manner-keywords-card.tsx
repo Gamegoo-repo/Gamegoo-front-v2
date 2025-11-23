@@ -1,9 +1,5 @@
 import { getMannerText } from "@/entities/user/lib/get-manner-text";
-import type {
-	MannerKeywordListResponse,
-	MannerKeywordResponse,
-	MannerResponse,
-} from "@/shared/api";
+import type { MannerKeywordResponse } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
 
 type MannerType = "positive" | "negative";

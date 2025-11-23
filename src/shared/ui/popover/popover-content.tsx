@@ -1,20 +1,21 @@
 import { type CSSProperties, type ReactNode, useContext } from "react";
 import { PopoverContext } from "./popover";
-import type { Align, Side } from "./popover-type";
+
+// import type { Align, Side } from "./popover-type";
 
 interface PopoverContentProps {
 	children: ReactNode;
 	className?: string;
-	side?: Side;
-	align?: Align;
+	// side?: Side;
+	// align?: Align;
 	showArrow?: boolean;
 }
 
 export function PopoverContent({
 	children,
 	className = "",
-	side = "bottom",
-	align = "center",
+	// side = "bottom",
+	// align = "center",
 	showArrow = true,
 }: PopoverContentProps) {
 	const context = useContext(PopoverContext);

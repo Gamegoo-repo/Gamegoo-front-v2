@@ -8,7 +8,7 @@ export default function MidIcon({ className }: { className?: string }) {
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<title>Position icon</title>
+			<title>MID</title>
 
 			<path
 				className="primary"
