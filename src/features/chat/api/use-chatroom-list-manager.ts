@@ -18,7 +18,7 @@ export const useChatroomListManager = () => {
 	} = useQuery({
 		queryKey: ["chatrooms"],
 		queryFn: async () => {
-			const response = await api.chat.getChatroom();
+			const response = await api.private.chat.getChatroom();
 			return response.data;
 		},
 		placeholderData: keepPreviousData,

@@ -137,6 +137,8 @@ export default function PostFormModal({
 				if (error.response?.data?.code === "BOARD_408") {
 					textareaRef.current?.focus();
 					setContentError(error.response?.data.message);
+				} else {
+					handleClose();
 				}
 			},
 		});

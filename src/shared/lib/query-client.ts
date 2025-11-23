@@ -1,18 +1,17 @@
-import { QueryClient } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
+import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
+import type { Method } from "axios";
 import type { ApiErrorResponse } from "@/shared/api";
+import { useAppErrorStore } from "../ui/error-boundary/app-error-store";
 
-// API 에러 타입 확인 헬퍼
-const isApiError = (error: unknown): error is AxiosError<ApiErrorResponse> => {
-	return (
-		typeof error === "object" &&
-		error !== null &&
-		"isAxiosError" in error &&
-		error.isAxiosError === true
-	);
+import { toast } from "./toast";
+import { isApiError, isAuthError, isServerError } from "./error-type-fn";
+
+type ErrorHandlingStrategy = "toast" | "errorBoundary" | "ignore";
+
+export type WithErrorHandlingStrategy<P = unknown> = P & {
+	errorHandlingStrategy?: ErrorHandlingStrategy;
 };
 
-// 에러 분류 헬퍼
 const classifyError = (error: unknown) => {
 	if (!isApiError(error)) {
 		return {
@@ -23,7 +22,6 @@ const classifyError = (error: unknown) => {
 	}
 
 	const status = error.response?.status;
-	// const code = error.response?.data?.code;
 	const errorMessage = error.response?.data?.message;
 
 	// 401: 인증 오류 - 재시도 불가
@@ -107,62 +105,20 @@ const classifyError = (error: unknown) => {
 	};
 };
 
-// 글로벌 에러 핸들러
-const handleError = (error: unknown) => {
-	const classifiedError = classifyError(error);
-
-	if (process.env.NODE_ENV === "development") {
-		console.error("Query Error:", {
-			error,
-			classification: classifiedError,
-		});
-	}
-
-	switch (classifiedError.type) {
-		case "AUTH":
-			// 로그인 페이지로 리다이렉트
-			if (window.location.pathname !== "/riot") {
-				sessionStorage.setItem("redirectAfterLogin", window.location.href);
-				window.location.href = "/riot";
-			}
-			break;
-		case "PERMISSION":
-		case "NOT_FOUND":
-			// Error Boundary로 전파
-			throw error;
-		case "NETWORK":
-		case "TIMEOUT":
-		case "SERVER":
-			// 네트워크/서버 오류는 사용자에게 알림
-			// TODO - Toast 시스템 호출 코드 추가
-			console.warn(classifiedError.message);
-			break;
-
-		default:
-			// 기타 오류
-			console.error(classifiedError.message);
-	}
-};
-
-// QueryClient 인스턴스 생성
 export const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
+			// 재시도 로직
 			retry: (failureCount, error) => {
 				if (failureCount >= 3) return false;
 
+				// 에러 분류에 따라 재시도 여부 결정
 				const classified = classifyError(error);
 				return classified.canRetry;
 			},
 
-			// 지수 백오프 - 재시도 사이의 간격을 점차 늘리기
-			retryDelay: (attemptIndex, error) => {
-				const classified = classifyError(error);
-
-				if (classified.type === "RATE_LIMIT" && classified.retryAfter) {
-					return Number.parseInt(classified.retryAfter, 10) * 1000;
-				}
-
+			// 지수 백오프
+			retryDelay: (attemptIndex) => {
 				return Math.min(1000 * 2 ** attemptIndex, 30000);
 			},
 
@@ -172,23 +128,73 @@ export const queryClient = new QueryClient({
 			refetchOnMount: true,
 			refetchOnReconnect: "always",
 
-			throwOnError: (error) => {
-				const classified = classifyError(error);
-
-				return ["PERMISSION", "NOT_FOUND"].includes(classified.type);
-			},
+			// 모든 에러를 Error Boundary로 전파
+			throwOnError: true,
 		},
 
 		mutations: {
+			// mutation 재시도는 기본적으로 비활성화
 			retry: false,
-
-			onError: (error) => {
-				handleError(error);
-			},
+			// throwOnError: true,
 		},
 	},
+	queryCache: new QueryCache({
+		onError: (error: Error, query) => {
+			// 개발 환경 로깅
+			if (process.env.NODE_ENV === "development") {
+				console.error("Query Error:", {
+					queryKey: query.queryKey,
+					error,
+					isRequestError: isApiError(error),
+				});
+			}
+
+			// AxiosError인 경우만 처리
+			if (!isApiError(error)) {
+				// 일반 에러는 Error Boundary로 전파
+				throw error;
+			}
+
+			// AUTH 에러 자동 처리
+			if (isAuthError(error)) {
+				if (window.location.pathname !== "/riot") {
+					sessionStorage.setItem("redirectAfterLogin", window.location.href);
+					window.location.href = "/riot";
+				}
+				return;
+			}
+
+			// 서버 에러도 에러 바운더리로 전파
+			if (isServerError(error)) {
+				throw error;
+			}
+
+			// 예측 가능한 에러는 app-error-store에 저장 (ErrorCatcher에서 처리)
+			useAppErrorStore.setState({ appError: error });
+		},
+	}),
+	mutationCache: new MutationCache({
+		onError: (error: Error) => {
+			if (!isApiError(error)) {
+				throw error;
+			}
+
+			if (isAuthError(error)) {
+				if (window.location.pathname !== "/riot") {
+					sessionStorage.setItem("redirectAfterLogin", window.location.href);
+					window.location.href = "/riot";
+				}
+				return; // 토스트 안 띄움
+			}
+
+			// const errorMessage =
+			// 	error.response?.data.message || "오류가 발생했습니다.";
+
+			// toast.error(errorMessage);
+
+			useAppErrorStore.setState({ appError: error });
+		},
+	}),
 });
 
-// 타입 export
 export type { ApiErrorResponse };
-export { classifyError, isApiError };

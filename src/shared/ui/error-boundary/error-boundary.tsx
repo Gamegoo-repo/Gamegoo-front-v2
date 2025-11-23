@@ -1,11 +1,11 @@
+import { isApiError } from "@/shared/lib/error-type-fn";
 import { Component, type ErrorInfo, type ReactNode } from "react";
-import { classifyError, isApiError } from "@/shared/lib/query-client";
 
 interface Props {
 	children: ReactNode;
-	fallback?: (error: Error, reset: () => void) => ReactNode;
+	fallback?: ReactNode; // 정적 UI
+	fallbackRender?: (error: Error, reset: () => void) => ReactNode;
 	onError?: (error: Error, errorInfo: ErrorInfo) => void;
-	keepChildrenOnError?: boolean;
 }
 
 interface State {
@@ -14,6 +14,100 @@ interface State {
 	errorType: string;
 	errorMessage: string;
 }
+
+const classifyError = (error: unknown) => {
+	if (!isApiError(error)) {
+		return {
+			type: "UNKNOWN",
+			message: "알 수 없는 오류가 발생했습니다",
+			canRetry: true,
+		};
+	}
+
+	const status = error.response?.status;
+	const code = error.response?.data?.code;
+	const errorMessage = error.response?.data?.message;
+
+	// 401: 인증 오류 - 재시도 불가
+	if (status === 401) {
+		return {
+			type: "AUTH",
+			message: "로그인이 필요합니다",
+			canRetry: false,
+		};
+	}
+
+	// 403: 권한 오류 - 재시도 불가
+	if (status === 403) {
+		return {
+			type: "PERMISSION",
+			message: "접근 권한이 없습니다",
+			canRetry: false,
+		};
+	}
+
+	// 404: 리소스 없음 - 재시도 불가
+	if (status === 404) {
+		return {
+			type: "NOT_FOUND",
+			message: "요청한 정보를 찾을 수 없습니다",
+			canRetry: false,
+		};
+	}
+
+	// 422: 검증 오류 - 재시도 불가
+	if (status === 422) {
+		return {
+			type: "VALIDATION",
+			message: errorMessage || "입력값을 확인해주세요",
+			canRetry: false,
+		};
+	}
+
+	// 429: Rate Limit - 재시도 가능
+	if (status === 429) {
+		return {
+			type: "RATE_LIMIT",
+			message: "너무 많은 요청을 보냈습니다. 잠시 후 다시 시도해주세요",
+			canRetry: true,
+			retryAfter: error.response?.headers?.["retry-after"],
+		};
+	}
+
+	// 500번대: 서버 오류 - 재시도 가능
+	if (status && status >= 500) {
+		return {
+			type: "SERVER",
+			message: "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요",
+			canRetry: true,
+		};
+	}
+
+	// 네트워크 오류 - 재시도 가능
+	if (error.code === "ERR_NETWORK") {
+		return {
+			type: "NETWORK",
+			message: "네트워크 연결을 확인해주세요",
+			canRetry: true,
+		};
+	}
+
+	// 타임아웃 - 재시도 가능
+	if (error.code === "ECONNABORTED") {
+		return {
+			type: "TIMEOUT",
+			message: "요청 시간이 초과되었습니다",
+			canRetry: true,
+		};
+	}
+
+	// 기본값
+	return {
+		type: "UNKNOWN",
+		message: errorMessage || error.message || "오류가 발생했습니다",
+		canRetry: true,
+	};
+};
 
 class ErrorBoundary extends Component<Props, State> {
 	constructor(props: Props) {
@@ -39,6 +133,7 @@ class ErrorBoundary extends Component<Props, State> {
 	}
 
 	componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+		// 개발 환경에서 자세한 에러 정보 로깅
 		if (process.env.NODE_ENV === "development") {
 			console.error("Error Boundary caught an error:", {
 				error,
@@ -47,9 +142,14 @@ class ErrorBoundary extends Component<Props, State> {
 			});
 		}
 
+		// 프로덕션 환경에서는 에러 추적 서비스로 전송
+		// 예: Sentry, LogRocket 등
 		if (process.env.NODE_ENV === "production") {
+			// 여기에 에러 추적 서비스 호출
+			// logErrorToService(error, errorInfo);
 		}
 
+		// 부모 컴포넌트의 에러 핸들러 호출
 		this.props.onError?.(error, errorInfo);
 	}
 
@@ -64,15 +164,20 @@ class ErrorBoundary extends Component<Props, State> {
 
 	render() {
 		if (this.state.hasError) {
-			// 커스텀 fallback이 제공된 경우
 			if (this.props.fallback) {
-				return this.props.fallback(this.state.error!, this.handleReset);
+				return this.props.fallback;
+			}
+
+			// 커스텀 fallback이 제공된 경우
+			if (this.props.fallbackRender) {
+				return this.props.fallbackRender(this.state.error!, this.handleReset);
 			}
 
 			// 기본 에러 UI
 			return (
 				<div className="min-h-[400px] flex flex-col items-center justify-center p-8">
 					<div className="max-w-md w-full text-center">
+						{/* 에러 아이콘 */}
 						<div className="mb-4">
 							{this.state.errorType === "NOT_FOUND" ? (
 								<div className="text-6xl">🔍</div>
