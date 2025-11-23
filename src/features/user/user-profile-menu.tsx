@@ -1,15 +1,20 @@
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import UserProfile from "@/entities/user/ui/user-profile";
+import { notificationKeys } from "@/features/notification/api/query-keys";
+import { api } from "@/shared/api";
 import BlockedIcon from "@/shared/assets/icons/blocked.svg?react";
 import ChevronDownIcon from "@/shared/assets/icons/chevron_down.svg?react";
 import CustomerServiceIcon from "@/shared/assets/icons/customer_service.svg?react";
 import LogoutIcon from "@/shared/assets/icons/logout.svg?react";
 import MyPostIcon from "@/shared/assets/icons/my_post.svg?react";
 import MyReviewIcon from "@/shared/assets/icons/my_review.svg?react";
+import NotiOffIcon from "@/shared/assets/icons/noti_off.svg?react";
 import NotiOnIcon from "@/shared/assets/icons/noti_on.svg?react";
 import SettingIcon from "@/shared/assets/icons/setting.svg?react";
 import { cn } from "@/shared/lib/utils";
+import { useAuth } from "@/shared/model/use-auth";
 import Modal from "@/shared/ui/modal/modal";
 
 function MenuItem({
@@ -61,6 +66,22 @@ export default function UserProfileMenu({
 }) {
 	const [open, setOpen] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
+	const { logout } = useAuth();
+
+	const { data: unreadCount } = useQuery({
+		queryKey: notificationKeys.unreadCount(),
+		queryFn: async () => {
+			const { data } =
+				await api.private.notification.getUnreadNotificationCount();
+			return data.data ?? 0;
+		},
+	});
+	const hasUnread = (unreadCount ?? 0) > 0;
+
+	const handleLogout = () => {
+		logout();
+		setOpen(false);
+	};
 
 	return (
 		<div className="flex items-center gap-[20px]">
@@ -69,7 +90,7 @@ export default function UserProfileMenu({
 				aria-label="알림"
 				className="cursor-pointer"
 			>
-				<NotiOnIcon />
+				{hasUnread ? <NotiOnIcon /> : <NotiOffIcon />}
 			</Link>
 			<button
 				type="button"
@@ -100,7 +121,7 @@ export default function UserProfileMenu({
 						}}
 						className="cursor-pointer"
 					>
-						<NotiOnIcon />
+						{hasUnread ? <NotiOnIcon /> : <NotiOffIcon />}
 					</Link>
 				</div>
 
@@ -142,7 +163,7 @@ export default function UserProfileMenu({
 						to="/mypage/service"
 						onClick={() => setOpen(false)}
 					/>
-					<MenuItem icon={LogoutIcon} label="로그아웃" />
+					<MenuItem icon={LogoutIcon} label="로그아웃" onClick={handleLogout} />
 				</div>
 			</Modal>
 		</div>
