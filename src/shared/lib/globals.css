@@ -72,6 +72,12 @@
     overflow: hidden;
   }
 
+  button:focus,
+  button:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
   dialog {
     position: fixed;
     top: 0;

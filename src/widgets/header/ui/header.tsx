@@ -1,6 +1,7 @@
 import { tokenManager } from "@/shared/api";
 import { LogoButton } from "@/shared/ui/logo";
 import HeaderNav from "./header-nav";
+import HeaderUserMenu from "./header-user-menu";
 import LoginButton from "./login-button";
 
 export default function Header() {
@@ -16,7 +17,11 @@ export default function Header() {
 				</div>
 
 				<div className="order-2 mobile:order-3 pr-5 mobile:pr-0">
-					{tokenManager.getRefreshToken() == null && <LoginButton />}
+					{tokenManager.getRefreshToken() == null ? (
+						<LoginButton />
+					) : (
+						<HeaderUserMenu />
+					)}
 				</div>
 			</div>
 		</header>
