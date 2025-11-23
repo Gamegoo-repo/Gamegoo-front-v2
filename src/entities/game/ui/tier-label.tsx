@@ -4,10 +4,12 @@ import { cn } from "@/shared/lib/utils";
 import { getTierIcon } from "../lib/getTierIcon";
 
 export default function TierLabel({
+	size = "lg",
 	tier,
 	rank,
 	className,
 }: {
+	size?: "md" | "lg";
 	tier: Tier;
 	rank: number;
 	className?: string;
@@ -16,9 +18,14 @@ export default function TierLabel({
 
 	return (
 		<p
-			className={cn("text-gray-800 bold-20 flex gap-1 items-center", className)}
+			className={cn(
+				"items-center text-gray-800",
+				size === "lg" && " bold-20 flex gap-1",
+				size === "md" && " bold-12 flex gap-0.5",
+				className,
+			)}
 		>
-			<TierIcon />
+			<TierIcon className={cn(size === "md" && "w-6")} />
 			<span>
 				{capitalize(tier)} {tier !== "UNRANKED" && rank}
 			</span>
