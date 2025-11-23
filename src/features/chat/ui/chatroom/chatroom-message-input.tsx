@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useChatDialogStore } from "@/entities/chat";
 import type { SystemData } from "@/features/chat";
 import { useEnterChatroom, useSendMessage } from "@/features/chat";
+import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
 
 const ChatroomMessageInput = () => {
 	const { chatroom } = useChatDialogStore();
@@ -9,6 +10,7 @@ const ChatroomMessageInput = () => {
 	const [isSystemMsgSent, setIsSystemMsgSent] = useState(false);
 	const { mutate: sendMessage, isPending } = useSendMessage();
 	const { data: enterData } = useEnterChatroom(chatroom?.uuid || null);
+	const { isConnected } = useGamegooSocket();
 
 	const chatroomUuid = chatroom?.uuid;
 	const isBlocked = chatroom?.blocked;
@@ -20,7 +22,9 @@ const ChatroomMessageInput = () => {
 	}, [chatroomUuid]);
 
 	const getPlaceholderText = () => {
-		if (isBlocked) {
+		if (!isConnected) {
+			return "연결 중입니다... 잠시만 기다려주세요.";
+		} else if (isBlocked) {
 			return "메세지를 보낼 수 없는 상태입니다.";
 		} else if (isBlind) {
 			return "탈퇴한 유저입니다.";
@@ -31,7 +35,13 @@ const ChatroomMessageInput = () => {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		if (!chatroomUuid || !message.trim() || isBlocked || isBlind) {
+		if (
+			!chatroomUuid ||
+			!message.trim() ||
+			isBlocked ||
+			isBlind ||
+			!isConnected
+		) {
 			return;
 		}
 
@@ -103,7 +113,7 @@ const ChatroomMessageInput = () => {
 							}
 						}}
 						onKeyDown={handleKeyDown}
-						disabled={isPending || isBlocked || isBlind}
+						disabled={isPending || isBlocked || isBlind || !isConnected}
 						placeholder={getPlaceholderText()}
 						className="border-none w-full text-base text-gray-800 resize-none focus:outline-none disabled:bg-transparent disabled:placeholder:text-gray-800 disabled:placeholder:font-semibold disabled:placeholder:text-sm scrollbar-hide"
 						style={{
@@ -115,17 +125,23 @@ const ChatroomMessageInput = () => {
 				<div className="flex justify-between items-center gap-5 mx-5 mb-5">
 					<div className="text-violet-400 text-xs">{message.length} / 1000</div>
 					<button
-						disabled={message.length === 0 || isBlocked || isBlind || isPending}
+						disabled={
+							message.length === 0 ||
+							isBlocked ||
+							isBlind ||
+							isPending ||
+							!isConnected
+						}
 						type="submit"
 						className={`font-medium text-base text-white rounded-[25px] px-5 py-2.5 transition-colors ${
 							isBlocked || isBlind
 								? "bg-gray-300 text-gray-500 cursor-default"
-								: message.length === 0 || isPending
+								: message.length === 0 || isPending || !isConnected
 									? "bg-gray-300 text-gray-500 cursor-default"
 									: "bg-violet-600 hover:bg-violet-700"
 						}`}
 					>
-						{isPending ? "전송 중..." : "전송"}
+						{!isConnected ? "연결 중..." : isPending ? "전송 중..." : "전송"}
 					</button>
 				</div>
 			</form>
