@@ -13,20 +13,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 1) pnpm 설치 (가장 먼저!)
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      # 2) Node 설치 (pnpm 캐시도 여기서 활성화됨)
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'pnpm'
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
+      # 3) pnpm install
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # 4) 환경변수 .env 생성
       - name: Create .env file
         run: |
           echo "PUBLIC_APP_URL=${{ secrets.PUBLIC_APP_URL }}" >> .env
@@ -39,9 +43,11 @@ jobs:
           echo "PUBLIC_RIOT_REDIRECT_AFTER_LOGIN=${{ secrets.PUBLIC_RIOT_REDIRECT_AFTER_LOGIN }}" >> .env
           echo "PUBLIC_SOCKET_URL=${{ secrets.PUBLIC_SOCKET_URL }}" >> .env
 
+      # 5) Rsbuild 빌드
       - name: Build (Rsbuild)
         run: pnpm exec rsbuild build
 
+      # 6) AWS 인증
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -49,12 +55,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      # 7) S3 업로드
       - name: Upload to S3
         run: |
           aws s3 sync ./dist s3://${{ secrets.AWS_S3_BUCKET }} \
             --delete \
             --cache-control "public,max-age=31536000,immutable"
 
+      # 8) CloudFront 캐시 무효화 (조건식 완전 안정 버전)
       - name: Invalidate CloudFront Cache (optional)
         run: |
           aws cloudfront create-invalidation \
