@@ -1,6 +1,6 @@
 import { useRouter } from "@tanstack/react-router";
 import { useRef } from "react";
-import TierFullNameBadge from "@/entities/game/ui/tier-full-name-badge";
+import TierBadge from "@/entities/game/ui/tier-badge";
 import EditableProfileAvatar from "@/features/profile/editable-profile-avatar";
 import type { MyProfileResponse } from "@/shared/api";
 import type { UseMatchFunnelReturn } from "../../../hooks";
@@ -47,19 +47,13 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 										<span className="mb-1.5 text-gray-800 semibold-14">
 											솔로랭크
 										</span>
-										<TierFullNameBadge
-											tier={user.soloTier}
-											rank={user.soloRank}
-										/>
+										<TierBadge tier={user.soloTier} rank={user.soloRank} />
 									</div>
 									<div className="w-1/2">
 										<span className="mb-1.5 text-gray-800 semibold-14">
 											자유랭크
 										</span>
-										<TierFullNameBadge
-											tier={user.freeTier}
-											rank={user.freeRank}
-										/>
+										<TierBadge tier={user.freeTier} rank={user.freeRank} />
 									</div>
 								</div>
 								<div className=" border-b border-gray-400 w-full" />

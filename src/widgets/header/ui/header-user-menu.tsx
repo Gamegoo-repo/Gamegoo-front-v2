@@ -70,7 +70,7 @@ export default function HeaderUserMenu() {
 				onClick={() => setOpen(true)}
 				className="flex items-center gap-[10px] cursor-pointer"
 			>
-				<UserProfile id={1} />
+				<UserProfile id={1} hasDropShadow />
 				<ChevronDownIcon />
 			</button>
 			<Modal
@@ -82,7 +82,7 @@ export default function HeaderUserMenu() {
 			>
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-4">
-						<UserProfile id={1} size={64} />
+						<UserProfile id={1} size={64} hasDropShadow />
 						<div className="bold-20 text-gray-900">커피한잔</div>
 					</div>
 					<Link

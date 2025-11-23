@@ -5,7 +5,6 @@ import {
 	getAuthUserId,
 	makeMatchingRequestKeyFromId,
 } from "@/shared/lib/auth-user";
-import { useAuthUser } from "@/shared/providers";
 import type { UseMatchFunnelReturn } from "@/widgets/match/hooks";
 import type { MatchingFoundData } from "@/widgets/match/lib/matching-types";
 import MatchHeader from "../../match-header";
@@ -31,13 +30,13 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 	const [timeLeft, setTimeLeft] = useState(MAX_MATCHING_TIME);
 	const [tierCounts, setTierCounts] = useState<Record<string, number>>({});
 	const [, _setOpponent] = useState<MatchingFoundData["opponent"] | null>(null);
-	const { authUser } = useAuthUser();
+
 	const timerRef = useRef<NodeJS.Timeout | null>(null);
 	const thresholdRef = useRef(51.5);
 	const didSendMatchingRequestRef = useRef(false);
 	const didSendFoundSuccessRef = useRef(false);
 	const shouldResendRequestRef = useRef(false);
-	const user = funnel.context.profile;
+	const authUser = funnel.user;
 
 	const clearTimers = () => {
 		if (timerRef.current) {
@@ -147,8 +146,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				socket.on("matching-count", handleMatchingCount);
 				socket.on("matching-found-sender", handleMatchingFoundSender);
 				socket.on("matching-found-receiver", handleMatchingFoundReceiver);
-				socket.on("jwt-expired-error", handleJwtExpired as any);
-				socket.on("connect", handleReconnectSend as any);
+				socket.on("jwt-expired-error", handleJwtExpired);
+				socket.on("connect", handleReconnectSend);
 			}
 
 			// gameMode 검증
@@ -166,9 +165,9 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				matchingType: funnel.context.type,
 				gameMode: gameMode,
 				threshold: GAME_MODE_THRESHOLD[gameMode] || GAME_MODE_THRESHOLD.FAST,
-				mike: profile.mike ?? user?.mike ?? "UNAVAILABLE",
-				mainP: profile.mainP ?? user?.mainP ?? "ANY",
-				subP: profile.subP ?? user?.subP ?? "ANY",
+				mike: profile.mike ?? authUser?.mike ?? "UNAVAILABLE",
+				mainP: profile.mainP ?? authUser?.mainP ?? "ANY",
+				subP: profile.subP ?? authUser?.subP ?? "ANY",
 				wantP:
 					funnel.context.type === "PRECISE"
 						? profile.wantP?.map((p) => p ?? "ANY")
@@ -176,7 +175,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				gameStyleIdList: (() => {
 					const ids =
 						profile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
-						user?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
+						authUser?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
 						[];
 					return ids.length > 0 ? ids : null;
 				})(),
@@ -186,7 +185,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 			const userId = getAuthUserId(authUser);
 			const hasValidId = typeof userId === "number";
 			const requestDedupKey = hasValidId
-				? makeMatchingRequestKeyFromId(userId as number)
+				? makeMatchingRequestKeyFromId(userId)
 				: null;
 
 			const shouldBlock =
@@ -245,7 +244,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 	// JWT 만료 처리: dedup 해제 및 재전송 플래그 설정
 	const handleJwtExpired = () => {
-		const userId = getAuthUserId(authUser);
+		const userId = getAuthUserId(authUser as any);
 		if (typeof userId === "number") {
 			sessionStorage.removeItem(`matching-request-sent:${userId}`);
 		}
@@ -264,9 +263,9 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 			matchingType: funnel.context.type,
 			gameMode: gameMode,
 			threshold: GAME_MODE_THRESHOLD[gameMode] || GAME_MODE_THRESHOLD.FAST,
-			mike: profile.mike ?? user?.mike ?? "UNAVAILABLE",
-			mainP: profile.mainP ?? user?.mainP ?? "ANY",
-			subP: profile.subP ?? user?.subP ?? "ANY",
+			mike: profile.mike ?? authUser?.mike ?? "UNAVAILABLE",
+			mainP: profile.mainP ?? authUser?.mainP ?? "ANY",
+			subP: profile.subP ?? authUser?.subP ?? "ANY",
 			wantP:
 				funnel.context.type === "PRECISE"
 					? profile.wantP?.map((p) => p ?? "ANY")
@@ -274,7 +273,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 			gameStyleIdList: (() => {
 				const ids =
 					profile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
-					user?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
+					authUser?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
 					[];
 				return ids.length > 0 ? ids : null;
 			})(),

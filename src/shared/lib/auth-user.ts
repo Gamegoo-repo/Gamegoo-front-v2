@@ -1,7 +1,7 @@
 import type { MyProfileResponse } from "@/shared/api";
 
 export const getAuthUserId = (
-	authUser: MyProfileResponse | null | undefined,
+	authUser: Partial<MyProfileResponse> | null | undefined,
 ): number | null => {
 	const id = authUser?.id;
 	return typeof id === "number" && Number.isFinite(id) ? id : null;

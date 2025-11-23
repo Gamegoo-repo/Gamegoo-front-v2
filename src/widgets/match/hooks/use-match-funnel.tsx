@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
 import { useLoginRequiredModalStore } from "@/features/auth";
 import type { MyProfileResponse } from "@/shared/api";
-import { useAuthUser } from "@/shared/providers";
 import type { FunnelStep } from "../lib/types";
 
 export interface UseMatchFunnelReturn {
@@ -30,7 +30,7 @@ export interface UseMatchFunnelReturn {
 }
 
 export const useMatchFunnel = (): UseMatchFunnelReturn => {
-	const { authUser } = useAuthUser();
+	const { data: user } = useFetchMyInfo();
 	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
 	const [currentStep, setCurrentStep] = useState<FunnelStep>("profile");
 	const [context, setContext] = useState<UseMatchFunnelReturn["context"]>({
@@ -53,7 +53,7 @@ export const useMatchFunnel = (): UseMatchFunnelReturn => {
 		step: FunnelStep,
 		newContext?: Partial<UseMatchFunnelReturn["context"]>,
 	) => {
-		if (!authUser) {
+		if (!user) {
 			openLoginRequiredModal();
 			return;
 		}
@@ -70,7 +70,7 @@ export const useMatchFunnel = (): UseMatchFunnelReturn => {
 	};
 
 	return {
-		user: authUser,
+		user: user || null,
 		step: currentStep,
 		context,
 		toStep,

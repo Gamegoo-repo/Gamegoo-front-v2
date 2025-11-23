@@ -8,7 +8,7 @@ import {
 } from "react";
 import { tokenManager } from "@/shared/api";
 import { socketManager } from "@/shared/api/socket/socket-manager";
-import { useAuthUser } from "./auth-user-provider";
+import { useAuth } from "@/shared/model/use-auth";
 
 interface GamegooSocketContextType {
 	isAuthenticated: boolean;
@@ -27,9 +27,8 @@ export function GamegooSocketProvider({
 	children,
 }: GamegooSocketProviderProps) {
 	const accessToken = tokenManager.getAccessToken();
-	const isAuthenticated = !!accessToken;
 	const SOCKET_ENDPOINT = process.env.PUBLIC_SOCKET_URL!;
-	const { authUser } = useAuthUser();
+	const { user: authUser, isAuthenticated } = useAuth();
 	const [isConnected, setIsConnected] = useState(false);
 	const hasConnectedRef = useRef(false);
 	const lastAuthErrorRef = useRef(false);

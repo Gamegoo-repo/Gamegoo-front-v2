@@ -6,7 +6,6 @@ import {
 	getAuthUserId,
 	makeMatchingRequestKeyFromId,
 } from "@/shared/lib/auth-user";
-import { useAuthUser } from "@/shared/providers";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../../hooks";
 import MatchHeader from "../../match-header";
@@ -20,7 +19,7 @@ interface MatchCompleteStepProps {
 
 function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	const [timeLeft, setTimeLeft] = useState(MATCHING_COMPLETE_TIME);
-	const { authUser } = useAuthUser();
+	const authUser = funnel.user;
 	const matchComplete = funnel.context.matchComplete;
 	const role = matchComplete?.role;
 	const matchingUuid = matchComplete?.matchingUuid;
