@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useChatDialogStore } from "@/entities/chat";
+import type { ChatroomResponse } from "@/shared/api";
 import { api, type FriendInfoResponse } from "@/shared/api";
 import SearchIcon from "@/shared/assets/icons/search.svg?react";
 import FriendListContent from "./friend-list-content";
@@ -13,18 +14,19 @@ function FriendList() {
 	const { data: friendsData } = useQuery({
 		queryKey: ["friends"],
 		queryFn: () => {
-			return api.friend.getFriendList();
+			return api.private.friend.getFriendList();
 		},
 	});
 
 	const { data: searchData } = useQuery({
 		queryKey: ["friends", "search", searchTerm],
-		queryFn: () => api.friend.searchFriend(searchTerm),
+		queryFn: () => api.private.friend.searchFriend(searchTerm),
 		enabled: searchTerm.length > 0,
 	});
 
 	const { mutate: toggleFavorite } = useMutation({
-		mutationFn: (memberId: number) => api.friend.reverseFriendLiked(memberId),
+		mutationFn: (memberId: number) =>
+			api.private.friend.reverseFriendLiked(memberId),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["friends"] });
 		},
@@ -40,11 +42,14 @@ function FriendList() {
 
 		try {
 			// 친구와의 채팅방 시작
-			const response = await api.chat.startChatroomByMemberId(friend.memberId);
+			const response = await api.private.chat.startChatroomByMemberId(
+				friend.memberId,
+			);
 			const chatroomData = response.data?.data;
 
 			if (chatroomData?.uuid) {
-				setChatroom({
+				const chatroom: ChatroomResponse = {
+					chatroomId: 0, // not provided by enter/start response
 					uuid: chatroomData.uuid,
 					targetMemberId: chatroomData.memberId || friend.memberId,
 					targetMemberName:
@@ -54,7 +59,9 @@ function FriendList() {
 					friend: chatroomData.friend,
 					blocked: chatroomData.blocked,
 					blind: chatroomData.blind,
-				});
+					notReadMsgCnt: 0, // default on entry
+				};
+				setChatroom(chatroom);
 				setChatDialogType("chatroom");
 			}
 		} catch (error) {

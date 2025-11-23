@@ -16,7 +16,15 @@ import { Route as HeaderLayoutIndexRouteImport } from './../../../pages/_header-
 import { Route as SignUpTermsRouteImport } from './../../../pages/sign-up/terms'
 import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
 import { Route as HeaderLayoutMatchRouteImport } from './../../../pages/_header-layout/match'
+import { Route as HeaderLayoutMypageRouteRouteImport } from './../../../pages/_header-layout/mypage/route'
+import { Route as HeaderLayoutMypageIndexRouteImport } from './../../../pages/_header-layout/mypage/index'
 import { Route as HeaderLayoutBoardIndexRouteImport } from './../../../pages/_header-layout/board/index'
+import { Route as HeaderLayoutMypageServiceRouteImport } from './../../../pages/_header-layout/mypage/service'
+import { Route as HeaderLayoutMypageReviewRouteImport } from './../../../pages/_header-layout/mypage/review'
+import { Route as HeaderLayoutMypageProfileRouteImport } from './../../../pages/_header-layout/mypage/profile'
+import { Route as HeaderLayoutMypagePostRouteImport } from './../../../pages/_header-layout/mypage/post'
+import { Route as HeaderLayoutMypageNotificationRouteImport } from './../../../pages/_header-layout/mypage/notification'
+import { Route as HeaderLayoutMypageBlockedRouteImport } from './../../../pages/_header-layout/mypage/blocked'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -52,20 +60,73 @@ const HeaderLayoutMatchRoute = HeaderLayoutMatchRouteImport.update({
   path: '/match',
   getParentRoute: () => HeaderLayoutRouteRoute,
 } as any)
+const HeaderLayoutMypageRouteRoute = HeaderLayoutMypageRouteRouteImport.update({
+  id: '/mypage',
+  path: '/mypage',
+  getParentRoute: () => HeaderLayoutRouteRoute,
+} as any)
+const HeaderLayoutMypageIndexRoute = HeaderLayoutMypageIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HeaderLayoutMypageRouteRoute,
+} as any)
 const HeaderLayoutBoardIndexRoute = HeaderLayoutBoardIndexRouteImport.update({
   id: '/board/',
   path: '/board/',
   getParentRoute: () => HeaderLayoutRouteRoute,
 } as any)
+const HeaderLayoutMypageServiceRoute =
+  HeaderLayoutMypageServiceRouteImport.update({
+    id: '/service',
+    path: '/service',
+    getParentRoute: () => HeaderLayoutMypageRouteRoute,
+  } as any)
+const HeaderLayoutMypageReviewRoute =
+  HeaderLayoutMypageReviewRouteImport.update({
+    id: '/review',
+    path: '/review',
+    getParentRoute: () => HeaderLayoutMypageRouteRoute,
+  } as any)
+const HeaderLayoutMypageProfileRoute =
+  HeaderLayoutMypageProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => HeaderLayoutMypageRouteRoute,
+  } as any)
+const HeaderLayoutMypagePostRoute = HeaderLayoutMypagePostRouteImport.update({
+  id: '/post',
+  path: '/post',
+  getParentRoute: () => HeaderLayoutMypageRouteRoute,
+} as any)
+const HeaderLayoutMypageNotificationRoute =
+  HeaderLayoutMypageNotificationRouteImport.update({
+    id: '/notification',
+    path: '/notification',
+    getParentRoute: () => HeaderLayoutMypageRouteRoute,
+  } as any)
+const HeaderLayoutMypageBlockedRoute =
+  HeaderLayoutMypageBlockedRouteImport.update({
+    id: '/blocked',
+    path: '/blocked',
+    getParentRoute: () => HeaderLayoutMypageRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
+  '/mypage': typeof HeaderLayoutMypageRouteRouteWithChildren
   '/match': typeof HeaderLayoutMatchRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/': typeof HeaderLayoutIndexRoute
   '/riot': typeof RiotIndexRoute
+  '/mypage/blocked': typeof HeaderLayoutMypageBlockedRoute
+  '/mypage/notification': typeof HeaderLayoutMypageNotificationRoute
+  '/mypage/post': typeof HeaderLayoutMypagePostRoute
+  '/mypage/profile': typeof HeaderLayoutMypageProfileRoute
+  '/mypage/review': typeof HeaderLayoutMypageReviewRoute
+  '/mypage/service': typeof HeaderLayoutMypageServiceRoute
   '/board': typeof HeaderLayoutBoardIndexRoute
+  '/mypage/': typeof HeaderLayoutMypageIndexRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
@@ -74,29 +135,52 @@ export interface FileRoutesByTo {
   '/sign-up/terms': typeof SignUpTermsRoute
   '/': typeof HeaderLayoutIndexRoute
   '/riot': typeof RiotIndexRoute
+  '/mypage/blocked': typeof HeaderLayoutMypageBlockedRoute
+  '/mypage/notification': typeof HeaderLayoutMypageNotificationRoute
+  '/mypage/post': typeof HeaderLayoutMypagePostRoute
+  '/mypage/profile': typeof HeaderLayoutMypageProfileRoute
+  '/mypage/review': typeof HeaderLayoutMypageReviewRoute
+  '/mypage/service': typeof HeaderLayoutMypageServiceRoute
   '/board': typeof HeaderLayoutBoardIndexRoute
+  '/mypage': typeof HeaderLayoutMypageIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_header-layout': typeof HeaderLayoutRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/_header-layout/mypage': typeof HeaderLayoutMypageRouteRouteWithChildren
   '/_header-layout/match': typeof HeaderLayoutMatchRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/_header-layout/': typeof HeaderLayoutIndexRoute
   '/riot/': typeof RiotIndexRoute
+  '/_header-layout/mypage/blocked': typeof HeaderLayoutMypageBlockedRoute
+  '/_header-layout/mypage/notification': typeof HeaderLayoutMypageNotificationRoute
+  '/_header-layout/mypage/post': typeof HeaderLayoutMypagePostRoute
+  '/_header-layout/mypage/profile': typeof HeaderLayoutMypageProfileRoute
+  '/_header-layout/mypage/review': typeof HeaderLayoutMypageReviewRoute
+  '/_header-layout/mypage/service': typeof HeaderLayoutMypageServiceRoute
   '/_header-layout/board/': typeof HeaderLayoutBoardIndexRoute
+  '/_header-layout/mypage/': typeof HeaderLayoutMypageIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/about'
+    | '/mypage'
     | '/match'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/'
     | '/riot'
+    | '/mypage/blocked'
+    | '/mypage/notification'
+    | '/mypage/post'
+    | '/mypage/profile'
+    | '/mypage/review'
+    | '/mypage/service'
     | '/board'
+    | '/mypage/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
@@ -105,17 +189,32 @@ export interface FileRouteTypes {
     | '/sign-up/terms'
     | '/'
     | '/riot'
+    | '/mypage/blocked'
+    | '/mypage/notification'
+    | '/mypage/post'
+    | '/mypage/profile'
+    | '/mypage/review'
+    | '/mypage/service'
     | '/board'
+    | '/mypage'
   id:
     | '__root__'
     | '/_header-layout'
     | '/about'
+    | '/_header-layout/mypage'
     | '/_header-layout/match'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/_header-layout/'
     | '/riot/'
+    | '/_header-layout/mypage/blocked'
+    | '/_header-layout/mypage/notification'
+    | '/_header-layout/mypage/post'
+    | '/_header-layout/mypage/profile'
+    | '/_header-layout/mypage/review'
+    | '/_header-layout/mypage/service'
     | '/_header-layout/board/'
+    | '/_header-layout/mypage/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -177,6 +276,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HeaderLayoutMatchRouteImport
       parentRoute: typeof HeaderLayoutRouteRoute
     }
+    '/_header-layout/mypage': {
+      id: '/_header-layout/mypage'
+      path: '/mypage'
+      fullPath: '/mypage'
+      preLoaderRoute: typeof HeaderLayoutMypageRouteRouteImport
+      parentRoute: typeof HeaderLayoutRouteRoute
+    }
+    '/_header-layout/mypage/': {
+      id: '/_header-layout/mypage/'
+      path: '/'
+      fullPath: '/mypage/'
+      preLoaderRoute: typeof HeaderLayoutMypageIndexRouteImport
+      parentRoute: typeof HeaderLayoutMypageRouteRoute
+    }
     '/_header-layout/board/': {
       id: '/_header-layout/board/'
       path: '/board'
@@ -184,16 +297,86 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HeaderLayoutBoardIndexRouteImport
       parentRoute: typeof HeaderLayoutRouteRoute
     }
+    '/_header-layout/mypage/service': {
+      id: '/_header-layout/mypage/service'
+      path: '/service'
+      fullPath: '/mypage/service'
+      preLoaderRoute: typeof HeaderLayoutMypageServiceRouteImport
+      parentRoute: typeof HeaderLayoutMypageRouteRoute
+    }
+    '/_header-layout/mypage/review': {
+      id: '/_header-layout/mypage/review'
+      path: '/review'
+      fullPath: '/mypage/review'
+      preLoaderRoute: typeof HeaderLayoutMypageReviewRouteImport
+      parentRoute: typeof HeaderLayoutMypageRouteRoute
+    }
+    '/_header-layout/mypage/profile': {
+      id: '/_header-layout/mypage/profile'
+      path: '/profile'
+      fullPath: '/mypage/profile'
+      preLoaderRoute: typeof HeaderLayoutMypageProfileRouteImport
+      parentRoute: typeof HeaderLayoutMypageRouteRoute
+    }
+    '/_header-layout/mypage/post': {
+      id: '/_header-layout/mypage/post'
+      path: '/post'
+      fullPath: '/mypage/post'
+      preLoaderRoute: typeof HeaderLayoutMypagePostRouteImport
+      parentRoute: typeof HeaderLayoutMypageRouteRoute
+    }
+    '/_header-layout/mypage/notification': {
+      id: '/_header-layout/mypage/notification'
+      path: '/notification'
+      fullPath: '/mypage/notification'
+      preLoaderRoute: typeof HeaderLayoutMypageNotificationRouteImport
+      parentRoute: typeof HeaderLayoutMypageRouteRoute
+    }
+    '/_header-layout/mypage/blocked': {
+      id: '/_header-layout/mypage/blocked'
+      path: '/blocked'
+      fullPath: '/mypage/blocked'
+      preLoaderRoute: typeof HeaderLayoutMypageBlockedRouteImport
+      parentRoute: typeof HeaderLayoutMypageRouteRoute
+    }
   }
 }
 
+interface HeaderLayoutMypageRouteRouteChildren {
+  HeaderLayoutMypageBlockedRoute: typeof HeaderLayoutMypageBlockedRoute
+  HeaderLayoutMypageNotificationRoute: typeof HeaderLayoutMypageNotificationRoute
+  HeaderLayoutMypagePostRoute: typeof HeaderLayoutMypagePostRoute
+  HeaderLayoutMypageProfileRoute: typeof HeaderLayoutMypageProfileRoute
+  HeaderLayoutMypageReviewRoute: typeof HeaderLayoutMypageReviewRoute
+  HeaderLayoutMypageServiceRoute: typeof HeaderLayoutMypageServiceRoute
+  HeaderLayoutMypageIndexRoute: typeof HeaderLayoutMypageIndexRoute
+}
+
+const HeaderLayoutMypageRouteRouteChildren: HeaderLayoutMypageRouteRouteChildren =
+  {
+    HeaderLayoutMypageBlockedRoute: HeaderLayoutMypageBlockedRoute,
+    HeaderLayoutMypageNotificationRoute: HeaderLayoutMypageNotificationRoute,
+    HeaderLayoutMypagePostRoute: HeaderLayoutMypagePostRoute,
+    HeaderLayoutMypageProfileRoute: HeaderLayoutMypageProfileRoute,
+    HeaderLayoutMypageReviewRoute: HeaderLayoutMypageReviewRoute,
+    HeaderLayoutMypageServiceRoute: HeaderLayoutMypageServiceRoute,
+    HeaderLayoutMypageIndexRoute: HeaderLayoutMypageIndexRoute,
+  }
+
+const HeaderLayoutMypageRouteRouteWithChildren =
+  HeaderLayoutMypageRouteRoute._addFileChildren(
+    HeaderLayoutMypageRouteRouteChildren,
+  )
+
 interface HeaderLayoutRouteRouteChildren {
+  HeaderLayoutMypageRouteRoute: typeof HeaderLayoutMypageRouteRouteWithChildren
   HeaderLayoutMatchRoute: typeof HeaderLayoutMatchRoute
   HeaderLayoutIndexRoute: typeof HeaderLayoutIndexRoute
   HeaderLayoutBoardIndexRoute: typeof HeaderLayoutBoardIndexRoute
 }
 
 const HeaderLayoutRouteRouteChildren: HeaderLayoutRouteRouteChildren = {
+  HeaderLayoutMypageRouteRoute: HeaderLayoutMypageRouteRouteWithChildren,
   HeaderLayoutMatchRoute: HeaderLayoutMatchRoute,
   HeaderLayoutIndexRoute: HeaderLayoutIndexRoute,
   HeaderLayoutBoardIndexRoute: HeaderLayoutBoardIndexRoute,

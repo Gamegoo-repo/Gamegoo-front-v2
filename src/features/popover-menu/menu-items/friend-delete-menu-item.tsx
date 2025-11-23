@@ -26,7 +26,7 @@ export function FriendDeleteMenuItem({
 
 	const deleteFriendMutation = useMutation({
 		mutationFn: async (targetUserId: number) => {
-			const response = await api.friend.deleteFriend(targetUserId);
+			const response = await api.private.friend.deleteFriend(targetUserId);
 			return response.data;
 		},
 		onSuccess: () => {

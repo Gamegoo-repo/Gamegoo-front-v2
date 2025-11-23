@@ -26,7 +26,7 @@ export function ChatroomLeaveMenuItem({
 
 	const leaveChatroomMutation = useMutation({
 		mutationFn: async (targetChatroomId: string) => {
-			const response = await api.chat.exitChatroom(targetChatroomId);
+			const response = await api.private.chat.exitChatroom(targetChatroomId);
 			return response.data;
 		},
 		onSuccess: () => {
