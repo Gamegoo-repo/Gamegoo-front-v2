@@ -42,7 +42,7 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 									<p className="text-gray-800 bold-32">{user.gameName}</p>
 									<p className="text-gray-500 bold-20">#{user.tag}</p>
 								</div>
-								<div className="flex gap-12">
+								<div className="flex gap-[28px]">
 									<div className="w-1/2">
 										<span className="mb-1.5 text-gray-800 semibold-14">
 											솔로랭크
