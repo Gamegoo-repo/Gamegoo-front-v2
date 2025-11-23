@@ -10,9 +10,6 @@ export default defineConfig({
             index: './src/index',
         },
     },
-    output: {
-        assetPrefix: './',
-    },
     plugins: [pluginReact(), pluginSvgr(), ],
 
     tools: {
