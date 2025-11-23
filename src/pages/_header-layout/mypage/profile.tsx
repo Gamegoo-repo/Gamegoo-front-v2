@@ -1,9 +1,163 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useMemo, useRef, useState } from "react";
+import TierBadge from "@/entities/game/ui/tier-badge";
+import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
+import { userKeys } from "@/entities/user/config/query-keys";
+import GameStylePopover from "@/features/board/ui/game-style-popover";
+import EditableProfileAvatar from "@/features/profile/editable-profile-avatar";
+import { api, type Mike } from "@/shared/api";
+import { Switch } from "@/shared/ui/toggle-switch/switch";
 
 export const Route = createFileRoute("/_header-layout/mypage/profile")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	return <div className="w-full h-full">My Page - Profile</div>;
+	const { data: user } = useFetchMyInfo();
+	const containerRef = useRef<HTMLDivElement>(null);
+	const queryClient = useQueryClient();
+
+	const initialGameStyleIds = useMemo(
+		() => (user?.gameStyleResponseList || []).map((s) => s.gameStyleId) ?? [],
+		[user],
+	);
+	const [selectedGameStyleIds, setSelectedGameStyleIds] =
+		useState<number[]>(initialGameStyleIds);
+
+	useEffect(() => {
+		setSelectedGameStyleIds(initialGameStyleIds);
+	}, [initialGameStyleIds]);
+
+	const updateGameStyleMutation = useMutation({
+		mutationFn: async (ids: number[]) => {
+			await api.private.member.addGameStyle({
+				gameStyleIdList: ids,
+			});
+		},
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: userKeys.me() });
+		},
+	});
+
+	const updateMikeMutation = useMutation({
+		mutationFn: async (next: Mike) => {
+			await api.private.member.modifyIsMike({ mike: next });
+		},
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: userKeys.me() });
+		},
+	});
+
+	const handleToggleGameStyle = async (styleId: number) => {
+		const currentIds = selectedGameStyleIds;
+		let nextIds: number[];
+
+		if (currentIds.includes(styleId)) {
+			nextIds = currentIds.filter((id) => id !== styleId);
+		} else if (currentIds.length < 3) {
+			nextIds = [...currentIds, styleId];
+		} else {
+			// 최대 3개 제한
+			return;
+		}
+		setSelectedGameStyleIds(nextIds);
+		updateGameStyleMutation.mutate(nextIds);
+	};
+
+	const handleToggleMike = (checked: boolean) => {
+		const next: Mike = (checked ? "AVAILABLE" : "UNAVAILABLE") as Mike;
+		updateMikeMutation.mutate(next);
+	};
+
+	return (
+		<div className="w-full h-full">
+			{/* Header */}
+			<div className="flex items-center gap-3 mb-4">
+				<h2 className="bold-25 border-b border-gray-200 pb-4 flex-1">
+					내 정보
+				</h2>
+			</div>
+
+			{/* Profile Card */}
+			<div
+				className="w-full bg-gray-100 rounded-[30px] p-10 flex gap-8"
+				ref={containerRef}
+			>
+				{/* Avatar with edit */}
+				<div className="shrink-0">
+					<EditableProfileAvatar />
+				</div>
+
+				{/* Right content */}
+				<div className="flex-1 flex flex-col gap-7">
+					{/* Name and tag */}
+					<div className="flex items-center gap-2">
+						<p className="text-gray-800 bold-32">{user?.gameName}</p>
+						<p className="text-gray-500 bold-20">#{user?.tag}</p>
+					</div>
+
+					{/* Ranks */}
+					<div className="flex gap-[28px]">
+						<div>
+							<span className="mb-1.5 text-gray-800 semibold-14">솔로랭크</span>
+							{user && <TierBadge tier={user.soloTier} rank={user.soloRank} />}
+						</div>
+						<div>
+							<span className="mb-1.5 text-gray-800 semibold-14">자유랭크</span>
+							{user && <TierBadge tier={user.freeTier} rank={user.freeRank} />}
+						</div>
+					</div>
+
+					<div className="border-b border-gray-400 w-full" />
+
+					{/* Game style */}
+					<div className="flex flex-col gap-3">
+						<span className="text-gray-600 semibold-14">게임 스타일</span>
+						{selectedGameStyleIds.length ? (
+							<ul className="flex gap-2 flex-wrap">
+								{(user?.gameStyleResponseList || [])
+									.filter((s) => selectedGameStyleIds.includes(s.gameStyleId))
+									.map((style) => (
+										<li
+											key={style.gameStyleId}
+											className="bg-white text-gray-700 semibold-16 px-4 py-1.5 rounded-full"
+										>
+											{style.gameStyleName}
+										</li>
+									))}
+								<li>
+									<GameStylePopover
+										selectedGameStyle={selectedGameStyleIds}
+										onChangeGameStyle={handleToggleGameStyle}
+										containerRef={containerRef}
+									/>
+								</li>
+							</ul>
+						) : (
+							<div className="flex items-center gap-2">
+								<span className="text-gray-400 medium-14">
+									선택한 게임 스타일이 없어요
+								</span>
+								<GameStylePopover
+									selectedGameStyle={selectedGameStyleIds}
+									onChangeGameStyle={handleToggleGameStyle}
+									containerRef={containerRef}
+								/>
+							</div>
+						)}
+					</div>
+
+					{/* Mic switch */}
+					<div className="flex items-center gap-4">
+						<span className="text-gray-800 semibold-14">마이크</span>
+						<Switch
+							checked={user?.mike === "AVAILABLE"}
+							onCheckedChange={handleToggleMike}
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }
