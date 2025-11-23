@@ -50,10 +50,10 @@
   /*채팅방 헤더 높이*/
   --chatroom-header-height: 100px;
 
-	/*브레이크 포인트*/
-	--breakpoint-mobile: 700px;
-	--breakpoint-tablet: 950px;
-	--breakpoint-desktop: 1200px;
+  /*브레이크 포인트*/
+  --breakpoint-mobile: 700px;
+  --breakpoint-tablet: 950px;
+  --breakpoint-desktop: 1200px;
 
   /*스켈레톤 애니메이션*/
   --animate-skeleton-pulse: skeletonPulse 1.5s infinite;
@@ -66,51 +66,51 @@
   @keyframes skeletonPulse {
     0%,
     100% {
-      opacity: 1
+      opacity: 1;
     }
     50% {
-      opacity: 0.4
+      opacity: 0.4;
     }
   }
 
   @keyframes skeletonWave {
-    0%{
-      left: -150%
+    0% {
+      left: -150%;
     }
     50% {
-      left: 0%
+      left: 0%;
     }
     100% {
-      left: 150%
+      left: 150%;
     }
   }
 
   @keyframes fadeInWithTransformY {
-    from { 
-      opacity: 0; 
-      transform: translateY(20px); 
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
-    to { 
-      opacity: 1; 
-      transform: translateY(0); 
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-   @keyframes fadeOutWithTransformY {
-    from { 
-      opacity: 1; 
-      transform: translateY(0); 
+  @keyframes fadeOutWithTransformY {
+    from {
+      opacity: 1;
+      transform: translateY(0);
     }
-    to { 
-      opacity: 0; 
-      transform: translateY(20px); 
+    to {
+      opacity: 0;
+      transform: translateY(20px);
     }
   }
 }
 
 @font-face {
   font-family: 'Pretendard';
-  src: url('/src/shared/assets/fonts/PretendardVariable.woff2') format('woff2');
+  src: url('../assets/fonts/PretendardVariable.woff2') format('woff2');
   font-weight: 100 900; /* 모든 weight를 하나의 파일로 */
   font-display: swap;
 }
@@ -454,15 +454,15 @@
     @apply rounded-[20px] bg-black/70 shadow-[0_6.823px_15.18px_0_rgba(0,0,0,0.25)] backdrop-blur-[12.87748908996582px];
   }
 
-    .progress {
-        @apply relative
-    }
+  .progress {
+    @apply relative;
+  }
 
   .progress-bar {
-      @apply absolute h-[4px] w-[0%] top-1/2 left-0 -translate-y-1/2
+    @apply absolute h-[4px] w-[0%] top-1/2 left-0 -translate-y-1/2;
   }
 
   .progress-items {
-      @apply m-0 p-0 flex justify-between z-10
+    @apply m-0 p-0 flex justify-between z-10;
   }
 }
