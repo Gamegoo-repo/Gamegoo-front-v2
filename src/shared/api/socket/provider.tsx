@@ -107,6 +107,7 @@ function SocketProvider({
 			setSocketReadyState(SocketReadyState.CONNECTING);
 			await socketManager.connect(endpoint, authData, options, tokenProvider);
 		} catch (error) {
+			console.error("❌ createSocket 에러:", error);
 			setSocketReadyState(SocketReadyState.CLOSED);
 			if (error instanceof Error) {
 				onSocketError?.(error);
@@ -125,7 +126,6 @@ function SocketProvider({
 	}, [createSocket]);
 
 	const disconnect = useCallback(() => {
-		console.log("📞 Provider에서 disconnect 호출됨");
 		socketManager.disconnect();
 		setSocketReadyState(SocketReadyState.CLOSED);
 	}, []);
@@ -148,7 +148,6 @@ function SocketProvider({
 		if (enabled) {
 			createSocket();
 		} else {
-			console.log("🔌 enabled=false로 인한 disconnect");
 			socketManager.disconnect();
 			setSocketReadyState(SocketReadyState.CLOSED);
 		}
@@ -161,13 +160,15 @@ function SocketProvider({
 		}
 	}, []);
 
+	const isConnected = socketReadyState === SocketReadyState.OPEN;
+
 	const socketConnection: SocketConnection = {
 		socket: socketManager.socketInstance ?? undefined,
 		socketReadyState,
 		reconnect,
 		disconnect,
 		send,
-		isConnected: socketReadyState === SocketReadyState.OPEN,
+		isConnected,
 		reconnectAttempts,
 	};
 

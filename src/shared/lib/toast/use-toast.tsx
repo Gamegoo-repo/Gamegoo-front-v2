@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { toastEventManager } from "./event-manager";
 import {
 	TOAST_EVENT,
 	type ToastArgs,
 	type ToastMessage,
 	type ToastOptions,
 } from "./types";
-import { toastEventManager } from "./event-manager";
 
 const DEFAULT_TIME = 3000;
 

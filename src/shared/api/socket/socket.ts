@@ -69,6 +69,7 @@ export class GamegooSocket {
 		}
 
 		if (!this.authData) {
+			console.error("❌ 인증 데이터 없음");
 			throw new Error("No authentication data provided");
 		}
 
@@ -81,7 +82,7 @@ export class GamegooSocket {
 			this.socket.disconnect();
 		}
 
-		this.socket = io(this.endpoint, {
+		const socketConfig = {
 			auth: {
 				token: this.authData?.token,
 				userId: this.authData?.userId,
@@ -92,9 +93,12 @@ export class GamegooSocket {
 			reconnectionDelay: this.options.reconnectDelay,
 			timeout: 20000,
 			transports: ["websocket"],
-		});
+		};
+
+		this.socket = io(this.endpoint, socketConfig);
 
 		this.setupEventHandlers();
+
 		this.socket.connect();
 	}
 
@@ -117,6 +121,12 @@ export class GamegooSocket {
 		});
 
 		this.socket.on("connect_error", (error: Error) => {
+			console.error("❌ Socket.IO 연결 에러:", {
+				error: error.message,
+				endpoint: this.endpoint,
+				reconnectAttempts: this.reconnectAttempts,
+				timestamp: new Date().toISOString(),
+			});
 			this.emit("connect_error", error);
 			this.handleConnectionError(error);
 		});

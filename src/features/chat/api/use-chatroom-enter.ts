@@ -8,7 +8,7 @@ export const useEnterChatroom = (chatroomUuid: string | null) => {
 			if (!chatroomUuid) {
 				throw new Error("Chatroom UUID is required");
 			}
-			const response = await api.chat.enterChatroom(chatroomUuid);
+			const response = await api.private.chat.enterChatroom(chatroomUuid);
 			return response.data;
 		},
 		enabled: !!chatroomUuid,

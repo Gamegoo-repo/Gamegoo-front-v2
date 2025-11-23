@@ -1,8 +1,10 @@
-import { createRootRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
+import { useLoginRequiredModalStore } from "@/features/auth";
 import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-update-handler";
+import { tokenManager } from "@/shared/api";
 import { ResponsiveProvider } from "@/shared/model/responsive-context";
 import { useAuth } from "@/shared/model/use-auth";
 import {
@@ -19,17 +21,21 @@ import Page404Component from "@/widgets/page-404-component";
 function RootLayout() {
 	useChatroomUpdateHandler();
 
-	const { openDialog } = useChatDialogStore();
-	const { initializeAuth } = useAuth();
+	const { openDialog: openChatDialog } = useChatDialogStore();
+	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
 
-	const navigate = useNavigate();
+	const { initializeAuth } = useAuth();
 
 	useEffect(() => {
 		initializeAuth();
 	}, []);
 
 	const handleChatButtonClick = () => {
-		openDialog();
+		if (!tokenManager.getRefreshToken()) {
+			openLoginRequiredModal();
+			return;
+		}
+		openChatDialog();
 	};
 
 	return (

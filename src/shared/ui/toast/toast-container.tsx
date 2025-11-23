@@ -1,5 +1,5 @@
-import { Toast } from "./toast";
 import { useToast } from "../../lib/toast/use-toast";
+import { Toast } from "./toast";
 
 const ToastContainer = () => {
 	const { currentToast, closeToast } = useToast();

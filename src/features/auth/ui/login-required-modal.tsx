@@ -1,12 +1,9 @@
 import { createPortal } from "react-dom";
 import PrecautionIcon from "@/shared/assets/icons/precaution.svg?react";
+import { useLoginRequiredModalStore } from "../model/login-required-modal-store";
 
-interface LoginRequiredModalProps {
-	isOpen: boolean;
-	onClose: () => void;
-}
-
-function LoginRequiredModal({ isOpen, onClose }: LoginRequiredModalProps) {
+function LoginRequiredModal() {
+	const { isOpen, closeModal } = useLoginRequiredModalStore();
 	const modalRoot = document.getElementById("modal-root") || document.body;
 
 	if (!isOpen) return null;
@@ -25,7 +22,7 @@ function LoginRequiredModal({ isOpen, onClose }: LoginRequiredModalProps) {
 				<button
 					type="button"
 					className="w-full cursor-pointer rounded-[17px] bg-white py-4 text-center hover:bg-gray-50"
-					onClick={onClose}
+					onClick={closeModal}
 				>
 					<p className="m-0 regular-18 text-gray-700">확인</p>
 				</button>

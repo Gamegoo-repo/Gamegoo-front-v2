@@ -21,9 +21,7 @@ export default function AuthCallback() {
 		} else if (isLoginSuccess(response)) {
 			/** TODO: 저장할 값들이 더 있다면 여기서 저장하기 */
 			login(response);
-			navigate({
-				to: "/",
-			});
+			navigate({ to: "/" });
 		} else if (isNeedSignup(response)) {
 			navigate({
 				to: "/sign-up/terms",

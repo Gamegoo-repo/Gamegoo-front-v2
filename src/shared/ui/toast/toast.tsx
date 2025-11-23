@@ -61,6 +61,11 @@ export function Toast({
 		<div
 			{...htmlProps}
 			onClick={handleClickToClose}
+			onKeyDown={(e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					handleClickToClose();
+				}
+			}}
 			className={`fixed left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4`}
 			style={positionStyle}
 		>

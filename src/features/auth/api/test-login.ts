@@ -50,8 +50,14 @@ export const autoTestLogin = async () => {
  * 브라우저 콘솔에서 사용할 수 있는 테스트 로그인 헬퍼
  * 사용법: window.testLogin(2) 또는 window.testLogin(원하는_memberId)
  */
+declare global {
+	interface Window {
+		testLogin: (memberId?: number) => Promise<boolean>;
+	}
+}
+
 if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
-	(window as any).testLogin = async (memberId: number = 2) => {
+	window.testLogin = async (memberId: number = 2) => {
 		const success = await testLogin(memberId);
 		if (success) {
 			console.log(`✅ Test login successful with memberId: ${memberId}`);

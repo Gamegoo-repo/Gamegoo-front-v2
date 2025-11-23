@@ -90,7 +90,7 @@ export const getColumns = (options?: {
 				<div
 					className={cn(
 						"bold-16 text-center inline-block w-full whitespace-nowrap min-w-max",
-						row.winRate! >= 50 ? "text-violet-600" : "text-gray-800",
+						(row.winRate ?? 0) >= 50 ? "text-violet-600" : "text-gray-800",
 					)}
 				>
 					{row.winRate?.toFixed(1)}%
@@ -112,7 +112,7 @@ export const getColumns = (options?: {
 			accessor: (row) => {
 				return (
 					<div className="text-center medium-16 text-gray-500 inline-block whitespace-nowrap min-w-max w-full">
-						{formatDateSimple(row.bumpTime || row.createdAt!)}
+						{formatDateSimple(row.bumpTime || row.createdAt || "")}
 					</div>
 				);
 			},

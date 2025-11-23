@@ -45,7 +45,7 @@ function BoardPage() {
 		});
 	};
 
-	const { page: currentPage, ...search } = useSearch({
+	useSearch({
 		from: "/_header-layout/board/",
 	});
 

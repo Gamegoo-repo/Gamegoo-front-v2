@@ -20,20 +20,23 @@ export function PopoverTrigger({
 	const { open, isOpen, close, triggerRef } = context;
 
 	if (asChild && React.isValidElement(children)) {
-		const childProps = children.props as any;
+		const childProps = children.props as Record<string, unknown>;
 
 		// asChild가 true인 경우
-		return React.cloneElement(children as ReactElement<any>, {
-			ref: triggerRef,
-			onClick: (e: React.MouseEvent) => {
-				e.preventDefault();
+		return React.cloneElement(
+			children as ReactElement<Record<string, unknown>>,
+			{
+				ref: triggerRef,
+				onClick: (e: React.MouseEvent) => {
+					e.preventDefault();
 
-				if (childProps.onClick) {
-					childProps.onClick(e);
-				}
-				isOpen ? close() : open();
+					if (typeof childProps.onClick === "function") {
+						(childProps.onClick as (e: React.MouseEvent) => void)(e);
+					}
+					isOpen ? close() : open();
+				},
 			},
-		});
+		);
 	}
 
 	// asChild가 false인 경우
