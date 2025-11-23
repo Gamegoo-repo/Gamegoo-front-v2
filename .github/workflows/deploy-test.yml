@@ -1,4 +1,4 @@
-name: Deploy to S3 (Rsbuild)
+name: Deploy to S3 (Rsbuild + PNPM)
 
 on:
   push:
@@ -17,11 +17,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      - name: Create .env.production file
+      - name: Create .env file
         run: |
           echo "PUBLIC_APP_URL=${{ secrets.PUBLIC_APP_URL }}" >> .env
           echo "PUBLIC_API_BASE_URL=${{ secrets.PUBLIC_API_BASE_URL }}" >> .env
@@ -34,7 +40,7 @@ jobs:
           echo "PUBLIC_SOCKET_URL=${{ secrets.PUBLIC_SOCKET_URL }}" >> .env
 
       - name: Build (Rsbuild)
-        run: npx rsbuild build
+        run: pnpm exec rsbuild build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
