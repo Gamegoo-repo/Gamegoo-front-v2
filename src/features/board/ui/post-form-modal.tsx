@@ -269,12 +269,13 @@ export default function PostFormModal({
 					<div className="flex flex-col gap-2">
 						<p className="label">선호 게임 모드</p>
 						<Dropdown
-							className="w-[240px] h-14 z-10"
-							type="secondary"
+							className="w-[240px] "
+							variant="secondary"
+							size="lg"
 							selectedLabel={getGameModeTitle(formData.gameMode)}
-							defaultAction={
-								(value) => handleChangeFormData("gameMode", value as GameMode) // TODO: 수정이 필요함
-							}
+							onSelect={(value) => {
+								if (value) handleChangeFormData<"gameMode">("gameMode", value);
+							}}
 							items={GAME_MODE_ITEMS.slice(1)}
 						/>
 					</div>
