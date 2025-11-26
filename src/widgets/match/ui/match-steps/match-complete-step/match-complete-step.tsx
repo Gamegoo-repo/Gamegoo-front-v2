@@ -1,5 +1,7 @@
+import { useRouter } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { useChatDialogStore } from "@/entities/chat";
 import type { OtherProfileResponse } from "@/shared/api";
 import { socketManager } from "@/shared/api/socket";
 import {
@@ -19,6 +21,7 @@ interface MatchCompleteStepProps {
 
 function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	const [timeLeft, setTimeLeft] = useState(MATCHING_COMPLETE_TIME);
+	const router = useRouter();
 	const authUser = funnel.user;
 	const matchComplete = funnel.context.matchComplete;
 	const role = matchComplete?.role;
@@ -112,7 +115,60 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
 			}
 			sessionStorage.removeItem("matching-request-sent:unknown");
-			// 채팅 전환 로직을 여기에서 처리 가능
+			// 채팅 전환 처리
+			try {
+				const payload = _res as {
+					data?: {
+						chatroomUuid?: string;
+						opponent?: {
+							gameName?: string;
+						};
+					};
+					chatroomUuid?: string;
+					opponent?: {
+						gameName?: string;
+					};
+				};
+				const chatroomUuid: string | null =
+					payload?.data?.chatroomUuid ?? payload?.chatroomUuid ?? null;
+
+				if (!chatroomUuid) {
+					console.warn(
+						"⚠️ matching-success 수신했지만 chatroomUuid 없음:",
+						_res,
+					);
+					return;
+				}
+
+				const opponent =
+					payload?.data?.opponent ??
+					payload?.opponent ??
+					matchComplete?.opponent;
+
+				const { openDialog, setChatDialogType, setChatroom } =
+					useChatDialogStore.getState();
+
+				sessionStorage.removeItem("funnel-step");
+				sessionStorage.removeItem("funnel-context");
+				router.navigate({ to: "/" });
+
+				setChatroom({
+					chatroomId: 0,
+					uuid: chatroomUuid,
+					targetMemberId: 0,
+					targetMemberImg: 0,
+					targetMemberName:
+						(opponent?.gameName as string | undefined) || "상대",
+					friend: false,
+					blocked: false,
+					blind: false,
+					notReadMsgCnt: 0,
+				});
+				setChatDialogType("chatroom");
+				openDialog();
+			} catch (e) {
+				console.error("채팅 전환 처리 중 오류:", e);
+			}
 		};
 
 		const handleMatchingFail = () => {
