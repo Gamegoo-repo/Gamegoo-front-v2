@@ -273,9 +273,9 @@ export default function PostFormModal({
 							variant="secondary"
 							size="lg"
 							selectedLabel={getGameModeTitle(formData.gameMode)}
-							onSelect={
-								(value) => handleChangeFormData("gameMode", value as GameMode) // TODO: 수정이 필요함
-							}
+							onSelect={(value) => {
+								if (value) handleChangeFormData<"gameMode">("gameMode", value);
+							}}
 							items={GAME_MODE_ITEMS.slice(1)}
 						/>
 					</div>
