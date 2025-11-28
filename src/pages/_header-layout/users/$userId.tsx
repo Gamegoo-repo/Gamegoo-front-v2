@@ -65,9 +65,9 @@ function RouteComponent() {
 	// 로그인 사용자 에러
 	if (isError || !data.profile || !data.mannerLevel || !data.mannerKeywords) {
 		return (
-			<div className="w-full h-full pt-[68px] flex items-center justify-center">
+			<div className="flex h-full w-full items-center justify-center pt-[68px]">
 				<div className="text-center">
-					<h2 className="text-2xl font-bold text-gray-800 mb-2">
+					<h2 className="mb-2 font-bold text-2xl text-gray-800">
 						사용자를 찾을 수 없습니다
 					</h2>
 					<p className="text-gray-600">존재하지 않는 사용자입니다.</p>

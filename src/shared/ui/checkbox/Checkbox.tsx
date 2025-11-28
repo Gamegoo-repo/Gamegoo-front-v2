@@ -19,7 +19,7 @@ function Checkbox({
 			checked={isChecked}
 			onCheckedChange={onCheckedChange}
 			className={cn(
-				"size-5 shrink-0 rounded-[4px] border border-gray-500 data-[state=checked]:bg-violet-600 data-[state=checked]:border-violet-600 hover:border-gray-400 hover:cursor-pointer",
+				"size-5 shrink-0 rounded-[4px] border border-gray-500 hover:cursor-pointer hover:border-gray-400 data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600",
 				className,
 			)}
 			{...props}

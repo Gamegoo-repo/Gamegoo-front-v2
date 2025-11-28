@@ -98,10 +98,10 @@ const ChatroomMessageInput = () => {
 	}
 
 	return (
-		<div className="relative bg-white h-[138px] w-full rounded-b-none md:rounded-b-[20px]">
+		<div className="relative h-[138px] w-full rounded-b-none bg-white md:rounded-b-[20px]">
 			<form
 				onSubmit={handleSubmit}
-				className="h-full rounded-b-none md:rounded-b-[20px] shadow-[0_4px_46.7px_0_rgba(0,0,0,0.1)]"
+				className="h-full rounded-b-none shadow-[0_4px_46.7px_0_rgba(0,0,0,0.1)] md:rounded-b-[20px]"
 			>
 				<div className="w-full p-[14px_17px]">
 					<textarea
@@ -115,14 +115,14 @@ const ChatroomMessageInput = () => {
 						onKeyDown={handleKeyDown}
 						disabled={isPending || isBlocked || isBlind || !isConnected}
 						placeholder={getPlaceholderText()}
-						className="border-none w-full text-base text-gray-800 resize-none focus:outline-none disabled:bg-transparent disabled:placeholder:text-gray-800 disabled:placeholder:font-semibold disabled:placeholder:text-sm scrollbar-hide"
+						className="scrollbar-hide w-full resize-none border-none text-base text-gray-800 focus:outline-none disabled:bg-transparent disabled:placeholder:font-semibold disabled:placeholder:text-gray-800 disabled:placeholder:text-sm"
 						style={{
 							transform: "scale(0.875)",
 							transformOrigin: "top left",
 						}}
 					/>
 				</div>
-				<div className="flex justify-between items-center gap-5 mx-5 mb-5">
+				<div className="mx-5 mb-5 flex items-center justify-between gap-5">
 					<div className="text-violet-400 text-xs">{message.length} / 1000</div>
 					<button
 						disabled={
@@ -133,11 +133,11 @@ const ChatroomMessageInput = () => {
 							!isConnected
 						}
 						type="submit"
-						className={`font-medium text-base text-white rounded-[25px] px-5 py-2.5 transition-colors ${
+						className={`rounded-[25px] px-5 py-2.5 font-medium text-base text-white transition-colors ${
 							isBlocked || isBlind
-								? "bg-gray-300 text-gray-500 cursor-default"
+								? "cursor-default bg-gray-300 text-gray-500"
 								: message.length === 0 || isPending || !isConnected
-									? "bg-gray-300 text-gray-500 cursor-default"
+									? "cursor-default bg-gray-300 text-gray-500"
 									: "bg-violet-600 hover:bg-violet-700"
 						}`}
 					>

@@ -67,8 +67,8 @@ export function RouteGuard({
 	// 인증 체크 중일 때 로딩 표시
 	if (isChecking) {
 		return (
-			<div className="min-h-screen flex items-center justify-center">
-				<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600" />
+			<div className="flex min-h-screen items-center justify-center">
+				<div className="h-12 w-12 animate-spin rounded-full border-violet-600 border-b-2" />
 			</div>
 		);
 	}
@@ -124,10 +124,10 @@ export function PermissionGuard({
 		}
 
 		return (
-			<div className="min-h-[400px] flex flex-col items-center justify-center">
+			<div className="flex min-h-[400px] flex-col items-center justify-center">
 				<div className="text-center">
-					<div className="text-6xl mb-4">🔒</div>
-					<h2 className="text-2xl font-bold text-gray-700 mb-2">
+					<div className="mb-4 text-6xl">🔒</div>
+					<h2 className="mb-2 font-bold text-2xl text-gray-700">
 						접근 권한이 없습니다
 					</h2>
 					<p className="text-gray-500">이 페이지에 접근할 권한이 없습니다.</p>

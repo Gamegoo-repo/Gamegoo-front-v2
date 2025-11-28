@@ -17,10 +17,10 @@ export default function StepperStep({
 	} else if (currentLevel === userLevel) {
 		// 유저의 현재 레벨인 노드의 경우
 		return (
-			<div className="flex flex-col relative">
+			<div className="relative flex flex-col">
 				<CheckedStepItem key={currentLevel} level={currentLevel}>
 					<div
-						className="absolute bold-11 -top-14 -translate-y-[100%] text-nowrap flex flex-col items-center"
+						className="bold-11 -top-14 -translate-y-[100%] absolute flex flex-col items-center text-nowrap"
 						style={{
 							color:
 								currentLevel > 3
@@ -32,7 +32,7 @@ export default function StepperStep({
 							<>
 								<span>상위 {rankPercentile}%</span>
 								<div
-									className="w-0 h-0 border-x-4 border-x-transparent border-t-8"
+									className="h-0 w-0 border-x-4 border-x-transparent border-t-8"
 									style={{
 										borderTopColor:
 											currentLevel > 3
@@ -63,7 +63,7 @@ const CheckedStepItem = ({
 			<LevelText level={level} />
 			{children}
 			<div
-				className="w-10 h-10 flex items-center justify-center rounded-full"
+				className="flex h-10 w-10 items-center justify-center rounded-full"
 				style={{ backgroundColor: STEPPER_COLORS[level - 1] }}
 			>
 				<CheckIcon />
@@ -75,17 +75,17 @@ const CheckedStepItem = ({
 const UnCheckedStepItem = ({ level }: { level: number }) => {
 	return (
 		<li className="relative flex flex-col items-center justify-center">
-			<span className="inline-block absolute bold-14 -top-2 -translate-y-[100%] text-gray-800 text-nowrap">
+			<span className="bold-14 -top-2 -translate-y-[100%] absolute inline-block text-nowrap text-gray-800">
 				Lv {level}
 			</span>
-			<div className="p-0.5 w-[20px] h-[20px] flex items-center justify-center rounded-full bg-gray-100 border-[5px] border-gray-800 shrink-0" />
+			<div className="flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-full border-[5px] border-gray-800 bg-gray-100 p-0.5" />
 		</li>
 	);
 };
 
 const LevelText = ({ level }: { level: number }) => {
 	return (
-		<span className="absolute bold-14 -top-2 -translate-y-[100%] text-violet-400">
+		<span className="bold-14 -top-2 -translate-y-[100%] absolute text-violet-400">
 			Lv {level}
 		</span>
 	);

@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
+import { cva, type VariantProps } from "class-variance-authority";
 import { useRef, useState } from "react";
 import ArrowIcon from "@/shared/assets/icons/dropdown-arrow.svg?react";
 import { cn } from "@/shared/lib/utils";
 import { useClickOutside } from "@/shared/model/useClickOutside";
-import { cva, type VariantProps } from "class-variance-authority";
 
 interface DropdownMenuProps<T> {
 	selectedLabel: string;
@@ -144,7 +144,7 @@ export default function Dropdown<T>({
 				/>
 			</button>
 			{open && (
-				<div className="absolute left-0 top-full w-full z-10">
+				<div className="absolute top-full left-0 z-10 w-full">
 					<div
 						role="listbox"
 						className={dropdownMenuVariants({ variant, size })}

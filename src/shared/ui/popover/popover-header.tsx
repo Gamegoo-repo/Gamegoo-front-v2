@@ -6,8 +6,8 @@ export default function PopoverHeader({ title }: { title: string }) {
 	const context = useContext(PopoverContext);
 
 	return (
-		<header className="w-full flex items-center justify-between">
-			<span className="text-white bold-20">{title}</span>
+		<header className="flex w-full items-center justify-between">
+			<span className="bold-20 text-white">{title}</span>
 			<CloseButton className="text-white" onClose={() => context?.close()} />
 		</header>
 	);

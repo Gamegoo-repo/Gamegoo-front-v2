@@ -52,7 +52,7 @@ function FriendItem({
 
 	return (
 		<div
-			className="flex items-center cursor-pointer w-full text-left"
+			className="flex w-full cursor-pointer items-center text-left"
 			onClick={handleFriendClick}
 			onKeyDown={handleKeyDown}
 		>
@@ -62,7 +62,7 @@ function FriendItem({
 					<div className="relative">
 						<p className="font-medium text-gray-900">{friend.name}</p>
 						{isOnline && (
-							<div className="absolute -top-1 -right-4 w-[10px] h-[10px] bg-green-500 border-2 border-white rounded-full" />
+							<div className="-top-1 -right-4 absolute h-[10px] w-[10px] rounded-full border-2 border-white bg-green-500" />
 						)}
 					</div>
 				</div>

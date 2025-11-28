@@ -34,7 +34,7 @@ function PopoverMenu({ menuItems }: PopoverMenuProps) {
 			<PopoverTrigger asChild>
 				<Button
 					variant={"ghost"}
-					className="w-5 h-5 mt-1 flex items-center justify-center p-0.5 hover:bg-gray-300 rounded transition-colors cursor-pointer"
+					className="mt-1 flex h-5 w-5 cursor-pointer items-center justify-center rounded p-0.5 transition-colors hover:bg-gray-300"
 					onClick={(e) => e.stopPropagation()}
 				>
 					<ThreeDotsButtonBlack />
@@ -44,7 +44,7 @@ function PopoverMenu({ menuItems }: PopoverMenuProps) {
 				// side="right"
 				// align="start"
 				showArrow={false}
-				className="w-48 p-0 bg-white rounded-[10px] shadow-lg"
+				className="w-48 rounded-[10px] bg-white p-0 shadow-lg"
 			>
 				<PopoverMenuContent menuItems={menuItems} />
 			</PopoverContent>
@@ -75,8 +75,7 @@ function PopoverMenuContent({ menuItems }: PopoverMenuProps) {
 	return (
 		<div
 			// onClick={(e) => e.stopPropagation()}
-			className="[&>*:not(:last-child)]:border-b [&>*:not(:last-child)]:border-gray-200
-  text-gray-600 medium-14"
+			className="medium-14 text-gray-600 [&>*:not(:last-child)]:border-gray-200 [&>*:not(:last-child)]:border-b"
 		>
 			{menuItemsWithCloseHandler}
 		</div>

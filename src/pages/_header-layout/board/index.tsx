@@ -55,12 +55,12 @@ function BoardPage() {
 	return (
 		<>
 			{isMobile ? (
-				<div className="w-full flex flex-col">
+				<div className="flex w-full flex-col">
 					<BoardToolbarMobile handleOpenCreateModal={() => setIsOpen(true)} />
 					<PostList />
 				</div>
 			) : (
-				<div className="w-full flex flex-col">
+				<div className="flex w-full flex-col">
 					<BoardToolbarDesktop handleOpenCreateModal={() => setIsOpen(true)} />
 					<BoardTable onRowClick={handleRowClick} />
 

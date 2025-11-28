@@ -64,7 +64,7 @@ export default function UserProfileHeader({
 				<BackIcon />
 			</button>
 			{children}
-			<p className={`text-[22px] font-normal ${variantStyles[config.variant]}`}>
+			<p className={`font-normal text-[22px] ${variantStyles[config.variant]}`}>
 				{config.description}
 			</p>
 		</h2>

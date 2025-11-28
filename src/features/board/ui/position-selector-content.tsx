@@ -17,9 +17,9 @@ export default function PositionSelectorContent({
 	const context = useContext(PopoverContext);
 
 	return (
-		<div className="w-full flex flex-col gap-7">
+		<div className="flex w-full flex-col gap-7">
 			<PopoverHeader title={title} />
-			<ul className="w-full flex justify-between">
+			<ul className="flex w-full justify-between">
 				{POSITION_BUTTON_ITEMS.map((pos) => {
 					const { position, icon: Icon } = pos;
 					const isSelected = position === selectedPosition;
@@ -28,7 +28,7 @@ export default function PositionSelectorContent({
 							<button
 								type="button"
 								className={cn(
-									"cursor-pointer p-2.5 rounded-md hover:bg-gray-800",
+									"cursor-pointer rounded-md p-2.5 hover:bg-gray-800",
 									isSelected && "bg-violet-700",
 								)}
 								onClick={() => {
@@ -40,7 +40,7 @@ export default function PositionSelectorContent({
 									}
 								}}
 							>
-								<Icon className="text-gray-100 selected w-6.5" />
+								<Icon className="selected w-6.5 text-gray-100" />
 							</button>
 						</li>
 					);

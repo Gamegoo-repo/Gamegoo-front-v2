@@ -18,12 +18,12 @@ function FriendListContent({
 }: FriendListContentProps) {
 	if (hasNoFriends) {
 		return (
-			<div className="flex flex-col items-center justify-center py-16 px-4 min-h-[400px]">
+			<div className="flex min-h-[400px] flex-col items-center justify-center px-4 py-16">
 				<div className="text-center">
-					<p className="text-gray-700 mb-2 regular-16">
+					<p className="regular-16 mb-2 text-gray-700">
 						새로운 친구를 추가하고
 					</p>
-					<p className="text-gray-700 regular-16">함께 게임을 즐겨보세요!</p>
+					<p className="regular-16 text-gray-700">함께 게임을 즐겨보세요!</p>
 				</div>
 			</div>
 		);

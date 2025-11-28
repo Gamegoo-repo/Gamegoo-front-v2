@@ -5,7 +5,7 @@ function LoginButton({ onHandleLogin }: { onHandleLogin: () => void }) {
 		<button
 			type="button"
 			onClick={onHandleLogin}
-			className="flex justify-center items-center w-full h-14 gap-2 bg-red-500 text-white rounded-[8px] mb-7 cursor-pointer"
+			className="mb-7 flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-[8px] bg-red-500 text-white"
 		>
 			<RiotIcon className="w-5" />
 			{/* <img className="w-6" src={riotImage} alt="라이엇 아이콘"></img> */}

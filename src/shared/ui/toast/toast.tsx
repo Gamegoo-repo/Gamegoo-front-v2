@@ -66,27 +66,23 @@ export function Toast({
 					handleClickToClose();
 				}
 			}}
-			className={`fixed left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4`}
+			className={`-translate-x-1/2 fixed left-1/2 z-50 w-full max-w-md px-4`}
 			style={positionStyle}
 		>
 			<div
-				className={`
-          bg-gray-800 text-white px-4 py-3 rounded-2xl shadow-lg
-          flex items-center justify-between gap-2
-          transition-all duration-500
-          ${isVisible ? "animate-fade-in-y" : "animate-fade-out-y"}
+				className={`flex items-center justify-between gap-2 rounded-2xl bg-gray-800 px-4 py-3 text-white shadow-lg transition-all duration-500 ${isVisible ? "animate-fade-in-y" : "animate-fade-out-y"}
         `}
 			>
 				{/* 왼쪽: 아이콘 + 메시지 */}
-				<div className="flex items-center gap-2 flex-1">
+				<div className="flex flex-1 items-center gap-2">
 					{renderIcon(type) && (
 						<span className="text-xl">{renderIcon(type)}</span>
 					)}
-					<span className="text-sm font-medium whitespace-pre-line">
+					<span className="texflex-1 t-sm wce-pre-line font-medium">
 						{message}
 					</span>
 				</div>
-
+				whitespace-prelinetextsm
 				{/* 오른쪽: 되돌리기 버튼 */}
 				{onUndo && (
 					<button
@@ -95,8 +91,7 @@ export function Toast({
 							e.stopPropagation(); // 토스트 닫기 방지
 							onUndo();
 						}}
-						className="text-sm font-semibold text-blue-400 hover:text-blue-300 
-                     whitespace-nowrap transition-colors"
+						className="whitespace-nowrap font-semibold text-blue-400 text-sm transition-colors hover:text-blue-300"
 					>
 						되돌리기
 					</button>

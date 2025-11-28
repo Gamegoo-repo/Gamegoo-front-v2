@@ -19,15 +19,15 @@ export default function GameStylePopover({
 			<PopoverTrigger asChild>
 				<button
 					type="button"
-					className="bg-white h-8 w-12 rounded-full cursor-pointer flex items-center justify-center"
+					className="flex h-8 w-12 cursor-pointer items-center justify-center rounded-full bg-white"
 				>
 					<PlusIcon />
 				</button>
 			</PopoverTrigger>
-			<PopoverContent className="w-[500px] popover p-8">
-				<div className="w-full flex flex-col gap-7">
+			<PopoverContent className="popover w-[500px] p-8">
+				<div className="flex w-full flex-col gap-7">
 					<PopoverHeader title="게임 스타일 선택 *최대 3개" />
-					<div className="w-full flex flex-wrap gap-2">
+					<div className="flex w-full flex-wrap gap-2">
 						{GAME_STYLE.map((item) => {
 							const isSelected = selectedGameStyle.includes(item.gameStyleId);
 							return (
@@ -36,9 +36,9 @@ export default function GameStylePopover({
 									key={item.gameStyleId}
 									onClick={() => onChangeGameStyle(item.gameStyleId)}
 									className={cn(
-										"cursor-pointer border-1 border-gray-500 rounded-full px-5 py-1.5 text-white medium-14 hover:text-violet-300 hover:border-violet-400",
+										"medium-14 cursor-pointer rounded-full border-1 border-gray-500 px-5 py-1.5 text-white hover:border-violet-400 hover:text-violet-300",
 										isSelected &&
-											"bg-violet-600 border-violet-600 hover:text-white hover:border-violet-600",
+											"border-violet-600 bg-violet-600 hover:border-violet-600 hover:text-white",
 									)}
 								>
 									{item.gameStyleName}

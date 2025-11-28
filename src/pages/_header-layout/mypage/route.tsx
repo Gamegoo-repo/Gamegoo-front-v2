@@ -6,9 +6,9 @@ export const Route = createFileRoute("/_header-layout/mypage")({
 
 function MyPageLayout() {
 	return (
-		<div className="w-full h-full flex gap-8">
+		<div className="flex h-full w-full gap-8">
 			<aside className="w-[220px] flex-shrink-0">
-				<nav className="flex flex-col gap-4 h-100 justify-center">
+				<nav className="flex h-100 flex-col justify-center gap-4">
 					<MyPageNavItem to="/mypage/profile" label="내 정보" />
 					<MyPageNavItem to="/mypage/notification" label="알림" />
 					<MyPageNavItem to="/mypage/post" label="내가 작성한 글" />
@@ -17,7 +17,7 @@ function MyPageLayout() {
 					<MyPageNavItem to="/mypage/service" label="고객센터" />
 				</nav>
 			</aside>
-			<section className="flex-1 min-w-0">
+			<section className="min-w-0 flex-1">
 				<Outlet />
 			</section>
 		</div>
@@ -34,7 +34,7 @@ function MyPageNavItem({ to, label }: MyPageNavItemProps) {
 		<Link
 			to={to}
 			activeOptions={{ exact: false }}
-			className="px-4 py-3 rounded-xl regular-16 text-gray-700 hover:bg-gray-100 transition-colors"
+			className="regular-16 rounded-xl px-4 py-3 text-gray-700 transition-colors hover:bg-gray-100"
 			activeProps={{
 				className: "bg-gray-100 text-gray-900 bold-16",
 			}}

@@ -25,7 +25,7 @@
 				"noStaticElementInteractions": "off"
 			},
 			"nursery": {
-				"useSortedClasses": "error"
+				"useSortedClasses": "on"
 			}
 		}
 	},

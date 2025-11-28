@@ -88,8 +88,8 @@ function FriendList() {
 	return (
 		<>
 			{/* 검색바 */}
-			<div className="p-4 border-b border-gray-200">
-				<div className="relative flex pl-[32px] items-center bg-gray-100 rounded-lg">
+			<div className="border-gray-200 border-b p-4">
+				<div className="relative flex items-center rounded-lg bg-gray-100 pl-[32px]">
 					<SearchIcon
 						width="16"
 						height="16"

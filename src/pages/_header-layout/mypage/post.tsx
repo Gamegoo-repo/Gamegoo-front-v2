@@ -46,20 +46,20 @@ function RouteComponent() {
 			header: "",
 			width: "4%",
 			accessor: (row) => (
-				<div className="text-gray-700 regular-16 text-center">{row.idx}</div>
+				<div className="regular-16 text-center text-gray-700">{row.idx}</div>
 			),
 		},
 		{
 			header: "소환사",
 			width: "28%",
 			accessor: (row) => (
-				<div className="flex gap-2 items-center">
+				<div className="flex items-center gap-2">
 					<UserProfile id={row.profileImage} hasDropShadow={false} />
-					<div className="flex flex-col gap-0.5 items-start">
-						<span className="inline-block text-gray-800 semibold-16 max-w-[13ch] whitespace-nowrap overflow-hidden text-ellipsis">
+					<div className="flex flex-col items-start gap-0.5">
+						<span className="semibold-16 inline-block max-w-[13ch] overflow-hidden text-ellipsis whitespace-nowrap text-gray-800">
 							{row.gameName}
 						</span>
-						<span className="text-gray-600 regular-13">#{row.tag}</span>
+						<span className="regular-13 text-gray-600">#{row.tag}</span>
 					</div>
 				</div>
 			),
@@ -73,7 +73,7 @@ function RouteComponent() {
 			header: "메모",
 			width: "40%",
 			accessor: (row) => (
-				<div className="p-2 w-[320px] bg-gray-100 rounded-lg border border-gray-400 regular-13 text-gray-800">
+				<div className="regular-13 w-[320px] rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-800">
 					<p className="line-clamp-2 break-words">{row.contents}</p>
 				</div>
 			),
@@ -82,7 +82,7 @@ function RouteComponent() {
 			header: "등록일시",
 			width: "12%",
 			accessor: (row) => (
-				<div className="text-center medium-16 text-gray-500 inline-block whitespace-nowrap min-w-max w-full">
+				<div className="medium-16 inline-block w-full min-w-max whitespace-nowrap text-center text-gray-500">
 					{formatDateSimple(row.bumpTime || row.createdAt || "")}
 				</div>
 			),
@@ -91,7 +91,7 @@ function RouteComponent() {
 			header: "",
 			width: "2%",
 			accessor: (row) => (
-				<div className="w-full flex items-center">
+				<div className="flex w-full items-center">
 					<PostActionMenu
 						postId={row.boardId}
 						currentUserId={user?.id || 0}
@@ -104,8 +104,8 @@ function RouteComponent() {
 	];
 
 	return (
-		<div className="w-full h-full">
-			<h2 className="bold-25 mb-4 border-b border-gray-200 pb-4">
+		<div className="h-full w-full">
+			<h2 className="bold-25 mb-4 border-gray-200 border-b pb-4">
 				내가 작성한 글
 			</h2>
 
@@ -122,7 +122,7 @@ function RouteComponent() {
 			)}
 
 			{!isLoading && !isError && (
-				<div className="w-full min-w-[1055px] min-h-[500px] flex flex-col gap-15">
+				<div className="flex min-h-[500px] w-full min-w-[1055px] flex-col gap-15">
 					<Table
 						data={rows}
 						columns={columns}
@@ -159,14 +159,14 @@ function MyPostsPagination({ totalPages }: { totalPages: number }) {
 		});
 
 	return (
-		<div className="flex w-full items-center justify-center gap-4 mt-6">
+		<div className="mt-6 flex w-full items-center justify-center gap-4">
 			<button
 				type="button"
 				onClick={() => page > 1 && go(page - 1)}
 				disabled={page === 1}
 				className={cn(
 					"w-[14px] cursor-pointer text-gray-500",
-					page === 1 && "opacity-30 cursor-not-allowed",
+					page === 1 && "cursor-not-allowed opacity-30",
 				)}
 				aria-label="이전 페이지"
 			>
@@ -183,7 +183,7 @@ function MyPostsPagination({ totalPages }: { totalPages: number }) {
 								className={cn(
 									isActive
 										? "font-bold text-violet-600"
-										: "text-sm font-normal text-gray-500 hover:text-violet-400",
+										: "font-normal text-gray-500 text-sm hover:text-violet-400",
 								)}
 							>
 								{p}
@@ -198,7 +198,7 @@ function MyPostsPagination({ totalPages }: { totalPages: number }) {
 				disabled={page === totalPages}
 				className={cn(
 					"w-[14px] cursor-pointer text-gray-500",
-					page === totalPages && "opacity-30 cursor-not-allowed",
+					page === totalPages && "cursor-not-allowed opacity-30",
 				)}
 				aria-label="다음 페이지"
 			>

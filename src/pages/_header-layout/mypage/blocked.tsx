@@ -31,8 +31,8 @@ function RouteComponent() {
 	});
 
 	return (
-		<div className="w-full h-full">
-			<h2 className="bold-25 mb-4 border-b border-gray-200 pb-4">차단 목록</h2>
+		<div className="h-full w-full">
+			<h2 className="bold-25 mb-4 border-gray-200 border-b pb-4">차단 목록</h2>
 
 			{isLoading && (
 				<div className="flex h-[300px] items-center justify-center text-gray-500">
@@ -55,7 +55,7 @@ function RouteComponent() {
 							{data.blockedMemberList.map((member: BlockedMemberResponse) => (
 								<li
 									key={member.memberId}
-									className="flex items-center justify-between px-6 py-5 border-b border-gray-200"
+									className="flex items-center justify-between border-gray-200 border-b px-6 py-5"
 								>
 									<div className="flex items-center gap-4">
 										<UserProfile id={member.profileImg} hasDropShadow={false} />
@@ -107,14 +107,14 @@ function BlockedPagination({ totalPages }: { totalPages: number }) {
 		});
 
 	return (
-		<div className="flex w-full items-center justify-center gap-4 mt-6">
+		<div className="mt-6 flex w-full items-center justify-center gap-4">
 			<button
 				type="button"
 				onClick={() => page > 1 && go(page - 1)}
 				disabled={page === 1}
 				className={cn(
 					"w-[14px] cursor-pointer text-gray-500",
-					page === 1 && "opacity-30 cursor-not-allowed",
+					page === 1 && "cursor-not-allowed opacity-30",
 				)}
 				aria-label="이전 페이지"
 			>
@@ -131,7 +131,7 @@ function BlockedPagination({ totalPages }: { totalPages: number }) {
 								className={cn(
 									isActive
 										? "font-bold text-violet-600"
-										: "text-sm font-normal text-gray-500 hover:text-violet-400",
+										: "font-normal text-gray-500 text-sm hover:text-violet-400",
 								)}
 							>
 								{p}
@@ -146,7 +146,7 @@ function BlockedPagination({ totalPages }: { totalPages: number }) {
 				disabled={page === totalPages}
 				className={cn(
 					"w-[14px] cursor-pointer text-gray-500",
-					page === totalPages && "opacity-30 cursor-not-allowed",
+					page === totalPages && "cursor-not-allowed opacity-30",
 				)}
 				aria-label="다음 페이지"
 			>
