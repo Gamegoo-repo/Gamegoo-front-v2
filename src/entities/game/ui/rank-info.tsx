@@ -16,7 +16,7 @@ const rankInfoVariants = cva("flex", {
 		variant: {
 			card: "flex-row gap-1 items-center",
 			modal: "flex-col",
-			profile: "flex-col gap-0 mobile:gap-0.5 w-[180px]",
+			profile: "flex-col gap-0 mobile:gap-0.5 mobile:w-[180px]",
 		},
 	},
 	defaultVariants: {
