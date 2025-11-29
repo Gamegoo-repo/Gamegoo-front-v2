@@ -8,10 +8,12 @@ import { formatDateSimple } from "@/shared/lib/format-date-simple";
 import { cn } from "@/shared/lib/utils";
 import RankInfo from "@/entities/game/ui/rank-info";
 import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
+import { Link } from "@tanstack/react-router";
 
 export default function PostCard({
 	gameName,
 	tag,
+	memberId,
 	mainP,
 	subP,
 	wantP,
@@ -38,13 +40,17 @@ export default function PostCard({
 	return (
 		<div className="flex w-full flex-col gap-4 rounded-lg bg-gray-100 p-4">
 			<div className="flex gap-2">
-				<div className="relative">
+				<Link
+					to="/users/$userId"
+					params={{ userId: (memberId || 0).toString() }}
+					className="relative"
+				>
 					<UserProfile id={profileImage} size={44} hasDropShadow />
 
 					<span className="-translate-x-1/2 absolute bottom-0 left-1/2 inline-block translate-y-2/5 rounded-full bg-black/65 px-1.5 py-[1px] font-bold text-[9px] text-violet-300">
 						LV.{mannerLevel}
 					</span>
-				</div>
+				</Link>
 				<div className="flex flex-col">
 					<p className="bold-16 text-gray-800">{gameName}</p>
 					<span className="bold-12 text-gray-500">#{tag}</span>
