@@ -87,8 +87,6 @@ function RouteComponent() {
 		data.profile,
 	);
 
-	console.log(data);
-
 	return (
 		<UserInfoWidget
 			userMannerKeywordData={data.mannerKeywords}
