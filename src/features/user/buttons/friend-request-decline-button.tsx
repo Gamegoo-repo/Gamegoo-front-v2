@@ -47,7 +47,7 @@ export default function FriendRequestDeclineButton({
 		<Button
 			variant={"black"}
 			size="xl"
-			className="w-[150px] h-[45px] bold-14 rounded-xl"
+			className="bold-14 h-[45px] mobile:w-[150px] w-1/2 mobile:rounded-xl rounded-[6px]"
 			onClick={() => declineRequestMutation.mutate()}
 		>
 			친구 거절

@@ -1,6 +1,5 @@
 import { formatKDAStats } from "@/entities/game/lib/kda";
 import UserProfileHeader from "@/features/profile/user-profile-header";
-import UserActionMenu from "@/features/user/user-action-menu";
 import type {
 	MannerKeywordListResponse,
 	MannerResponse,
@@ -14,6 +13,8 @@ import UserProfileCard from "./user-profile-card";
 import { useResponsive } from "@/shared/model/responsive-context";
 import UserProfileCardMobile from "./user-profile-card-mobile";
 import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
+import UserActionButtons from "@/features/user/buttons/user-action-buttons";
+import { UserActionMenu } from "@/features/user/action-menu";
 
 interface UserInfoWidgetProps {
 	relationshipStatus: UserRelationshipStatus;
@@ -43,7 +44,7 @@ export default function UserInfoWidget({
 	const { isMobile } = useResponsive();
 
 	return (
-		<div className="mb-48 flex h-full w-full flex-col gap-9 px-5 mobile:pt-[68px]">
+		<div className="mb-48 flex h-full w-full flex-col gap-9 mobile:px-0 px-5 mobile:pt-[68px]">
 			<section className="flex w-full flex-col mobile:gap-5">
 				<UserProfileHeader relationshipStatus={relationshipStatus}>
 					{relationshipStatus === "me"
@@ -53,7 +54,13 @@ export default function UserInfoWidget({
 				{isMobile && (
 					<UserProfileCardMobile
 						data={userProfileData}
-						actions={
+						button={
+							<UserActionButtons
+								userId={userProfileData.id}
+								relationshipStatus={relationshipStatus}
+							/>
+						}
+						menu={
 							<UserActionMenu
 								userId={userProfileData.id}
 								relationshipStatus={relationshipStatus}
@@ -64,7 +71,13 @@ export default function UserInfoWidget({
 				{!isMobile && (
 					<UserProfileCard
 						data={userProfileData}
-						actions={
+						button={
+							<UserActionButtons
+								userId={userProfileData.id}
+								relationshipStatus={relationshipStatus}
+							/>
+						}
+						menu={
 							<UserActionMenu
 								userId={userProfileData.id}
 								relationshipStatus={relationshipStatus}
@@ -93,13 +106,15 @@ export default function UserInfoWidget({
 						최근 30게임
 					</h3>
 
-					<div className="flex items-center justify-between rounded-xl bg-gray-100 px-8 py-4">
-						<div className="flex w-fit flex-col">
-							<span className="bold-20 text-gray-700">{`${recTotalWins}승 ${recTotalLosses}패`}</span>
-							<span className="semibold-14 text-gray-500">{recWinRate}%</span>
+					<div className="flex mobile:flex-row flex-col mobile:items-center mobile:justify-between gap-3 mobile:rounded-lg rounded-xl bg-gray-100 mobile:px-8 px-5 py-4">
+						<div className="flex w-fit mobile:flex-col items-center gap-2">
+							<span className="font-bold mobile:text-xl text-base text-gray-700">{`${recTotalWins}승 ${recTotalLosses}패`}</span>
+							<span className="font-semibold mobile:text-sm text-gray-500 text-xs">
+								{recWinRate}%
+							</span>
 						</div>
 
-						<div className="flex w-fit flex-col">
+						<div className="flex w-fit mobile:flex-col items-center gap-2">
 							<p className="flex items-center gap-1">
 								{formatKDAStats(recAvgKills, recAvgDeaths, recAvgAssists).map(
 									(text, idx) => {
@@ -107,7 +122,7 @@ export default function UserInfoWidget({
 											<>
 												<span
 													className={cn(
-														"bold-20 text-gray-700",
+														"font-bold mobile:text-xl text-base text-gray-700",
 														idx === 1 && "text-red-500",
 													)}
 												>
@@ -115,26 +130,32 @@ export default function UserInfoWidget({
 												</span>
 
 												{idx !== 2 && (
-													<span className="regular-20 text-gray-400">/</span>
+													<span className="mobile:text-xl text-base text-gray-400">
+														/
+													</span>
 												)}
 											</>
 										);
 									},
 								)}
 							</p>
-							<span className="semibold-14 text-gray-500">KDA {recAvgKDA}</span>
+							<span className="font-semibold mobile:text-sm text-gray-500 text-xs">
+								KDA {recAvgKDA}
+							</span>
 						</div>
 
-						<div className="flex flex-col">
-							<span className="bold-20 text-gray-700">
+						<div className="flex mobile:flex-col items-center gap-2">
+							<span className="font-bold mobile:text-xl text-base text-gray-700">
 								평균 CS {(recAvgCsPerMinute || 0).toFixed(1)}
 							</span>
-							<span className="semibold-14 text-gray-500">
+							<span className="font-semibold mobile:text-sm text-gray-500 text-xs">
 								CS {recTotalCs || 0}
 							</span>
 						</div>
-						<div className="flex flex-col gap-2">
-							<span className="regular-14 text-gray-800">최근 선호 챔피언</span>
+						<div className="flex flex-col gap-1 mobile:gap-2">
+							<span className="font-medium mobile:text-sm text-[11px] text-gray-800">
+								최근 선호 챔피언
+							</span>
 
 							<ChampionStatsSection
 								championList={userProfileData.championStatsResponseList}

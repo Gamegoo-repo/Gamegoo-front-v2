@@ -9,10 +9,12 @@ import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 
 export default function UserProfileCard({
 	data,
-	actions,
+	menu,
+	button,
 }: {
 	data: OtherProfileResponse;
-	actions?: ReactNode;
+	menu?: ReactNode;
+	button?: ReactNode;
 }) {
 	const wantPositions = data.wantP.map((pos) => getPositionIcon(pos));
 	const subPosition = getPositionIcon(data.subP);
@@ -32,7 +34,12 @@ export default function UserProfileCard({
 						isMikeAvailable={data.mike === "AVAILABLE"}
 					/>
 
-					<div className="ml-auto">{actions}</div>
+					<div className="ml-auto">
+						<div className="flex items-center gap-3">
+							{button}
+							{menu}
+						</div>
+					</div>
 				</div>
 				<div className="flex w-full gap-2 mobile:gap-3">
 					<RankInfo
