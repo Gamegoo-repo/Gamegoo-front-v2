@@ -44,7 +44,7 @@ const ProfileAvatar = ({ size, profileIndex = 0 }: ProfileAvatarProps) => {
 						: `/profile/profile${profileIndex}.svg`
 				}
 				alt={`Profile ${profileIndex}`}
-				className={`${IMAGE_SIZE[size]} absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none`}
+				className={`${IMAGE_SIZE[size]} -translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 transform`}
 			/>
 		</div>
 	);

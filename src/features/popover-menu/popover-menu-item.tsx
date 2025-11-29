@@ -12,7 +12,7 @@ export function PopoverMenuItem({
 	return (
 		<button
 			type="button"
-			className={`w-full px-5 py-3 medium-14 text-gray-600 hover:bg-gray-300 first:rounded-t-[10px] last:rounded-b-[10px]  cursor-pointer text-left transition-colors ${className}`}
+			className={`medium-14 w-full cursor-pointer px-5 py-3 text-left text-gray-600 transition-colors first:rounded-t-[10px] last:rounded-b-[10px] hover:bg-gray-300 ${className}`}
 			onClick={(e) => {
 				e.stopPropagation();
 				onClick();

@@ -35,7 +35,7 @@ function MenuItem({
 			to={to}
 			onClick={onClick}
 			className={cn(
-				"flex w-full items-center gap-4 pl-[9px] py-4 rounded-[12px] hover:bg-gray-200 text-gray-800 medium-16 cursor-pointer",
+				"medium-16 flex w-full cursor-pointer items-center gap-4 rounded-[12px] py-4 pl-[9px] text-gray-800 hover:bg-gray-200",
 				className,
 			)}
 		>
@@ -47,7 +47,7 @@ function MenuItem({
 			type="button"
 			onClick={onClick}
 			className={cn(
-				"flex w-full items-center gap-4 pl-[9px] py-4 rounded-[12px] hover:bg-gray-200 text-gray-800 medium-16 cursor-pointer",
+				"medium-16 flex w-full cursor-pointer items-center gap-4 rounded-[12px] py-4 pl-[9px] text-gray-800 hover:bg-gray-200",
 				className,
 			)}
 		>
@@ -95,7 +95,7 @@ export default function UserProfileMenu({
 			<button
 				type="button"
 				onClick={() => setOpen(true)}
-				className="flex items-center gap-[10px] cursor-pointer"
+				className="flex cursor-pointer items-center gap-[10px]"
 			>
 				<UserProfile id={profileImage} hasDropShadow={false} />
 				{name}
@@ -105,7 +105,7 @@ export default function UserProfileMenu({
 				isOpen={open}
 				onClose={() => setOpen(false)}
 				contentRef={modalRef}
-				className="w-[420px] p-8 bg-white"
+				className="w-[420px] bg-white p-8"
 				hideCloseButton
 			>
 				<div className="flex items-center justify-between">
@@ -125,7 +125,7 @@ export default function UserProfileMenu({
 					</Link>
 				</div>
 
-				<div className="h-px bg-gray-300 my-6" />
+				<div className="my-6 h-px bg-gray-300" />
 
 				<div className="flex flex-col gap-2">
 					<MenuItem
@@ -154,7 +154,7 @@ export default function UserProfileMenu({
 					/>
 				</div>
 
-				<div className="h-px bg-gray-300 my-6" />
+				<div className="my-6 h-px bg-gray-300" />
 
 				<div className="flex flex-col gap-2">
 					<MenuItem

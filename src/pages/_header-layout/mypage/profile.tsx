@@ -71,17 +71,17 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="w-full h-full">
+		<div className="h-full w-full">
 			{/* Header */}
-			<div className="flex items-center gap-3 mb-4">
-				<h2 className="bold-25 border-b border-gray-200 pb-4 flex-1">
+			<div className="mb-4 flex items-center gap-3">
+				<h2 className="bold-25 flex-1 border-gray-200 border-b pb-4">
 					내 정보
 				</h2>
 			</div>
 
 			{/* Profile Card */}
 			<div
-				className="w-full bg-gray-100 rounded-[30px] p-10 flex gap-8"
+				className="flex w-full gap-8 rounded-[30px] bg-gray-100 p-10"
 				ref={containerRef}
 			>
 				{/* Avatar with edit */}
@@ -90,38 +90,38 @@ function RouteComponent() {
 				</div>
 
 				{/* Right content */}
-				<div className="flex-1 flex flex-col gap-7">
+				<div className="flex flex-1 flex-col gap-7">
 					{/* Name and tag */}
 					<div className="flex items-center gap-2">
-						<p className="text-gray-800 bold-32">{user?.gameName}</p>
-						<p className="text-gray-500 bold-20">#{user?.tag}</p>
+						<p className="bold-32 text-gray-800">{user?.gameName}</p>
+						<p className="bold-20 text-gray-500">#{user?.tag}</p>
 					</div>
 
 					{/* Ranks */}
 					<div className="flex gap-[28px]">
 						<div>
-							<span className="mb-1.5 text-gray-800 semibold-14">솔로랭크</span>
+							<span className="semibold-14 mb-1.5 text-gray-800">솔로랭크</span>
 							{user && <TierBadge tier={user.soloTier} rank={user.soloRank} />}
 						</div>
 						<div>
-							<span className="mb-1.5 text-gray-800 semibold-14">자유랭크</span>
+							<span className="semibold-14 mb-1.5 text-gray-800">자유랭크</span>
 							{user && <TierBadge tier={user.freeTier} rank={user.freeRank} />}
 						</div>
 					</div>
 
-					<div className="border-b border-gray-400 w-full" />
+					<div className="w-full border-gray-400 border-b" />
 
 					{/* Game style */}
 					<div className="flex flex-col gap-3">
-						<span className="text-gray-600 semibold-14">게임 스타일</span>
+						<span className="semibold-14 text-gray-600">게임 스타일</span>
 						{selectedGameStyleIds.length ? (
-							<ul className="flex gap-2 flex-wrap">
+							<ul className="flex flex-wrap gap-2">
 								{(user?.gameStyleResponseList || [])
 									.filter((s) => selectedGameStyleIds.includes(s.gameStyleId))
 									.map((style) => (
 										<li
 											key={style.gameStyleId}
-											className="bg-white text-gray-700 semibold-16 px-4 py-1.5 rounded-full"
+											className="semibold-16 rounded-full bg-white px-4 py-1.5 text-gray-700"
 										>
 											{style.gameStyleName}
 										</li>
@@ -136,7 +136,7 @@ function RouteComponent() {
 							</ul>
 						) : (
 							<div className="flex items-center gap-2">
-								<span className="text-gray-400 medium-14">
+								<span className="medium-14 text-gray-400">
 									선택한 게임 스타일이 없어요
 								</span>
 								<GameStylePopover
@@ -150,7 +150,7 @@ function RouteComponent() {
 
 					{/* Mic switch */}
 					<div className="flex items-center gap-4">
-						<span className="text-gray-800 semibold-14">마이크</span>
+						<span className="semibold-14 text-gray-800">마이크</span>
 						<Switch
 							checked={user?.mike === "AVAILABLE"}
 							onCheckedChange={handleToggleMike}

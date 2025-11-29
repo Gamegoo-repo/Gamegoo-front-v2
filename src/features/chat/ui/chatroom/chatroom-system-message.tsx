@@ -11,22 +11,22 @@ const ChatroomSystemMessage = ({ message, href }: SystemMessageProps) => {
 
 	if (parts.length === 1) {
 		return (
-			<div className="w-full text-center p-4 bg-gray-700 regular-13 text-white flex items-center justify-center">
+			<div className="regular-13 flex w-full items-center justify-center bg-gray-700 p-4 text-center text-white">
 				{message}
 			</div>
 		);
 	}
 
 	return (
-		<div className="w-full text-center p-[4px] mb-[20px] bg-gray-700 regular-13 text-white rounded-full flex items-center justify-center">
+		<div className="regular-13 mb-[20px] flex w-full items-center justify-center rounded-full bg-gray-700 p-[4px] text-center text-white">
 			{href ? (
 				<Link to={href}>
-					<span className="underline cursor-pointer">
+					<span className="cursor-pointer underline">
 						{`${parts[0]} ${highlightedText}`}
 					</span>
 				</Link>
 			) : (
-				<span className="underline cursor-pointer">
+				<span className="cursor-pointer underline">
 					{`${parts[0]} ${highlightedText}`}
 				</span>
 			)}

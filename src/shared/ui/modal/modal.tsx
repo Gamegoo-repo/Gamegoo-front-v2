@@ -76,14 +76,14 @@ export default function Modal({
 		>
 			<div
 				className={cn(
-					"relative bg-gray-100 rounded-[20px] px-8 py-12",
+					"relative rounded-[20px] bg-gray-100 px-8 py-12",
 					className,
 				)}
 				ref={contentRef}
 			>
 				{!hideCloseButton && (
 					<CloseButton
-						className="absolute right-0 top-0 hover:bg-gray-300 hover:rounded-lg translate-y-2 -translate-x-2"
+						className="-translate-x-2 absolute top-0 right-0 translate-y-2 hover:rounded-lg hover:bg-gray-300"
 						onClose={onClose}
 					/>
 				)}

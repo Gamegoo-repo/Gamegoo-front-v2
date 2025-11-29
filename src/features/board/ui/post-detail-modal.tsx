@@ -49,7 +49,7 @@ export default function PostDetailModal({
 			<div className="flex flex-col gap-5">
 				{/* MODAL-CONTENT */}
 				<section className="flex flex-col gap-[30px]">
-					<p className="flex w-full justify-between items-center">
+					<p className="flex w-full items-center justify-between">
 						<InteractiveUserProfileCard
 							memberId={data.memberId}
 							modalRef={modalRef}
@@ -60,41 +60,41 @@ export default function PostDetailModal({
 							level={data.mannerLevel}
 						/>
 					</p>
-					<div className="w-full flex gap">
+					<div className="gap flex w-full">
 						<div className="w-1/2">
-							<span className="mb-1.5 text-gray-800 semibold-14">솔로랭크</span>
+							<span className="semibold-14 mb-1.5 text-gray-800">솔로랭크</span>
 							<TierLabel tier={data.soloTier} rank={data.soloRank} />
 						</div>
 						<div className="w-1/2">
-							<span className="mb-1.5 text-gray-800 semibold-14">자유랭크</span>
+							<span className="semibold-14 mb-1.5 text-gray-800">자유랭크</span>
 							<TierLabel tier={data.freeTier} rank={data.freeRank} />
 						</div>
 					</div>
 					{/** TODO: 재사용 컴포넌트 만들기 */}
 					<div>
-						<p className="mb-1.5 text-gray-800 semibold-14">포지션</p>
-						<div className="flex gap-2 h-[98px] w-full">
-							<div className="bg-white flex-1 rounded-[10px] h-full px-11 py-4">
-								<ul className="w-full flex justify-between h-full">
-									<li className="h-full flex flex-col items-center justify-between w-[49px]">
-										<span className="text-gray-700 bold-12 w-full text-center">
+						<p className="semibold-14 mb-1.5 text-gray-800">포지션</p>
+						<div className="flex h-[98px] w-full gap-2">
+							<div className="h-full flex-1 rounded-[10px] bg-white px-11 py-4">
+								<ul className="flex h-full w-full justify-between">
+									<li className="flex h-full w-[49px] flex-col items-center justify-between">
+										<span className="bold-12 w-full text-center text-gray-700">
 											주 포지션
 										</span>
 										<MainPositionIcon className="w-12 text-gray-700" />
 									</li>
-									<li className="h-full flex flex-col items-center justify-between w-[49px]">
-										<span className="text-gray-700 bold-12 w-full text-center">
+									<li className="flex h-full w-[49px] flex-col items-center justify-between">
+										<span className="bold-12 w-full text-center text-gray-700">
 											부 포지션
 										</span>
 										<SubPositionIcon className="w-12 text-gray-700" />
 									</li>
 								</ul>
 							</div>
-							<div className="bg-white flex-1 rounded-[10px] h-full px-11 py-4 flex flex-col items-center justify-between">
-								<span className="text-gray-700 bold-12 w-full text-center">
+							<div className="flex h-full flex-1 flex-col items-center justify-between rounded-[10px] bg-white px-11 py-4">
+								<span className="bold-12 w-full text-center text-gray-700">
 									내가 찾는 포지션
 								</span>
-								<ul className="flex w-full justify-center gap-4 items-end">
+								<ul className="flex w-full items-end justify-center gap-4">
 									{wantPositions.map((wantPosition) => {
 										const PositionIcon = wantPosition;
 										return (
@@ -110,26 +110,26 @@ export default function PostDetailModal({
 							</div>
 						</div>
 					</div>
-					<div className="w-full flex gap-2">
+					<div className="flex w-full gap-2">
 						<p className="w-1/2">
-							<span className="text-gray-800 semibold-14 text-center">
+							<span className="semibold-14 text-center text-gray-800">
 								선호 게임모드
 							</span>
-							<div className="bg-white rounded-[10px] flex items-center justify-start w-full px-3 py-4 medium-16 gap-1">
+							<div className="medium-16 flex w-full items-center justify-start gap-1 rounded-[10px] bg-white px-3 py-4">
 								<CheckIcon />
 								{getGameModeTitle(data.gameMode)}
 							</div>
 						</p>
 
-						<p className="w-1/2 flex flex-col gap-1.5">
-							<p className="w-full flex items-center justify-between">
-								<span className="text-gray-800 semibold-14">
+						<p className="flex w-1/2 flex-col gap-1.5">
+							<p className="flex w-full items-center justify-between">
+								<span className="semibold-14 text-gray-800">
 									최근 선호 챔피언
 								</span>
-								<span className="text-gray-500 medium-11">최근 30게임</span>
+								<span className="medium-11 text-gray-500">최근 30게임</span>
 							</p>
 							{data.championStatsResponseList.length > 0 ? (
-								<ul className="w-full flex items-center justify-start gap-2">
+								<ul className="flex w-full items-center justify-start gap-2">
 									{data.championStatsResponseList.map((champion) => {
 										return (
 											<li key={champion.championId}>
@@ -139,7 +139,7 @@ export default function PostDetailModal({
 									})}
 								</ul>
 							) : (
-								<div className="medium-14 h-full flex items-center text-gray-400">
+								<div className="medium-14 flex h-full items-center text-gray-400">
 									챔피언 정보가 없습니다.
 								</div>
 							)}
@@ -148,22 +148,22 @@ export default function PostDetailModal({
 					<div>
 						<p>
 							<p className="flex items-center justify-start gap-1">
-								<span className="text-gray-800 semibold-14">승률</span>
-								<span className={`text-gray-500 bold-16 ${winRateTextColor}`}>
+								<span className="semibold-14 text-gray-800">승률</span>
+								<span className={`bold-16 text-gray-500 ${winRateTextColor}`}>
 									{data.winRate}%
 								</span>
-								<span className="flex-1 medium-11 text-gray-500 text-end">
+								<span className="medium-11 flex-1 text-end text-gray-500">
 									현 시즌 성적 통계
 								</span>
 								<WinRateTooltip />
 							</p>
-							<div className="relative w-full h-3 rounded-full bg-gray-300">
+							<div className="relative h-3 w-full rounded-full bg-gray-300">
 								<div
 									style={{
 										width: `${data.winRate}%`,
 									}}
 									className={cn(
-										"h-full rounded-full absolute left-0 top-0",
+										"absolute top-0 left-0 h-full rounded-full",
 										winRateBgColor,
 									)}
 								/>
@@ -171,13 +171,13 @@ export default function PostDetailModal({
 						</p>
 					</div>
 					<div className="w-full">
-						<p className="mb-1.5 text-gray-800 semibold-14">게임 스타일</p>
-						<ul className="w-full flex gap-2">
+						<p className="semibold-14 mb-1.5 text-gray-800">게임 스타일</p>
+						<ul className="flex w-full gap-2">
 							{data.gameStyles.map((styleId) => {
 								return (
 									<li
 										key={styleId}
-										className="flex items-center justify-center	text-gray-800 medium-16 px-3 py-1 bg-white rounded-full gap-1"
+										className="medium-16 flex items-center justify-center gap-1 rounded-full bg-white px-3 py-1 text-gray-800"
 									>
 										{getGameStyle(styleId)}
 									</li>
@@ -186,11 +186,11 @@ export default function PostDetailModal({
 						</ul>
 					</div>
 					<div className="w-full">
-						<p className="mb-1.5 text-gray-800 semibold-14">한마디</p>
-						<p className="w-full break-words px-2.5 py-2 rounded-[10px] border-1 border-gray-400 mb-1.5">
+						<p className="semibold-14 mb-1.5 text-gray-800">한마디</p>
+						<p className="mb-1.5 w-full break-words rounded-[10px] border-1 border-gray-400 px-2.5 py-2">
 							{data.contents}
 						</p>
-						<span className="block text-end medium-11 text-gray-500">
+						<span className="medium-11 block text-end text-gray-500">
 							게시일 : {formatDateTime(data.createdAt)}
 						</span>
 					</div>

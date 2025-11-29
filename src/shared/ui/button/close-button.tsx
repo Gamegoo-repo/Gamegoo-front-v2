@@ -14,7 +14,7 @@ export default function CloseButton({
 		<button
 			type="button"
 			onClick={onClose}
-			className={cn("p-1.5 cursor-pointer text-gray-800", className)}
+			className={cn("cursor-pointer p-1.5 text-gray-800", className)}
 		>
 			<CloseIcon className={iconClass} />
 		</button>

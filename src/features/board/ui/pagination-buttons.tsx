@@ -40,22 +40,22 @@ export default function PaginationButtons({
 	};
 
 	return (
-		<div className="flex gap-4 items-center w-full justify-center">
+		<div className="flex w-full items-center justify-center gap-4">
 			{/* 이전 페이지 */}
 			<button
 				type="button"
 				onClick={handleClickPrevPage}
 				disabled={currentPage === 1}
 				className={cn(
-					"cursor-pointer w-[14px]",
-					currentPage === 1 && "opacity-30 cursor-not-allowed",
+					"w-[14px] cursor-pointer",
+					currentPage === 1 && "cursor-not-allowed opacity-30",
 				)}
 			>
 				<ArrowLeftIcon />
 			</button>
 
 			{/* 페이지 번호들 */}
-			<ol className="flex gap-2 items-center">
+			<ol className="flex items-center gap-2">
 				{visiblePages.map((pageNumber) => {
 					const isActive = currentPage === pageNumber;
 
@@ -66,8 +66,8 @@ export default function PaginationButtons({
 								search={{ ...search, page: pageNumber }}
 								className={cn(
 									isActive
-										? "text-violet-600 font-bold"
-										: "text-sm text-gray-500 font-normal hover:text-violet-400",
+										? "font-bold text-violet-600"
+										: "font-normal text-gray-500 text-sm hover:text-violet-400",
 								)}
 							>
 								{pageNumber}
@@ -83,8 +83,8 @@ export default function PaginationButtons({
 				onClick={handleClickNextPage}
 				disabled={currentPage === totalPages}
 				className={cn(
-					"cursor-pointer w-[14px]",
-					currentPage === totalPages && "opacity-30 cursor-not-allowed",
+					"w-[14px] cursor-pointer",
+					currentPage === totalPages && "cursor-not-allowed opacity-30",
 				)}
 			>
 				<ArrowRightIcon />

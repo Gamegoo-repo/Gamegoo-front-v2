@@ -19,7 +19,7 @@ export default function RefetchButton({
 	return (
 		<button
 			type="button"
-			className="cursor-pointer transition-transform p-1"
+			className="cursor-pointer p-1 transition-transform"
 			onClick={handleClick}
 			{...props}
 		>

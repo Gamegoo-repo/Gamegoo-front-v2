@@ -38,10 +38,10 @@ function SignUpButton({
 			disabled={isDisabled || isLoading}
 			onClick={handleClick}
 			className={cn(
-				"h-14 self-stretch rounded-xl text-white medium-16 transition-colors",
+				"medium-16 h-14 self-stretch rounded-xl text-white transition-colors",
 				isDisabled
-					? "bg-gray-300 cursor-not-allowed text-gray-500"
-					: "bg-violet-600 cursor-pointer hover:bg-violet-700",
+					? "cursor-not-allowed bg-gray-300 text-gray-500"
+					: "cursor-pointer bg-violet-600 hover:bg-violet-700",
 			)}
 		>
 			다음

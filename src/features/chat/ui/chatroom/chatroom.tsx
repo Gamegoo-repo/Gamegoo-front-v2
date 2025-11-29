@@ -199,7 +199,7 @@ const Chatroom = () => {
 
 	if (isLoading || isEntering) {
 		return (
-			<div className="flex items-center justify-center h-full text-gray-500">
+			<div className="flex h-full items-center justify-center text-gray-500">
 				{isEntering ? "채팅방에 입장하는 중..." : "메시지를 불러오는 중..."}
 			</div>
 		);
@@ -207,7 +207,7 @@ const Chatroom = () => {
 
 	if (error || enterError) {
 		return (
-			<div className="flex items-center justify-center h-full text-red-500">
+			<div className="flex h-full items-center justify-center text-red-500">
 				{enterError
 					? "채팅방 입장에 실패했습니다."
 					: "메시지를 불러오는데 실패했습니다."}
@@ -216,10 +216,10 @@ const Chatroom = () => {
 	}
 
 	return (
-		<div className="flex flex-col h-full">
+		<div className="flex h-full flex-col">
 			<div
 				ref={scrollContainerRef}
-				className="flex-1 flex flex-col px-2 overflow-y-auto min-h-0 scrollbar-hide"
+				className="scrollbar-hide flex min-h-0 flex-1 flex-col overflow-y-auto px-2"
 				style={{
 					paddingBottom:
 						"calc(var(--chatroom-input-height) + var(--chatroom-header-height))",
@@ -227,12 +227,12 @@ const Chatroom = () => {
 				onScroll={handleScroll}
 			>
 				{allMessages.length === 0 ? (
-					<div className="flex flex-col items-center justify-center h-full px-4">
+					<div className="flex h-full flex-col items-center justify-center px-4">
 						<div className="text-center">
-							<p className="text-gray-700 mb-2 regular-16">
+							<p className="regular-16 mb-2 text-gray-700">
 								첫 메시지를 보내보세요!
 							</p>
-							<p className="text-gray-700 regular-16">대화를 시작해보세요.</p>
+							<p className="regular-16 text-gray-700">대화를 시작해보세요.</p>
 						</div>
 					</div>
 				) : (
@@ -249,7 +249,7 @@ const Chatroom = () => {
 					</div>
 				)}
 			</div>
-			<div className="absolute bottom-0 left-0 right-0">
+			<div className="absolute right-0 bottom-0 left-0">
 				<ChatroomMessageInput />
 			</div>
 		</div>

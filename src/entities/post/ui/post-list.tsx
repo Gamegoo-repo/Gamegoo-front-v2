@@ -33,7 +33,7 @@ export default function PostList() {
 
 	if (!pages || isLoading) {
 		return (
-			<div className="w-full px-5 pt-4 flex flex-col gap-4">
+			<div className="flex w-full flex-col gap-4 px-5 pt-4">
 				<PostCardSkeletons />
 			</div>
 		);
@@ -44,7 +44,7 @@ export default function PostList() {
 	}
 
 	return (
-		<div className="w-full px-5 pt-4 flex flex-col gap-4">
+		<div className="flex w-full flex-col gap-4 px-5 pt-4">
 			<ul className="flex flex-col gap-4">
 				{pages.map((page) => {
 					return (

@@ -9,7 +9,7 @@ export default function BumpButton({ className, ...props }: BumpButtonProps) {
 		<button
 			type="button"
 			className={cn(
-				"h-10 cursor-pointer flex items-center gap-1 hover:-translate-y-1 transition-transform duration-200 ease-out",
+				"hover:-translate-y-1 flex h-10 cursor-pointer items-center gap-1 transition-transform duration-200 ease-out",
 				className,
 			)}
 			{...props}

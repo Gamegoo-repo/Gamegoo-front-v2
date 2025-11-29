@@ -20,14 +20,14 @@ const ChatroomMyMessage = ({
 	});
 
 	return (
-		<div className="flex items-end justify-end mb-[10px]">
+		<div className="mb-[10px] flex items-end justify-end">
 			<div className="flex items-end">
 				{showTime && (
-					<p className="mr-[5px] regular-9 text-violet-400">{date}</p>
+					<p className="regular-9 mr-[5px] text-violet-400">{date}</p>
 				)}
 				<div
 					className={cn(
-						"regular-14 text-gray-800 bg-violet-300 rounded-[13px] px-[13px] py-[5px] max-w-[196px] break-words transition-all duration-300 ease-in-out",
+						"regular-14 max-w-[196px] break-words rounded-[13px] bg-violet-300 px-[13px] py-[5px] text-gray-800 transition-all duration-300 ease-in-out",
 						isAnimated && isLast && "animate-slide-down",
 					)}
 				>

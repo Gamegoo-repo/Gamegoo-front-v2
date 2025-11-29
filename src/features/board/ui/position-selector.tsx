@@ -28,16 +28,16 @@ export default function PositionSelector({
 						return selected ? (
 							<button
 								type="button"
-								className="p-1 text-gray-700 cursor-pointer hover:bg-gray-200 rounded-lg flex items-center justify-center"
+								className="flex cursor-pointer items-center justify-center rounded-lg p-1 text-gray-700 hover:bg-gray-200"
 							>
-								{<selected.icon className="w-9 h-9" />}
+								{<selected.icon className="h-9 w-9" />}
 							</button>
 						) : null;
 					})()
 				) : (
 					<button
 						type="button"
-						className="bg-violet-100 h-8 w-12 rounded-full cursor-pointer flex items-center justify-center"
+						className="flex h-8 w-12 cursor-pointer items-center justify-center rounded-full bg-violet-100"
 					>
 						<PlusIcon />
 					</button>

@@ -51,7 +51,7 @@ export default function FriendRequestAcceptButton({
 		<Button
 			variant={"default"}
 			size="xl"
-			className="w-[150px] h-[45px] bold-14 rounded-xl"
+			className="bold-14 h-[45px] w-[150px] rounded-xl"
 			disabled={acceptRequestMutation.isPending}
 			onClick={() => acceptRequestMutation.mutate()}
 		>

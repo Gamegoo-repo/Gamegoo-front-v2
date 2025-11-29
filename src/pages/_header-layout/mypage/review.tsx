@@ -50,8 +50,8 @@ function RouteComponent() {
 	const isError = errorLevel || errorKeywords;
 
 	return (
-		<div className="w-full h-full">
-			<h2 className="bold-25 mb-4 border-b border-gray-200 pb-4">내 평가</h2>
+		<div className="h-full w-full">
+			<h2 className="bold-25 mb-4 border-gray-200 border-b pb-4">내 평가</h2>
 
 			{isLoading && (
 				<div className="flex h-[300px] items-center justify-center text-gray-500">
@@ -66,13 +66,13 @@ function RouteComponent() {
 			)}
 
 			{!isLoading && !isError && me && mannerLevel && mannerKeywords && (
-				<div className="flex flex-col gap-9 w-full">
+				<div className="flex w-full flex-col gap-9">
 					<MannerLevelCard
 						userProfile={{ gameName: me.gameName }}
 						userMannerLevelData={mannerLevel}
 					/>
 
-					<div className="flex gap-3 w-full">
+					<div className="flex w-full gap-3">
 						<MannerKeywordsCard
 							title={"받은 매너 평가"}
 							keywords={mannerKeywords.mannerKeywords.slice(0, 6)}
