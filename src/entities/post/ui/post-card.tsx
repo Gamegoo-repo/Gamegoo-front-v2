@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
 import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
-import ChampionInfo from "@/entities/game/ui/champion-info";
 import PositionCard from "@/entities/game/ui/position-card";
-import TierLabel from "@/entities/game/ui/tier-label";
 import UserProfile from "@/entities/user/ui/user-profile";
 import type { BoardListResponse } from "@/shared/api";
 import { formatDateSimple } from "@/shared/lib/format-date-simple";
 import { cn } from "@/shared/lib/utils";
+import RankInfo from "@/entities/game/ui/rank-info";
+import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 
 export default function PostCard({
 	gameName,
@@ -52,21 +52,21 @@ export default function PostCard({
 			</div>
 
 			<div className="flex w-full items-center">
-				<div className="flex items-center">
-					<span className="medium-11 text-center text-gray-500 leading-none">
-						솔로랭크
-					</span>
-					<TierLabel size="md" tier={soloTier} rank={soloRank} />
-				</div>
+				<RankInfo
+					tier={soloTier}
+					rank={soloRank}
+					label="솔로랭크"
+					variant={"card"}
+				/>
 
 				<div className="mx-3 h-3 border-gray-400 border-l" />
 
-				<div className="flex items-center">
-					<span className="medium-11 text-center text-gray-500 leading-none">
-						자유랭크
-					</span>
-					<TierLabel size="md" tier={freeTier} rank={freeRank} />
-				</div>
+				<RankInfo
+					tier={freeTier}
+					rank={freeRank}
+					label="자유랭크"
+					variant={"card"}
+				/>
 			</div>
 
 			<div className="flex w-full gap-2">
@@ -93,21 +93,10 @@ export default function PostCard({
 				</div>
 			</div>
 			<div className="flex h-fit w-full items-center gap-2">
-				<ul className="flex flex-1 gap-1.5">
-					{championStatsResponseList.length ? (
-						championStatsResponseList.map((champion) => {
-							return (
-								<li key={champion.championName}>
-									<ChampionInfo {...champion} />
-								</li>
-							);
-						})
-					) : (
-						<span className="text-gray-400 text-xs">
-							챔피언 정보가 없습니다
-						</span>
-					)}
-				</ul>
+				<ChampionStatsSection
+					championList={championStatsResponseList}
+					variant="board"
+				/>
 				<div className="flex flex-1 flex-col">
 					<span className="medium-11 text-gray-800">승률</span>
 					<span className={cn("bold-16", textColor)}>
