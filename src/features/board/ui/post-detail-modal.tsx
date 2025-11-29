@@ -1,8 +1,6 @@
 import { useRef } from "react";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
 import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
-import ChampionInfo from "@/entities/game/ui/champion-info";
-import TierLabel from "@/entities/game/ui/tier-label";
 import { getGameStyle } from "@/entities/post/lib/get-game-style";
 import { usePostDetail } from "@/entities/post/model/use-post-detail";
 import WinRateTooltip from "@/entities/user/ui/win-rate-tooltip";
@@ -12,6 +10,8 @@ import { formatDateTime } from "@/shared/lib/format-date-time";
 import { cn } from "@/shared/lib/utils";
 import Modal from "@/shared/ui/modal/modal";
 import { getGameModeTitle } from "../lib/getGameModeTitle";
+import RankInfo from "@/entities/game/ui/rank-info";
+import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 
 export default function PostDetailModal({
 	postId,
@@ -62,12 +62,20 @@ export default function PostDetailModal({
 					</p>
 					<div className="gap flex w-full">
 						<div className="w-1/2">
-							<span className="semibold-14 mb-1.5 text-gray-800">솔로랭크</span>
-							<TierLabel tier={data.soloTier} rank={data.soloRank} />
+							<RankInfo
+								tier={data.soloTier}
+								rank={data.soloRank}
+								label="솔로랭크"
+								variant={"modal"}
+							/>
 						</div>
 						<div className="w-1/2">
-							<span className="semibold-14 mb-1.5 text-gray-800">자유랭크</span>
-							<TierLabel tier={data.freeTier} rank={data.freeRank} />
+							<RankInfo
+								tier={data.freeTier}
+								rank={data.freeRank}
+								label="자유랭크"
+								variant={"modal"}
+							/>
 						</div>
 					</div>
 					{/** TODO: 재사용 컴포넌트 만들기 */}
@@ -128,21 +136,10 @@ export default function PostDetailModal({
 								</span>
 								<span className="medium-11 text-gray-500">최근 30게임</span>
 							</p>
-							{data.championStatsResponseList.length > 0 ? (
-								<ul className="flex w-full items-center justify-start gap-2">
-									{data.championStatsResponseList.map((champion) => {
-										return (
-											<li key={champion.championId}>
-												<ChampionInfo {...champion} />
-											</li>
-										);
-									})}
-								</ul>
-							) : (
-								<div className="medium-14 flex h-full items-center text-gray-400">
-									챔피언 정보가 없습니다.
-								</div>
-							)}
+							<ChampionStatsSection
+								variant="modal"
+								championList={data.championStatsResponseList}
+							/>
 						</p>
 					</div>
 					<div>

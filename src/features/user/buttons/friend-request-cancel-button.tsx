@@ -45,7 +45,7 @@ export default function FriendRequestCancelButton({
 		<Button
 			variant={"black"}
 			size="xl"
-			className="w-[218px] h-[45px] bold-14 rounded-xl"
+			className="bold-14 h-[45px] mobile:w-[218px] w-full mobile:rounded-xl rounded-[6px]"
 			onClick={() => cancelRequestMutation.mutate()}
 		>
 			친구 요청 취소

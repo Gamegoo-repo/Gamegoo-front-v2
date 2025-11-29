@@ -42,15 +42,15 @@ export default function ChampionInfo({
 	);
 	return (
 		<Tooltip content={championInfo}>
-			<div className=" flex flex-col justify-center items-center">
+			<div className="flex flex-col items-center justify-center">
 				<img
 					src={`/champion/${champion.championId}.png`}
 					alt={champion.championName}
-					className={cn("rounded-full shrink-0 w-8 h-8", imageClassName)}
+					className={cn("h-8 w-8 shrink-0 rounded-full", imageClassName)}
 				/>
 				<span
 					className={cn(
-						"text-center px-1 py-0.5 rounded-full font-bold text-[11px] -mt-1 text-white leading-none",
+						"-mt-1 rounded-full px-1 text-center font-bold text-[11px] text-white leading-none",
 						getWinRateColors(champion.winRate).bg,
 						badgeClassName,
 						isMaxWinRate && "px-0",
@@ -71,7 +71,7 @@ interface StatItemProps {
 
 function StatItem({ label, value, subText }: StatItemProps) {
 	return (
-		<dl className="w-full flex gap-5">
+		<dl className="flex w-full gap-5">
 			<dt className="bold-14 whitespace-nowrap text-gray-500">{label}</dt>
 			<dd className="bold-14 whitespace-nowrap text-gray-100">{value}</dd>
 			{subText && (

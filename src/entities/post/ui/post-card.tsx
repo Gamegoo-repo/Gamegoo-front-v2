@@ -1,17 +1,19 @@
 import { useMemo } from "react";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
 import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
-import ChampionInfo from "@/entities/game/ui/champion-info";
 import PositionCard from "@/entities/game/ui/position-card";
-import TierLabel from "@/entities/game/ui/tier-label";
 import UserProfile from "@/entities/user/ui/user-profile";
 import type { BoardListResponse } from "@/shared/api";
 import { formatDateSimple } from "@/shared/lib/format-date-simple";
 import { cn } from "@/shared/lib/utils";
+import RankInfo from "@/entities/game/ui/rank-info";
+import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
+import { Link } from "@tanstack/react-router";
 
 export default function PostCard({
 	gameName,
 	tag,
+	memberId,
 	mainP,
 	subP,
 	wantP,
@@ -38,13 +40,17 @@ export default function PostCard({
 	return (
 		<div className="flex w-full flex-col gap-4 rounded-lg bg-gray-100 p-4">
 			<div className="flex gap-2">
-				<div className="relative">
+				<Link
+					to="/users/$userId"
+					params={{ userId: (memberId || 0).toString() }}
+					className="relative"
+				>
 					<UserProfile id={profileImage} size={44} hasDropShadow />
 
 					<span className="-translate-x-1/2 absolute bottom-0 left-1/2 inline-block translate-y-2/5 rounded-full bg-black/65 px-1.5 py-[1px] font-bold text-[9px] text-violet-300">
 						LV.{mannerLevel}
 					</span>
-				</div>
+				</Link>
 				<div className="flex flex-col">
 					<p className="bold-16 text-gray-800">{gameName}</p>
 					<span className="bold-12 text-gray-500">#{tag}</span>
@@ -52,21 +58,21 @@ export default function PostCard({
 			</div>
 
 			<div className="flex w-full items-center">
-				<div className="flex items-center">
-					<span className="medium-11 text-center text-gray-500 leading-none">
-						솔로랭크
-					</span>
-					<TierLabel size="md" tier={soloTier} rank={soloRank} />
-				</div>
+				<RankInfo
+					tier={soloTier}
+					rank={soloRank}
+					label="솔로랭크"
+					variant={"card"}
+				/>
 
 				<div className="mx-3 h-3 border-gray-400 border-l" />
 
-				<div className="flex items-center">
-					<span className="medium-11 text-center text-gray-500 leading-none">
-						자유랭크
-					</span>
-					<TierLabel size="md" tier={freeTier} rank={freeRank} />
-				</div>
+				<RankInfo
+					tier={freeTier}
+					rank={freeRank}
+					label="자유랭크"
+					variant={"card"}
+				/>
 			</div>
 
 			<div className="flex w-full gap-2">
@@ -93,21 +99,10 @@ export default function PostCard({
 				</div>
 			</div>
 			<div className="flex h-fit w-full items-center gap-2">
-				<ul className="flex flex-1 gap-1.5">
-					{championStatsResponseList.length ? (
-						championStatsResponseList.map((champion) => {
-							return (
-								<li key={champion.championName}>
-									<ChampionInfo {...champion} />
-								</li>
-							);
-						})
-					) : (
-						<span className="text-gray-400 text-xs">
-							챔피언 정보가 없습니다
-						</span>
-					)}
-				</ul>
+				<ChampionStatsSection
+					championList={championStatsResponseList}
+					variant="board"
+				/>
 				<div className="flex flex-1 flex-col">
 					<span className="medium-11 text-gray-800">승률</span>
 					<span className={cn("bold-16", textColor)}>

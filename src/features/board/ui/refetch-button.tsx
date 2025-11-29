@@ -24,7 +24,7 @@ export default function RefetchButton({
 			{...props}
 		>
 			<RefreshIcon
-				className={`${isSpinning ? "animate-spin ease-in-out" : ""}`}
+				className={`${isSpinning ? "animate-[spin_1s_linear_reverse]" : ""}`}
 			/>
 		</button>
 	);

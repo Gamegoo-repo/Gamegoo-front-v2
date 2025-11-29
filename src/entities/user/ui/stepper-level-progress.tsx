@@ -15,8 +15,8 @@ export default function StepperLevelProgress({
 		<div className="progress flex w-full items-center justify-between">
 			<div
 				className={cn(
-					"progress-bar flex h-1 w-full px-5",
-					userLevel < 5 && "pr-[9px]",
+					"progress-bar flex h-[3px] mobile:h-1 w-full mobile:px-5 px-6",
+					userLevel < 5 && "mobile:pr-[9px] pr-1",
 				)}
 			>
 				<div
@@ -27,7 +27,7 @@ export default function StepperLevelProgress({
 					}}
 				/>
 				<div
-					className="h-full bg-black"
+					className="h-full bg-gray-800"
 					style={{
 						width: `${100 - progressPercent}%`,
 					}}
