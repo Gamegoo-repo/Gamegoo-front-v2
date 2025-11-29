@@ -59,9 +59,9 @@ export default function UserProfileHeader({
 	const config = HEADER_CONFIG[relationshipStatus];
 
 	return (
-		<h2 className="flex items-center gap-3 font-bold text-[34px] text-gray-800">
+		<h2 className="mb-2 tablet:mb-0 flex items-center gap-2.5 mobile:gap-3 font-bold mobile:text-[34px] text-gray-800 text-lg">
 			<button type="button" className="cursor-pointer" onClick={handleGoBack}>
-				<BackIcon />
+				<BackIcon className="mobile:w-10 w-5" />
 			</button>
 			{children}
 			<p className={`font-normal text-[22px] ${variantStyles[config.variant]}`}>
