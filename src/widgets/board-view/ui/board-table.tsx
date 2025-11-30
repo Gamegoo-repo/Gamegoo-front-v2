@@ -7,6 +7,7 @@ import type { BoardListResponse } from "@/shared/api";
 import { useAuth } from "@/shared/model/use-auth";
 import Table from "@/shared/ui/table/table";
 import { getColumns } from "../config/columns";
+import { useEffect } from "react";
 
 export default function BoardTable({
 	onRowClick,
@@ -17,9 +18,18 @@ export default function BoardTable({
 
 	const { gameMode, tier, position, mike } = useBoardFilterStore();
 
-	const { page: currentPage } = useSearch({
+	const { page: currentPage = 1 } = useSearch({
 		from: "/_header-layout/board/",
 	});
+
+	useEffect(() => {
+		const mainElement = document.querySelector("main");
+		if (mainElement) {
+			mainElement.scrollIntoView({ behavior: "smooth", block: "start" });
+		} else {
+			window.scrollTo({ top: 0, behavior: "smooth" });
+		}
+	}, []); // page가 변경될 때만 실행
 
 	/** TODO: isFetching 써도 되는지 확인하기 */
 	const { data, isFetching } = useFetchMyBlockedUsers(currentPage || 1, !!user);
@@ -34,7 +44,7 @@ export default function BoardTable({
 	});
 
 	return (
-		<div className="w-full min-w-[1055px] min-h-[500px] flex flex-col gap-15">
+		<section className="flex min-h-[500px] w-full min-w-[1055px] flex-col gap-15">
 			<Table<{ id: number } & BoardListResponse>
 				data={
 					boards
@@ -56,6 +66,6 @@ export default function BoardTable({
 			{boards && boards.length > 0 && (
 				<PaginationButtons totalPages={totalPages || 1} />
 			)}
-		</div>
+		</section>
 	);
 }
