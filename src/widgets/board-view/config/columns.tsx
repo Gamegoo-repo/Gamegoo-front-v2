@@ -26,14 +26,14 @@ export const getColumns = (options?: {
 						to={"/users/$userId"}
 						onClick={(e) => e.stopPropagation()}
 						params={{ userId: row.memberId.toString() }}
-						className="flex gap-2 items-center"
+						className="flex items-center gap-2"
 					>
 						<UserProfile id={row.profileImage} hasDropShadow={false} />
-						<div className="flex flex-col gap-0.5 flex-grow items-start">
-							<span className="inline-block text-gray-800 semibold-16 max-w-[13ch] whitespace-nowrap overflow-hidden text-ellipsis">
+						<div className="flex flex-grow flex-col items-start gap-0.5">
+							<span className="semibold-16 inline-block max-w-[13ch] overflow-hidden text-ellipsis whitespace-nowrap text-gray-800">
 								{row.gameName}
 							</span>
-							<span className="text-gray-600 regular-13">#{row.tag}</span>
+							<span className="regular-13 text-gray-600">#{row.tag}</span>
 						</div>
 					</Link>
 				);
@@ -66,7 +66,7 @@ export const getColumns = (options?: {
 		{
 			width: "17%",
 			accessor: (row) => (
-				<ul className="flex gap-2 justify-center">
+				<ul className="flex justify-center gap-2">
 					{row.championStatsResponseList?.map((champion) => {
 						return (
 							<li key={`${row.boardId}-${champion.championId}`}>
@@ -76,7 +76,7 @@ export const getColumns = (options?: {
 					})}
 					{!row.championStatsResponseList ||
 						(row.championStatsResponseList.length === 0 && (
-							<span className="medium-14 text-gray-400 text-center">
+							<span className="medium-14 text-center text-gray-400">
 								챔피언 정보가 없습니다.
 							</span>
 						))}
@@ -89,7 +89,7 @@ export const getColumns = (options?: {
 			accessor: (row) => (
 				<div
 					className={cn(
-						"bold-16 text-center inline-block w-full whitespace-nowrap min-w-max",
+						"bold-16 inline-block w-full min-w-max whitespace-nowrap text-center",
 						(row.winRate ?? 0) >= 50 ? "text-violet-600" : "text-gray-800",
 					)}
 				>
@@ -101,7 +101,7 @@ export const getColumns = (options?: {
 		{
 			width: "15%",
 			accessor: (row) => (
-				<div className="p-2 w-[156px] bg-gray-100 rounded-lg border border-gray-400 regular-13 text-gray-800 text-center">
+				<div className="regular-13 w-[156px] rounded-lg border border-gray-400 bg-gray-100 p-2 text-center text-gray-800">
 					<p className="line-clamp-2 break-words">{row.contents}</p>
 				</div>
 			),
@@ -111,7 +111,7 @@ export const getColumns = (options?: {
 			width: "8%",
 			accessor: (row) => {
 				return (
-					<div className="text-center medium-16 text-gray-500 inline-block whitespace-nowrap min-w-max w-full">
+					<div className="medium-16 inline-block w-full min-w-max whitespace-nowrap text-center text-gray-500">
 						{formatDateSimple(row.bumpTime || row.createdAt || "")}
 					</div>
 				);
@@ -126,7 +126,10 @@ export const getColumns = (options?: {
 						(user) => user.memberId === row.memberId,
 					) || false;
 				return (
-					<div className="w-full flex items-center">
+					<div
+						className="flex h-full w-full items-center"
+						onClick={(e) => e.stopPropagation()}
+					>
 						{options && (
 							<PostActionMenu
 								postId={row.boardId}

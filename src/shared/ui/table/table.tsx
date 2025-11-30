@@ -83,7 +83,7 @@ export default function Table<T extends { id: number }>({
 							{memoizedColumns.map((column) => (
 								<td
 									key={column.header}
-									className="h-[86px] px-3 pt-5 pb-3 first:pl-3 last:px-0"
+									className="h-[86px] px-3 pt-5 pb-3 first:pl-3 last:p-0"
 								>
 									{column.accessor(row)}
 								</td>
