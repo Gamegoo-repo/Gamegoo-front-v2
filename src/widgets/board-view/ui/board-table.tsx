@@ -23,13 +23,8 @@ export default function BoardTable({
 	});
 
 	useEffect(() => {
-		const mainElement = document.querySelector("main");
-		if (mainElement) {
-			mainElement.scrollIntoView({ behavior: "smooth", block: "start" });
-		} else {
-			window.scrollTo({ top: 0, behavior: "smooth" });
-		}
-	}, []); // page가 변경될 때만 실행
+		window.scrollTo({ top: 0, behavior: "instant" });
+	}, []);
 
 	/** TODO: isFetching 써도 되는지 확인하기 */
 	const { data, isFetching } = useFetchMyBlockedUsers(currentPage || 1, !!user);
