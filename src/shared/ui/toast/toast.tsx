@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ToastProps, ToastType } from "../../lib/toast/types";
+import { cn } from "@/shared/lib/utils";
 
 const renderIcon = (type: ToastType) => {
 	if (type === "confirm") return "✔️";
@@ -61,28 +62,25 @@ export function Toast({
 		<div
 			{...htmlProps}
 			onClick={handleClickToClose}
-			onKeyDown={(e) => {
-				if (e.key === "Enter" || e.key === " ") {
-					handleClickToClose();
-				}
-			}}
 			className={`-translate-x-1/2 fixed left-1/2 z-50 w-full max-w-md px-4`}
 			style={positionStyle}
 		>
 			<div
-				className={`flex items-center justify-between gap-2 rounded-2xl bg-gray-800 px-4 py-3 text-white shadow-lg transition-all duration-500 ${isVisible ? "animate-fade-in-y" : "animate-fade-out-y"}
-        `}
+				className={cn(
+					"flex items-center justify-between gap-2 rounded-2xl bg-gray-800 px-4 py-3 text-white shadow-lg transition-all duration-500",
+					isVisible ? "animate-fade-in-y" : "animate-fade-out-y",
+				)}
 			>
 				{/* 왼쪽: 아이콘 + 메시지 */}
 				<div className="flex flex-1 items-center gap-2">
 					{renderIcon(type) && (
 						<span className="text-xl">{renderIcon(type)}</span>
 					)}
-					<span className="texflex-1 t-sm wce-pre-line font-medium">
+					<span className="whitespace-pre-line font-medium text-sm">
 						{message}
 					</span>
 				</div>
-				whitespace-prelinetextsm
+
 				{/* 오른쪽: 되돌리기 버튼 */}
 				{onUndo && (
 					<button
