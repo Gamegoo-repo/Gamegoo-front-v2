@@ -1,5 +1,16 @@
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { type ChatMessage, useChatDialogStore } from "@/entities/chat";
+import {
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
+import {
+	type ChatMessage,
+	useChatDialogStore,
+	useChatStore,
+} from "@/entities/chat";
 import {
 	deduplicateMessages,
 	formatMessageDate,
@@ -9,6 +20,7 @@ import {
 	useChatMessage,
 	useChatroomSocket,
 	useEnterChatroom,
+	useReadChatMessage,
 } from "@/features/chat";
 import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
 import {
@@ -44,6 +56,8 @@ const Chatroom = () => {
 		isLoading: isEntering,
 		error: enterError,
 	} = useEnterChatroom(chatroomUuid);
+	const { resetUnreadCount } = useChatStore();
+	const { mutate: readMessage } = useReadChatMessage();
 
 	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
 	const opponentId = enterData?.data?.memberId;
@@ -60,6 +74,13 @@ const Chatroom = () => {
 		setIsUserScrolling(false);
 		setPreviousMessageCount(0);
 	}, [chatroomUuid]);
+
+	useEffect(() => {
+		if (!chatroomUuid) return;
+		if (!enterData) return;
+		resetUnreadCount(chatroomUuid);
+		readMessage({ chatroomUuid });
+	}, [chatroomUuid, enterData]);
 
 	const renderMessage = useCallback(
 		(message: ChatMessage, index: number) => {
@@ -91,14 +112,23 @@ const Chatroom = () => {
 						</div>,
 					);
 				} else {
-					elements.push(
-						<div key={key} data-message-index={index}>
-							<ChatroomSystemMessage
-								message={message.message || ""}
-								href={message.boardId ? `/board/${message.boardId}` : undefined}
-							/>
-						</div>,
-					);
+					const mySystemFlag = (
+						enterData?.data as unknown as { system?: { flag?: number } }
+					)?.system?.flag;
+					const isBoardEntrySystem = message.systemType === 0;
+
+					if (isBoardEntrySystem && mySystemFlag === 1) {
+						elements.push(
+							<div key={key} data-message-index={index}>
+								<ChatroomSystemMessage
+									message={message.message || ""}
+									href={
+										message.boardId ? `/board/${message.boardId}` : undefined
+									}
+								/>
+							</div>,
+						);
+					}
 				}
 			} else if (isMyMessage) {
 				elements.push(

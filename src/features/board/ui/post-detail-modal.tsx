@@ -1,4 +1,7 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
+import { useChatStore } from "@/entities/chat";
+import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
 import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
 import ChampionInfo from "@/entities/game/ui/champion-info";
@@ -7,6 +10,8 @@ import { getGameStyle } from "@/entities/post/lib/get-game-style";
 import { usePostDetail } from "@/entities/post/model/use-post-detail";
 import WinRateTooltip from "@/entities/user/ui/win-rate-tooltip";
 import InteractiveUserProfileCard from "@/features/user/interactive-user-profile-card";
+import type { ChatroomResponse } from "@/shared/api";
+import { api } from "@/shared/api";
 import CheckIcon from "@/shared/assets/icons/ic-check.svg?react";
 import { formatDateTime } from "@/shared/lib/format-date-time";
 import { cn } from "@/shared/lib/utils";
@@ -22,6 +27,15 @@ export default function PostDetailModal({
 }) {
 	const { isPending, data, isError, error } = usePostDetail(postId);
 	const modalRef = useRef<HTMLDivElement>(null);
+	const {
+		setChatroom,
+		setChatDialogType,
+		openDialog,
+		setSystemData,
+		clearSystemData,
+	} = useChatDialogStore();
+	const queryClient = useQueryClient();
+	const { updateChatroom } = useChatStore();
 
 	if (isPending) {
 		return "로딩 중...";
@@ -45,7 +59,12 @@ export default function PostDetailModal({
 	);
 
 	return (
-		<Modal isOpen={true} onClose={onClose} className="w-[555px]" ref={modalRef}>
+		<Modal
+			isOpen={true}
+			onClose={onClose}
+			className="w-[555px]"
+			contentRef={modalRef}
+		>
 			<div className="flex flex-col gap-5">
 				{/* MODAL-CONTENT */}
 				<section className="flex flex-col gap-[30px]">
@@ -199,8 +218,60 @@ export default function PostDetailModal({
 				{/* MODAL-ACTION */}
 				<section className="modal-actions">
 					<button
-						onClick={() => {
-							console.log("말 걸어보기!");
+						onClick={async () => {
+							try {
+								const response =
+									await api.private.chat.startChatroomByBoardId(postId);
+								const chatroomData = response.data?.data;
+
+								if (chatroomData?.uuid) {
+									if (chatroomData.system) {
+										setSystemData({
+											flag: chatroomData.system.flag,
+											boardId: chatroomData.system.boardId,
+										});
+									} else {
+										clearSystemData();
+									}
+									const chatroom: ChatroomResponse = {
+										chatroomId: 0,
+										uuid: chatroomData.uuid,
+										targetMemberId: chatroomData.memberId,
+										targetMemberName: chatroomData.gameName,
+										targetMemberImg: chatroomData.memberProfileImg,
+										friend: chatroomData.friend,
+										blocked: chatroomData.blocked,
+										blind: chatroomData.blind,
+										notReadMsgCnt: 0,
+										friendRequestMemberId:
+											chatroomData.friendRequestMemberId || 0,
+										lastMsg: "",
+										lastMsgAt: "",
+										lastMsgTimestamp: 0,
+									};
+									// Preload enter data to ensure system flag is available before first send
+									await queryClient.prefetchQuery({
+										queryKey: ["enter-chatroom", chatroom.uuid],
+										queryFn: async () => {
+											const enterRes = await api.private.chat.enterChatroom(
+												chatroom.uuid,
+											);
+											return enterRes.data;
+										},
+									});
+									// Optimistically update chatroom list and trigger server refetch
+									updateChatroom(chatroom);
+									void queryClient.invalidateQueries({
+										queryKey: ["chatrooms"],
+									});
+									setChatroom(chatroom);
+									setChatDialogType("chatroom");
+									openDialog();
+									onClose();
+								}
+							} catch (e) {
+								console.error("채팅방 시작 실패:", e);
+							}
 						}}
 						type="button"
 						className="primary-btn w-full py-[18px] disabled:bg-gray-400"

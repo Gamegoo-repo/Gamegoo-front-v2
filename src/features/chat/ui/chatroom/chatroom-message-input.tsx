@@ -15,7 +15,13 @@ const ChatroomMessageInput = () => {
 	const chatroomUuid = chatroom?.uuid;
 	const isBlocked = chatroom?.blocked;
 	const isBlind = chatroom?.blind;
-	const systemData: SystemData | undefined = enterData?.data?.system;
+	// Prefer system data from dialog store (set on startChatroomByBoardId), fallback to enter response
+	const systemDataFromStore: SystemData | undefined = useChatDialogStore(
+		(state) => state.systemData,
+	);
+	const clearSystemData = useChatDialogStore((state) => state.clearSystemData);
+	const systemData: SystemData | undefined =
+		systemDataFromStore || (enterData?.data?.system as SystemData | undefined);
 
 	useEffect(() => {
 		setIsSystemMsgSent(false);
@@ -51,6 +57,7 @@ const ChatroomMessageInput = () => {
 			system?: SystemData;
 		};
 
+		let includedSystem = false;
 		if (systemData) {
 			if (!isSystemMsgSent) {
 				emitData = {
@@ -59,6 +66,7 @@ const ChatroomMessageInput = () => {
 					system: systemData,
 				};
 				setIsSystemMsgSent(true);
+				includedSystem = true;
 			} else {
 				emitData = {
 					uuid: chatroomUuid,
@@ -75,6 +83,9 @@ const ChatroomMessageInput = () => {
 		sendMessage(emitData, {
 			onSuccess: () => {
 				setMessage("");
+				if (includedSystem) {
+					clearSystemData();
+				}
 			},
 			onError: (error) => {
 				console.error("Failed to send message:", error);

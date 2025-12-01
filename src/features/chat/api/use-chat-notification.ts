@@ -27,7 +27,6 @@ export const useChatNotifications = () => {
 		},
 	);
 
-	// 읽지 않은 메시지
 	useSocketMessage(
 		"unread_count_update",
 		({ chatroomUuid, count }: { chatroomUuid: string; count: number }) => {
