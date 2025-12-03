@@ -1,55 +1,62 @@
 import type { ReactNode } from "react";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
-import ChampionInfo from "@/entities/game/ui/champion-info";
 import PositionCard from "@/entities/game/ui/position-card";
 import RankInfo from "@/entities/game/ui/rank-info";
 import UserProfile from "@/entities/user/ui/user-profile";
 import type { OtherProfileResponse } from "@/shared/api";
 import MikeTag from "@/shared/ui/mike-tag";
+import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 
 export default function UserProfileCard({
 	data,
-	actions,
+	menu,
+	button,
 }: {
 	data: OtherProfileResponse;
-	actions?: ReactNode;
+	menu?: ReactNode;
+	button?: ReactNode;
 }) {
 	const wantPositions = data.wantP.map((pos) => getPositionIcon(pos));
 	const subPosition = getPositionIcon(data.subP);
 	const mainPosition = getPositionIcon(data.mainP);
 
 	return (
-		<div className="w-full bg-gray-100 rounded-[30px] flex p-10 gap-[62px]">
+		<div className="flex w-full gap-[62px] rounded-[30px] bg-gray-100 p-10">
 			<UserProfile id={data.profileImg} size={186} hasDropShadow />
-			<div className="flex-1 flex flex-col gap-8">
-				<div className="w-full flex items-center gap-3">
-					<h3 className="text-gray-800 bold-32 flex items-center gap-1.5">
+			<div className="flex flex-1 flex-col gap-8">
+				<div className="flex w-full items-center gap-3">
+					<h3 className="bold-32 flex items-center gap-1.5 text-gray-800">
 						{data.gameName}
-						<span className="text-gray-500 bold-20">#{data.tag}</span>
+						<span className="bold-20 text-gray-500">#{data.tag}</span>
 					</h3>
 					<MikeTag
-						className="semibold-16 pl-2 pr-2.5 py-0"
+						className="semibold-16 py-0 pr-2.5 pl-2"
 						isMikeAvailable={data.mike === "AVAILABLE"}
 					/>
 
-					<div className="ml-auto">{actions}</div>
+					<div className="ml-auto">
+						<div className="flex items-center gap-3">
+							{button}
+							{menu}
+						</div>
+					</div>
 				</div>
-				<div className="w-full flex gap-3">
+				<div className="flex w-full gap-2 mobile:gap-3">
 					<RankInfo
 						label="솔로랭크"
 						tier={data.soloTier}
 						rank={data.soloRank}
-						tierClassName="bold-25"
+						variant={"profile"}
 					/>
 					<RankInfo
 						label="자유랭크"
 						tier={data.freeTier}
 						rank={data.freeRank}
-						tierClassName="bold-25"
+						variant={"profile"}
 					/>
 				</div>
 				<div className="flex gap-3">
-					<div className="bg-white rounded-[10px] px-5 pt-4 pb-3 flex gap-4 justify-center w-[200px]">
+					<div className="flex w-[200px] justify-center gap-4 rounded-[10px] bg-white px-5 pt-4 pb-3">
 						<PositionCard
 							className="medium-16 gap-1"
 							title={"주포지션"}
@@ -62,7 +69,7 @@ export default function UserProfileCard({
 						/>
 					</div>
 
-					<div className="bg-white rounded-[10px] px-5 pt-4 pb-3 flex gap-4 justify-center w-[200px]">
+					<div className="flex w-[200px] justify-center gap-4 rounded-[10px] bg-white px-5 pt-4 pb-3">
 						<PositionCard
 							title={"내가 찾는 포지션"}
 							className="medium-16 gap-1"
@@ -72,34 +79,23 @@ export default function UserProfileCard({
 						/>
 					</div>
 
-					<div className="flex flex-col gap-1.5 ml-6">
-						<span className="text-gray-600 semibold-14">최근 선호 챔피언</span>
-						{data.championStatsResponseList.length ? (
-							<ul className="flex gap-2">
-								{data.championStatsResponseList.map((champion) => (
-									<ChampionInfo
-										key={champion.championId}
-										{...champion}
-										badgeClassName="text-sm min-w-[39px]"
-										imageClassName="w-12 h-12"
-									/>
-								))}
-							</ul>
-						) : (
-							<span className="medium-14 text-gray-400">
-								챔피언 정보가 없습니다
-							</span>
-						)}
+					<div className="ml-6 flex flex-col gap-1.5">
+						<span className="semibold-14 text-gray-600">최근 선호 챔피언</span>
+
+						<ChampionStatsSection
+							championList={data.championStatsResponseList}
+							variant="profile"
+						/>
 					</div>
 				</div>
-				<div className="w-full flex flex-col gap-2">
-					<span className="text-gray-600 medium-14">게임 스타일</span>
+				<div className="flex w-full flex-col gap-2">
+					<span className="medium-14 text-gray-600">게임 스타일</span>
 					{data.gameStyleResponseList.length ? (
 						<ul className="flex gap-2">
 							{data.gameStyleResponseList.map((style) => (
 								<li
 									key={style.gameStyleName}
-									className="bg-white text-gray-700 semibold-16 px-5 py-1.5 rounded-full"
+									className="semibold-16 rounded-full bg-white px-5 py-1.5 text-gray-700"
 								>
 									{style.gameStyleName}
 								</li>

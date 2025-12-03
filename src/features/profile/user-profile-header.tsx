@@ -59,14 +59,18 @@ export default function UserProfileHeader({
 	const config = HEADER_CONFIG[relationshipStatus];
 
 	return (
-		<h2 className="flex items-center gap-3 font-bold text-[34px] text-gray-800">
-			<button type="button" className="cursor-pointer" onClick={handleGoBack}>
-				<BackIcon />
-			</button>
-			{children}
-			<p className={`font-normal text-[22px] ${variantStyles[config.variant]}`}>
-				{config.description}
-			</p>
-		</h2>
+		<header className="mb-2 tablet:mb-0 flex font-bold mobile:text-[34px] text-gray-800 text-lg">
+			<div className="flex flex-wrap items-center mobile:gap-3 gap-x-2.5 gap-y-1">
+				<button type="button" className="cursor-pointer" onClick={handleGoBack}>
+					<BackIcon className="mobile:w-10 w-5" />
+				</button>
+				<h2 className="whitespace-nowrap">{children}</h2>
+				<p
+					className={`whitespace-nowrap font-normal mobile:text-[22px] text-xs ${variantStyles[config.variant]}`}
+				>
+					{config.description}
+				</p>
+			</div>
+		</header>
 	);
 }

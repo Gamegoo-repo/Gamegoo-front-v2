@@ -12,8 +12,8 @@ export default function MannerLevelCard({
 	userMannerLevelData: MannerResponse;
 }) {
 	return (
-		<section className="w-full">
-			<h3 className="text-gray-800 regular-25 mb-2">
+		<section className="flex h-full w-full flex-col">
+			<h3 className="mb-2 font-semibold mobile:text-2xl text-gray-800 text-lg">
 				{userProfile.gameName}님의 매너레벨
 				<InfoTooltip
 					title={"매너레벨"}
@@ -23,10 +23,10 @@ export default function MannerLevelCard({
         너평가를 반영한 지표예요. "
 				/>
 			</h3>
-			<div className="w-full bg-gray-100 rounded-[30px] px-[26px] py-6 h-[264px] flex flex-col justify-between">
-				<p className="text-gray-800 text-[1rem] font-medium">
+			<div className="flex h-fit mobile:h-full w-full flex-col justify-between gap-12 mobile:gap-32 mobile:rounded-[30px] rounded-lg bg-gray-100 p-5 mobile:px-[26px] py-6">
+				<p className="font-medium mobile:font-medium mobile:text-base text-gray-800 text-sm">
 					최근{" "}
-					<span className="text-violet-600 bold-16">
+					<span className="font-bold text-violet-600">
 						{userMannerLevelData?.mannerRatingCount}명의
 					</span>{" "}
 					사용자가 {userProfile.gameName}님에게 긍정적 매너 평가를 남겼어요.
