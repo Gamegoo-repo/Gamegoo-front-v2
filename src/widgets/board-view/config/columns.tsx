@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import ChampionInfo from "@/entities/game/ui/champion-info";
 import TierBadge from "@/entities/game/ui/tier-badge";
 import MannerLevelBadge from "@/entities/user/ui/manner-level-badge";
 import UserProfile from "@/entities/user/ui/user-profile";
@@ -12,6 +11,7 @@ import type { Column } from "@/shared/ui/table/table";
 import SearchingPosition from "../ui/searching-positions";
 import UserPositions from "../ui/user-positions";
 import CopyRiotIdButton from "@/features/board/ui/copy-riot-id-button";
+import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 
 export const getColumns = (options?: {
 	user: UserStore;
@@ -73,21 +73,10 @@ export const getColumns = (options?: {
 		{
 			width: "17%",
 			accessor: (row) => (
-				<ul className="flex justify-center gap-2">
-					{row.championStatsResponseList?.map((champion) => {
-						return (
-							<li key={`${row.boardId}-${champion.championId}`}>
-								<ChampionInfo {...champion} badgeClassName="w-[31px]" />
-							</li>
-						);
-					})}
-					{!row.championStatsResponseList ||
-						(row.championStatsResponseList.length === 0 && (
-							<span className="medium-14 text-center text-gray-400">
-								챔피언 정보가 없습니다.
-							</span>
-						))}
-				</ul>
+				<ChampionStatsSection
+					championList={row.championStatsResponseList}
+					variant="board"
+				/>
 			),
 			header: "최근 선호 챔피언",
 		},

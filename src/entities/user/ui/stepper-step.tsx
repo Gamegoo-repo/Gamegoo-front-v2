@@ -20,7 +20,7 @@ export default function StepperStep({
 			<div className="relative flex flex-col">
 				<CheckedStepItem key={currentLevel} level={currentLevel}>
 					<div
-						className="bold-11 -top-14 -translate-y-[100%] absolute flex flex-col items-center text-nowrap"
+						className="-top-5 mobile:-top-14 -translate-y-[100%] absolute flex flex-col items-center gap-1 text-nowrap font-bold mobile:text-xs text-[9px]"
 						style={{
 							color:
 								currentLevel > 3
@@ -60,13 +60,13 @@ const CheckedStepItem = ({
 }) => {
 	return (
 		<li className="relative flex flex-col items-center justify-center">
-			<LevelText level={level} />
 			{children}
+			<LevelText level={level} />
 			<div
-				className="flex h-10 w-10 items-center justify-center rounded-full"
+				className="flex h-6 mobile:h-10 mobile:w-10 w-6 items-center justify-center rounded-full"
 				style={{ backgroundColor: STEPPER_COLORS[level - 1] }}
 			>
-				<CheckIcon />
+				<CheckIcon className="mobile:w-[22px] w-[14px]" />
 			</div>
 		</li>
 	);
@@ -75,17 +75,17 @@ const CheckedStepItem = ({
 const UnCheckedStepItem = ({ level }: { level: number }) => {
 	return (
 		<li className="relative flex flex-col items-center justify-center">
-			<span className="bold-14 -top-2 -translate-y-[100%] absolute inline-block text-nowrap text-gray-800">
+			<span className="-translate-y-[100%] mobile:-top-2 mobile:-translate-y-[100%] absolute top-0 inline-block text-nowrap font-medium mobile:font-bold mobile:text-sm text-[9px] text-gray-800">
 				Lv {level}
 			</span>
-			<div className="flex h-[20px] w-[20px] shrink-0 items-center justify-center rounded-full border-[5px] border-gray-800 bg-gray-100 p-0.5" />
+			<div className="flex h-[15px] mobile:h-[20px] mobile:w-[20px] w-[15px] shrink-0 items-center justify-center rounded-full border-4 border-gray-800 mobile:border-[5px] bg-gray-100 mobile:p-0.5" />
 		</li>
 	);
 };
 
 const LevelText = ({ level }: { level: number }) => {
 	return (
-		<span className="bold-14 -top-2 -translate-y-[100%] absolute text-violet-400">
+		<span className="-translate-y-[100%] mobile:-top-2 mobile:-translate-y-[100%] absolute top-0 font-medium mobile:font-bold mobile:text-sm text-[9px] text-violet-400">
 			Lv {level}
 		</span>
 	);

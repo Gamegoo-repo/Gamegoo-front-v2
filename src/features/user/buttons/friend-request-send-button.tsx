@@ -51,7 +51,7 @@ export default function FriendRequestSendButton({
 		<Button
 			variant={"black"}
 			size="xl"
-			className="w-[218px] h-[45px] bold-14 rounded-xl"
+			className="bold-14 h-[45px] mobile:w-[218px] w-full mobile:rounded-xl rounded-[6px]"
 			onClick={() => addFriendMutation.mutate()}
 		>
 			친구 추가

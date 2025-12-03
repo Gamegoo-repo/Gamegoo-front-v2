@@ -42,7 +42,7 @@ export default function FriendDeleteButton({ userId }: { userId: number }) {
 		<Button
 			variant={"warning"}
 			size="xl"
-			className="bold-14 h-[45px] w-[218px] rounded-xl"
+			className="bold-14 h-[45px] mobile:w-[218px] w-full mobile:rounded-xl rounded-[6px]"
 			onClick={() => deleteFriendMutation.mutate()}
 		>
 			삭제
