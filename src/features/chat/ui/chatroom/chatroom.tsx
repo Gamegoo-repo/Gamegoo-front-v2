@@ -22,6 +22,8 @@ import {
 	useEnterChatroom,
 	useReadChatMessage,
 } from "@/features/chat";
+import MannerEvaluationModal from "@/features/manner/ui/manner-evaluation-modal";
+import MannerSelectModal from "@/features/manner/ui/manner-select-modal";
 import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
 import {
 	ChatroomDateDivider,
@@ -40,6 +42,11 @@ const Chatroom = () => {
 	const [isUserScrolling, setIsUserScrolling] = useState(false);
 	const [hasInitiallyScrolled, setHasInitiallyScrolled] = useState(false);
 	const [previousMessageCount, setPreviousMessageCount] = useState(0);
+	const [isMannerSelectOpen, setIsMannerSelectOpen] = useState(false);
+	const [isMannerEvalOpen, setIsMannerEvalOpen] = useState(false);
+	const [mannerType, setMannerType] = useState<"manner" | "badManner">(
+		"manner",
+	);
 
 	const {
 		messages: apiMessages,
@@ -108,7 +115,11 @@ const Chatroom = () => {
 				if (message.systemType === 5) {
 					elements.push(
 						<div key={key} data-message-index={index}>
-							<ChatroomFeedbackMessage onEvaluate={() => {}} />
+							<ChatroomFeedbackMessage
+								onEvaluate={() => {
+									setIsMannerSelectOpen(true);
+								}}
+							/>
 						</div>,
 					);
 				} else {
@@ -246,14 +257,10 @@ const Chatroom = () => {
 	}
 
 	return (
-		<div className="flex flex-col h-full">
+		<div className="flex flex-col h-[calc(var(--dialog-height)-var(--chatroom-header-height)-var(--chatroom-input-height))]">
 			<div
 				ref={scrollContainerRef}
 				className="flex-1 flex flex-col px-2 overflow-y-auto min-h-0 scrollbar-hide"
-				style={{
-					paddingBottom:
-						"calc(var(--chatroom-input-height) + var(--chatroom-header-height))",
-				}}
 				onScroll={handleScroll}
 			>
 				{allMessages.length === 0 ? (
@@ -282,6 +289,22 @@ const Chatroom = () => {
 			<div className="absolute bottom-0 left-0 right-0">
 				<ChatroomMessageInput />
 			</div>
+			{/* Manner Select Modal */}
+			<MannerSelectModal
+				isOpen={isMannerSelectOpen}
+				onClose={() => setIsMannerSelectOpen(false)}
+				onConfirm={(type) => {
+					setMannerType(type);
+					setIsMannerEvalOpen(true);
+				}}
+			/>
+			{/* Manner Evaluation Modal */}
+			<MannerEvaluationModal
+				isOpen={isMannerEvalOpen}
+				onClose={() => setIsMannerEvalOpen(false)}
+				memberId={opponentId}
+				type={mannerType}
+			/>
 		</div>
 	);
 };
