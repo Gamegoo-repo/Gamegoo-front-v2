@@ -5,8 +5,6 @@ import { getGameModeTitle } from "@/features/board/lib/getGameModeTitle";
 import GameStylePopover from "@/features/board/ui/game-style-popover";
 import PositionSelector from "@/features/board/ui/position-selector";
 import type { GameMode, MyProfileResponse, Position } from "@/shared/api";
-import { socketManager } from "@/shared/api/socket";
-import { Button } from "@/shared/ui";
 import CloseButton from "@/shared/ui/button/close-button";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import { Switch } from "@/shared/ui/toggle-switch/switch";
@@ -116,37 +114,6 @@ export default function PreciseProfileForm({
 		});
 	};
 
-	const handleMatchStart = () => {
-		if (!socketManager.connected) {
-			console.error("Socket is not connected.");
-			return;
-		}
-
-		funnel.toStep("match-start", {
-			profile: {
-				mike: currentMike,
-				mainP: currentProfile.mainP || user?.mainP || undefined,
-				subP: currentProfile.subP || user?.subP || undefined,
-				wantP: currentProfile.wantP || user?.wantP || undefined,
-				gameStyleResponseList:
-					selectedGameStyleIds
-						.map((id) => {
-							const style = GAME_STYLE.find((s) => s.gameStyleId === id);
-							return style
-								? {
-										gameStyleId: style.gameStyleId,
-										gameStyleName: style.gameStyleName,
-									}
-								: null;
-						})
-						.filter(
-							(item): item is { gameStyleId: number; gameStyleName: string } =>
-								item !== null,
-						) || undefined,
-			},
-			gameMode: currentGameMode || null,
-		});
-	};
 
 	return (
 		<>
@@ -252,15 +219,6 @@ export default function PreciseProfileForm({
 					checked={currentMike === "AVAILABLE"}
 					onCheckedChange={handleMikeChange}
 				/>
-			</div>
-			<div className="flex justify-end w-full mt-4">
-				<Button
-					variant="default"
-					className="h-14 w-[380px] rounded-2xl px-8"
-					onClick={handleMatchStart}
-				>
-					매칭 시작하기
-				</Button>
 			</div>
 		</>
 	);

@@ -315,13 +315,17 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				subtitle="나와 꼭 맞는 상대를 찾는 중..."
 				onBack={handleBack}
 			/>
-			<div className="flex justify-center p-10 items-center h-fit gap-[59px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
-				<MatchStartProfile user={authUser} />
-				<MatchLoadingCard
-					timeLeft={timeLeft}
-					tierCounts={tierCounts}
-					userTier={authUser?.soloTier ?? "UNRANKED"}
-				/>
+			<div className="w-full flex justify-center items-center pt-[110px] mobile:pt-0">
+				<div className="max-w-[1440px] w-full px-[80px] pt-[60px] mobile:px-[20px] mobile:pt-[24px]">
+					<div className="flex justify-center items-center w-full gap-[59px] mt-[72px] mb-[150px] max-[1300px]:flex-col max-[1300px]:gap-[40px] mobile:mt-[15px]">
+						<MatchStartProfile user={authUser} />
+						<MatchLoadingCard
+							timeLeft={timeLeft}
+							tierCounts={tierCounts}
+							userTier={authUser?.soloTier ?? "UNRANKED"}
+						/>
+					</div>
+				</div>
 			</div>
 		</>
 	);
