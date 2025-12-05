@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ToastProps, ToastType } from "../../lib/toast/types";
 import { cn } from "@/shared/lib/utils";
+import WaringIcon from "@/shared/assets/icons/toast/warning-ic.svg?react";
+import ConfirmIcon from "@/shared/assets/icons/toast/confirm-ic.svg?react";
 
 const renderIcon = (type: ToastType) => {
-	if (type === "confirm") return "✔️";
-	if (type === "error") return "❌";
+	if (type === "confirm") return <ConfirmIcon />;
+	if (type === "error") return <WaringIcon />;
 	return null;
 };
 
@@ -67,8 +69,12 @@ export function Toast({
 		>
 			<div
 				className={cn(
-					"flex items-center justify-between gap-2 rounded-2xl bg-gray-800 px-4 py-3 text-white shadow-lg transition-all duration-500",
+					"flex items-center justify-between gap-2 rounded-xl border px-6 py-3 font-bold text-base shadow-lg transition-all duration-500",
 					isVisible ? "animate-fade-in-y" : "animate-fade-out-y",
+					type === "error" &&
+						"border-red-600 bg-red-100 text-red-600 shadow-[3px_3px_6px_0_rgba(255,82,82,0.4)]",
+					type === "confirm" &&
+						"border-violet-600 bg-violet-100 text-violet-600 shadow-[3px_3px_6px_0_rgba(90,66,238,0.50)]",
 				)}
 			>
 				{/* 왼쪽: 아이콘 + 메시지 */}
