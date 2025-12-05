@@ -3,6 +3,7 @@ import { userKeys } from "@/entities/user/config/query-keys";
 import { api, type OtherProfileResponse } from "@/shared/api";
 import { queryClient } from "@/shared/lib/query-client";
 import { Button } from "@/shared/ui";
+import { toast } from "@/shared/lib/toast";
 
 export default function FriendRequestDeclineButton({
 	userId,
@@ -30,12 +31,10 @@ export default function FriendRequestDeclineButton({
 		onError: (err, _, context) => {
 			console.log(err);
 			queryClient.setQueryData(userKeys.profile(userId), context?.previous);
-			// toast.error("요청 취소 실패");
-			alert("친구 요청 거절 실패");
+			toast.error("친구 요청 거절에 실패했습니다.");
 		},
 		onSuccess: () => {
-			// toast.success("친구 요청을 취소했습니다");
-			alert("친구 요청을 거절했습니다.");
+			toast.confirm("친구 요청을 거절했습니다.");
 		},
 		onSettled: () => {
 			// 프로필 쿼리 갱신

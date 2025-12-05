@@ -6,6 +6,7 @@ import {
 import { api } from "@/shared/api";
 import { queryClient } from "@/shared/lib/query-client";
 import { boardKeys } from "../api/query-keys";
+import { toast } from "@/shared/lib/toast";
 
 interface PostDeleteMenuItemProps {
 	postId: number;
@@ -24,11 +25,10 @@ export function PostDeleteMenuItem({
 		onSuccess: () => {
 			/** TODO: 쿼리 무효화 all로 해도 되는게 맞을지? */
 			queryClient.invalidateQueries({ queryKey: boardKeys.all });
-			alert("게시물을 삭제했습니다.");
+			toast.confirm("게시물을 삭제했습니다.");
 		},
-		onError: (error) => {
-			// alert("게시물을 삭제에 실패했습니다.");
-			console.log(error);
+		onError: (_error) => {
+			toast.error("게시물을 삭제하지 못했습니다.");
 		},
 	});
 

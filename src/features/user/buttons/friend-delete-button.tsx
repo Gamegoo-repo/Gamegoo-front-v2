@@ -3,6 +3,7 @@ import { userKeys } from "@/entities/user/config/query-keys";
 import { api, type OtherProfileResponse } from "@/shared/api";
 import { queryClient } from "@/shared/lib/query-client";
 import { Button } from "@/shared/ui";
+import { toast } from "@/shared/lib/toast";
 
 export default function FriendDeleteButton({ userId }: { userId: number }) {
 	const deleteFriendMutation = useMutation({
@@ -27,10 +28,10 @@ export default function FriendDeleteButton({ userId }: { userId: number }) {
 			console.error(err.message);
 			// 롤백
 			queryClient.setQueryData(userKeys.profile(userId), context?.previous);
-			alert("친구 취소 실패");
+			toast.error("친구 목록에서 제거하는 데 실패했습니다.");
 		},
 		onSuccess: () => {
-			alert("친구 목록에서 제거하였습니다.");
+			toast.confirm("친구 목록에서 제거하였습니다.");
 		},
 		onSettled: () => {
 			queryClient.invalidateQueries({
