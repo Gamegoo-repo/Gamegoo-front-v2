@@ -2,7 +2,10 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import { useLoginRequiredModalStore } from "@/features/auth";
+import {
+	LoginRequiredModal,
+	useLoginRequiredModalStore,
+} from "@/features/auth";
 import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-update-handler";
 import { tokenManager } from "@/shared/api";
 import { ResponsiveProvider } from "@/shared/model/responsive-context";
@@ -46,6 +49,7 @@ function RootLayout() {
 						<Outlet />
 						<FloatingChatButton onClick={handleChatButtonClick} />
 						<FloatingChatDialog />
+						<LoginRequiredModal />
 						<TanStackRouterDevtools />
 					</ResponsiveProvider>
 				</ConfirmDialogProvider>

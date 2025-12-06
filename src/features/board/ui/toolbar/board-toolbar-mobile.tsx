@@ -14,6 +14,7 @@ import CreatePostButton from "../create-post-button";
 import RefetchButton from "../refetch-button";
 import PositionButtons from "./position-buttons";
 import BumpButton from "../bump-button";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 
 export default function BoardToolbarMobile({
 	handleOpenCreateModal,
@@ -31,6 +32,8 @@ export default function BoardToolbarMobile({
 
 	const { gameMode, tier, mike, setFilter } = useBoardFilterStore();
 
+	const handleOpenModal = useAuthenticatedAction(handleOpenCreateModal);
+
 	return (
 		<div className="mt-3 flex w-full flex-col">
 			<div className="mb-3 flex w-full flex-row items-center justify-between px-5">
@@ -38,7 +41,7 @@ export default function BoardToolbarMobile({
 
 				<div className="flex h-[38px] items-center gap-2">
 					<BumpButton />
-					<CreatePostButton onClick={handleOpenCreateModal} />
+					<CreatePostButton onClick={handleOpenModal} />
 				</div>
 			</div>
 			<div className="mb-2 grid w-full grid-cols-[1fr_auto] grid-rows-1 gap-x-2 px-5">

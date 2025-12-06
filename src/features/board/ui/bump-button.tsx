@@ -2,11 +2,14 @@ import type { ButtonHTMLAttributes } from "react";
 import HoistingIcon from "@/shared/assets/icons/ic-hoisting.svg?react";
 import { cn } from "@/shared/lib/utils";
 import { useBumpPost } from "../api/use-bump-post";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 
 interface BumpButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export default function BumpButton({ className, ...props }: BumpButtonProps) {
 	const { mutate, isPending } = useBumpPost();
+
+	const handleBumpPost = useAuthenticatedAction(mutate);
 
 	return (
 		<button
@@ -21,7 +24,7 @@ export default function BumpButton({ className, ...props }: BumpButtonProps) {
 				className,
 			)}
 			{...props}
-			onClick={() => mutate()}
+			onClick={() => handleBumpPost()}
 		>
 			<HoistingIcon className="h-3.5 mobile:h-3 mobile:w-3 w-3.5 mobile:text-violet-600 text-white" />
 			<span className="bold-14 mobile:block hidden bg-gradient-to-r from-violet-600 to-[#E02FC8] mobile:bg-clip-text mobile:text-transparent">
