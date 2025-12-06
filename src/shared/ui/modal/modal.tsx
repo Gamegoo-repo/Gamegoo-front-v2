@@ -1,6 +1,7 @@
 import { type ReactNode, useEffect, useRef } from "react";
 import { cn } from "@/shared/lib/utils";
 import CloseButton from "../button/close-button";
+import { createPortal } from "react-dom";
 
 export default function Modal({
 	className,
@@ -8,16 +9,16 @@ export default function Modal({
 	children,
 	onClose,
 	contentRef,
-	hideCloseButton = false,
-	closeOnBackdrop = true,
+	hasCloseButton = true,
+	isBackdropClosable = true,
 }: {
 	className?: string;
 	isOpen: boolean;
+	isBackdropClosable?: boolean;
 	children?: ReactNode;
 	onClose: () => void;
 	contentRef?: React.RefObject<HTMLDivElement | null>;
-	hideCloseButton?: boolean;
-	closeOnBackdrop?: boolean;
+	hasCloseButton?: boolean;
 }) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -29,23 +30,20 @@ export default function Modal({
 		}
 
 		if (isOpen) {
-			// lock scroll
 			document.body.style.cssText = `
-    position: fixed; 
-    top: -${window.scrollY}px;
-    overflow-y: scroll;	
-    width: 100%;`;
+				position: fixed; 
+				top: -${window.scrollY}px;
+				overflow-y: scroll;	
+				width: 100%;
+			`;
 			dialog.showModal();
 		} else {
-			// unlock scroll and close
 			const scrollY = document.body.style.top;
 			document.body.style.cssText = "";
 			window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
 			try {
 				dialog.close();
-			} catch (_e) {
-				// ignore if already closed
-			}
+			} catch (_e) {}
 		}
 		return () => {
 			const scrollY = document.body.style.top;
@@ -54,23 +52,18 @@ export default function Modal({
 		};
 	}, [isOpen]);
 
-	return (
+	return createPortal(
+		// biome-ignore lint/a11y/useKeyWithClickEvents: The <dialog> element with an onClick handler for backdrop clicks is accessible. Keyboard interaction (ESC key) is handled natively by the dialog element to trigger the onClose event.
 		<dialog
 			ref={dialogRef}
 			onClose={onClose}
 			onClick={(e) => {
-				if (!closeOnBackdrop) return;
+				if (!isBackdropClosable) return;
 				const contentEl = contentRef?.current;
 				const target = e.target as Node | null;
+
 				// 닫기: 컨텐츠 영역 밖을 클릭한 경우
 				if (!contentEl || (target && !contentEl.contains(target))) onClose();
-			}}
-			onKeyDown={(e) => {
-				if (!closeOnBackdrop) return;
-				// ESC는 native로 처리되지만, 키보드 이벤트 존재로 a11y 린터 충족
-				if (e.key === "Escape") {
-					onClose();
-				}
 			}}
 			className="backdrop:bg-black/62"
 		>
@@ -81,7 +74,7 @@ export default function Modal({
 				)}
 				ref={contentRef}
 			>
-				{!hideCloseButton && (
+				{hasCloseButton && (
 					<CloseButton
 						className="-translate-x-2 absolute top-0 right-0 translate-y-2 hover:rounded-lg hover:bg-gray-300"
 						onClose={onClose}
@@ -89,6 +82,7 @@ export default function Modal({
 				)}
 				{children}
 			</div>
-		</dialog>
+		</dialog>,
+		document.body,
 	);
 }

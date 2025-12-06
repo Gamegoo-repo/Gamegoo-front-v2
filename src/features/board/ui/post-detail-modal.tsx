@@ -24,7 +24,7 @@ export default function PostDetailModal({
 	const modalRef = useRef<HTMLDivElement>(null);
 
 	if (isPending) {
-		return "로딩 중...";
+		return null;
 	}
 
 	if (isError) {
@@ -39,13 +39,18 @@ export default function PostDetailModal({
 	const SubPositionIcon = getPositionIcon(data.subP);
 	const wantPositions = data.wantP.map((pos) => getPositionIcon(pos));
 
-	/** TODO: winRate는 왜 optional인가요... */
 	const { bg: winRateBgColor, text: winRateTextColor } = getWinRateColors(
 		data.winRate || 0,
 	);
 
 	return (
-		<Modal isOpen={true} onClose={onClose} className="w-[555px]" ref={modalRef}>
+		<Modal
+			isOpen
+			onClose={onClose}
+			className="w-[555px]"
+			isBackdropClosable={false}
+			contentRef={modalRef}
+		>
 			<div className="flex flex-col gap-5">
 				{/* MODAL-CONTENT */}
 				<section className="flex flex-col gap-[30px]">
