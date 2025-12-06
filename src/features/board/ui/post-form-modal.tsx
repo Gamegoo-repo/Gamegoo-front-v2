@@ -20,6 +20,7 @@ import { useCreatePost } from "../api/use-create-post";
 import { GAME_STYLE } from "../config/game-styles";
 import GameStylePopover from "./game-style-popover";
 import PositionSelector from "./position-selector";
+import { toast } from "@/shared/lib/toast";
 
 export interface BoardFormData
 	extends Omit<BoardInsertRequest, "mainP" | "subP" | "mike" | "contents"> {
@@ -45,7 +46,8 @@ export const validateBoardForm = (formData: BoardFormData): boolean => {
 		formData.subP !== undefined &&
 		formData.wantP.length >= 1 &&
 		formData.wantP.length <= 2 &&
-		formData.gameStyles.length >= 1
+		formData.gameStyles.length >= 1 &&
+		formData.contents.trim().length > 0
 	);
 };
 
@@ -122,6 +124,7 @@ export default function PostFormModal({
 
 		const form: BoardInsertRequest = {
 			...formData,
+			contents: formData.contents.trim(),
 			mainP: formData.mainP,
 			subP: formData.subP,
 		};
@@ -162,7 +165,7 @@ export default function PostFormModal({
 		};
 		mutate(form, {
 			onSuccess: () => {
-				alert("성공적으로 수정하였습니다.");
+				toast.confirm("게시글을 수정하였습니다.");
 				handleClose();
 			},
 			onError: (error: AxiosError<ApiErrorResponse>) => {
@@ -170,21 +173,22 @@ export default function PostFormModal({
 					textareaRef.current?.focus();
 					setContentError(error.response?.data.message);
 				}
+
+				handleClose();
 			},
 		});
 	};
 
 	return (
 		<Modal
+			isBackdropClosable={false}
 			isOpen={isOpen}
 			onClose={handleClose}
 			className="w-[555px]"
 			contentRef={modalRef}
 		>
 			<form className="flex flex-col gap-5">
-				{/* MODAL-CONTENT */}
 				<section className="flex flex-col gap-[30px]">
-					{/** TODO: profileImag와 profileImg중 하나로 통일해주실 수 있나요  -> 바꿔준다고 하면 고치기*/}
 					<UserProfileCard
 						{...{
 							profileImage: userInfo.profileImg,
