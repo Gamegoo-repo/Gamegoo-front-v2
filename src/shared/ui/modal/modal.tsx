@@ -53,7 +53,7 @@ export default function Modal({
 	}, [isOpen]);
 
 	return createPortal(
-		// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+		// biome-ignore lint/a11y/useKeyWithClickEvents: The <dialog> element with an onClick handler for backdrop clicks is accessible. Keyboard interaction (ESC key) is handled natively by the dialog element to trigger the onClose event.
 		<dialog
 			ref={dialogRef}
 			onClose={onClose}
