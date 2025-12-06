@@ -106,7 +106,7 @@ export default function UserProfileMenu({
 				onClose={() => setOpen(false)}
 				contentRef={modalRef}
 				className="w-[420px] bg-white p-8"
-				hideCloseButton
+				hasCloseButton={false}
 			>
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-4">
