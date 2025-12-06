@@ -168,13 +168,13 @@ export default function PostFormModal({
 				toast.confirm("게시글을 수정하였습니다.");
 				handleClose();
 			},
-			onError: (error: AxiosError<ApiErrorResponse>) => {
+            onError: (error: AxiosError<ApiErrorResponse>) => {
 				if (error.response?.data?.code === "BOARD_408") {
 					textareaRef.current?.focus();
 					setContentError(error.response?.data.message);
+				} else {
+					handleClose();
 				}
-
-				handleClose();
 			},
 		});
 	};
