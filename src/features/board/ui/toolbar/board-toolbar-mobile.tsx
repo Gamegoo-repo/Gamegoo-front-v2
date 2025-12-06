@@ -1,8 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
-import HoistingIcon from "@/shared/assets/icons/ic-hoisting.svg?react";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import { boardKeys } from "../../api/query-keys";
-import { useBumpPost } from "../../api/use-bump-post";
 import {
 	GAME_MODE_ITEMS,
 	MIKE_ITEMS,
@@ -15,13 +13,13 @@ import { useBoardFilterStore } from "../../model/board-filter-store";
 import CreatePostButton from "../create-post-button";
 import RefetchButton from "../refetch-button";
 import PositionButtons from "./position-buttons";
+import BumpButton from "../bump-button";
 
 export default function BoardToolbarMobile({
 	handleOpenCreateModal,
 }: {
 	handleOpenCreateModal: () => void;
 }) {
-	const { mutate } = useBumpPost();
 	const queryClient = useQueryClient();
 
 	const refetchPost = async () => {
@@ -39,13 +37,7 @@ export default function BoardToolbarMobile({
 				<h2 className="bold-20 w-full text-start text-gray-700">게시판</h2>
 
 				<div className="flex h-[38px] items-center gap-2">
-					<button
-						type="button"
-						onClick={() => mutate()}
-						className="h-full rounded-md bg-linear-to-tr from-violet-600 to-[#E02FC8] px-3 py-2 text-white"
-					>
-						<HoistingIcon className="w-3.5" />
-					</button>
+					<BumpButton />
 					<CreatePostButton onClick={handleOpenCreateModal} />
 				</div>
 			</div>

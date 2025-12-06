@@ -42,7 +42,7 @@ export const ErrorCatcher = ({ children }: React.PropsWithChildren) => {
 				SERVER_ERROR_MESSAGES[
 					error.response?.data.code as keyof typeof SERVER_ERROR_MESSAGES
 				];
-			toast.error(message, { position: "top", top: "2rem" });
+			toast.error(message);
 		}
 
 		// 에러 처리 후 상태 초기화

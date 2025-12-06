@@ -1,6 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { boardKeys } from "../../api/query-keys";
-import { useBumpPost } from "../../api/use-bump-post";
 import BoardFilter from "../board-filter";
 import BumpButton from "../bump-button";
 import CreatePostButton from "../create-post-button";
@@ -11,7 +10,6 @@ export default function BoardToolbarDesktop({
 }: {
 	handleOpenCreateModal: () => void;
 }) {
-	const { mutate } = useBumpPost();
 	const queryClient = useQueryClient();
 
 	const refetchPost = async () => {
@@ -32,7 +30,7 @@ export default function BoardToolbarDesktop({
 			<div className="flex h-[58px] w-full items-center justify-between">
 				<BoardFilter />
 				<div className="flex h-full items-center gap-6">
-					<BumpButton onClick={() => mutate()} />
+					<BumpButton />
 					<CreatePostButton onClick={handleOpenCreateModal} />
 				</div>
 			</div>

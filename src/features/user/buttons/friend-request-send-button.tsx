@@ -4,6 +4,7 @@ import { api, type OtherProfileResponse } from "@/shared/api";
 import { queryClient } from "@/shared/lib/query-client";
 import { useAuth } from "@/shared/model/use-auth";
 import { Button } from "@/shared/ui";
+import { toast } from "@/shared/lib/toast";
 
 export default function FriendRequestSendButton({
 	userId,
@@ -33,12 +34,10 @@ export default function FriendRequestSendButton({
 		onError: (err, _, context) => {
 			console.log(err);
 			queryClient.setQueryData(userKeys.profile(userId), context?.previous);
-			// toast.error("요청 취소 실패");
-			alert("요청 실패");
+			toast.error("친구 요청이 실패했습니다.");
 		},
 		onSuccess: () => {
-			// toast.success("친구 요청을 취소했습니다");
-			alert("친구 추가에 성공했습니다.");
+			toast.confirm("친구 요청을 보냈습니다.");
 		},
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.profile(userId) });
