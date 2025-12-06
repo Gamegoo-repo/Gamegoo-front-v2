@@ -10,21 +10,19 @@ function LoginRequiredModal() {
 
 	return createPortal(
 		<div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/62">
-			<div className="absolute bottom-[28px] w-[640px] overflow-hidden">
-				<div className="mb-2.5 flex flex-col items-center justify-center rounded-[17px] bg-white px-0 py-4 text-center">
-					<div className="mb-4 h-12 w-12">
+			<div className="absolute bottom-[28px] mobile:w-[640px] w-[90%] overflow-hidden">
+				<div className="mb-2 mobile:mb-3 flex flex-col items-center justify-center mobile:rounded-[18px] rounded-[14px] bg-white px-0 py-5 text-center font-bold mobile:text-lg text-base">
+					<div className="mobile:mb-4 h-12 mobile:h-[72px] mobile:w-[72px] w-12">
 						<PrecautionIcon className="h-full w-full" />
 					</div>
-					<p className="bold-18 m-0 text-gray-700">
-						로그인이 필요한 서비스입니다.
-					</p>
+					<p className="m-0 text-gray-900">로그인이 필요한 서비스입니다.</p>
 				</div>
 				<button
 					type="button"
-					className="w-full cursor-pointer rounded-[17px] bg-white py-4 text-center hover:bg-gray-50"
+					className="w-full cursor-pointer mobile:rounded-[18px] rounded-[14px] bg-white mobile:py-4 py-3 text-center font-bold mobile:text-lg text-base text-gray-900 hover:bg-gray-50"
 					onClick={closeModal}
 				>
-					<p className="regular-18 m-0 text-gray-700">확인</p>
+					확인
 				</button>
 			</div>
 		</div>,
