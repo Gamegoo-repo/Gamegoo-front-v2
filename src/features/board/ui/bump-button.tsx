@@ -20,8 +20,8 @@ export default function BumpButton({ className, ...props }: BumpButtonProps) {
 				"mobile:h-fit mobile:w-fit mobile:bg-none p-0",
 				className,
 			)}
-			onClick={() => mutate()}
 			{...props}
+			onClick={() => mutate()}
 		>
 			<HoistingIcon className="h-3.5 mobile:h-3 mobile:w-3 w-3.5 mobile:text-violet-600 text-white" />
 			<span className="bold-14 mobile:block hidden bg-gradient-to-r from-violet-600 to-[#E02FC8] mobile:bg-clip-text mobile:text-transparent">
