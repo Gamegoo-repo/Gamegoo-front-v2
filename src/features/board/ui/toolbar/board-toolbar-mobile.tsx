@@ -14,8 +14,7 @@ import CreatePostButton from "../create-post-button";
 import RefetchButton from "../refetch-button";
 import PositionButtons from "./position-buttons";
 import BumpButton from "../bump-button";
-import { useLoginRequiredModalStore } from "@/features/auth";
-import { useAuth } from "@/shared/model/use-auth";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 
 export default function BoardToolbarMobile({
 	handleOpenCreateModal,
@@ -23,11 +22,6 @@ export default function BoardToolbarMobile({
 	handleOpenCreateModal: () => void;
 }) {
 	const queryClient = useQueryClient();
-	const { isAuthenticated } = useAuth();
-
-	const openLoginRequiredModal = useLoginRequiredModalStore(
-		(set) => set.openModal,
-	);
 
 	const refetchPost = async () => {
 		await queryClient.refetchQueries({
@@ -38,13 +32,7 @@ export default function BoardToolbarMobile({
 
 	const { gameMode, tier, mike, setFilter } = useBoardFilterStore();
 
-	const handleOpenModal = () => {
-		if (isAuthenticated) {
-			handleOpenCreateModal();
-		} else {
-			openLoginRequiredModal();
-		}
-	};
+	const handleOpenModal = useAuthenticatedAction(handleOpenCreateModal);
 
 	return (
 		<div className="mt-3 flex w-full flex-col">

@@ -4,8 +4,7 @@ import BoardFilter from "../board-filter";
 import BumpButton from "../bump-button";
 import CreatePostButton from "../create-post-button";
 import RefetchButton from "../refetch-button";
-import { useAuth } from "@/shared/model/use-auth";
-import { useLoginRequiredModalStore } from "@/features/auth";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 
 export default function BoardToolbarDesktop({
 	handleOpenCreateModal,
@@ -13,19 +12,7 @@ export default function BoardToolbarDesktop({
 	handleOpenCreateModal: () => void;
 }) {
 	const queryClient = useQueryClient();
-	const { isAuthenticated } = useAuth();
-
-	const openLoginRequiredModal = useLoginRequiredModalStore(
-		(set) => set.openModal,
-	);
-
-	const handleOpenModal = () => {
-		if (isAuthenticated) {
-			handleOpenCreateModal();
-		} else {
-			openLoginRequiredModal();
-		}
-	};
+	const handleOpenModal = useAuthenticatedAction(handleOpenCreateModal);
 
 	const refetchPost = async () => {
 		await queryClient.refetchQueries({
