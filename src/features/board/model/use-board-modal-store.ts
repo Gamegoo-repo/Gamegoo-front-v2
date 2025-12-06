@@ -18,8 +18,8 @@ interface BoardModalStore {
 }
 
 export const useBoardModalStore = create<BoardModalStore>((set, get) => ({
-    activeModal: null,
-    selectedPostId: null,
+	activeModal: null,
+	selectedPostId: null,
 
 	openDetailModal: (postId) => {
 		set({

@@ -50,7 +50,6 @@ export default function PostFormModalContainer(
 	// edit 모드에서 postData 에러 처리
 	if (mode === "edit" && (isPostError || !postData)) {
 		toast.error("게시글 정보를 불러오지 못했습니다.");
-		onClose();
 		return null;
 	}
 
