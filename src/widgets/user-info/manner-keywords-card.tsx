@@ -8,7 +8,6 @@ interface MannerKeywordsCardProps {
 	title: string;
 	keywords: MannerKeywordResponse[];
 	type: MannerType;
-	/** If true, the card expands to fill available width (for review page). */
 	expand?: boolean;
 }
 
