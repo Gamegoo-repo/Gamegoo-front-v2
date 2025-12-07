@@ -119,12 +119,13 @@ export default function PreciseProfileForm({
 			<div className="flex flex-col gap-2">
 				<p className="label">게임 유형</p>
 				<Dropdown
-					className="w-[240px] h-14 z-10"
-					type="secondary"
+					className="z-10 h-14 w-[240px]"
+					variant="secondary"
+					size="lg"
 					selectedLabel={
 						currentGameMode ? getGameModeTitle(currentGameMode) : "선택"
 					}
-					defaultAction={(value) =>
+					onSelect={(value) =>
 						handleGameModeChange(value as GameMode | undefined)
 					}
 					items={gameModeItems}
@@ -132,11 +133,11 @@ export default function PreciseProfileForm({
 			</div>
 			<div>
 				<p className="label mb-1.5">포지션</p>
-				<div className="flex gap-[12px] h-[104px] w-full">
-					<div className="bg-white flex-1 rounded-[10px] h-full px-11 py-4">
-						<ul className="w-full flex justify-between h-full gap-[8px]">
-							<li className="h-full flex flex-col items-center justify-between w-[49px]">
-								<span className="text-gray-700 bold-12 w-full text-center">
+				<div className="flex h-[104px] w-full gap-[12px]">
+					<div className="h-full flex-1 rounded-[10px] bg-white px-11 py-4">
+						<ul className="flex h-full w-full justify-between gap-[8px]">
+							<li className="flex h-full w-[49px] flex-col items-center justify-between">
+								<span className="bold-12 w-full text-center text-gray-700">
 									주 포지션
 								</span>
 								<PositionSelector
@@ -149,8 +150,8 @@ export default function PreciseProfileForm({
 								/>
 							</li>
 
-							<li className="h-full flex flex-col items-center justify-between w-[49px]">
-								<span className="text-gray-700 bold-12 w-full text-center">
+							<li className="flex h-full w-[49px] flex-col items-center justify-between">
+								<span className="bold-12 w-full text-center text-gray-700">
 									부 포지션
 								</span>
 								<PositionSelector
@@ -164,10 +165,10 @@ export default function PreciseProfileForm({
 							</li>
 						</ul>
 					</div>
-					<div className="bg-white flex-1 rounded-[10px] h-full px-11 py-4 flex flex-col items-center justify-between">
-						<span className="text-gray-700 bold-12">내가 찾는 포지션</span>
+					<div className="flex h-full flex-1 flex-col items-center justify-between rounded-[10px] bg-white px-11 py-4">
+						<span className="bold-12 text-gray-700">내가 찾는 포지션</span>
 
-						<ul className="flex w-full justify-center gap-4 items-end">
+						<ul className="flex w-full items-end justify-center gap-4">
 							<li className="flex flex-col items-center justify-between">
 								<PositionSelector
 									onChangePosition={(newState) => {
@@ -182,9 +183,9 @@ export default function PreciseProfileForm({
 					</div>
 				</div>
 			</div>
-			<div className="flex flex-col gap-2 w-full">
+			<div className="flex w-full flex-col gap-2">
 				<p className="label">게임 스타일</p>
-				<div className="w-full flex gap-2 items-center flex-wrap gap-y-3">
+				<div className="flex w-full flex-wrap items-center gap-2 gap-y-3">
 					{selectedGameStyleIds.map((styleId) => {
 						const style = GAME_STYLE.find(
 							(item) => item.gameStyleId === styleId,
@@ -192,11 +193,11 @@ export default function PreciseProfileForm({
 						return style ? (
 							<span
 								key={styleId}
-								className="flex items-center justify-center px-3 py-1 bg-white rounded-full gap-1"
+								className="flex items-center justify-center gap-1 rounded-full bg-white px-3 py-1"
 							>
 								{style.gameStyleName}
 								<CloseButton
-									className="p-0 hover:bg-gray-100 rounded-full"
+									className="rounded-full p-0 hover:bg-gray-100"
 									iconClass="w-5 text-gray-600"
 									onClose={() => handleGameStyleToggle(styleId)}
 								/>
@@ -212,7 +213,7 @@ export default function PreciseProfileForm({
 					)}
 				</div>
 			</div>
-			<div className="flex flex-col gap-2 w-full">
+			<div className="flex w-full flex-col gap-2">
 				<p className="label">마이크</p>
 				<Switch
 					checked={currentMike === "AVAILABLE"}
