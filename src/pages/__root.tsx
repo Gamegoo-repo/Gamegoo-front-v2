@@ -20,18 +20,30 @@ import {
 	FloatingChatDialog,
 } from "@/widgets/floating-chat-dialog";
 import Page404Component from "@/widgets/page-404-component";
+import { useLogoutAlertModalState } from "@/features/auth/model/logout-alert-modal-store";
+import LogoutAlertModal from "@/features/auth/ui/logout-alert-modal";
 
 function RootLayout() {
 	useChatroomUpdateHandler();
 
 	const { openDialog: openChatDialog } = useChatDialogStore();
+	const { openModal: openLogoutAlertModal } = useLogoutAlertModalState();
 	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
 
 	const { initializeAuth } = useAuth();
 
 	useEffect(() => {
 		initializeAuth();
-	}, []);
+
+		// token refresh 실패 시 logout-alert-modal 열기
+		tokenManager.setOnRefreshFailed(() => {
+			openLogoutAlertModal();
+		});
+
+		return () => {
+			tokenManager.setOnRefreshFailed(null);
+		};
+	}, [openLogoutAlertModal]);
 
 	const handleChatButtonClick = () => {
 		if (!tokenManager.getRefreshToken()) {
@@ -50,6 +62,7 @@ function RootLayout() {
 						<FloatingChatButton onClick={handleChatButtonClick} />
 						<FloatingChatDialog />
 						<LoginRequiredModal />
+						<LogoutAlertModal />
 						<TanStackRouterDevtools />
 					</ResponsiveProvider>
 				</ConfirmDialogProvider>
