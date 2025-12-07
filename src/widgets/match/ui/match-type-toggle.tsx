@@ -22,7 +22,7 @@ export default function MatchTypeToggle({
 				onClick={() => handleTypeChange("BASIC")}
 				className={cn(
 					"px-6 py-2 rounded-full transition-all duration-200 font-semibold text-sm",
-					funnel.context.type === "BASIC"
+					funnel.type === "BASIC"
 						? "bg-white text-gray-800"
 						: "text-gray-400 hover:text-gray-300",
 				)}
@@ -34,7 +34,7 @@ export default function MatchTypeToggle({
 				onClick={() => handleTypeChange("PRECISE")}
 				className={cn(
 					"px-6 py-2 rounded-full transition-all duration-200 font-semibold text-sm",
-					funnel.context.type === "PRECISE"
+					funnel.type === "PRECISE"
 						? "bg-white text-gray-800"
 						: "text-gray-400 hover:text-gray-300",
 				)}

@@ -13,6 +13,16 @@ import MatchStartProfile from "./match-start-profile";
 
 const MAX_MATCHING_TIME = 300; // 5분
 const TIMER_INTERVAL = 1000; // 1초
+const mapPreciseWantPositions = (wantP?: string[] | null) => {
+	// API는 문자열 enum(Position) 2칸을 기대(v1 호환). 빈값은 'ANY'로 채워 전송.
+	const normalized = (wantP || []).filter((p): p is string => !!p);
+	if (normalized.length === 0) return ["ANY", "ANY"];
+	if (normalized.length === 1) {
+		const first = normalized[0];
+		return first === "ANY" ? ["ANY", "ANY"] : [first, "ANY"];
+	}
+	return [normalized[0], normalized[1]];
+};
 
 interface MatchStartStepProps {
 	funnel: UseMatchFunnelReturn;
@@ -49,8 +59,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 		if (timerRef.current) return; // 이미 타이머가 실행 중이면 추가로 설정하지 않음
 
 		// 매칭 재시도 여부에 따라 타이머 설정
-		thresholdRef.current =
-			GAME_MODE_THRESHOLD[funnel.context.gameMode ?? "FAST"] + 1.5; // 초기 threshold 값
+		thresholdRef.current = GAME_MODE_THRESHOLD[funnel.gameMode ?? "FAST"]; // 초기 threshold 값
 
 		timerRef.current = setInterval(() => {
 			setTimeLeft((prevTime) => {
@@ -73,12 +82,12 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 	useEffect(
 		() => {
-			if (!socketManager.connected) {
-				console.error("❌ [V2-Debug] Socket is not connected.");
-				return;
-			}
+			// 소켓 연결 상태와 관계없이 리스너를 우선 등록해 초기 연결 시 이벤트를 수신/전송하도록 함
 
-			const handleMatchingStarted = (_data: any) => {};
+			const handleMatchingStarted = (_data: any) => {
+				// 초기화 또는 시작 토스트 등 필요 시 확장 가능
+				setTierCounts({});
+			};
 
 			const handleMatchingCount = (data: any) => {
 				const newTierCounts = {
@@ -90,14 +99,10 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 			const handleMatchingFoundSender = (data: any) => {
 				clearTimers();
-				const opponentData =
-					data?.data?.opponent ?? data?.opponent ?? data?.data ?? {};
-				// sender 쪽에서 서버가 내려주는 다양한 필드 대응
+				const opponentData = data?.data?.opponent ?? {};
 				const matchingUuid =
 					data?.data?.senderMatchingUuid ??
-					data?.senderMatchingUuid ??
 					data?.data?.senderMatchingInfo?.matchingUuid ??
-					data?.data?.matchingUuid ??
 					"";
 				funnel.toStep("match-complete", {
 					matchComplete: {
@@ -127,11 +132,24 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				});
 			};
 
+			const handleMatchingNotFound = () => {
+				clearTimers();
+				handleRetry();
+			};
+
+			const handleMatchingFail = () => {
+				clearTimers();
+				toast.error("매칭에 실패했어요. 다시 시도해 주세요.");
+				funnel.toStep("profile");
+			};
+
 			// 기존 리스너 제거
 			socketManager.off("matching-started", handleMatchingStarted);
 			socketManager.off("matching-count", handleMatchingCount);
 			socketManager.off("matching-found-sender", handleMatchingFoundSender);
 			socketManager.off("matching-found-receiver", handleMatchingFoundReceiver);
+			socketManager.off("matching-not-found", handleMatchingNotFound);
+			socketManager.off("matching-fail", handleMatchingFail);
 			socketManager.off("jwt-expired-error", handleJwtExpired);
 			socketManager.off("connect", handleReconnectSend);
 
@@ -140,6 +158,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 			socketManager.on("matching-count", handleMatchingCount);
 			socketManager.on("matching-found-sender", handleMatchingFoundSender);
 			socketManager.on("matching-found-receiver", handleMatchingFoundReceiver);
+			socketManager.on("matching-not-found", handleMatchingNotFound);
+			socketManager.on("matching-fail", handleMatchingFail);
 			socketManager.on("jwt-expired-error", handleJwtExpired);
 			socketManager.on("connect", handleReconnectSend);
 
@@ -150,32 +170,36 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				socket.on("matching-count", handleMatchingCount);
 				socket.on("matching-found-sender", handleMatchingFoundSender);
 				socket.on("matching-found-receiver", handleMatchingFoundReceiver);
+				socket.on("matching-not-found", handleMatchingNotFound);
+				socket.on("matching-fail", handleMatchingFail);
 				socket.on("jwt-expired-error", handleJwtExpired);
 				socket.on("connect", handleReconnectSend);
 			}
 
 			// gameMode 검증
-			const gameMode = funnel.context.gameMode;
+			const gameMode = funnel.gameMode;
 			if (!gameMode) {
-				console.error(
-					"❌ [V2-Debug] gameMode가 설정되지 않았습니다:",
-					funnel.context,
-				);
+				console.error("❌ [V2-Debug] gameMode가 설정되지 않았습니다:", {
+					type: funnel.type,
+					gameMode: funnel.gameMode,
+					profile: funnel.profile,
+				});
 				return;
 			}
 
-			const profile = funnel.context.profile || {};
+			const profile = funnel.profile || {};
 			const matchingData = {
-				matchingType: funnel.context.type,
+				matchingType: funnel.type,
 				gameMode: gameMode,
-				threshold: GAME_MODE_THRESHOLD[gameMode] || GAME_MODE_THRESHOLD.FAST,
+				memberId: getAuthUserId(authUser) ?? undefined,
+				threshold: GAME_MODE_THRESHOLD[gameMode],
 				mike: profile.mike ?? authUser?.mike ?? "UNAVAILABLE",
 				mainP: profile.mainP ?? authUser?.mainP ?? "ANY",
 				subP: profile.subP ?? authUser?.subP ?? "ANY",
 				wantP:
-					funnel.context.type === "PRECISE"
-						? profile.wantP?.map((p) => p ?? "ANY")
-						: ["ANY"],
+					funnel.type === "PRECISE"
+						? mapPreciseWantPositions(profile.wantP)
+						: [],
 				gameStyleIdList: (() => {
 					const ids =
 						profile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
@@ -184,6 +208,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 					return ids.length > 0 ? ids : null;
 				})(),
 			};
+
+			console.log("🚀 [V2] matching-request payload (initial):", matchingData);
 
 			// memberId 기반 중복 전송 방지 (id가 유효할 때만 적용)
 			const userId = getAuthUserId(authUser);
@@ -226,6 +252,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				);
 				socketManager.off("jwt-expired-error", handleJwtExpired);
 				socketManager.off("connect", handleReconnectSend);
+				socketManager.off("matching-not-found", handleMatchingNotFound);
+				socketManager.off("matching-fail", handleMatchingFail);
 
 				// 직접 소켓에서도 제거
 				if (socketManager.socketInstance?.socket) {
@@ -234,9 +262,10 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 					socket.off("matching-count", handleMatchingCount);
 					socket.off("matching-found-sender", handleMatchingFoundSender);
 					socket.off("matching-found-receiver", handleMatchingFoundReceiver);
+					socket.off("matching-not-found", handleMatchingNotFound as any);
+					socket.off("matching-fail", handleMatchingFail as any);
 					socket.off("jwt-expired-error", handleJwtExpired as any);
 					socket.off("connect", handleReconnectSend as any);
-					socket.offAny();
 				}
 
 				clearTimers();
@@ -258,22 +287,27 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 	// 재연결 시 재요청 처리
 	const handleReconnectSend = () => {
-		if (!shouldResendRequestRef.current) return;
-		shouldResendRequestRef.current = false;
-		const gameMode = funnel.context.gameMode;
-		const profile = funnel.context.profile || {};
+		const gameMode = funnel.gameMode;
+		const profile = funnel.profile || {};
 		if (!gameMode) return;
+		const defaultThreshold = GAME_MODE_THRESHOLD[gameMode];
+		// 최초 전송이면 기본 threshold 사용 + ref 동기화
+		const isFirstSend = !didSendMatchingRequestRef.current;
+		if (isFirstSend) {
+			thresholdRef.current = defaultThreshold;
+		}
 		const matchingData = {
-			matchingType: funnel.context.type,
+			matchingType: funnel.type,
 			gameMode: gameMode,
-			threshold: GAME_MODE_THRESHOLD[gameMode] || GAME_MODE_THRESHOLD.FAST,
+			memberId: getAuthUserId(authUser) ?? undefined,
+			threshold: isFirstSend
+				? defaultThreshold
+				: thresholdRef.current || defaultThreshold,
 			mike: profile.mike ?? authUser?.mike ?? "UNAVAILABLE",
 			mainP: profile.mainP ?? authUser?.mainP ?? "ANY",
 			subP: profile.subP ?? authUser?.subP ?? "ANY",
 			wantP:
-				funnel.context.type === "PRECISE"
-					? profile.wantP?.map((p) => p ?? "ANY")
-					: ["ANY"],
+				funnel.type === "PRECISE" ? mapPreciseWantPositions(profile.wantP) : [],
 			gameStyleIdList: (() => {
 				const ids =
 					profile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
@@ -282,10 +316,31 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				return ids.length > 0 ? ids : null;
 			})(),
 		};
-		socketManager.send("matching-request", matchingData);
+		// 연결 직후: 아직 요청을 보낸 적이 없다면 최초 요청 전송
+		if (!didSendMatchingRequestRef.current) {
+			didSendMatchingRequestRef.current = true;
+			console.log(
+				"🚀 [V2] matching-request payload (on-connect initial):",
+				matchingData,
+			);
+			socketManager.send("matching-request", matchingData);
+			return;
+		}
+		// JWT 만료 등으로 재전송 플래그가 켜진 경우에만 재전송
+		if (shouldResendRequestRef.current) {
+			shouldResendRequestRef.current = false;
+			console.log("🔁 [V2] matching-request payload (resend):", matchingData);
+			socketManager.send("matching-request", matchingData);
+		}
 	};
 
-	const handleRetry = async () => {};
+	const handleRetry = async () => {
+		// 간단한 재시도 UX: 프로필 단계로 이동 후 사용자에게 재시도 유도
+		toast.message(
+			"매칭 가능한 상대를 찾지 못했어요. 조건을 조정해 다시 시도해 주세요.",
+		);
+		funnel.toStep("profile");
+	};
 
 	const handleBack = () => {
 		// 매칭 취소 이벤트 전송
@@ -315,13 +370,17 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				subtitle="나와 꼭 맞는 상대를 찾는 중..."
 				onBack={handleBack}
 			/>
-			<div className="flex justify-center p-10 items-center h-fit gap-[59px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
-				<MatchStartProfile user={authUser} />
-				<MatchLoadingCard
-					timeLeft={timeLeft}
-					tierCounts={tierCounts}
-					userTier={authUser?.soloTier ?? "UNRANKED"}
-				/>
+			<div className="w-full flex justify-center items-center pt-[110px] mobile:pt-0">
+				<div className="max-w-[1440px] w-full px-[80px] pt-[60px] mobile:px-[20px] mobile:pt-[24px]">
+					<div className="flex justify-center items-center w-full gap-[59px] mt-[72px] mb-[150px] max-[1300px]:flex-col max-[1300px]:gap-[40px] mobile:mt-[15px]">
+						<MatchStartProfile user={authUser} />
+						<MatchLoadingCard
+							timeLeft={timeLeft}
+							tierCounts={tierCounts}
+							userTier={authUser?.soloTier ?? "UNRANKED"}
+						/>
+					</div>
+				</div>
 			</div>
 		</>
 	);
