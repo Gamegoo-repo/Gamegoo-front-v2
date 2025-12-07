@@ -99,14 +99,10 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 			const handleMatchingFoundSender = (data: any) => {
 				clearTimers();
-				const opponentData =
-					data?.data?.opponent ?? data?.opponent ?? data?.data ?? {};
-				// sender 쪽에서 서버가 내려주는 다양한 필드 대응
+				const opponentData = data?.data?.opponent ?? {};
 				const matchingUuid =
 					data?.data?.senderMatchingUuid ??
-					data?.senderMatchingUuid ??
 					data?.data?.senderMatchingInfo?.matchingUuid ??
-					data?.data?.matchingUuid ??
 					"";
 				funnel.toStep("match-complete", {
 					matchComplete: {
