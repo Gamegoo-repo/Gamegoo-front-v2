@@ -1,10 +1,23 @@
 import { createPortal } from "react-dom";
 import PrecautionIcon from "@/shared/assets/icons/precaution.svg?react";
 import { useLogoutAlertModalState } from "../model/logout-alert-modal-store";
+import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/shared/model/use-auth";
 
 function LogoutAlertModal() {
 	const { isOpen, closeModal } = useLogoutAlertModalState();
+	const { initializeAuth } = useAuth();
 	const modalRoot = document.getElementById("modal-root") || document.body;
+	const navigate = useNavigate();
+
+	const handleClickLoginButton = () => {
+		closeModal();
+		initializeAuth();
+		navigate({
+			to: "/riot",
+			replace: true,
+		});
+	};
 
 	if (!isOpen) return null;
 
@@ -22,7 +35,7 @@ function LogoutAlertModal() {
 				<button
 					type="button"
 					className="w-full cursor-pointer mobile:rounded-[18px] rounded-[14px] bg-white mobile:py-4 py-3 text-center font-bold mobile:text-lg text-base text-gray-900 hover:bg-gray-50"
-					onClick={closeModal}
+					onClick={handleClickLoginButton}
 				>
 					로그인
 				</button>
