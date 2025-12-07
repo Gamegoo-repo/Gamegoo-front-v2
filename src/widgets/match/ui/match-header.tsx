@@ -20,7 +20,7 @@ function MatchHeader({
 	funnel,
 }: MatchHeaderProps) {
 	return (
-		<div className="w-full bg-white sticky top-0 z-50">
+		<div className="w-full bg-white z-50">
 			<div className="max-w-6xl mx-auto px-4 py-6">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-2">

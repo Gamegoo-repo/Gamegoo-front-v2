@@ -1,7 +1,7 @@
 import { type ReactNode, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/shared/lib/utils";
 import CloseButton from "../button/close-button";
-import { createPortal } from "react-dom";
 
 export default function Modal({
 	className,

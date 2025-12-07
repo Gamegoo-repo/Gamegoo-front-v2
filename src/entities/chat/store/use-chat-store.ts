@@ -7,6 +7,7 @@ interface ChatActions {
 	updateChatroom: (chatroom: ChatroomResponse) => void;
 	setChatrooms: (chatrooms: ChatroomResponse[]) => void;
 	setConnected: (connected: boolean) => void;
+	setUnreadCount: (chatroomUuid: string, count: number) => void;
 	incrementUnreadCount: (chatroomUuid: string) => void;
 	resetUnreadCount: (chatroomUuid: string) => void;
 	getTotalUnreadCount: () => number;
@@ -78,7 +79,6 @@ export const useChatStore = create<ChatState & ChatActions>((set, _get) => ({
 				if (existingRoom && existingRoom.notReadMsgCnt === 0) {
 					return { ...newRoom, notReadMsgCnt: 0 };
 				}
-
 				return newRoom;
 			});
 
@@ -95,6 +95,26 @@ export const useChatStore = create<ChatState & ChatActions>((set, _get) => ({
 
 	setConnected: (connected) => set({ isConnected: connected }),
 
+	setUnreadCount: (chatroomUuid, count) =>
+		set((state) => {
+			const updatedChatrooms = state.chatrooms.map((room) => {
+				if (room.uuid === chatroomUuid) {
+					return { ...room, notReadMsgCnt: count };
+				}
+				return room;
+			});
+
+			const totalUnread = updatedChatrooms.reduce(
+				(sum, room) => sum + (room.notReadMsgCnt || 0),
+				0,
+			);
+
+			return {
+				chatrooms: updatedChatrooms,
+				totalUnreadCount: totalUnread,
+			};
+		}),
+
 	incrementUnreadCount: (chatroomUuid) =>
 		set((state) => {
 			const existingRoomIndex = state.chatrooms.findIndex(
@@ -110,16 +130,7 @@ export const useChatStore = create<ChatState & ChatActions>((set, _get) => ({
 					return room;
 				});
 			} else {
-				const newRoom: ChatroomResponse = {
-					uuid: chatroomUuid,
-					notReadMsgCnt: 1,
-					targetMemberName: "새 메시지",
-					targetMemberImg: 0,
-					lastMsg: "새 메시지가 도착했습니다",
-					lastMsgAt: new Date().toISOString(),
-					targetMemberId: 0,
-				};
-				updatedChatrooms = [...state.chatrooms, newRoom];
+				updatedChatrooms = state.chatrooms;
 			}
 
 			const totalUnread = updatedChatrooms.reduce(

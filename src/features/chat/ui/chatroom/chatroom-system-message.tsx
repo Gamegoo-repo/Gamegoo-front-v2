@@ -11,14 +11,14 @@ const ChatroomSystemMessage = ({ message, href }: SystemMessageProps) => {
 
 	if (parts.length === 1) {
 		return (
-			<div className="regular-13 flex w-full items-center justify-center bg-gray-700 p-4 text-center text-white">
+			<div className="regular-13 mb-[11px] w-full rounded-full bg-gray-700 p-[4px] text-center text-white">
 				{message}
 			</div>
 		);
 	}
 
 	return (
-		<div className="regular-13 mb-[20px] flex w-full items-center justify-center rounded-full bg-gray-700 p-[4px] text-center text-white">
+		<div className="regular-13 mb-[11px] w-full rounded-full bg-gray-700 p-[4px] text-center text-white">
 			{href ? (
 				<Link to={href}>
 					<span className="cursor-pointer underline">
