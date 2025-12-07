@@ -2,29 +2,49 @@ import { encode } from "js-base64";
 import { STORAGE_KEYS } from "@/shared/config/storage";
 
 export const login = () => {
-	const redirect = `${process.env.PUBLIC_APP_URL}/riot/callback`;
-	const csrfToken = crypto.randomUUID();
+	try {
+		const appUrl =
+			process.env.NODE_ENV === "development"
+				? "http://localhost:3000/"
+				: process.env.PUBLIC_APP_URL;
+		const riotAuthUrl = process.env.PUBLIC_RIOT_AUTH_URL;
+		const serverCallback = process.env.PUBLIC_RIOT_REDIRECT_URI;
+		const clientId = process.env.PUBLIC_RIOT_CLIENT_ID;
+		const responseType = process.env.PUBLIC_RIOT_RESPONSE_TYPE;
+		const scope = process.env.PUBLIC_RIOT_SCOPE;
 
-	sessionStorage.setItem(STORAGE_KEYS.csrfToken, csrfToken);
+		if (!appUrl || !riotAuthUrl || !serverCallback || !clientId) {
+			console.error("Missing required environment variables");
+			throw new Error("로그인 설정이 올바르지 않습니다.");
+		}
 
-	const riotAuthUrl = process.env.PUBLIC_RIOT_AUTH_URL;
-	const SERVER_CALLBACK = import.meta.env.PUBLIC_RIOT_REDIRECT_URI;
-	const clientId = process.env.PUBLIC_RIOT_CLIENT_ID;
-	const responseType = process.env.PUBLIC_RIOT_RESPONSE_TYPE;
-	const scope = process.env.PUBLIC_RIOT_SCOPE;
+		const redirect = `${appUrl}/riot/callback`;
+		const csrfToken = crypto.randomUUID();
 
-	const state = {
-		redirect,
-		csrfToken,
-	};
+		sessionStorage.setItem(STORAGE_KEYS.csrfToken, csrfToken);
 
-	const encodedState = encode(JSON.stringify(state));
+		const state = {
+			redirect,
+			csrfToken,
+		};
 
-	const authUrl = `${riotAuthUrl}?redirect_uri=${encodeURIComponent(
-		SERVER_CALLBACK,
-	)}&client_id=${clientId}&response_type=${responseType}&scope=${scope}&state=${encodeURIComponent(
-		encodedState,
-	)}&prompt=login`;
+		const encodedState = encode(JSON.stringify(state));
 
-	window.location.href = authUrl;
+		const params = new URLSearchParams({
+			redirect_uri: serverCallback,
+			client_id: clientId,
+			response_type: responseType || "code",
+			scope: scope || "openid",
+			state: encodedState,
+			prompt: "login",
+		});
+
+		const authUrl = `${riotAuthUrl}?${params.toString()}`;
+		console.log(authUrl);
+
+		window.location.href = authUrl;
+	} catch (error) {
+		console.error("Login error:", error);
+		alert("로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
+	}
 };
