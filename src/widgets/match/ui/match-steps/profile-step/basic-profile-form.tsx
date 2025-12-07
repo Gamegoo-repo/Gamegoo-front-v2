@@ -20,13 +20,13 @@ export default function BasicProfileForm({
 	user,
 	containerRef,
 }: BasicProfileFormProps) {
-	const currentProfile = funnel.context.profile || {};
+	const currentProfile = funnel.profile || {};
 	const selectedGameStyleIds =
 		currentProfile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
 		user?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
 		[];
 	const currentMike = currentProfile.mike || user?.mike || "UNAVAILABLE";
-	const currentGameMode = funnel.context.gameMode || undefined;
+	const currentGameMode = funnel.gameMode || undefined;
 
 	const gameModeItems = useMemo(() => {
 		const allModes = GAME_MODE_ITEMS.slice(1); // "모든 모드" 제외

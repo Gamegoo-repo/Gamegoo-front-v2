@@ -23,7 +23,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	const [timeLeft, setTimeLeft] = useState(MATCHING_COMPLETE_TIME);
 	const router = useRouter();
 	const authUser = funnel.user;
-	const matchComplete = funnel.context.matchComplete;
+	const matchComplete = funnel.matchComplete;
 	const role = matchComplete?.role;
 	const matchingUuid = matchComplete?.matchingUuid;
 	const mainTimerRef = useRef<NodeJS.Timeout | null>(null);

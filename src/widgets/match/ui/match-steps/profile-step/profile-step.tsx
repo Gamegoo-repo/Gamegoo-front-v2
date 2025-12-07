@@ -18,12 +18,12 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const router = useRouter();
 
-	const matchType = funnel.context.type;
+	const matchType = funnel.type;
 
 	if (!user) return null;
 
 	const handleMatchStart = () => {
-		const currentProfile = funnel.context.profile || {};
+		const currentProfile = funnel.profile || {};
 		const currentMike = currentProfile.mike || user?.mike || "UNAVAILABLE";
 		const normalizedProfile =
 			matchType === "PRECISE"
@@ -46,7 +46,7 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 					};
 		const payload = {
 			profile: normalizedProfile,
-			gameMode: funnel.context.gameMode || null,
+			gameMode: funnel.gameMode || null,
 		} as const;
 		funnel.toStep("match-start", payload);
 	};
