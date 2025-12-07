@@ -36,7 +36,9 @@ export default function Dropdown<T>({
 	};
 
 	const handleItemClick = (id: T) => {
-		defaultAction(id);
+		if (typeof defaultAction === "function") {
+			defaultAction(id);
+		}
 		setOpen(false);
 	};
 
