@@ -4,7 +4,7 @@ export default function MannerLevelBadge({
 	mannerLevel: number;
 }) {
 	return (
-		<div className="w-full text-center bold-16 text-violet-600 inline-block whitespace-nowrap min-w-max">
+		<div className="bold-16 inline-block w-full min-w-max whitespace-nowrap text-center text-violet-600">
 			LV. {mannerLevel}
 		</div>
 	);

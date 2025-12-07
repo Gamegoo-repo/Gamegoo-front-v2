@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/shared/api";
 import { boardKeys } from "./query-keys";
+import { toast } from "@/shared/lib/toast";
 
 export const useBumpPost = () => {
 	const queryClient = useQueryClient();
@@ -11,8 +12,7 @@ export const useBumpPost = () => {
 			return response.data.data;
 		},
 		onSuccess: () => {
-			/** TODO - 토스트메세지로 바꿔야 할 부분 */
-			alert("끌어올리기 완료!");
+			toast.confirm("끌어올리기가 완료되었습니다.");
 
 			// 쿼리 무효
 			return queryClient.invalidateQueries({

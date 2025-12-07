@@ -67,9 +67,9 @@ export default function Tooltip({
 			{triggerElement}
 
 			{isVisible && (
-				<div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50">
+				<div className="-translate-x-1/2 absolute top-full left-1/2 z-50 mt-2">
 					<div
-						className="w-[10px] h-[10px] bg-black/64 rotate-45 -translate-y-[5px]"
+						className="-translate-y-[5px] h-[10px] w-[10px] rotate-45 bg-black/64"
 						style={{
 							filter: "drop-shadow(0 2.787px 6.201px rgba(0, 0, 0, 0.25))",
 							backdropFilter: "blur(5.26px)",
@@ -78,7 +78,7 @@ export default function Tooltip({
 
 					<div
 						className={cn(
-							"absolute top-0 text-white p-5 rounded-xl min-w-[200px]",
+							"absolute top-0 min-w-[200px] rounded-xl p-5 text-white",
 							getTooltipBodyPositionClass(),
 							className,
 						)}

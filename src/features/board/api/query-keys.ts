@@ -11,6 +11,13 @@ export const boardKeys = {
 		subP?: Position;
 		mike?: Mike;
 	}) => [...boardKeys.lists(), filters] as const,
+	infiniteList: (filters: {
+		gameMode?: GameMode;
+		tier?: Tier;
+		mainP?: Position;
+		subP?: Position;
+		mike?: Mike;
+	}) => [...boardKeys.lists(), "infinite", filters] as const,
 	details: () => [...boardKeys.all, "detail"] as const,
 	detail: (id: number) => [...boardKeys.details(), id] as const,
 	myBoards: () => [...boardKeys.all, "my-boards"] as const,

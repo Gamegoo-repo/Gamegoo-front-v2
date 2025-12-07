@@ -18,22 +18,22 @@ export default function MannerLevelPopover({
 	return (
 		<Popover containerRef={containerRef as RefObject<HTMLElement>}>
 			<PopoverTrigger asChild>{children}</PopoverTrigger>
-			<PopoverContent className="w-[472px] popover p-8">
-				<div className="w-full flex flex-col gap-7">
+			<PopoverContent className="popover w-[472px] p-8">
+				<div className="flex w-full flex-col gap-7">
 					<PopoverHeader title={`매너 레벨 LV. ${level}`} />
-					<div className="w-full flex gap-14">
-						<section className="w-1/2 flex flex-col gap-4">
-							<span className="block semibold-13 text-white">
+					<div className="flex w-full gap-14">
+						<section className="flex w-1/2 flex-col gap-4">
+							<span className="semibold-13 block text-white">
 								받은 매너평가
 							</span>
-							<ul className="w-full flex flex-col gap-4">
+							<ul className="flex w-full flex-col gap-4">
 								{userMannerInfo.mannerKeywords
 									.slice(0, 6)
 									.map((mannerKeyword) => (
 										<li
 											key={mannerKeyword.mannerKeywordId}
 											className={cn(
-												"w-full flex items-center justify-between bold-16 text-gray-500",
+												"bold-16 flex w-full items-center justify-between text-gray-500",
 												mannerKeyword.count > 0 && "text-violet-400",
 											)}
 										>
@@ -43,16 +43,16 @@ export default function MannerLevelPopover({
 									))}
 							</ul>
 						</section>
-						<section className="w-1/2 flex flex-col gap-4">
-							<span className="block semibold-13 text-white">
+						<section className="flex w-1/2 flex-col gap-4">
+							<span className="semibold-13 block text-white">
 								받은 비매너평가
 							</span>
-							<ul className="w-full flex flex-col gap-4">
+							<ul className="flex w-full flex-col gap-4">
 								{userMannerInfo.mannerKeywords.slice(6).map((mannerKeyword) => (
 									<li
 										key={mannerKeyword.mannerKeywordId}
 										className={cn(
-											"w-full flex items-center justify-between bold-16 text-gray-500",
+											"bold-16 flex w-full items-center justify-between text-gray-500",
 											mannerKeyword.count > 0 && "text-red-400",
 										)}
 									>

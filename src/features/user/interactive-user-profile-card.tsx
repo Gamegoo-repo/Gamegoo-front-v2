@@ -42,7 +42,7 @@ export default function InteractiveUserProfileCard({
 		return null;
 	}
 	return (
-		<div className="flex gap-3 items-center">
+		<div className="flex items-center gap-3">
 			<p className="relative">
 				<BubbleTooltip />
 				<UserProfile id={profileImage} size={74} hasDropShadow />
@@ -50,17 +50,17 @@ export default function InteractiveUserProfileCard({
 					containerRef={modalRef}
 					userMannerInfo={userMannerInfo}
 				>
-					<span className="cursor-pointer inline-block py-0.5 px-2 rounded-full text-violet-300 bg-black/65 absolute left-1/2 bottom-0 -translate-x-1/2 bold-12 translate-y-1/3">
+					<span className="-translate-x-1/2 bold-12 absolute bottom-0 left-1/2 inline-block translate-y-1/3 cursor-pointer rounded-full bg-black/65 px-2 py-0.5 text-violet-300">
 						LV.{level}
 					</span>
 				</MannerLevelPopover>
 			</p>
-			<p className="flex flex-col h-fit gap-1">
-				<span className="flex items-center justify-start gap-1.5 text-gray-800 bold-20 w-full">
+			<p className="flex h-fit flex-col gap-1">
+				<span className="bold-20 flex w-full items-center justify-start gap-1.5 text-gray-800">
 					{gameName}
 					{mike && <MikeTag isMikeAvailable={mike === "AVAILABLE"} />}
 				</span>
-				<span className="text-gray-500 semibold-14">#{tag}</span>
+				<span className="semibold-14 text-gray-500">#{tag}</span>
 			</p>
 		</div>
 	);

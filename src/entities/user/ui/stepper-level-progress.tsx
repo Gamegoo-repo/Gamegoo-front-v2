@@ -12,11 +12,11 @@ export default function StepperLevelProgress({
 	const LEVEL_NUMBERS = Array.from({ length: 5 }, (_, i) => i + 1); // [1, 2, 3, 4, 5]
 	const progressPercent = ((userLevel - 1) / 4) * 100;
 	return (
-		<div className="w-full progress flex items-center justify-between">
+		<div className="progress flex w-full items-center justify-between">
 			<div
 				className={cn(
-					"progress-bar w-full px-5 flex h-1",
-					userLevel < 5 && "pr-[9px]",
+					"progress-bar flex h-[3px] mobile:h-1 w-full mobile:px-5 px-6",
+					userLevel < 5 && "mobile:pr-[9px] pr-1",
 				)}
 			>
 				<div
@@ -27,7 +27,7 @@ export default function StepperLevelProgress({
 					}}
 				/>
 				<div
-					className="bg-black h-full"
+					className="h-full bg-gray-800"
 					style={{
 						width: `${100 - progressPercent}%`,
 					}}

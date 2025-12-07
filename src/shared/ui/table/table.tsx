@@ -35,7 +35,7 @@ export default function Table<T extends { id: number }>({
 
 	if (isLoading) {
 		content = Array.from({ length: 8 }).map(() => (
-			<tr key={crypto.randomUUID()} className="pt-2 pb-2 ">
+			<tr key={crypto.randomUUID()} className="pt-2 pb-2">
 				<td colSpan={10}>
 					<Skeleton height={83} variant="rounded" width={"100%"} />
 				</td>
@@ -46,7 +46,7 @@ export default function Table<T extends { id: number }>({
 			<tr>
 				<td
 					colSpan={memoizedColumns.length}
-					className="text-center py-10 text-gray-700 regular-16"
+					className="regular-16 py-10 text-center text-gray-700"
 				>
 					게시된 글이 없습니다.
 				</td>
@@ -78,12 +78,12 @@ export default function Table<T extends { id: number }>({
 						<tr
 							key={row.id}
 							onClick={() => handleRowClick(row)}
-							className="border-b border-gray-300 pt-2 pb-2 "
+							className="border-gray-300 border-b pt-2 pb-2"
 						>
 							{memoizedColumns.map((column) => (
 								<td
 									key={column.header}
-									className="h-[86px] pt-5 pb-3 px-3 first:pl-3 last:px-0"
+									className="h-[86px] px-3 pt-5 pb-3 first:pl-3 last:p-0"
 								>
 									{column.accessor(row)}
 								</td>

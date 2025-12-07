@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { ToastProps, ToastType } from "../../lib/toast/types";
+import { cn } from "@/shared/lib/utils";
+import WaringIcon from "@/shared/assets/icons/toast/warning-ic.svg?react";
+import ConfirmIcon from "@/shared/assets/icons/toast/confirm-ic.svg?react";
 
 const renderIcon = (type: ToastType) => {
-	if (type === "confirm") return "✔️";
-	if (type === "error") return "❌";
+	if (type === "confirm") return <ConfirmIcon />;
+	if (type === "error") return <WaringIcon />;
 	return null;
 };
 
@@ -61,28 +64,25 @@ export function Toast({
 		<div
 			{...htmlProps}
 			onClick={handleClickToClose}
-			onKeyDown={(e) => {
-				if (e.key === "Enter" || e.key === " ") {
-					handleClickToClose();
-				}
-			}}
-			className={`fixed left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4`}
+			className={`-translate-x-1/2 fixed left-1/2 z-50 w-full max-w-md px-4`}
 			style={positionStyle}
 		>
 			<div
-				className={`
-          bg-gray-800 text-white px-4 py-3 rounded-2xl shadow-lg
-          flex items-center justify-between gap-2
-          transition-all duration-500
-          ${isVisible ? "animate-fade-in-y" : "animate-fade-out-y"}
-        `}
+				className={cn(
+					"flex items-center justify-between gap-2 rounded-xl border px-6 py-3 font-bold text-base shadow-lg transition-all duration-500",
+					isVisible ? "animate-fade-in-y" : "animate-fade-out-y",
+					type === "error" &&
+						"border-red-600 bg-red-100 text-red-600 shadow-[3px_3px_6px_0_rgba(255,82,82,0.4)]",
+					type === "confirm" &&
+						"border-violet-600 bg-violet-100 text-violet-600 shadow-[3px_3px_6px_0_rgba(90,66,238,0.50)]",
+				)}
 			>
 				{/* 왼쪽: 아이콘 + 메시지 */}
-				<div className="flex items-center gap-2 flex-1">
+				<div className="flex flex-1 items-center gap-2">
 					{renderIcon(type) && (
 						<span className="text-xl">{renderIcon(type)}</span>
 					)}
-					<span className="text-sm font-medium whitespace-pre-line">
+					<span className="whitespace-pre-line font-medium text-sm">
 						{message}
 					</span>
 				</div>
@@ -95,8 +95,7 @@ export function Toast({
 							e.stopPropagation(); // 토스트 닫기 방지
 							onUndo();
 						}}
-						className="text-sm font-semibold text-blue-400 hover:text-blue-300 
-                     whitespace-nowrap transition-colors"
+						className="whitespace-nowrap font-semibold text-blue-400 text-sm transition-colors hover:text-blue-300"
 					>
 						되돌리기
 					</button>

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { cn } from "@/shared/lib/utils";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import {
@@ -13,28 +12,29 @@ import { getTierTitle } from "../lib/getTierTitle";
 import { useBoardFilterStore } from "../model/board-filter-store";
 
 export default function BoardFilter() {
-	const { gameMode, tier, mike, setFilter, resetFilters } =
-		useBoardFilterStore();
-
-	useEffect(() => {
-		resetFilters();
-	}, []);
+	const { gameMode, tier, mike, setFilter } = useBoardFilterStore();
 
 	return (
-		<section className="h-full flex gap-2">
+		<section className="flex h-full gap-2">
 			<Dropdown
+				className="w-[138px]"
 				selectedLabel={getGameModeTitle(gameMode)}
-				defaultAction={(value) => setFilter("gameMode", value)}
+				size="lg"
+				onSelect={(value) => setFilter("gameMode", value)}
 				items={GAME_MODE_ITEMS}
 			/>
 			<Dropdown
 				selectedLabel={getTierTitle(tier)}
-				defaultAction={(value) => setFilter("tier", value)}
+				size="lg"
+				className="w-[138px]"
+				onSelect={(value) => setFilter("tier", value)}
 				items={TIER_ITEMS}
 			/>
 			<Dropdown
 				selectedLabel={getMike(mike)}
-				defaultAction={(value) => setFilter("mike", value)}
+				size="lg"
+				className="w-[138px]"
+				onSelect={(value) => setFilter("mike", value)}
 				items={MIKE_ITEMS}
 			/>
 			<PositionButtons />
@@ -46,26 +46,26 @@ function PositionButtons() {
 	const { position, setFilter } = useBoardFilterStore();
 
 	return (
-		<ul className="h-full w-[286px] flex rounded-lg bg-gray-100 overflow-hidden ">
+		<ul className="flex h-full w-[286px] overflow-hidden rounded-lg bg-gray-100">
 			{POSITION_BUTTON_ITEMS.map((item) => {
 				const Icon = item.icon;
 				const isSelected = position === item.position;
 				return (
 					<li
 						key={item.position}
-						className="cursor-pointer h-full flex-1 border-r border-gray-300 last:border-none transition-all ease-in-out hover:bg-gray-300"
+						className="h-full flex-1 cursor-pointer border-gray-300 border-r transition-all ease-in-out last:border-none hover:bg-gray-300"
 					>
 						<button
 							type="button"
 							className={cn(
-								"cursor-pointer w-full h-full flex items-center justify-center",
+								"flex h-full w-full cursor-pointer items-center justify-center",
 								isSelected && "bg-gray-700 hover:bg-gray-600",
 							)}
 							onClick={() => setFilter("position", item.position)}
 						>
 							<Icon
 								className={cn(
-									"w-6 position-icon text-gray-500",
+									"position-icon w-6 text-gray-500",
 									isSelected && "selected text-gray-100",
 								)}
 							/>

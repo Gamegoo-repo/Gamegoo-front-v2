@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import ChampionInfo from "@/entities/game/ui/champion-info";
 import TierBadge from "@/entities/game/ui/tier-badge";
 import MannerLevelBadge from "@/entities/user/ui/manner-level-badge";
 import UserProfile from "@/entities/user/ui/user-profile";
@@ -11,6 +10,8 @@ import type { UserStore } from "@/shared/model/use-auth-store";
 import type { Column } from "@/shared/ui/table/table";
 import SearchingPosition from "../ui/searching-positions";
 import UserPositions from "../ui/user-positions";
+import CopyRiotIdButton from "@/features/board/ui/copy-riot-id-button";
+import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 
 export const getColumns = (options?: {
 	user: UserStore;
@@ -22,20 +23,26 @@ export const getColumns = (options?: {
 			width: "17%",
 			accessor: (row) => {
 				return (
-					<Link
-						to={"/users/$userId"}
-						onClick={(e) => e.stopPropagation()}
-						params={{ userId: row.memberId.toString() }}
-						className="flex gap-2 items-center"
-					>
-						<UserProfile id={row.profileImage} hasDropShadow={false} />
-						<div className="flex flex-col gap-0.5 flex-grow items-start">
-							<span className="inline-block text-gray-800 semibold-16 max-w-[13ch] whitespace-nowrap overflow-hidden text-ellipsis">
+					<div className="flex h-fit items-center gap-2">
+						<Link
+							to={"/users/$userId"}
+							params={{ userId: row.memberId.toString() }}
+						>
+							<UserProfile id={row.profileImage} hasDropShadow={false} />
+						</Link>
+
+						<div className="group flex flex-grow flex-col items-start gap-0.5">
+							<span className="semibold-16 inline-block max-w-[13ch] overflow-hidden text-ellipsis whitespace-nowrap text-gray-800">
 								{row.gameName}
 							</span>
-							<span className="text-gray-600 regular-13">#{row.tag}</span>
+							<div className="flex h-fit items-center gap-1.5">
+								<span className="regular-13 text-gray-600">#{row.tag}</span>{" "}
+								<div className="opacity-0 transition-opacity group-hover:opacity-100">
+									<CopyRiotIdButton gameName={row.gameName} tag={row.tag} />
+								</div>
+							</div>
 						</div>
-					</Link>
+					</div>
 				);
 			},
 		},
@@ -66,21 +73,10 @@ export const getColumns = (options?: {
 		{
 			width: "17%",
 			accessor: (row) => (
-				<ul className="flex gap-2 justify-center">
-					{row.championStatsResponseList?.map((champion) => {
-						return (
-							<li key={`${row.boardId}-${champion.championId}`}>
-								<ChampionInfo {...champion} badgeClassName="w-[31px]" />
-							</li>
-						);
-					})}
-					{!row.championStatsResponseList ||
-						(row.championStatsResponseList.length === 0 && (
-							<span className="medium-14 text-gray-400 text-center">
-								챔피언 정보가 없습니다.
-							</span>
-						))}
-				</ul>
+				<ChampionStatsSection
+					championList={row.championStatsResponseList}
+					variant="board"
+				/>
 			),
 			header: "최근 선호 챔피언",
 		},
@@ -89,7 +85,7 @@ export const getColumns = (options?: {
 			accessor: (row) => (
 				<div
 					className={cn(
-						"bold-16 text-center inline-block w-full whitespace-nowrap min-w-max",
+						"bold-16 inline-block w-full min-w-max whitespace-nowrap text-center",
 						(row.winRate ?? 0) >= 50 ? "text-violet-600" : "text-gray-800",
 					)}
 				>
@@ -101,7 +97,7 @@ export const getColumns = (options?: {
 		{
 			width: "15%",
 			accessor: (row) => (
-				<div className="p-2 w-[156px] bg-gray-100 rounded-lg border border-gray-400 regular-13 text-gray-800 text-center">
+				<div className="regular-13 w-[156px] rounded-lg border border-gray-400 bg-gray-100 p-2 text-center text-gray-800">
 					<p className="line-clamp-2 break-words">{row.contents}</p>
 				</div>
 			),
@@ -111,7 +107,7 @@ export const getColumns = (options?: {
 			width: "8%",
 			accessor: (row) => {
 				return (
-					<div className="text-center medium-16 text-gray-500 inline-block whitespace-nowrap min-w-max w-full">
+					<div className="medium-16 inline-block w-full min-w-max whitespace-nowrap text-center text-gray-500">
 						{formatDateSimple(row.bumpTime || row.createdAt || "")}
 					</div>
 				);
@@ -126,7 +122,10 @@ export const getColumns = (options?: {
 						(user) => user.memberId === row.memberId,
 					) || false;
 				return (
-					<div className="w-full flex items-center">
+					<div
+						className="flex h-full w-full items-center"
+						onClick={(e) => e.stopPropagation()}
+					>
 						{options && (
 							<PostActionMenu
 								postId={row.boardId}

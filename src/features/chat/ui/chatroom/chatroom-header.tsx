@@ -25,7 +25,7 @@ const ChatroomHeader = () => {
 
 	return (
 		<div className="flex px-[12px] pt-[12px]">
-			<div className="flex w-full py-2 pl-2 gap-2 border-b border-violet-300 items-center">
+			<div className="flex w-full items-center gap-2 border-violet-300 border-b py-2 pl-2">
 				<LeftArrowIcon
 					className="cursor-pointer"
 					onClick={() => setChatDialogType("chatroom-list")}
@@ -38,7 +38,7 @@ const ChatroomHeader = () => {
 								{chatroom?.targetMemberName}
 							</p>
 							{isOnline && (
-								<div className="absolute -top-1 -right-2 w-[7px] h-[7px] bg-green-500 rounded-full" />
+								<div className="-top-1 -right-2 absolute h-[7px] w-[7px] rounded-full bg-green-500" />
 							)}
 							<p className="regular-11 text-gray-600">
 								{isOnline ? "온라인" : "오프라인"}

@@ -4,7 +4,7 @@ interface ChatroomDateDividerProps {
 
 const ChatroomDateDivider = ({ date }: ChatroomDateDividerProps) => {
 	return (
-		<p className="my-[10px] mx-auto text-center rounded-[14px] medium-11 text-gray-700 whitespace-nowrap">
+		<p className="medium-11 mx-auto my-[10px] whitespace-nowrap rounded-[14px] text-center text-gray-700">
 			{date}
 		</p>
 	);

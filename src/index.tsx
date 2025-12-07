@@ -9,6 +9,7 @@ import UnPredictableErrorBoundary from "./shared/ui/error-boundary/unpredictable
 import ToastContainer from "./shared/ui/toast/toast-container";
 
 const router = createRouter({
+	scrollRestoration: true,
 	routeTree,
 });
 

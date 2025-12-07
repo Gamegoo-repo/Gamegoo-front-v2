@@ -3,6 +3,7 @@ import { userKeys } from "@/entities/user/config/query-keys";
 import { api, type OtherProfileResponse } from "@/shared/api";
 import { queryClient } from "@/shared/lib/query-client";
 import { Button } from "@/shared/ui";
+import { toast } from "@/shared/lib/toast";
 
 export default function FriendRequestCancelButton({
 	userId,
@@ -30,12 +31,10 @@ export default function FriendRequestCancelButton({
 		onError: (err, _, context) => {
 			console.log(err);
 			queryClient.setQueryData(userKeys.profile(userId), context?.previous);
-			// toast.error("요청 취소 실패");
-			alert("요청 취소 실패");
+			toast.error("친구 요청을 취소하지 못했습니다.");
 		},
 		onSuccess: () => {
-			// toast.success("친구 요청을 취소했습니다");
-			alert("친구 요청을 취소했습니다.");
+			toast.confirm("친구 요청을 취소했습니다.");
 		},
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.profile(userId) });
@@ -45,7 +44,7 @@ export default function FriendRequestCancelButton({
 		<Button
 			variant={"black"}
 			size="xl"
-			className="w-[218px] h-[45px] bold-14 rounded-xl"
+			className="bold-14 h-[45px] mobile:w-[218px] w-full mobile:rounded-xl rounded-[6px]"
 			onClick={() => cancelRequestMutation.mutate()}
 		>
 			친구 요청 취소

@@ -11,9 +11,9 @@ export default function Footer() {
 
 	if (isMobile) {
 		return (
-			<footer className="w-full flex flex-col gap-8 p-5">
-				<section className="w-full mobile:w-[417px] flex flex-col gap-4">
-					<LogoButton className="w-[87px] text-gray-400 h-fit" />
+			<footer className="flex w-full flex-col gap-8 p-5">
+				<section className="flex mobile:w-[417px] w-full flex-col gap-4">
+					<LogoButton className="h-fit w-[87px] text-gray-400" />
 					<FeedbackForm />
 				</section>
 				<section className="flex flex-col gap-1.5">
@@ -24,9 +24,9 @@ export default function Footer() {
 		);
 	}
 	return (
-		<footer className="w-full flex flex-col mobile:flex-row justify-start pb-8 tablet:pb-[100px] desktop:pb-[120px] px-5 mobile:px-0">
-			<section className="w-full mobile:w-[417px] flex flex-col gap-7">
-				<LogoButton className="w-[118px] text-gray-400 h-fit" />
+		<footer className="flex w-full mobile:flex-row flex-col justify-start mobile:px-0 px-5 desktop:pb-[120px] pb-8 tablet:pb-[100px]">
+			<section className="flex mobile:w-[417px] w-full flex-col gap-7">
+				<LogoButton className="h-fit w-[118px] text-gray-400" />
 				<TermsLink />
 				<FooterInfo />
 			</section>
@@ -42,13 +42,13 @@ function TermsLink() {
 		<p className="flex gap-2.5 mobile:gap-4">
 			<Link
 				to="/about"
-				className="underline-offset-2 underline bold-14 text-gray-500"
+				className="bold-14 text-gray-500 underline underline-offset-2"
 			>
 				개인정보처리방침
 			</Link>
 			<Link
 				to="/about"
-				className="underline-offset-2 underline bold-14 text-gray-500"
+				className="bold-14 text-gray-500 underline underline-offset-2"
 			>
 				이용약관
 			</Link>
@@ -58,10 +58,10 @@ function TermsLink() {
 
 function FooterInfo() {
 	return (
-		<p className="w-full flex flex-col gap-1.5 mobile:gap-1 regular-13 text-gray-500">
+		<p className="regular-13 flex w-full flex-col gap-1.5 mobile:gap-1 text-gray-500">
 			<a
 				href="mailto:gamegoo0707@gmail.com"
-				className="hover:text-gray-700 transition-colors"
+				className="transition-colors hover:text-gray-700"
 			>
 				email: gamegoo0707@gmail.com
 			</a>
@@ -108,12 +108,12 @@ function FeedbackForm() {
 			<p className="bold-14 text-gray-700">
 				Gamegoo 팀에게 소중한 피드백을 전달해주세요!
 			</p>
-			<form className="flex gap-3 items-center" onSubmit={handleSubmit}>
+			<form className="flex items-center gap-3" onSubmit={handleSubmit}>
 				<input
 					name="feedback"
 					placeholder="본 피드백은 서비스 개선에 큰 도움이 됩니다 :)"
 					className={
-						"outline-none shadow-none focus:border-violet-300 transition-all ease-in-out duration-100 placeholder:text-gray-500 w-full mobile:w-[343px] px-3 py-2.5 border border-gray-500 rounded-lg regular-13"
+						"regular-13 mobile:w-[343px] w-full rounded-lg border border-gray-500 px-3 py-2.5 shadow-none outline-none transition-all duration-100 ease-in-out placeholder:text-gray-500 focus:border-violet-300"
 					}
 					value={enteredFeedback}
 					onChange={handleChangeFeedback}
@@ -122,8 +122,8 @@ function FeedbackForm() {
 					disabled={!canSubmit}
 					type="submit"
 					className={cn(
-						"cursor-pointer p-1 text-gray-400 disabled:text-gray-300 disabled:cursor-default",
-						canSubmit && "hover:scale-120 duration-300",
+						"cursor-pointer p-1 text-gray-400 disabled:cursor-default disabled:text-gray-300",
+						canSubmit && "duration-300 hover:scale-120",
 					)}
 				>
 					<PaperPlaneIcon />

@@ -16,22 +16,24 @@ export default function MannerKeywordsCard({
 	type,
 }: MannerKeywordsCardProps) {
 	return (
-		<section>
-			<h3 className="text-gray-800 regular-25 mb-2">{title}</h3>
-			<div className="bg-gray-800 rounded-[20px] h-[264px] w-[221px] px-6 py-7">
-				<ul className="w-full h-full flex flex-col justify-between">
+		<section className="flex h-full flex-col">
+			<h3 className="mb-2 font-semibold mobile:font-normal mobile:text-2xl text-gray-800 text-lg">
+				{title}
+			</h3>
+			<div className="mobile:w-[221px] flex-1 mobile:rounded-[20px] rounded-lg bg-gray-800 p-5 mobile:px-6 mobile:py-7">
+				<ul className="flex h-full w-full flex-col justify-between gap-1.5 mobile:gap-4">
 					{keywords.map((mannerKeyword) => (
 						<li
 							key={mannerKeyword.mannerKeywordId}
 							className={cn(
-								"w-full flex items-center justify-between medium-16 text-white",
+								"flex w-full items-center justify-between font-medium mobile:text-base text-sm text-white",
 								mannerKeyword.count === 0 && "text-gray-500",
 							)}
 						>
 							{getMannerText(mannerKeyword.mannerKeywordId)}
 							<span
 								className={cn(
-									"bold-16",
+									"font-bold",
 									mannerKeyword.count > 0 &&
 										type === "positive" &&
 										"text-violet-500",

@@ -103,7 +103,7 @@ function DraggableDialog({
 					<button
 						type="button"
 						data-drag-handle
-						className="w-full text-left cursor-default md:cursor-move"
+						className="w-full cursor-default text-left md:cursor-move"
 						style={{
 							padding: headerComponent ? "0" : "20px 30px",
 							marginBottom: headerComponent ? "0" : "10px",
@@ -120,7 +120,7 @@ function DraggableDialog({
 					>
 						{headerComponent ||
 							(title && (
-								<h2 className="text-[20px] font-bold text-gray-800">{title}</h2>
+								<h2 className="font-bold text-[20px] text-gray-800">{title}</h2>
 							))}
 					</button>
 
@@ -139,7 +139,7 @@ function DraggableDialog({
 							}
 						}}
 						onMouseDown={(e) => e.stopPropagation()}
-						className="w-[25px] h-[25px] flex justify-center items-center absolute top-[12px] right-[12px] opacity-70 hover:opacity-100"
+						className="absolute top-[12px] right-[12px] flex h-[25px] w-[25px] items-center justify-center opacity-70 hover:opacity-100"
 						aria-label="Close dialog"
 					>
 						<svg

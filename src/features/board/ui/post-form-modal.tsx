@@ -7,7 +7,6 @@ import type {
 	ApiErrorResponse,
 	BoardInsertRequest,
 	BoardUpdateRequest,
-	GameMode,
 	Mike,
 	MyProfileResponse,
 	Position,
@@ -21,6 +20,7 @@ import { useCreatePost } from "../api/use-create-post";
 import { GAME_STYLE } from "../config/game-styles";
 import GameStylePopover from "./game-style-popover";
 import PositionSelector from "./position-selector";
+import { toast } from "@/shared/lib/toast";
 
 export interface BoardFormData
 	extends Omit<BoardInsertRequest, "mainP" | "subP" | "mike" | "contents"> {
@@ -46,7 +46,8 @@ export const validateBoardForm = (formData: BoardFormData): boolean => {
 		formData.subP !== undefined &&
 		formData.wantP.length >= 1 &&
 		formData.wantP.length <= 2 &&
-		formData.gameStyles.length >= 1
+		formData.gameStyles.length >= 1 &&
+		formData.contents.trim().length > 0
 	);
 };
 
@@ -123,6 +124,7 @@ export default function PostFormModal({
 
 		const form: BoardInsertRequest = {
 			...formData,
+			contents: formData.contents.trim(),
 			mainP: formData.mainP,
 			subP: formData.subP,
 		};
@@ -163,13 +165,15 @@ export default function PostFormModal({
 		};
 		mutate(form, {
 			onSuccess: () => {
-				alert("성공적으로 수정하였습니다.");
+				toast.confirm("게시글을 수정하였습니다.");
 				handleClose();
 			},
-			onError: (error: AxiosError<ApiErrorResponse>) => {
+            onError: (error: AxiosError<ApiErrorResponse>) => {
 				if (error.response?.data?.code === "BOARD_408") {
 					textareaRef.current?.focus();
 					setContentError(error.response?.data.message);
+				} else {
+					handleClose();
 				}
 			},
 		});
@@ -177,15 +181,14 @@ export default function PostFormModal({
 
 	return (
 		<Modal
+			isBackdropClosable={false}
 			isOpen={isOpen}
 			onClose={handleClose}
 			className="w-[555px]"
 			contentRef={modalRef}
 		>
 			<form className="flex flex-col gap-5">
-				{/* MODAL-CONTENT */}
 				<section className="flex flex-col gap-[30px]">
-					{/** TODO: profileImag와 profileImg중 하나로 통일해주실 수 있나요  -> 바꿔준다고 하면 고치기*/}
 					<UserProfileCard
 						{...{
 							profileImage: userInfo.profileImg,
@@ -195,11 +198,11 @@ export default function PostFormModal({
 					/>
 					<div className="w-full">
 						<p className="label mb-1.5">포지션</p>
-						<div className="flex gap-2 h-[98px] w-full">
-							<div className="bg-white flex-1 rounded-[10px] h-full px-11 py-4">
-								<ul className="w-full flex justify-between h-full">
-									<li className="h-full flex flex-col items-center justify-between w-[49px]">
-										<span className="text-gray-700 bold-12 w-full text-center">
+						<div className="flex h-[98px] w-full gap-2">
+							<div className="h-full flex-1 rounded-[10px] bg-white px-11 py-4">
+								<ul className="flex h-full w-full justify-between">
+									<li className="flex h-full w-[49px] flex-col items-center justify-between">
+										<span className="bold-12 w-full text-center text-gray-700">
 											주 포지션
 										</span>
 										<PositionSelector
@@ -212,8 +215,8 @@ export default function PostFormModal({
 										/>
 									</li>
 
-									<li className="h-full flex flex-col items-center justify-between w-[49px]">
-										<span className="text-gray-700 bold-12 w-full text-center">
+									<li className="flex h-full w-[49px] flex-col items-center justify-between">
+										<span className="bold-12 w-full text-center text-gray-700">
 											부 포지션
 										</span>
 										<PositionSelector
@@ -227,10 +230,10 @@ export default function PostFormModal({
 									</li>
 								</ul>
 							</div>
-							<div className="bg-white flex-1 rounded-[10px] h-full px-11 py-4 flex flex-col items-center justify-between">
-								<span className="text-gray-700 bold-12">내가 찾는 포지션</span>
+							<div className="flex h-full flex-1 flex-col items-center justify-between rounded-[10px] bg-white px-11 py-4">
+								<span className="bold-12 text-gray-700">내가 찾는 포지션</span>
 
-								<ul className="flex w-full justify-center gap-4 items-end">
+								<ul className="flex w-full items-end justify-center gap-4">
 									<li className="flex flex-col items-center justify-between">
 										<PositionSelector
 											onChangePosition={(newState) => {
@@ -247,7 +250,7 @@ export default function PostFormModal({
 										/>
 									</li>
 
-									<li className="flex flex-col gap-3 justify-between">
+									<li className="flex flex-col justify-between gap-3">
 										<PositionSelector
 											onChangePosition={(newState) => {
 												if (newState) {
@@ -269,18 +272,19 @@ export default function PostFormModal({
 					<div className="flex flex-col gap-2">
 						<p className="label">선호 게임 모드</p>
 						<Dropdown
-							className="w-[240px] h-14 z-10"
-							type="secondary"
+							className="w-[240px]"
+							variant="secondary"
+							size="lg"
 							selectedLabel={getGameModeTitle(formData.gameMode)}
-							defaultAction={
-								(value) => handleChangeFormData("gameMode", value as GameMode) // TODO: 수정이 필요함
-							}
+							onSelect={(value) => {
+								if (value) handleChangeFormData<"gameMode">("gameMode", value);
+							}}
 							items={GAME_MODE_ITEMS.slice(1)}
 						/>
 					</div>
 					<div className="flex flex-col gap-2">
 						<p className="label">게임 스타일</p>
-						<div className="w-full flex gap-2 items-center flex-wrap gap-y-3">
+						<div className="flex w-full flex-wrap items-center gap-2 gap-y-3">
 							{formData.gameStyles.map((styleId, _idx) => {
 								const style = GAME_STYLE.find(
 									(item) => item.gameStyleId === styleId,
@@ -288,12 +292,12 @@ export default function PostFormModal({
 								return style ? (
 									<span
 										key={styleId}
-										className="flex items-center justify-center	 px-3 py-1 bg-white rounded-full gap-1"
+										className="flex items-center justify-center gap-1 rounded-full bg-white px-3 py-1"
 									>
 										{style.gameStyleName}
 										{/** TODO: 임의로 넣어본 부분이라 허락 받아야 함*/}
 										<CloseButton
-											className="p-0 hover:bg-gray-100 rounded-full"
+											className="rounded-full p-0 hover:bg-gray-100"
 											iconClass="w-5 text-gray-600"
 											onClose={() => handleGameStyleToggle(styleId)}
 										/>
@@ -321,13 +325,13 @@ export default function PostFormModal({
 						/>
 					</div>
 
-					<div className="flex flex-col gap-2 group">
+					<div className="group flex flex-col gap-2">
 						<p className="label">한마디</p>
 
 						<textarea
 							ref={textareaRef}
 							className={cn(
-								"focus:outline-none transition-colors duration-150 focus:border-violet-400 w-full border-1 border-gray-400 rounded-10 h-[70px] px-2.5 py-2 resize-none",
+								"h-[70px] w-full resize-none rounded-10 border-1 border-gray-400 px-2.5 py-2 transition-colors duration-150 focus:border-violet-400 focus:outline-none",
 								contentError && "focus:border-red-500",
 							)}
 							maxLength={80}
@@ -347,7 +351,7 @@ export default function PostFormModal({
 						)}
 						<span
 							className={cn(
-								"text-gray-500 medium-11 group-focus-within:text-violet-400",
+								"medium-11 text-gray-500 group-focus-within:text-violet-400",
 								contentError && "text-red-500 group-focus-within:text-red-500",
 							)}
 						>

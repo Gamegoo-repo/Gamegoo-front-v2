@@ -4,7 +4,7 @@ export default function SelectPositionButton() {
 	return (
 		<button
 			type="button"
-			className="bg-violet-100 h-8 w-12 rounded-full cursor-pointer flex items-center justify-center"
+			className="flex h-8 w-12 cursor-pointer items-center justify-center rounded-full bg-violet-100"
 		>
 			<PlusIcon />
 		</button>

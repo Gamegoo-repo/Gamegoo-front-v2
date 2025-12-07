@@ -44,7 +44,7 @@ function FriendSection({
 
 	return (
 		<div className="mb-6">
-			<h3 className="text-sm regular-11 text-gray-500 mb-3">{title}</h3>
+			<h3 className="regular-11 mb-3 text-gray-500 text-sm">{title}</h3>
 			<div className="space-y-2">{renderFriendItems()}</div>
 		</div>
 	);

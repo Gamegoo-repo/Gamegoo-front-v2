@@ -9,8 +9,8 @@ function EditableProfileAvatar() {
 		<div>
 			<div className="relative">
 				<UserProfile id={userInfo?.profileImg ?? 0} size={180} hasDropShadow />
-				<div className="absolute bottom-0 left-0 w-[56px] h-[56px] bg-gray-800/75 rounded-full flex items-center justify-center">
-					<PencilIcon className="w-[56px] h-[56px]" />
+				<div className="absolute bottom-0 left-0 flex h-[56px] w-[56px] items-center justify-center rounded-full bg-gray-800/75">
+					<PencilIcon className="h-[56px] w-[56px]" />
 				</div>
 			</div>
 		</div>

@@ -178,8 +178,8 @@ class ErrorBoundary extends Component<Props, State> {
 
 			// 기본 에러 UI
 			return (
-				<div className="min-h-[400px] flex flex-col items-center justify-center p-8">
-					<div className="max-w-md w-full text-center">
+				<div className="flex min-h-[400px] flex-col items-center justify-center p-8">
+					<div className="w-full max-w-md text-center">
 						{/* 에러 아이콘 */}
 						<div className="mb-4">
 							{this.state.errorType === "NOT_FOUND" ? (
@@ -192,7 +192,7 @@ class ErrorBoundary extends Component<Props, State> {
 						</div>
 
 						{/* 에러 제목 */}
-						<h2 className="text-2xl font-bold text-gray-700 mb-2">
+						<h2 className="mb-2 font-bold text-2xl text-gray-700">
 							{this.state.errorType === "NOT_FOUND"
 								? "페이지를 찾을 수 없습니다"
 								: this.state.errorType === "PERMISSION"
@@ -201,14 +201,14 @@ class ErrorBoundary extends Component<Props, State> {
 						</h2>
 
 						{/* 에러 메시지 */}
-						<p className="text-gray-500 mb-6">{this.state.errorMessage}</p>
+						<p className="mb-6 text-gray-500">{this.state.errorMessage}</p>
 
 						{/* 액션 버튼 */}
-						<div className="flex flex-col sm:flex-row gap-3 justify-center">
+						<div className="flex flex-col justify-center gap-3 sm:flex-row">
 							<button
 								type="button"
 								onClick={this.handleReset}
-								className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition"
+								className="rounded-lg bg-violet-600 px-4 py-2 text-white transition hover:bg-violet-700"
 							>
 								다시 시도
 							</button>
@@ -217,7 +217,7 @@ class ErrorBoundary extends Component<Props, State> {
 								onClick={() => {
 									window.location.href = "/";
 								}}
-								className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+								className="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 transition hover:bg-gray-300"
 							>
 								홈으로 가기
 							</button>
@@ -226,10 +226,10 @@ class ErrorBoundary extends Component<Props, State> {
 						{/* 개발 환경에서 에러 스택 표시 */}
 						{process.env.NODE_ENV === "development" && this.state.error && (
 							<details className="mt-8 text-left">
-								<summary className="cursor-pointer text-sm text-gray-500 hover:text-gray-700">
+								<summary className="cursor-pointer text-gray-500 text-sm hover:text-gray-700">
 									개발자 정보 보기
 								</summary>
-								<pre className="mt-2 p-4 bg-gray-100 rounded text-xs overflow-auto">
+								<pre className="mt-2 overflow-auto rounded bg-gray-100 p-4 text-xs">
 									{this.state.error.stack}
 								</pre>
 							</details>

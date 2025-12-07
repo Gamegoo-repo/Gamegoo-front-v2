@@ -19,7 +19,7 @@ const ChatroomOpponentMessage = ({
 	});
 
 	return (
-		<div className="flex justify-start items-end mb-[10px]">
+		<div className="mb-[10px] flex items-end justify-start">
 			{showProfileImage && (
 				<ProfileAvatar
 					profileIndex={message.senderProfileImg ?? undefined}
@@ -32,11 +32,11 @@ const ChatroomOpponentMessage = ({
 					showProfileImage ? "ml-[11px]" : "ml-[58.43px]",
 				)}
 			>
-				<div className="regular-14 text-gray-800 bg-white rounded-[13px] px-[13px] py-[5px] max-w-[229px] break-words">
+				<div className="regular-14 max-w-[229px] break-words rounded-[13px] bg-white px-[13px] py-[5px] text-gray-800">
 					{message.message}
 				</div>
 				{showTime && (
-					<p className="ml-[9px] regular-9 text-violet-400">{date}</p>
+					<p className="regular-9 ml-[9px] text-violet-400">{date}</p>
 				)}
 			</div>
 		</div>

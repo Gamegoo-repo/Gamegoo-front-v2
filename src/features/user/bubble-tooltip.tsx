@@ -21,20 +21,20 @@ export default function BubbleTooltip() {
 	return (
 		<div
 			className={cn(
-				"absolute bottom-[62px] left-1/2 -translate-x-1/2 transition-all duration-500 ease-out",
+				"-translate-x-1/2 absolute bottom-[62px] left-1/2 transition-all duration-500 ease-out",
 				isVisible
-					? "opacity-100 translate-y-0"
-					: "opacity-0 translate-y-[10px] pointer-events-none",
+					? "translate-y-0 opacity-100"
+					: "pointer-events-none translate-y-[10px] opacity-0",
 			)}
 		>
 			{/* 말풍선 본체 - 화살표 기준 왼쪽으로 오프셋 */}
-			<div className="absolute bottom-[10px] left-0 -translate-x-4 border border-violet-400 px-[13px] py-[7px] bg-gray-100 rounded-[46px] whitespace-nowrap">
-				<p className="text-gray-800 text-[11px] font-medium">
+			<div className="-translate-x-4 absolute bottom-[10px] left-0 whitespace-nowrap rounded-[46px] border border-violet-400 bg-gray-100 px-[13px] py-[7px]">
+				<p className="font-medium text-[11px] text-gray-800">
 					클릭해서 매너키워드 보기
 				</p>
 			</div>
 
-			<div className="w-[10px] h-[10px]  border-l border-b border-violet-400 bg-gray-100 -rotate-[37deg] -translate-y-[5px] skew-y-[-15deg]" />
+			<div className="-rotate-[37deg] -translate-y-[5px] h-[10px] w-[10px] skew-y-[-15deg] border-violet-400 border-b border-l bg-gray-100" />
 		</div>
 	);
 }
