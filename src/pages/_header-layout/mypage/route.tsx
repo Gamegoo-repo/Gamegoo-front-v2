@@ -6,7 +6,7 @@ export const Route = createFileRoute("/_header-layout/mypage")({
 
 function MyPageLayout() {
 	return (
-		<div className="flex h-full w-full gap-8">
+		<div className="flex h-full w-full gap-8 py-[40px]">
 			<aside className="w-[220px] flex-shrink-0">
 				<nav className="flex h-100 flex-col justify-center gap-4">
 					<MyPageNavItem to="/mypage/profile" label="내 정보" />
