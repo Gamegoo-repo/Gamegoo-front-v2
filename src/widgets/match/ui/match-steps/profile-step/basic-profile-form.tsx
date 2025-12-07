@@ -95,20 +95,21 @@ export default function BasicProfileForm({
 			<div className="flex flex-col gap-2">
 				<p className="label">게임 유형</p>
 				<Dropdown
-					className="w-[240px] h-14 z-10"
-					type="secondary"
+					className="z-10 h-14 w-[240px]"
+					variant="secondary"
+					size="lg"
 					selectedLabel={
 						currentGameMode ? getGameModeTitle(currentGameMode) : "선택"
 					}
-					defaultAction={(value) =>
+					onSelect={(value) =>
 						handleGameModeChange(value as GameMode | undefined)
 					}
 					items={gameModeItems}
 				/>
 			</div>
-			<div className="flex flex-col gap-2 w-full">
+			<div className="flex w-full flex-col gap-2">
 				<p className="label">게임 스타일</p>
-				<div className="w-full flex gap-2 items-center flex-wrap gap-y-3">
+				<div className="flex w-full flex-wrap items-center gap-2 gap-y-3">
 					{selectedGameStyleIds.map((styleId) => {
 						const style = GAME_STYLE.find(
 							(item) => item.gameStyleId === styleId,
@@ -116,11 +117,11 @@ export default function BasicProfileForm({
 						return style ? (
 							<span
 								key={styleId}
-								className="flex items-center justify-center px-3 py-1 bg-white rounded-full gap-1"
+								className="flex items-center justify-center gap-1 rounded-full bg-white px-3 py-1"
 							>
 								{style.gameStyleName}
 								<CloseButton
-									className="p-0 hover:bg-gray-100 rounded-full"
+									className="rounded-full p-0 hover:bg-gray-100"
 									iconClass="w-5 text-gray-600"
 									onClose={() => handleGameStyleToggle(styleId)}
 								/>
@@ -136,7 +137,7 @@ export default function BasicProfileForm({
 					)}
 				</div>
 			</div>
-			<div className="flex flex-col gap-2 w-full">
+			<div className="flex w-full flex-col gap-2">
 				<p className="label">마이크</p>
 				<Switch
 					checked={currentMike === "AVAILABLE"}

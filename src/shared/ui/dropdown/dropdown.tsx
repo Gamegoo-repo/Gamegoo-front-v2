@@ -5,18 +5,6 @@ import ArrowIcon from "@/shared/assets/icons/dropdown-arrow.svg?react";
 import { cn } from "@/shared/lib/utils";
 import { useClickOutside } from "@/shared/model/useClickOutside";
 
-interface DropdownMenuProps<T> {
-	selectedLabel: string;
-	type?: "primary" | "secondary";
-	defaultAction: (newState: T) => void;
-	className?: string;
-	items: {
-		id: T;
-		title: string;
-		url?: T;
-	}[];
-}
-
 const dropdownVariants = cva(
 	"flex items-center justify-between border-1 border-gray-300 bg-white text-gray-800 w-full",
 	{
