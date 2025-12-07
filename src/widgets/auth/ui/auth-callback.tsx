@@ -29,7 +29,7 @@ export default function AuthCallback() {
 					toast.error("Riot 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
 					break;
 				default:
-					toast.error(response.error);
+					toast.error(response.message || "에러가 발생했습니다.");
 					break;
 			}
 			navigate({ from: "/riot/callback", to: "/riot" });
