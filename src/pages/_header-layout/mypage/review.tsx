@@ -72,16 +72,18 @@ function RouteComponent() {
 						userMannerLevelData={mannerLevel}
 					/>
 
-					<div className="flex w-full gap-3">
+					<div className="flex w-full mobile:flex-row flex-col gap-3">
 						<MannerKeywordsCard
 							title={"받은 매너 평가"}
 							keywords={mannerKeywords.mannerKeywords.slice(0, 6)}
 							type="positive"
+							expand
 						/>
 						<MannerKeywordsCard
 							title={"받은 비매너 평가"}
 							keywords={mannerKeywords.mannerKeywords.slice(6)}
 							type="negative"
+							expand
 						/>
 					</div>
 				</div>
