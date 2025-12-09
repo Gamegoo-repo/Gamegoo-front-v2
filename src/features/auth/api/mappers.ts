@@ -1,9 +1,35 @@
 import { BanType } from "@/shared/api";
 import { type AuthCallbackParams, OAuthStatus } from "./dto";
+import { STORAGE_KEYS } from "@/shared/config/storage";
 
 export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 	try {
 		const urlParams = new URLSearchParams(window.location.search);
+		const state = urlParams.get("state");
+
+		if (state) {
+			try {
+				const { csrfToken: receivedToken } = JSON.parse(atob(state));
+				const storedToken = sessionStorage.getItem(STORAGE_KEYS.csrfToken);
+
+				if (receivedToken !== storedToken) {
+					return {
+						status: OAuthStatus.ERROR,
+						error: "csrf_mismatch",
+						message: "보안 검증에 실패했습니다.",
+					};
+				}
+
+				sessionStorage.removeItem(STORAGE_KEYS.csrfToken);
+			} catch {
+				return {
+					status: OAuthStatus.ERROR,
+					error: "invalid_state",
+					message: "잘못된 요청입니다.",
+				};
+			}
+		}
+
 		const error = urlParams.get("error");
 
 		// 1) 서버가 지정한 에러인 경우
@@ -54,7 +80,6 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 			const tag = urlParams.get("tag");
 			const profileImage = urlParams.get("profileImage");
 			const id = urlParams.get("id");
-
 			const banType = urlParams.get("BanType");
 			const banExpireAt = urlParams.get("BanExpireAt");
 			const isBanned = urlParams.get("isBanned");
