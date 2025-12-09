@@ -1,5 +1,6 @@
 import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { Configuration } from "./@generated/configuration";
+import { STORAGE_KEYS } from "../config/storage";
 
 // 토큰 관리 - 액세스 토큰은 메모리, 리프레시 토큰은 로컬스토리지
 let isRefreshing = false;
@@ -24,37 +25,42 @@ const processQueue = (error: Error | null, token: string | null = null) => {
 export const tokenManager = {
 	getAccessToken: () => {
 		if (typeof window !== "undefined" && window.localStorage) {
-			return localStorage.getItem("accessToken");
+			return localStorage.getItem(STORAGE_KEYS.accessToken);
 		}
 		return null;
 	},
 	getRefreshToken: () => {
 		if (typeof window !== "undefined" && window.localStorage) {
-			return localStorage.getItem("refreshToken");
+			return localStorage.getItem(STORAGE_KEYS.refreshToken);
 		}
 		return null;
 	},
 	setTokens: (newAccessToken: string, newRefreshToken?: string) => {
-		localStorage.setItem("accessToken", newAccessToken);
+		localStorage.setItem(STORAGE_KEYS.accessToken, newAccessToken);
 		if (
 			newRefreshToken &&
 			typeof window !== "undefined" &&
 			window.localStorage
 		) {
-			localStorage.setItem("refreshToken", newRefreshToken);
+			localStorage.setItem(STORAGE_KEYS.refreshToken, newRefreshToken);
 		}
 	},
 	clearTokens: () => {
 		isRefreshing = false;
 		refreshPromise = null;
 		if (typeof window !== "undefined" && window.localStorage) {
-			localStorage.removeItem("accessToken");
-			localStorage.removeItem("refreshToken");
-			localStorage.removeItem("accessToken");
+			localStorage.removeItem(STORAGE_KEYS.accessToken);
+			localStorage.removeItem(STORAGE_KEYS.refreshToken);
 		}
 	},
 	refreshToken: () => refreshAccessToken(),
 	getIsRefreshing: () => isRefreshing,
+
+	// refresh 실패 시 호출될 콜백
+	onRefreshFailed: null as (() => void) | null,
+	setOnRefreshFailed: (callback: (() => void) | null) => {
+		tokenManager.onRefreshFailed = callback;
+	},
 };
 
 // API 기본 URL
@@ -162,8 +168,12 @@ privateApiClient.interceptors.response.use(
 				return privateApiClient(originalRequest);
 			} catch (refreshError) {
 				console.error("Token refresh failed:", refreshError);
-				// refresh 실패 시 토큰 정리하고 원래 에러 반환
+				// refresh 실패 시 토큰 정리
 				tokenManager.clearTokens();
+
+				// logout-alert-modal 열기
+				tokenManager.onRefreshFailed?.();
+
 				return Promise.reject(error);
 			}
 		}

@@ -1,10 +1,23 @@
 import { createPortal } from "react-dom";
 import PrecautionIcon from "@/shared/assets/icons/precaution.svg?react";
-import { useLoginRequiredModalStore } from "../model/login-required-modal-store";
+import { useLogoutAlertModalState } from "../model/logout-alert-modal-store";
+import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/shared/model/use-auth";
 
-function LoginRequiredModal() {
-	const { isOpen, closeModal } = useLoginRequiredModalStore();
+function LogoutAlertModal() {
+	const { isOpen, closeModal } = useLogoutAlertModalState();
+	const { initializeAuth } = useAuth();
 	const modalRoot = document.getElementById("modal-root") || document.body;
+	const navigate = useNavigate();
+
+	const handleClickLoginButton = () => {
+		closeModal();
+		initializeAuth();
+		navigate({
+			to: "/riot",
+			replace: true,
+		});
+	};
 
 	if (!isOpen) return null;
 
@@ -15,14 +28,16 @@ function LoginRequiredModal() {
 					<div className="mobile:mb-4 h-12 mobile:h-[72px] mobile:w-[72px] w-12">
 						<PrecautionIcon className="h-full w-full" />
 					</div>
-					<p className="m-0 text-gray-900">로그인이 필요한 서비스입니다.</p>
+					<p className="m-0 text-gray-900">
+						로그아웃 되었습니다. 다시 로그인 해주세요
+					</p>
 				</div>
 				<button
 					type="button"
 					className="w-full cursor-pointer mobile:rounded-[18px] rounded-[14px] bg-white mobile:py-4 py-3 text-center font-bold mobile:text-lg text-base text-gray-900 hover:bg-gray-50"
-					onClick={closeModal}
+					onClick={handleClickLoginButton}
 				>
-					확인
+					로그인
 				</button>
 			</div>
 		</div>,
@@ -30,4 +45,4 @@ function LoginRequiredModal() {
 	);
 }
 
-export default LoginRequiredModal;
+export default LogoutAlertModal;

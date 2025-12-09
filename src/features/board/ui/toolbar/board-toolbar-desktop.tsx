@@ -4,6 +4,7 @@ import BoardFilter from "../board-filter";
 import BumpButton from "../bump-button";
 import CreatePostButton from "../create-post-button";
 import RefetchButton from "../refetch-button";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 
 export default function BoardToolbarDesktop({
 	handleOpenCreateModal,
@@ -11,6 +12,7 @@ export default function BoardToolbarDesktop({
 	handleOpenCreateModal: () => void;
 }) {
 	const queryClient = useQueryClient();
+	const handleOpenModal = useAuthenticatedAction(handleOpenCreateModal);
 
 	const refetchPost = async () => {
 		await queryClient.refetchQueries({
@@ -31,7 +33,8 @@ export default function BoardToolbarDesktop({
 				<BoardFilter />
 				<div className="flex h-full items-center gap-6">
 					<BumpButton />
-					<CreatePostButton onClick={handleOpenCreateModal} />
+					{/** TODO: 중복 로직 제거하기 */}
+					<CreatePostButton onClick={handleOpenModal} />
 				</div>
 			</div>
 		</div>

@@ -10,4 +10,6 @@ export const STORAGE_KEYS = {
 	csrfToken: "gamegoo_csrf_token",
 	logout: "gamegoo_logout",
 	autoLogin: "gamegoo_auto_login",
+	accessToken: "accessToken",
+	refreshToken: "refreshToken",
 };

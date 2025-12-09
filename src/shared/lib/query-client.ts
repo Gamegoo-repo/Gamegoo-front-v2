@@ -154,10 +154,10 @@ export const queryClient = new QueryClient({
 
 			// AUTH 에러 자동 처리
 			if (isAuthError(error)) {
-				if (window.location.pathname !== "/riot") {
-					sessionStorage.setItem("redirectAfterLogin", window.location.href);
-					window.location.href = "/riot";
-				}
+				// if (window.location.pathname !== "/riot") {
+				// 	sessionStorage.setItem("redirectAfterLogin", window.location.href);
+				// 	window.location.href = "/riot";
+				// }
 				return;
 			}
 
@@ -177,10 +177,10 @@ export const queryClient = new QueryClient({
 			}
 
 			if (isAuthError(error)) {
-				if (window.location.pathname !== "/riot") {
-					sessionStorage.setItem("redirectAfterLogin", window.location.href);
-					window.location.href = "/riot";
-				}
+				// if (window.location.pathname !== "/riot") {
+				// 	sessionStorage.setItem("redirectAfterLogin", window.location.href);
+				// 	window.location.href = "/riot";
+				// }
 				return; // 토스트 안 띄움
 			}
 
