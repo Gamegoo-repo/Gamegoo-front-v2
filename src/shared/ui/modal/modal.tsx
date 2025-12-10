@@ -50,7 +50,6 @@ export default function Modal({
 		};
 	}, [isOpen]);
 
-	// isOpen이 false면 렌더링하지 않음
 	if (!isOpen) {
 		return null;
 	}
