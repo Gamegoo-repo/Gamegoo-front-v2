@@ -8,7 +8,6 @@ export default function Modal({
 	isOpen,
 	children,
 	onClose,
-	contentRef,
 	hasCloseButton = true,
 	isBackdropClosable = true,
 }: {
@@ -17,10 +16,10 @@ export default function Modal({
 	isBackdropClosable?: boolean;
 	children?: ReactNode;
 	onClose: () => void;
-	contentRef?: React.RefObject<HTMLDivElement | null>;
 	hasCloseButton?: boolean;
 }) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
+	const contentRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const dialog = dialogRef.current;
