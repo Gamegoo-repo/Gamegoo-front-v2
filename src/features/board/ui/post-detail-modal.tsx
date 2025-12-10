@@ -63,9 +63,8 @@ export default function PostDetailModal({
 			onClose={onClose}
 			className="w-[555px]"
 			isBackdropClosable={false}
-			contentRef={modalRef}
 		>
-			<div className="flex flex-col gap-5">
+			<div className="flex flex-col gap-5" ref={modalRef}>
 				{/* MODAL-CONTENT */}
 				<section className="flex flex-col gap-[30px]">
 					<p className="flex w-full items-center justify-between">
