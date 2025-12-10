@@ -1,9 +1,14 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { isError, isLoginSuccess, isNeedSignup } from "@/features/auth";
-import { parseAuthCallbackParams } from "@/features/auth/api/mappers";
-import { useAuthStore } from "@/shared/model/use-auth-store";
 import { toast } from "@/shared/lib/toast";
+import { useAuthStore } from "@/shared/model/use-auth-store";
+import {
+	isError,
+	isLoginSuccess,
+	isNeedSignup,
+} from "@/entities/auth/model/guards";
+import LoadingSpinner from "@/shared/ui/loading-spinner/loading-spinner";
+import { parseAuthCallbackParams } from "@/entities/auth/lib/parse-callback";
 
 export default function AuthCallback() {
 	const login = useAuthStore((s) => s.login);
@@ -48,8 +53,11 @@ export default function AuthCallback() {
 		}
 
 		return;
-	}, [navigate]);
+	}, []);
 
-	/** TODO: 스피너 처리하기 */
-	return <div>처리중...</div>;
+	return (
+		<div className="flex h-full w-full items-center justify-center">
+			<LoadingSpinner />
+		</div>
+	);
 }
