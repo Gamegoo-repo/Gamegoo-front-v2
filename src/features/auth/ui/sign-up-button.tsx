@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { api } from "@/shared/api";
-import type { RiotJoinRequest } from "@/shared/api/@generated";
 import { cn } from "@/shared/lib/utils";
+import { useSignUp } from "../api/use-sign-up";
 
 function SignUpButton({
 	isDisabled,
@@ -12,31 +10,15 @@ function SignUpButton({
 	isAgreed: boolean;
 	puuid: string;
 }) {
-	const [isLoading, setIsLoading] = useState(false);
-	const handleClick = async () => {
-		setIsLoading(true);
-
-		try {
-			const riotJoinRequestDto: RiotJoinRequest = {
-				puuid: puuid,
-				isAgree: isAgreed,
-			};
-
-			const response = await api.public.riot.joinByRSO(riotJoinRequestDto);
-
-			return response.data;
-		} catch (error) {
-			console.error("RIOT 회원가입 실패:", error);
-			throw error;
-		} finally {
-			setIsLoading(false);
-		}
+	const { mutate: signUp, isPending } = useSignUp();
+	const handleSignUp = async () => {
+		signUp({ puuid, isAgree: isAgreed });
 	};
 	return (
 		<button
 			type="button"
-			disabled={isDisabled || isLoading}
-			onClick={handleClick}
+			disabled={isDisabled || isPending}
+			onClick={handleSignUp}
 			className={cn(
 				"medium-16 h-14 self-stretch mobile:rounded-xl rounded-md text-white transition-colors",
 				isDisabled
