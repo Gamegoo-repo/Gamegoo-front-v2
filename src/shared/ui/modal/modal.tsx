@@ -1,5 +1,4 @@
 import { type ReactNode, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
 import { cn } from "@/shared/lib/utils";
 import CloseButton from "../button/close-button";
 
@@ -8,7 +7,6 @@ export default function Modal({
 	isOpen,
 	children,
 	onClose,
-	contentRef,
 	hasCloseButton = true,
 	isBackdropClosable = true,
 }: {
@@ -17,10 +15,10 @@ export default function Modal({
 	isBackdropClosable?: boolean;
 	children?: ReactNode;
 	onClose: () => void;
-	contentRef?: React.RefObject<HTMLDivElement | null>;
 	hasCloseButton?: boolean;
 }) {
 	const dialogRef = useRef<HTMLDialogElement>(null);
+	const contentRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const dialog = dialogRef.current;
@@ -52,7 +50,11 @@ export default function Modal({
 		};
 	}, [isOpen]);
 
-	return createPortal(
+	if (!isOpen) {
+		return null;
+	}
+
+	return (
 		// biome-ignore lint/a11y/useKeyWithClickEvents: The <dialog> element with an onClick handler for backdrop clicks is accessible. Keyboard interaction (ESC key) is handled natively by the dialog element to trigger the onClose event.
 		<dialog
 			ref={dialogRef}
@@ -69,7 +71,7 @@ export default function Modal({
 		>
 			<div
 				className={cn(
-					"relative rounded-[20px] bg-gray-100 px-8 py-12",
+					"relative rounded-[20px] bg-gray-100 mobile:px-8 px-5 mobile:py-12 py-6",
 					className,
 				)}
 				ref={contentRef}
@@ -82,7 +84,6 @@ export default function Modal({
 				)}
 				{children}
 			</div>
-		</dialog>,
-		document.body,
+		</dialog>
 	);
 }

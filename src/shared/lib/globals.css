@@ -132,20 +132,23 @@
 
   dialog {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
+    padding: 24px 20px;
+    margin: 0;
+    border: none;
+    background: transparent;
     overflow: auto;
     overscroll-behavior: contain;
-    border: none;
-    padding: 0;
-    margin: 0;
-    background: transparent;
     max-width: none;
     max-height: none;
     -ms-overflow-style: none;
     scrollbar-width: none;
+
+    display: flex;
+    align-items: safe center;
+    justify-content: center;
   }
 
   /* 스크롤바 숨기기 */
@@ -153,9 +156,10 @@
     display: none;
   }
 
-  /* 모달 내용 컨테이너 중앙 정렬 */
-  dialog > div {
-    margin: 100px auto;
+  @media (min-width: 768px) {
+    dialog {
+      padding: 100px 40px;
+    }
   }
 }
 
@@ -426,6 +430,34 @@
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
+  }
+
+  .modal-scrollbar-custom {
+    scrollbar-width: thin;
+    scrollbar-color: #9099A5 transparent; /* thumb track */
+  }
+  .modal-scrollbar-custom::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .modal-scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #9099A5;
+    border-radius: 3px;
+  }
+
+  .modal-scrollbar-custom::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  .modal-scrollbar-custom::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  .modal-scrollbar-custom::-webkit-scrollbar-corner {
+    background-color: transparent;
   }
 }
 

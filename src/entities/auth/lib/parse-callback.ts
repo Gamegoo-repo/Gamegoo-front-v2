@@ -1,8 +1,8 @@
+import { type AuthCallbackParams, OAuthStatus } from "../model/types";
 import { BanType } from "@/shared/api";
-import { type AuthCallbackParams, OAuthStatus } from "./dto";
 import { STORAGE_KEYS } from "@/shared/config/storage";
 
-export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
+export const parseAuthCallbackParams = (): AuthCallbackParams => {
 	try {
 		const urlParams = new URLSearchParams(window.location.search);
 		const state = urlParams.get("state");
@@ -12,7 +12,7 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 				const { csrfToken: receivedToken } = JSON.parse(atob(state));
 				const storedToken = sessionStorage.getItem(STORAGE_KEYS.csrfToken);
 
-				if (receivedToken !== storedToken) {
+				if (storedToken && receivedToken !== storedToken) {
 					return {
 						status: OAuthStatus.ERROR,
 						error: "csrf_mismatch",
@@ -20,7 +20,9 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 					};
 				}
 
-				sessionStorage.removeItem(STORAGE_KEYS.csrfToken);
+				if (storedToken) {
+					sessionStorage.removeItem(STORAGE_KEYS.csrfToken);
+				}
 			} catch {
 				return {
 					status: OAuthStatus.ERROR,
@@ -32,7 +34,7 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 
 		const error = urlParams.get("error");
 
-		// 1) 서버가 지정한 에러인 경우
+		// 1) 서버가 지정한 에러
 		if (error) {
 			return {
 				status: OAuthStatus.ERROR,
@@ -41,10 +43,13 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 			};
 		}
 
-		// status 유효성 검증
-		const status = urlParams.get("status") as OAuthStatus;
+		const status = urlParams.get("status");
 
-		if (!status || !Object.values(OAuthStatus).includes(status)) {
+		// status 유효성 검증
+		if (
+			!status ||
+			!Object.values(OAuthStatus).includes(status as OAuthStatus)
+		) {
 			return {
 				status: OAuthStatus.ERROR,
 				error: "invalid_status",
@@ -52,11 +57,12 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 			};
 		}
 
+		const validStatus = status as OAuthStatus;
+
 		// 2) 회원가입이 필요한 경우
-		if (status === OAuthStatus.NEED_SIGNUP) {
+		if (validStatus === OAuthStatus.NEED_SIGNUP) {
 			const puuid = urlParams.get("puuid");
 
-			// 2-1) puuid가 없는 경우 - 에러
 			if (!puuid) {
 				return {
 					status: OAuthStatus.ERROR,
@@ -65,15 +71,14 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 				};
 			}
 
-			// 2-2) 있는 경우 - NEED_SIGNUP
 			return {
 				status: OAuthStatus.NEED_SIGNUP,
 				puuid,
 			};
 		}
 
-		// 3) 로그인에 성공한 경우
-		if (status === OAuthStatus.LOGIN_SUCCESS) {
+		// 3) 로그인 성공
+		if (validStatus === OAuthStatus.LOGIN_SUCCESS) {
 			const accessToken = urlParams.get("accessToken");
 			const refreshToken = urlParams.get("refreshToken");
 			const name = urlParams.get("name");
@@ -85,7 +90,7 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 			const isBanned = urlParams.get("isBanned");
 			const banMessage = urlParams.get("BanMessage");
 
-			// 3-1) 성공했다는 응답을 받았지만, 필수 데이터가 누락된 경우 - 에러 처리
+			// 필수 데이터 누락 체크
 			if (
 				!accessToken ||
 				!refreshToken ||
@@ -101,7 +106,6 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 				};
 			}
 
-			// 3-2) 성공했다는 응답을 받았고, 모든 데이터를 잘 받은 경우 - 로그인 성공
 			return {
 				status: OAuthStatus.LOGIN_SUCCESS,
 				accessToken,
@@ -117,14 +121,18 @@ export const parseAuthCallbackParams = (): AuthCallbackParams | null => {
 			};
 		}
 
-		// 4) 예상치 못한 상태 - 에러 처리
+		// 4) 예상치 못한 상태
 		return {
 			status: OAuthStatus.ERROR,
 			error: "unexpected_status",
-			message: `예상하지 못한 상태: ${status}`,
+			message: `예상하지 못한 상태: ${validStatus}`,
 		};
 	} catch (error) {
 		console.error("Failed to parse callback params:", error);
-		return null;
+		return {
+			status: OAuthStatus.ERROR,
+			error: "parse_failed",
+			message: "콜백 파라미터 파싱에 실패했습니다.",
+		};
 	}
 };

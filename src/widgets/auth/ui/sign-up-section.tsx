@@ -1,27 +1,10 @@
-import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import SignUpButton from "@/features/auth/ui/sign-up-button";
 import { cn } from "@/shared/lib/utils";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
 import { LogoButton } from "@/shared/ui/logo";
-
-type Term = { key: string; label: string; required: boolean; slug: string };
-
-const TERMS: Term[] = [
-	{ key: "service", label: "이용 약관", required: true, slug: "service" },
-	{
-		key: "privacy",
-		label: "개인정보 처리방침",
-		required: true,
-		slug: "privacy",
-	},
-	{
-		key: "marketing",
-		label: "마케팅 목적 개인정보 수집 및 이용",
-		required: false,
-		slug: "marketing",
-	},
-] as const;
+import { useTermsDetailModalStore } from "@/features/auth/ui/use-terms-detail-modal-store";
+import { TERMS, type TermKey } from "@/entities/term/model";
 
 export default function SignUpSection({ puuid }: { puuid: string }) {
 	const [termsState, setTermsState] = useState(
@@ -60,21 +43,23 @@ export default function SignUpSection({ puuid }: { puuid: string }) {
 	};
 
 	return (
-		<div className="flex flex-col gap-[188px] w-[468px]">
-			<header className="flex flex-col items-start gap-4">
-				<LogoButton className="text-violet-600 w-[314px]" />
-				<h2 className="regular-32 text-gray-700">이용 약관 동의</h2>
+		<div className="flex h-full mobile:h-fit mobile:w-[468px] w-full flex-col mobile:justify-start gap-25 mobile:gap-[188px] px-5 py-8">
+			<header className="mobile:mt-0 mt-[72px] flex flex-col items-start gap-2 mobile:gap-4">
+				<LogoButton className="mobile:w-[314px] w-[200px] text-violet-600" />
+				<h2 className="mobile:text-3xl text-gray-700 text-xl">
+					이용 약관 동의
+				</h2>
 			</header>
-			<main className="w-full flex flex-col gap-11">
+			<main className="flex w-full flex-col gap-25 mobile:gap-11">
 				<ul className="flex flex-col gap-6">
 					{TERMS.map((term) => {
 						return (
 							<TermItem
 								key={term.key}
+								type={term.key}
 								name={term.label}
 								required={term.required}
 								isChecked={termsState[term.key]}
-								to={term.slug}
 								onChangeCheckbox={(checked) =>
 									handleChangeTermsState(term.key, checked)
 								}
@@ -95,32 +80,37 @@ export default function SignUpSection({ puuid }: { puuid: string }) {
 function TermItem({
 	name,
 	isChecked,
+	type,
 	required,
-	to,
 	onChangeCheckbox,
 }: {
 	name: string;
+	type: TermKey;
 	isChecked: boolean;
 	required: boolean;
-	to: string;
 	onChangeCheckbox: (checked: boolean) => void;
 }) {
+	const { openModal } = useTermsDetailModalStore();
+
 	return (
-		<li className="flex flex-row text-gray-700 regular-18 items-center">
+		<li className="flex flex-row items-center mobile:text-lg text-base text-gray-700">
 			<Checkbox isChecked={isChecked} onCheckedChange={onChangeCheckbox} />
-			<Link
-				to={to}
-				className="ml-2 underline decoration-solid decoration-skip-ink-none decoration-auto underline-offset-auto hover:text-gray-500"
-				style={{ textUnderlinePosition: "from-font" }}
-			>
-				{name}
-			</Link>
-			<span className="ml-1">동의</span>
-			<span
-				className={cn("ml-1", required ? "text-violet-800" : "text-gray-500")}
-			>
-				{required ? "(필수)" : "(선택)"}
-			</span>
+			<div className="flex flex-wrap items-center">
+				<button
+					type="button"
+					onClick={() => openModal(type)}
+					className="ml-2 underline decoration-auto decoration-skip-ink-none decoration-solid underline-offset-auto hover:text-gray-500"
+					style={{ textUnderlinePosition: "from-font" }}
+				>
+					{name}
+				</button>
+				<span className="ml-1">동의</span>
+				<span
+					className={cn("ml-1", required ? "text-violet-600" : "text-gray-500")}
+				>
+					{required ? "(필수)" : "(선택)"}
+				</span>
+			</div>
 		</li>
 	);
 }
