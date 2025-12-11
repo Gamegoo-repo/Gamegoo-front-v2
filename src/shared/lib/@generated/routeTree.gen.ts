@@ -17,6 +17,7 @@ import { Route as HeaderLayoutIndexRouteImport } from './../../../pages/_header-
 import { Route as SignUpTermsRouteImport } from './../../../pages/sign-up/terms'
 import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
 import { Route as HeaderLayoutMypageRouteRouteImport } from './../../../pages/_header-layout/mypage/route'
+import { Route as HeaderLayoutPolicyIndexRouteImport } from './../../../pages/_header-layout/policy/index'
 import { Route as HeaderLayoutMypageIndexRouteImport } from './../../../pages/_header-layout/mypage/index'
 import { Route as HeaderLayoutMatchIndexRouteImport } from './../../../pages/_header-layout/match/index'
 import { Route as HeaderLayoutBoardIndexRouteImport } from './../../../pages/_header-layout/board/index'
@@ -65,6 +66,11 @@ const RiotCallbackRoute = RiotCallbackRouteImport.update({
 const HeaderLayoutMypageRouteRoute = HeaderLayoutMypageRouteRouteImport.update({
   id: '/mypage',
   path: '/mypage',
+  getParentRoute: () => HeaderLayoutRouteRoute,
+} as any)
+const HeaderLayoutPolicyIndexRoute = HeaderLayoutPolicyIndexRouteImport.update({
+  id: '/policy/',
+  path: '/policy/',
   getParentRoute: () => HeaderLayoutRouteRoute,
 } as any)
 const HeaderLayoutMypageIndexRoute = HeaderLayoutMypageIndexRouteImport.update({
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/board': typeof HeaderLayoutBoardIndexRoute
   '/match': typeof HeaderLayoutMatchIndexRoute
   '/mypage/': typeof HeaderLayoutMypageIndexRoute
+  '/policy': typeof HeaderLayoutPolicyIndexRoute
 }
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/board': typeof HeaderLayoutBoardIndexRoute
   '/match': typeof HeaderLayoutMatchIndexRoute
   '/mypage': typeof HeaderLayoutMypageIndexRoute
+  '/policy': typeof HeaderLayoutPolicyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/_header-layout/board/': typeof HeaderLayoutBoardIndexRoute
   '/_header-layout/match/': typeof HeaderLayoutMatchIndexRoute
   '/_header-layout/mypage/': typeof HeaderLayoutMypageIndexRoute
+  '/_header-layout/policy/': typeof HeaderLayoutPolicyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/board'
     | '/match'
     | '/mypage/'
+    | '/policy'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/about'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/board'
     | '/match'
     | '/mypage'
+    | '/policy'
   id:
     | '__root__'
     | '/_header-layout'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/_header-layout/board/'
     | '/_header-layout/match/'
     | '/_header-layout/mypage/'
+    | '/_header-layout/policy/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -306,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/mypage'
       fullPath: '/mypage'
       preLoaderRoute: typeof HeaderLayoutMypageRouteRouteImport
+      parentRoute: typeof HeaderLayoutRouteRoute
+    }
+    '/_header-layout/policy/': {
+      id: '/_header-layout/policy/'
+      path: '/policy'
+      fullPath: '/policy'
+      preLoaderRoute: typeof HeaderLayoutPolicyIndexRouteImport
       parentRoute: typeof HeaderLayoutRouteRoute
     }
     '/_header-layout/mypage/': {
@@ -413,6 +432,7 @@ interface HeaderLayoutRouteRouteChildren {
   HeaderLayoutUsersUserIdRoute: typeof HeaderLayoutUsersUserIdRoute
   HeaderLayoutBoardIndexRoute: typeof HeaderLayoutBoardIndexRoute
   HeaderLayoutMatchIndexRoute: typeof HeaderLayoutMatchIndexRoute
+  HeaderLayoutPolicyIndexRoute: typeof HeaderLayoutPolicyIndexRoute
 }
 
 const HeaderLayoutRouteRouteChildren: HeaderLayoutRouteRouteChildren = {
@@ -421,6 +441,7 @@ const HeaderLayoutRouteRouteChildren: HeaderLayoutRouteRouteChildren = {
   HeaderLayoutUsersUserIdRoute: HeaderLayoutUsersUserIdRoute,
   HeaderLayoutBoardIndexRoute: HeaderLayoutBoardIndexRoute,
   HeaderLayoutMatchIndexRoute: HeaderLayoutMatchIndexRoute,
+  HeaderLayoutPolicyIndexRoute: HeaderLayoutPolicyIndexRoute,
 }
 
 const HeaderLayoutRouteRouteWithChildren =
