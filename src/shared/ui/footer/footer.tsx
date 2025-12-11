@@ -41,13 +41,15 @@ function TermsLink() {
 	return (
 		<p className="flex gap-2.5 mobile:gap-4">
 			<Link
-				to="/about"
+				to="/policy"
+				search={{ term: "privacy" }}
 				className="bold-14 text-gray-500 underline underline-offset-2"
 			>
 				개인정보처리방침
 			</Link>
 			<Link
-				to="/about"
+				to="/policy"
+				search={{ term: "service" }}
 				className="bold-14 text-gray-500 underline underline-offset-2"
 			>
 				이용약관
