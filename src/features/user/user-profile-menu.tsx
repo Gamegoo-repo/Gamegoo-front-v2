@@ -97,9 +97,13 @@ export default function UserProfileMenu({
 				onClick={() => setOpen(true)}
 				className="flex cursor-pointer items-center gap-[10px]"
 			>
-				<UserProfile id={profileImage} hasDropShadow={false} />
-				{name}
-				<ChevronDownIcon />
+				<UserProfile
+					id={profileImage}
+					hasDropShadow={false}
+					sizeClass="w-9 h-9 mobile:w-10 mobile:h-10"
+				/>
+				<span className="mobile:inline hidden">{name}</span>
+				<ChevronDownIcon className="mobile:block hidden" />
 			</button>
 			<Modal
 				isOpen={open}

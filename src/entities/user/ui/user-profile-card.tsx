@@ -14,7 +14,7 @@ export default function UserProfileCard({
 			<p className="relative">
 				<UserProfile
 					id={profileImage}
-					sizeClass="w-[74px] h-[74px]"
+					sizeClass="w-12 h-12 mobile:w-[74px] mobile:h-[74px]"
 					hasDropShadow
 				/>
 			</p>
