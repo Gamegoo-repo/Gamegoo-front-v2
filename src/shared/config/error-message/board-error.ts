@@ -1,5 +1,5 @@
 export const BOARD_ERROR_MESSAGES = {
-	BOARD_401: "게시글을 찾을 수 없습니다",
+	BOARD_401: "작성한 글이 없습니다",
 	BOARD_403: "게시글 수정 권한이 없습니다",
 	BOARD_404: "게시글 삭제 권한이 없습니다",
 	BOARD_406: "게임 스타일을 찾을 수 없습니다",
