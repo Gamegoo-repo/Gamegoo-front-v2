@@ -130,7 +130,7 @@ export default function PostFormModal({
 		};
 		mutate(form, {
 			onSuccess: () => {
-				alert("성공적으로 제출하였습니다.");
+				toast.confirm("게시글이 작성되었습니다.");
 				handleClose();
 			},
 			onError: (error: AxiosError<ApiErrorResponse>) => {
@@ -168,7 +168,7 @@ export default function PostFormModal({
 				toast.confirm("게시글을 수정하였습니다.");
 				handleClose();
 			},
-            onError: (error: AxiosError<ApiErrorResponse>) => {
+			onError: (error: AxiosError<ApiErrorResponse>) => {
 				if (error.response?.data?.code === "BOARD_408") {
 					textareaRef.current?.focus();
 					setContentError(error.response?.data.message);
@@ -185,7 +185,7 @@ export default function PostFormModal({
 			isOpen={isOpen}
 			onClose={handleClose}
 			className="w-[555px]"
-			contentRef={modalRef}
+			ref={modalRef}
 		>
 			<form className="flex flex-col gap-5">
 				<section className="flex flex-col gap-[30px]">

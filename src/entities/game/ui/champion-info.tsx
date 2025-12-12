@@ -20,24 +20,28 @@ export default function ChampionInfo({
 	const { championName, games, wins, kda, kills, deaths, assists } = champion;
 	const championInfo = (
 		<div className="flex flex-col gap-3">
-			<span className="semibold-18">{championName}</span>
-			<StatItem
-				label="승률"
-				value={`${champion.winRate.toFixed(0)}%`}
-				subText={getWinRateString(games, wins)}
-			/>
+			<span className="font-bold mobile:font-semibold mobile:text-lg text-sm">
+				{championName}
+			</span>
+			<div className="grid grid-cols-[auto_1fr_auto] gap-x-4 gap-y-1 mobile:gap-y-1.5">
+				<StatItem
+					label="승률"
+					value={`${champion.winRate.toFixed(0)}%`}
+					subText={getWinRateString(games, wins)}
+				/>
 
-			<StatItem
-				label="KDA"
-				value={formatKDA(kda)}
-				subText={`${formatKDAStats(kills, deaths, assists).join(" / ")}`}
-			/>
+				<StatItem
+					label="KDA"
+					value={formatKDA(kda)}
+					subText={`${formatKDAStats(kills, deaths, assists).join(" / ")}`}
+				/>
 
-			<StatItem
-				label="CS"
-				value={champion.csPerMinute.toFixed(1)}
-				subText={`${champion.averageCs.toFixed(1)}`}
-			/>
+				<StatItem
+					label="CS"
+					value={champion.csPerMinute.toFixed(1)}
+					subText={`${champion.averageCs.toFixed(1)}`}
+				/>
+			</div>
 		</div>
 	);
 	return (
@@ -71,14 +75,16 @@ interface StatItemProps {
 
 function StatItem({ label, value, subText }: StatItemProps) {
 	return (
-		<dl className="flex w-full gap-5">
-			<dt className="bold-14 whitespace-nowrap text-gray-500">{label}</dt>
-			<dd className="bold-14 whitespace-nowrap text-gray-100">{value}</dd>
-			{subText && (
-				<dd className="regular-14 whitespace-nowrap text-gray-100">
-					{subText}
-				</dd>
-			)}
-		</dl>
+		<>
+			<dt className="whitespace-nowrap font-bold mobile:text-sm text-[13px] text-gray-500">
+				{label}
+			</dt>
+			<dd className="whitespace-nowrap font-bold mobile:text-sm text-[13px] text-gray-100">
+				{value}
+			</dd>
+			<dd className="bold whitespace-nowrap mobile:text-sm text-[13px] text-gray-100">
+				{subText || ""}
+			</dd>
+		</>
 	);
 }

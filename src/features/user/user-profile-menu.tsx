@@ -104,7 +104,7 @@ export default function UserProfileMenu({
 			<Modal
 				isOpen={open}
 				onClose={() => setOpen(false)}
-				contentRef={modalRef}
+				ref={modalRef}
 				className="w-[420px] bg-white p-8"
 				hasCloseButton={false}
 			>
