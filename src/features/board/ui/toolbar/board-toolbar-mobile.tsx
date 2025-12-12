@@ -52,19 +52,16 @@ export default function BoardToolbarMobile({
 			</div>
 			<div className="grid w-full grid-cols-[114px_100px_89px] grid-rows-1 gap-x-2 px-5">
 				<Dropdown
-					size="md"
 					selectedLabel={getGameModeTitle(gameMode)}
 					onSelect={(value) => setFilter("gameMode", value)}
 					items={GAME_MODE_ITEMS}
 				/>
 				<Dropdown
-					size="md"
 					selectedLabel={getTierTitle(tier)}
 					onSelect={(value) => setFilter("tier", value)}
 					items={TIER_ITEMS}
 				/>
 				<Dropdown
-					size="md"
 					selectedLabel={getMike(mike)}
 					onSelect={(value) => setFilter("mike", value)}
 					items={MIKE_ITEMS}
