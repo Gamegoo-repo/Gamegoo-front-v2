@@ -1,6 +1,6 @@
 import { usePostDetail } from "@/entities/post/model/use-post-detail";
 import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
-import PostFormModal, { type BoardFormData } from "./post-form-modal";
+import PostFormModal, { type BoardFormData } from "./post-form/post-form-modal";
 import { toast } from "@/shared/lib/toast";
 
 type PostFormModalContainerProps =
@@ -47,18 +47,29 @@ export default function PostFormModalContainer(
 		return null;
 	}
 
-	// edit 모드에서 postData 에러 처리
 	if (mode === "edit" && (isPostError || !postData)) {
 		toast.error("게시글 정보를 불러오지 못했습니다.");
 		return null;
+	}
+
+	if (mode === "create") {
+		return (
+			<PostFormModal
+				isOpen={isOpen}
+				onClose={onClose}
+				mode="create"
+				userInfo={userInfo}
+			/>
+		);
 	}
 
 	return (
 		<PostFormModal
 			isOpen={isOpen}
 			onClose={onClose}
-			mode={mode}
-			postToEdit={mode === "edit" ? (postData as BoardFormData) : undefined}
+			mode="edit"
+			postId={props.postId}
+			postToEdit={postData as BoardFormData}
 			userInfo={userInfo}
 		/>
 	);
