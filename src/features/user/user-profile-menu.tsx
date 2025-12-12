@@ -110,7 +110,11 @@ export default function UserProfileMenu({
 			>
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-4">
-						<UserProfile id={profileImage} size={64} hasDropShadow={false} />
+						<UserProfile
+							id={profileImage}
+							sizeClass="w-16 h-16"
+							hasDropShadow={false}
+						/>
 						<div className="bold-20 text-gray-900">커피한잔</div>
 					</div>
 					<Link

@@ -45,7 +45,11 @@ export default function InteractiveUserProfileCard({
 		<div className="flex items-center gap-3">
 			<p className="relative">
 				<BubbleTooltip />
-				<UserProfile id={profileImage} size={74} hasDropShadow />
+				<UserProfile
+					id={profileImage}
+					sizeClass="w-[74px] h-[74px]"
+					hasDropShadow
+				/>
 				<MannerLevelPopover
 					containerRef={modalRef}
 					userMannerInfo={userMannerInfo}

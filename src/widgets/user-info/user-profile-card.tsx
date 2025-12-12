@@ -22,7 +22,11 @@ export default function UserProfileCard({
 
 	return (
 		<div className="flex w-full gap-[62px] rounded-[30px] bg-gray-100 p-10">
-			<UserProfile id={data.profileImg} size={186} hasDropShadow />
+			<UserProfile
+				id={data.profileImg}
+				sizeClass="w-[186px] h-[186px]"
+				hasDropShadow
+			/>
 			<div className="flex flex-1 flex-col gap-8">
 				<div className="flex w-full items-center gap-3">
 					<h3 className="bold-32 flex items-center gap-1.5 text-gray-800">

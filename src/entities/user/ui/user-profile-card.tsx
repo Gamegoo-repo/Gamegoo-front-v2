@@ -10,15 +10,21 @@ export default function UserProfileCard({
 	tag: string;
 }) {
 	return (
-		<div className="flex items-center gap-3">
+		<div className="flex items-center gap-2 mobile:gap-3">
 			<p className="relative">
-				<UserProfile id={profileImage} size={74} hasDropShadow />
+				<UserProfile
+					id={profileImage}
+					sizeClass="w-[74px] h-[74px]"
+					hasDropShadow
+				/>
 			</p>
 			<div className="flex h-fit flex-col gap-1">
-				<span className="bold-20 flex w-full items-center justify-start gap-1.5 text-gray-800">
+				<span className="flex w-full items-center justify-start gap-1.5 font-bold mobile:text-xl text-base text-gray-800">
 					{gameName}
 				</span>
-				<span className="semibold-14 text-gray-500">#{tag}</span>
+				<span className="font-semibold mobile:text-sm text-gray-500 text-xs">
+					#{tag}
+				</span>
 			</div>
 		</div>
 	);
