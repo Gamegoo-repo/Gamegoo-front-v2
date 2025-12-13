@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
 	BAD_MANNER_TYPES,
 	MANNER_TYPES,
@@ -9,6 +9,7 @@ import {
 	type MannerInsertRequest,
 	type MannerUpdateRequest,
 } from "@/shared/api";
+import CloseButton from "@/shared/ui/button/close-button";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
 import Modal from "@/shared/ui/modal/modal";
 
@@ -28,9 +29,7 @@ export default function MannerEvaluationModal({
 	const queryClient = useQueryClient();
 	const isPositive = type === "manner";
 	const titleDefault = isPositive ? "매너 평가하기" : "비매너 평가하기";
-	const titleReadonly = isPositive
-		? "내가 남긴 매너 평가"
-		: "내가 남긴 비매너 평가";
+	const contentRef = useRef<HTMLDivElement | null>(null);
 
 	const { data: existingData, isLoading } = useQuery({
 		queryKey: ["manner-existing", memberId, type],
@@ -52,11 +51,10 @@ export default function MannerEvaluationModal({
 		if (!isOpen) return;
 		if (existingData?.mannerKeywordIdList?.length) {
 			setSelected(existingData.mannerKeywordIdList);
-			setIsEditing(false);
 		} else {
 			setSelected([]);
-			setIsEditing(true);
 		}
+		setIsEditing(true);
 	}, [isOpen, existingData]);
 
 	const keywords = useMemo(() => {
@@ -126,23 +124,23 @@ export default function MannerEvaluationModal({
 		<Modal
 			isOpen={isOpen}
 			onClose={onClose}
-			className="w-[360px] max-w-[90vw] bg-white rounded-[20px] px-[31px] py-[26px]"
+			contentRef={contentRef}
+			hasCloseButton={false}
+			className="w-[360px] max-w-[90vw] rounded-[20px] bg-white px-[31px] py-[26px]"
 		>
 			<header className="flex items-center justify-between">
-				<p className="bold-22 text-gray-900">
-					{existingData?.mannerRatingId && !isEditing
-						? titleReadonly
-						: titleDefault}
-				</p>
+				<p className="bold-20 text-gray-900">{titleDefault}</p>
 				<button
 					type="button"
 					aria-label="닫기"
 					onClick={onClose}
-					className="p-1 hover:bg-gray-200 rounded"
+					className="p-1 hover:bg-gray-200"
 				>
 					<span className="sr-only">닫기</span>
-					{/* X icon via text for simplicity */}
-					<span className="text-gray-600 text-lg leading-none">&times;</span>
+					<CloseButton
+						className="-translate-x-[24px] absolute top-0 right-0 translate-y-[24px] hover:rounded-lg hover:bg-gray-300"
+						onClose={onClose}
+					/>
 				</button>
 			</header>
 
@@ -152,7 +150,7 @@ export default function MannerEvaluationModal({
 						<label
 							key={k.id}
 							htmlFor={k.id.toString()}
-							className="flex items-center gap-3 cursor-pointer select-none"
+							className="flex cursor-pointer select-none items-center gap-3"
 						>
 							<Checkbox
 								isChecked={selected.includes(k.id)}
@@ -164,25 +162,14 @@ export default function MannerEvaluationModal({
 					))}
 				</div>
 
-				<div className="mt-[52px] flex items-center justify-between">
-					{existingData?.mannerRatingId && !isEditing ? (
-						<button
-							type="button"
-							onClick={() => setIsEditing(true)}
-							className="px-4 py-2 text-sm font-semibold text-violet-600 hover:bg-gray-100 rounded"
-						>
-							수정하기
-						</button>
-					) : (
-						<div />
-					)}
+				<div className="mt-[40px] flex items-center justify-end">
 					<button
 						type="button"
 						onClick={handleSubmit}
 						disabled={!canSubmit || isLoading || isSubmitting}
-						className="px-5 h-10 rounded-full bg-violet-600 text-white semi-bold-16 disabled:bg-gray-300"
+						className="semi-bold-16 h-[52px] w-full rounded-[6px] bg-violet-600 px-5 text-white disabled:bg-gray-300"
 					>
-						완료
+						확인
 					</button>
 				</div>
 			</main>
