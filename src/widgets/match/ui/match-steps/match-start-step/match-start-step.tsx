@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import { socketManager } from "@/shared/api/socket";
 import { getAuthUserId } from "@/shared/lib/auth-user";
+import { toast } from "@/shared/lib/toast";
 import type { UseMatchFunnelReturn } from "@/widgets/match/hooks";
 import type {
 	MatchingCountData,
@@ -301,10 +301,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 	};
 
 	const handleRetry = async () => {
-		// 간단한 재시도 UX: 프로필 단계로 이동 후 사용자에게 재시도 유도
-		toast.message(
-			"매칭 가능한 상대를 찾지 못했어요. 조건을 조정해 다시 시도해 주세요.",
-		);
+		// 간단한 재시도 UX: 프로필 단계로 이동
 		funnel.toStep("profile");
 	};
 

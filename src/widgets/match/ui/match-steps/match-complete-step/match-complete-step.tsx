@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import { useChatDialogStore } from "@/entities/chat";
 import { socketManager } from "@/shared/api/socket";
+import { toast } from "@/shared/lib/toast";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../../hooks";
 import type { OpponentProfilePayload } from "../../../lib/matching-types";
@@ -16,6 +16,7 @@ interface MatchCompleteStepProps {
 
 function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	const [timeLeft, setTimeLeft] = useState(MATCHING_COMPLETE_TIME);
+	const [isMatched, setIsMatched] = useState(false);
 	const authUser = funnel.user;
 	const matchComplete = funnel.matchComplete;
 	const role = matchComplete?.role;
@@ -141,6 +142,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				});
 				setChatDialogType("chatroom");
 				openDialog();
+				setIsMatched(true);
 			} catch (e) {
 				console.error("채팅 전환 처리 중 오류:", e);
 			}
@@ -149,6 +151,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		const handleMatchingFail = () => {
 			clearAllTimers();
 			funnel.toStep("profile");
+			toast.error("채팅 연결에 실패했어요. 다시 시도해 주세요.");
 		};
 
 		if (role === "sender") {
@@ -206,9 +209,11 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 								/>
 								<div className="mt-4 flex w-[560px] flex-col items-center gap-4">
 									<div className="font-semibold text-gray-700 text-lg">
-										{timeLeft > 0
-											? `${timeLeft}초 후 자동으로 매칭이 진행됩니다`
-											: "매칭 대기 중..."}
+										{isMatched
+											? "매칭 완료"
+											: timeLeft > 0
+												? `${timeLeft}초 후 자동으로 매칭이 진행됩니다`
+												: "매칭 대기 중..."}
 									</div>
 									<Button
 										variant="default"
