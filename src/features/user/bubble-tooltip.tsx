@@ -21,7 +21,7 @@ export default function BubbleTooltip() {
 	return (
 		<div
 			className={cn(
-				"-translate-x-1/2 absolute bottom-[62px] left-1/2 transition-all duration-500 ease-out",
+				"-translate-x-1/2 absolute bottom-[62px] left-1/2 z-10 transition-all duration-500 ease-out",
 				isVisible
 					? "translate-y-0 opacity-100"
 					: "pointer-events-none translate-y-[10px] opacity-0",
