@@ -9,6 +9,7 @@ import {
 	type MannerInsertRequest,
 	type MannerUpdateRequest,
 } from "@/shared/api";
+import CloseButton from "@/shared/ui/button/close-button";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
 import Modal from "@/shared/ui/modal/modal";
 
@@ -136,7 +137,10 @@ export default function MannerEvaluationModal({
 					className="p-1 hover:bg-gray-200"
 				>
 					<span className="sr-only">닫기</span>
-					<span className="text-gray-600 text-lg leading-none">&times;</span>
+					<CloseButton
+						className="-translate-x-[24px] absolute top-0 right-0 translate-y-[24px] hover:rounded-lg hover:bg-gray-300"
+						onClose={onClose}
+					/>
 				</button>
 			</header>
 
@@ -158,12 +162,12 @@ export default function MannerEvaluationModal({
 					))}
 				</div>
 
-				<div className="mt-[52px] flex items-center justify-end">
+				<div className="mt-[40px] flex items-center justify-end">
 					<button
 						type="button"
 						onClick={handleSubmit}
 						disabled={!canSubmit || isLoading || isSubmitting}
-						className="semi-bold-16 h-10 w-full rounded-[6px] bg-violet-600 px-5 text-white disabled:bg-gray-300"
+						className="semi-bold-16 h-[52px] w-full rounded-[6px] bg-violet-600 px-5 text-white disabled:bg-gray-300"
 					>
 						확인
 					</button>

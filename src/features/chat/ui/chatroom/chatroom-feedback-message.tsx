@@ -13,7 +13,7 @@ const ChatroomFeedbackMessage = ({
 			<button
 				type="button"
 				onClick={onEvaluate}
-				className="semi-bold-13 mt-[12px] h-[29px] w-[119px] rounded-full bg-violet-600 text-white"
+				className="semibold-13 mt-[12px] h-[29px] w-[119px] rounded-full bg-violet-600 text-white"
 			>
 				매너평가 하기
 			</button>
