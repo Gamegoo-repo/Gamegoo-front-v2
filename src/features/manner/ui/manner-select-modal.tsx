@@ -47,9 +47,6 @@ export default function MannerSelectModal({
 							selected === "manner" ? "text-violet-600" : "opacity-50",
 						)}
 						onClick={() => setSelected("manner")}
-						onKeyDown={(e) => {
-							if (e.key === "Enter" || e.key === " ") setSelected("manner");
-						}}
 					>
 						<SmileIcon width={32} height={32} />
 						<p className="regular-18 mt-[11px] text-gray-800">매너 평가하기</p>
@@ -61,9 +58,6 @@ export default function MannerSelectModal({
 							selected === "badManner" ? "text-violet-600" : "opacity-50",
 						)}
 						onClick={() => setSelected("badManner")}
-						onKeyDown={(e) => {
-							if (e.key === "Enter" || e.key === " ") setSelected("badManner");
-						}}
 					>
 						<SmileIcon width={32} height={32} />
 						<p className="regular-18 mt-[11px] text-gray-800">
