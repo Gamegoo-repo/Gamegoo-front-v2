@@ -55,7 +55,7 @@ const useMatchFunnelStore = create<MatchFunnelStore>((set) => ({
 }));
 
 export const useMatchFunnel = (): UseMatchFunnelReturn => {
-	const { data: user } = useFetchMyInfo();
+	const { data: user, isLoading, isFetching } = useFetchMyInfo();
 	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
 
 	const { step, type, gameMode, profile, matchComplete, setStep } =
@@ -70,6 +70,11 @@ export const useMatchFunnel = (): UseMatchFunnelReturn => {
 			>
 		>,
 	) => {
+		// 유저 정보 로딩 중이면 아무 동작도 하지 않음 (잘못된 모달 방지)
+		if (isLoading || isFetching) {
+			return;
+		}
+		// 실제 비로그인 상태에서만 모달 표출
 		if (!user) {
 			openLoginRequiredModal();
 			return;
