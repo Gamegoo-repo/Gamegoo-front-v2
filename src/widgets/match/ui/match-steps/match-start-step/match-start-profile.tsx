@@ -1,52 +1,104 @@
+import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { useRef } from "react";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
+import { userKeys } from "@/entities/user/config/query-keys";
 import { ProfileAvatar } from "@/features/profile";
-import type { MyProfileResponse, OtherProfileResponse } from "@/shared/api";
+import MannerProfileAvatar from "@/features/profile/manner-profile-avatar";
+import type {
+	MyProfileResponse,
+	OtherProfileResponse,
+	Position,
+} from "@/shared/api";
+import { api } from "@/shared/api";
 import MicOffIcon from "@/shared/assets/icons/mic_off.svg?react";
 import MicOnIcon from "@/shared/assets/icons/mic_on.svg?react";
+import type {
+	GameStyleItem,
+	OpponentProfilePayload,
+} from "@/widgets/match/lib/matching-types";
 
 interface MatchStartProfileProps {
-	user: Partial<MyProfileResponse> | Partial<OtherProfileResponse> | null;
+	user:
+		| Partial<MyProfileResponse>
+		| Partial<OtherProfileResponse>
+		| Partial<OpponentProfilePayload>
+		| null;
 	opponent?: boolean;
 }
 
 function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
+	const containerRef = useRef<HTMLDivElement | null>(null);
+	// opponent일 때만 매너 키워드 데이터 로드
+	const memberId =
+		typeof (user as Partial<OtherProfileResponse>)?.id === "number"
+			? ((user as Partial<OtherProfileResponse>).id as number)
+			: (
+					user as Partial<
+						import("@/widgets/match/lib/matching-types").OpponentProfilePayload
+					>
+				)?.memberId;
+
+	const { data: userMannerInfo } = useQuery({
+		queryKey: userKeys.mannerDetail(memberId as number, "keywords"),
+		queryFn: async () => {
+			const response = await api.private.manner.getMannerKeywordInfo(
+				memberId as number,
+			);
+			return response.data?.data || null;
+		},
+		enabled: opponent && typeof memberId === "number",
+	});
+
 	if (!user) return null;
 
-	const MainPositionIcon = getPositionIcon(user.mainP ?? "ANY");
-	const SubPositionIcon = getPositionIcon(user.subP ?? "ANY");
-	const WantPositionIcon = getPositionIcon(user.wantP?.[0] ?? "ANY");
+	const MainPositionIcon = getPositionIcon((user.mainP as Position) ?? "ANY");
+	const SubPositionIcon = getPositionIcon((user.subP as Position) ?? "ANY");
+	const WantPositionIcon = getPositionIcon(
+		(user.wantP?.[0] as Position) ?? "ANY",
+	);
 	const isMicOn = user.mike === "AVAILABLE";
+	const mannerLevel =
+		opponent &&
+		typeof (user as Partial<{ mannerLevel: number }>).mannerLevel === "number"
+			? ((user as Partial<{ mannerLevel: number }>).mannerLevel as number)
+			: undefined;
 
 	return (
 		<div
 			className={clsx(
-				"flex flex-col items-center w-[560px] h-[560px] p-[36px] gap-[16px] bg-white border-[1px] rounded-2xl shadow-[0_0_21.3px_rgba(0,0,0,0.15)]",
+				"flex h-[600px] w-[560px] flex-col items-center gap-[16px] rounded-2xl border-[1px] bg-white p-[36px] shadow-[0_0_21.3px_rgba(0,0,0,0.15)]",
 				opponent ? "border-violet-600" : "border-gray-400",
 			)}
 		>
 			{/* 헤더 */}
 			<div className="flex items-center gap-2 text-center">
-				<h2 className="text-3xl font-bold text-gray-900">{user.gameName}</h2>
+				<h2 className="font-bold text-3xl text-gray-900">{user.gameName}</h2>
 				<p className="text-base text-gray-500">#{user.tag}</p>
 			</div>
-
 			{/* 랭크 정보 */}
-			<div className="flex items-center justify-center gap-6 mb-8">
+			<div className="mb-8 flex items-center justify-center gap-6">
 				<div className="flex items-center gap-2">
-					<span className="text-sm font-medium text-gray-700">솔로랭크</span>
-					<span className="text-sm text-gray-500">{user.soloTier}</span>
+					<span className="font-medium text-gray-700 text-sm">솔로랭크</span>
+					<span className="text-gray-500 text-sm">{user.soloTier}</span>
 				</div>
-				<div className="w-px h-5 bg-gray-300"></div>
+				<div className="h-5 w-px bg-gray-300"></div>
 				<div className="flex items-center gap-2">
-					<span className="text-sm font-medium text-gray-700">자유랭크</span>
-					<span className="text-sm text-gray-500">{user.freeTier}</span>
+					<span className="font-medium text-gray-700 text-sm">자유랭크</span>
+					<span className="text-gray-500 text-sm">{user.freeTier}</span>
 				</div>
 			</div>
-
 			{/* 아바타 */}
-			<ProfileAvatar size="xl" profileIndex={user.profileImg} />
-
+			{opponent && userMannerInfo && mannerLevel ? (
+				<MannerProfileAvatar
+					containerRef={containerRef}
+					profileIndex={user.profileImg ?? 0}
+					userMannerInfo={userMannerInfo}
+					mannerLevel={mannerLevel}
+				/>
+			) : (
+				<ProfileAvatar size="xl" profileIndex={user.profileImg} />
+			)}
 			{/* 마이크 상태 */}
 			<div className="flex flex-col items-center gap-[6px]">
 				{isMicOn ? <MicOnIcon /> : <MicOffIcon />}
@@ -59,42 +111,40 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 					{isMicOn ? "마이크 ON" : "마이크 OFF"}
 				</span>
 			</div>
-
 			{/* 게임 스타일 태그 */}
 			<div className="flex flex-wrap justify-center gap-2">
-				{user.gameStyleResponseList?.map((style) => (
+				{user.gameStyleResponseList?.map((style: GameStyleItem) => (
 					<span
-						className="bg-violet-200 text-gray-700 px-4 py-2 rounded-full semi-bold-13"
+						className="semi-bold-13 rounded-full bg-violet-200 px-4 py-2 text-gray-700"
 						key={style.gameStyleId}
 					>
 						{style.gameStyleName}
 					</span>
 				))}
 			</div>
-
 			{/* 포지션 */}
-			<div className="flex gap-[12px] h-[104px] w-full">
-				<div className="bg-gray-100 flex-1 rounded-[10px] h-full px-11 py-4">
-					<ul className="w-full flex justify-between h-full gap-[8px]">
-						<li className="h-full flex flex-col items-center justify-between w-[49px]">
-							<span className="text-gray-700 bold-12 w-full text-center">
+			<div className="flex h-[104px] w-full gap-[12px]">
+				<div className="h-full flex-1 rounded-[10px] bg-gray-100 px-11 py-4">
+					<ul className="flex h-full w-full justify-between gap-[8px]">
+						<li className="flex h-full w-[49px] flex-col items-center justify-between">
+							<span className="bold-12 w-full text-center text-gray-700">
 								주 포지션
 							</span>
 							<MainPositionIcon className="w-12 text-gray-700" />
 						</li>
 
-						<li className="h-full flex flex-col items-center justify-between w-[49px]">
-							<span className="text-gray-700 bold-12 w-full text-center">
+						<li className="flex h-full w-[49px] flex-col items-center justify-between">
+							<span className="bold-12 w-full text-center text-gray-700">
 								부 포지션
 							</span>
 							<SubPositionIcon className="w-12 text-gray-700" />
 						</li>
 					</ul>
 				</div>
-				<div className="bg-gray-100 flex-1 rounded-[10px] h-full px-11 py-4 flex flex-col items-center justify-between">
-					<span className="text-gray-700 bold-12">내가 찾는 포지션</span>
+				<div className="flex h-full flex-1 flex-col items-center justify-between rounded-[10px] bg-gray-100 px-11 py-4">
+					<span className="bold-12 text-gray-700">내가 찾는 포지션</span>
 
-					<ul className="flex w-full justify-center gap-4 items-end">
+					<ul className="flex w-full items-end justify-center gap-4">
 						<li className="flex flex-col items-center justify-between">
 							<WantPositionIcon className="w-12 text-gray-700" />
 						</li>
