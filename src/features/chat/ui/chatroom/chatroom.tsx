@@ -25,6 +25,7 @@ import {
 import MannerEvaluationModal from "@/features/manner/ui/manner-evaluation-modal";
 import MannerSelectModal from "@/features/manner/ui/manner-select-modal";
 import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
+import { useAuthStore } from "@/shared/model/use-auth-store";
 import {
 	ChatroomDateDivider,
 	ChatroomFeedbackMessage,
@@ -65,6 +66,7 @@ const Chatroom = () => {
 	} = useEnterChatroom(chatroomUuid);
 	const { resetUnreadCount } = useChatStore();
 	const { mutate: readMessage } = useReadChatMessage();
+	const authUser = useAuthStore();
 
 	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
 	const opponentId = enterData?.data?.memberId;
@@ -99,7 +101,7 @@ const Chatroom = () => {
 			);
 			const showDate = shouldShowDate(message, index, allMessages);
 			const isLast = index === allMessages.length - 1;
-			const isMyMessage = message.senderId !== opponentId;
+			const isMyMessage = message.senderId === authUser.user?.id;
 			const key = `${message.timestamp || 0}-${message.senderId}-${index}`;
 
 			const elements: React.ReactNode[] = [];

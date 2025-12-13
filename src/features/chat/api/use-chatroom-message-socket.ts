@@ -22,10 +22,25 @@ export const useChatroomSocket = (chatroomUuid: string | null) => {
 		if (data.chatroomUuid !== chatroomUuid) return;
 
 		const { chatroomUuid: _, ...messageData } = data;
+		const rawSystemType =
+			(data as unknown as { systemType?: number | string }).systemType ??
+			(data as unknown as { system?: { flag?: number | string } }).system?.flag;
+		const systemType =
+			typeof rawSystemType === "string"
+				? Number.parseInt(rawSystemType, 10)
+				: rawSystemType;
+		const boardId =
+			(data as unknown as { boardId?: number | null }).boardId ??
+			(data as unknown as { system?: { boardId?: number | null } }).system
+				?.boardId ??
+			null;
+
 		const message: ChatMessage = {
 			...messageData,
 			senderName: messageData.senderName || undefined,
 			senderProfileImg: messageData.senderProfileImg || undefined,
+			...(typeof systemType === "number" && { systemType }),
+			...(typeof boardId !== "undefined" && { boardId }),
 		};
 
 		setSocketMessages((prev) => [...prev, message]);
@@ -40,10 +55,29 @@ export const useChatroomSocket = (chatroomUuid: string | null) => {
 			if (data.chatroomUuid !== chatroomUuid) return;
 
 			const { chatroomUuid: _, ...messageData } = data;
+			const rawSystemType =
+				(data as unknown as { systemType?: number | string }).systemType ??
+				(data as unknown as { system?: { flag?: number | string } }).system
+					?.flag;
+			const systemType =
+				typeof rawSystemType === "string"
+					? Number.parseInt(rawSystemType, 10)
+					: rawSystemType;
+			const boardId =
+				(data as unknown as { boardId?: number | null }).boardId ??
+				(
+					data as unknown as {
+						system?: { boardId?: number | null };
+					}
+				).system?.boardId ??
+				null;
+
 			const message: ChatMessage = {
 				...messageData,
 				senderName: messageData.senderName || undefined,
 				senderProfileImg: messageData.senderProfileImg || undefined,
+				...(typeof systemType === "number" && { systemType }),
+				...(typeof boardId !== "undefined" && { boardId }),
 			};
 
 			setSocketMessages((prev) => [...prev, message]);
@@ -78,6 +112,8 @@ export const useChatroomSocket = (chatroomUuid: string | null) => {
 			if (data.chatroomUuid !== chatroomUuid) return;
 
 			const { chatroomUuid: _, ...messageData } = data;
+			// eslint-disable-next-line no-console
+			console.log("[socket] manner-system-message", { raw: data });
 			const message: ChatMessage = {
 				...messageData,
 				senderName: messageData.senderName || undefined,

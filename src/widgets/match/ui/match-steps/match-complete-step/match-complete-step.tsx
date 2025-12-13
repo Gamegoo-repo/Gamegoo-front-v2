@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useChatDialogStore } from "@/entities/chat";
+import type { ChatroomResponse, EnterChatroomResponse } from "@/shared/api";
+import { api } from "@/shared/api";
 import { socketManager } from "@/shared/api/socket";
 import { toast } from "@/shared/lib/toast";
 import { Button } from "@/shared/ui";
@@ -7,8 +9,6 @@ import type { UseMatchFunnelReturn } from "../../../hooks";
 import type { OpponentProfilePayload } from "../../../lib/matching-types";
 import MatchHeader from "../../match-header";
 import MatchStartProfile from "../match-start-step/match-start-profile";
-import { api } from "@/shared/api";
-import type { ChatroomResponse, EnterChatroomResponse } from "@/shared/api";
 
 const MATCHING_COMPLETE_TIME = 10; // 10초
 
@@ -133,7 +133,9 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				// 채팅방 정보를 API로 조회해 헤더 아바타/닉네임을 정확히 표시 (floating modal 진입과 동일)
 				try {
 					const enterRes = await api.private.chat.enterChatroom(chatroomUuid);
-					const enterData = enterRes.data?.data as EnterChatroomResponse | undefined;
+					const enterData = enterRes.data?.data as
+						| EnterChatroomResponse
+						| undefined;
 					if (enterData) {
 						// EnterChatroomResponse -> ChatroomResponse 매핑
 						const mapped: ChatroomResponse = {
