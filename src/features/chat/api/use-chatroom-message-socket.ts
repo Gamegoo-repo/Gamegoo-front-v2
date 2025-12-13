@@ -7,6 +7,25 @@ import type {
 	SystemMessageEventData,
 } from "../lib/types";
 
+const parseSystemData = (data: unknown): Partial<ChatMessage> => {
+	const rawSystemType =
+		(data as { systemType?: number | string }).systemType ??
+		(data as { system?: { flag?: number | string } }).system?.flag;
+	const systemType =
+		typeof rawSystemType === "string"
+			? Number.parseInt(rawSystemType, 10)
+			: rawSystemType;
+	const boardId =
+		(data as { boardId?: number | null }).boardId ??
+		(data as { system?: { boardId?: number | null } }).system?.boardId ??
+		null;
+
+	return {
+		...(typeof systemType === "number" && { systemType }),
+		...(typeof boardId !== "undefined" && { boardId }),
+	};
+};
+
 export const useChatroomSocket = (chatroomUuid: string | null) => {
 	const [socketMessages, setSocketMessages] = useState<ChatMessage[]>([]);
 	const { isAuthenticated } = useGamegooSocket();
@@ -22,10 +41,12 @@ export const useChatroomSocket = (chatroomUuid: string | null) => {
 		if (data.chatroomUuid !== chatroomUuid) return;
 
 		const { chatroomUuid: _, ...messageData } = data;
+
 		const message: ChatMessage = {
 			...messageData,
 			senderName: messageData.senderName || undefined,
 			senderProfileImg: messageData.senderProfileImg || undefined,
+			...parseSystemData(data),
 		};
 
 		setSocketMessages((prev) => [...prev, message]);
@@ -40,10 +61,12 @@ export const useChatroomSocket = (chatroomUuid: string | null) => {
 			if (data.chatroomUuid !== chatroomUuid) return;
 
 			const { chatroomUuid: _, ...messageData } = data;
+
 			const message: ChatMessage = {
 				...messageData,
 				senderName: messageData.senderName || undefined,
 				senderProfileImg: messageData.senderProfileImg || undefined,
+				...parseSystemData(data),
 			};
 
 			setSocketMessages((prev) => [...prev, message]);

@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import { socketManager } from "@/shared/api/socket";
-import {
-	getAuthUserId,
-	makeMatchingRequestKeyFromId,
-} from "@/shared/lib/auth-user";
+import { getAuthUserId } from "@/shared/lib/auth-user";
+import { toast } from "@/shared/lib/toast";
 import type { UseMatchFunnelReturn } from "@/widgets/match/hooks";
-import type { MatchingFoundData } from "@/widgets/match/lib/matching-types";
+import type {
+	MatchingCountData,
+	MatchingFoundReceiverEvent,
+	MatchingFoundSenderEvent,
+} from "@/widgets/match/lib/matching-types";
 import MatchHeader from "../../match-header";
 import MatchLoadingCard from "./match-loading-card";
 import MatchStartProfile from "./match-start-profile";
@@ -14,7 +15,6 @@ import MatchStartProfile from "./match-start-profile";
 const MAX_MATCHING_TIME = 300; // 5분
 const TIMER_INTERVAL = 1000; // 1초
 const mapPreciseWantPositions = (wantP?: string[] | null) => {
-	// API는 문자열 enum(Position) 2칸을 기대(v1 호환). 빈값은 'ANY'로 채워 전송.
 	const normalized = (wantP || []).filter((p): p is string => !!p);
 	if (normalized.length === 0) return ["ANY", "ANY"];
 	if (normalized.length === 1) {
@@ -39,7 +39,7 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 	const [_isLoading, _setIsLoading] = useState(true);
 	const [timeLeft, setTimeLeft] = useState(MAX_MATCHING_TIME);
 	const [tierCounts, setTierCounts] = useState<Record<string, number>>({});
-	const [, _setOpponent] = useState<MatchingFoundData["opponent"] | null>(null);
+	const [, _setOpponent] = useState<null>(null);
 
 	const timerRef = useRef<NodeJS.Timeout | null>(null);
 	const thresholdRef = useRef(51.5);
@@ -47,6 +47,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 	const didSendFoundSuccessRef = useRef(false);
 	const shouldResendRequestRef = useRef(false);
 	const authUser = funnel.user;
+
+	// MatchCompleteState 제거: 강한 타입으로 직접 주입
 
 	const clearTimers = () => {
 		if (timerRef.current) {
@@ -82,28 +84,24 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 	useEffect(
 		() => {
-			// 소켓 연결 상태와 관계없이 리스너를 우선 등록해 초기 연결 시 이벤트를 수신/전송하도록 함
-
-			const handleMatchingStarted = (_data: any) => {
-				// 초기화 또는 시작 토스트 등 필요 시 확장 가능
+			const handleMatchingStarted = (_data: unknown) => {
 				setTierCounts({});
 			};
 
-			const handleMatchingCount = (data: any) => {
+			const handleMatchingCount = (data: unknown) => {
+				const d = data as MatchingCountData;
 				const newTierCounts = {
-					...data.data.tierCount,
-					total: data.data.userCount,
+					...d.data.tierCount,
+					total: d.data.userCount,
 				};
 				setTierCounts(newTierCounts);
 			};
 
-			const handleMatchingFoundSender = (data: any) => {
+			const handleMatchingFoundSender = (data: unknown) => {
+				const ev = data as MatchingFoundSenderEvent;
 				clearTimers();
-				const opponentData = data?.data?.opponent ?? {};
-				const matchingUuid =
-					data?.data?.senderMatchingUuid ??
-					data?.data?.senderMatchingInfo?.matchingUuid ??
-					"";
+				const opponentData = ev.data;
+				const matchingUuid = ev.data.matchingUuid;
 				funnel.toStep("match-complete", {
 					matchComplete: {
 						role: "sender",
@@ -113,21 +111,20 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				});
 			};
 
-			const handleMatchingFoundReceiver = (data: any) => {
+			const handleMatchingFoundReceiver = (data: unknown) => {
+				const ev = data as MatchingFoundReceiverEvent;
 				clearTimers();
 				if (!didSendFoundSuccessRef.current) {
 					didSendFoundSuccessRef.current = true;
 					socketManager.send("matching-found-success", {
-						senderMatchingUuid: data.data.senderMatchingInfo.matchingUuid,
+						senderMatchingUuid: ev.data.senderMatchingInfo.matchingUuid,
 					});
-				} else {
-					console.warn("⚠️ [V2-Progress] 중복 matching-found-success 차단");
 				}
 				funnel.toStep("match-complete", {
 					matchComplete: {
 						role: "receiver",
-						opponent: data.data.senderMatchingInfo,
-						matchingUuid: data.data.senderMatchingInfo.matchingUuid,
+						opponent: ev.data.senderMatchingInfo,
+						matchingUuid: ev.data.senderMatchingInfo.matchingUuid,
 					},
 				});
 			};
@@ -209,34 +206,12 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				})(),
 			};
 
-			console.log("🚀 [V2] matching-request payload (initial):", matchingData);
-
-			// memberId 기반 중복 전송 방지 (id가 유효할 때만 적용)
-			const userId = getAuthUserId(authUser);
-			const hasValidId = typeof userId === "number";
-			const requestDedupKey = hasValidId
-				? makeMatchingRequestKeyFromId(userId)
-				: null;
-
-			const shouldBlock =
-				didSendMatchingRequestRef.current ||
-				(requestDedupKey
-					? sessionStorage.getItem(requestDedupKey) === "true"
-					: false);
+			// 중복 전송 방지
+			const shouldBlock = didSendMatchingRequestRef.current;
 
 			if (!shouldBlock) {
 				didSendMatchingRequestRef.current = true;
-				if (requestDedupKey) {
-					sessionStorage.setItem(requestDedupKey, "true");
-				} else {
-					// id가 아직 로드 전이라면 dedup을 스킵하고 전송
-					console.warn("⚠️ [V2-Progress] 유효하지 않은 userId로 dedup 스킵");
-				}
 				socketManager.send("matching-request", matchingData);
-			} else {
-				console.warn("⚠️ [V2-Progress] 중복 matching-request 차단", {
-					userId,
-				});
 			}
 
 			// 5분 타이머
@@ -262,10 +237,10 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 					socket.off("matching-count", handleMatchingCount);
 					socket.off("matching-found-sender", handleMatchingFoundSender);
 					socket.off("matching-found-receiver", handleMatchingFoundReceiver);
-					socket.off("matching-not-found", handleMatchingNotFound as any);
-					socket.off("matching-fail", handleMatchingFail as any);
-					socket.off("jwt-expired-error", handleJwtExpired as any);
-					socket.off("connect", handleReconnectSend as any);
+					socket.off("matching-not-found", handleMatchingNotFound);
+					socket.off("matching-fail", handleMatchingFail);
+					socket.off("jwt-expired-error", handleJwtExpired);
+					socket.off("connect", handleReconnectSend);
 				}
 
 				clearTimers();
@@ -277,10 +252,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 	// JWT 만료 처리: dedup 해제 및 재전송 플래그 설정
 	const handleJwtExpired = () => {
-		const userId = getAuthUserId(authUser as any);
-		if (typeof userId === "number") {
-			sessionStorage.removeItem(`matching-request-sent:${userId}`);
-		}
 		shouldResendRequestRef.current = true;
 		didSendMatchingRequestRef.current = false;
 	};
@@ -319,26 +290,18 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 		// 연결 직후: 아직 요청을 보낸 적이 없다면 최초 요청 전송
 		if (!didSendMatchingRequestRef.current) {
 			didSendMatchingRequestRef.current = true;
-			console.log(
-				"🚀 [V2] matching-request payload (on-connect initial):",
-				matchingData,
-			);
 			socketManager.send("matching-request", matchingData);
 			return;
 		}
 		// JWT 만료 등으로 재전송 플래그가 켜진 경우에만 재전송
 		if (shouldResendRequestRef.current) {
 			shouldResendRequestRef.current = false;
-			console.log("🔁 [V2] matching-request payload (resend):", matchingData);
 			socketManager.send("matching-request", matchingData);
 		}
 	};
 
 	const handleRetry = async () => {
-		// 간단한 재시도 UX: 프로필 단계로 이동 후 사용자에게 재시도 유도
-		toast.message(
-			"매칭 가능한 상대를 찾지 못했어요. 조건을 조정해 다시 시도해 주세요.",
-		);
+		// 간단한 재시도 UX: 프로필 단계로 이동
 		funnel.toStep("profile");
 	};
 
@@ -350,16 +313,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 		// 중복 전송 가드 초기화
 		didSendMatchingRequestRef.current = false;
 		didSendFoundSuccessRef.current = false;
-		// 세션 스토리지 dedup 키 제거
-		const userId = getAuthUserId(authUser);
-		if (typeof userId === "number") {
-			sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
-		}
-		// 혹시 'unknown'으로 저장된 키가 있다면 제거
-		sessionStorage.removeItem("matching-request-sent:unknown");
 		// 프로필 단계로 이동
 		funnel.toStep("profile");
-		// 토스트 노출
 		toast.error("화면 이탈로 매칭이 종료되었습니다.");
 	};
 
@@ -370,9 +325,9 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				subtitle="나와 꼭 맞는 상대를 찾는 중..."
 				onBack={handleBack}
 			/>
-			<div className="w-full flex justify-center items-center pt-[110px] mobile:pt-0">
-				<div className="max-w-[1440px] w-full px-[80px] pt-[60px] mobile:px-[20px] mobile:pt-[24px]">
-					<div className="flex justify-center items-center w-full gap-[59px] mt-[72px] mb-[150px] max-[1300px]:flex-col max-[1300px]:gap-[40px] mobile:mt-[15px]">
+			<div className="flex w-full items-center justify-center mobile:pt-0 pt-[110px]">
+				<div className="w-full max-w-[1440px] mobile:px-[20px] px-[80px] mobile:pt-[24px] pt-[60px]">
+					<div className="mobile:mt-[15px] mt-[72px] mb-[150px] flex w-full items-center justify-center gap-[59px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
 						<MatchStartProfile user={authUser} />
 						<MatchLoadingCard
 							timeLeft={timeLeft}

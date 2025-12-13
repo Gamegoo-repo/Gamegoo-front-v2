@@ -14,6 +14,7 @@ import {
 import {
 	deduplicateMessages,
 	formatMessageDate,
+	SYSTEM_MESSAGE_TYPE,
 	shouldShowDate,
 	shouldShowProfileImage,
 	shouldShowTime,
@@ -25,6 +26,7 @@ import {
 import MannerEvaluationModal from "@/features/manner/ui/manner-evaluation-modal";
 import MannerSelectModal from "@/features/manner/ui/manner-select-modal";
 import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
+import { useAuthStore } from "@/shared/model/use-auth-store";
 import {
 	ChatroomDateDivider,
 	ChatroomFeedbackMessage,
@@ -65,6 +67,7 @@ const Chatroom = () => {
 	} = useEnterChatroom(chatroomUuid);
 	const { resetUnreadCount } = useChatStore();
 	const { mutate: readMessage } = useReadChatMessage();
+	const authUser = useAuthStore();
 
 	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
 	const opponentId = enterData?.data?.memberId;
@@ -99,7 +102,7 @@ const Chatroom = () => {
 			);
 			const showDate = shouldShowDate(message, index, allMessages);
 			const isLast = index === allMessages.length - 1;
-			const isMyMessage = message.senderId !== opponentId;
+			const isMyMessage = message.senderId === authUser.user?.id;
 			const key = `${message.timestamp || 0}-${message.senderId}-${index}`;
 
 			const elements: React.ReactNode[] = [];
@@ -112,7 +115,8 @@ const Chatroom = () => {
 			}
 
 			if (message.systemType !== undefined && message.systemType !== null) {
-				if (message.systemType === 5) {
+				// 매너평가 시스템 메시지
+				if (message.systemType === SYSTEM_MESSAGE_TYPE.MANNER_EVALUATION) {
 					elements.push(
 						<div key={key} data-message-index={index}>
 							<ChatroomFeedbackMessage
@@ -123,23 +127,15 @@ const Chatroom = () => {
 						</div>,
 					);
 				} else {
-					const mySystemFlag = (
-						enterData?.data as unknown as { system?: { flag?: number } }
-					)?.system?.flag;
-					const isBoardEntrySystem = message.systemType === 0;
-
-					if (isBoardEntrySystem && mySystemFlag === 1) {
-						elements.push(
-							<div key={key} data-message-index={index}>
-								<ChatroomSystemMessage
-									message={message.message || ""}
-									href={
-										message.boardId ? `/board/${message.boardId}` : undefined
-									}
-								/>
-							</div>,
-						);
-					}
+					// 기타 시스템 메시지: 매칭성공 포함 모든 시스템 메시지를 표시
+					elements.push(
+						<div key={key} data-message-index={index}>
+							<ChatroomSystemMessage
+								message={message.message || ""}
+								href={message.boardId ? `/board/${message.boardId}` : undefined}
+							/>
+						</div>,
+					);
 				}
 			} else if (isMyMessage) {
 				elements.push(
