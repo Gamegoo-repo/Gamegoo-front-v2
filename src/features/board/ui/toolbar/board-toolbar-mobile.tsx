@@ -50,7 +50,7 @@ export default function BoardToolbarMobile({
 				</div>
 				<RefetchButton onClick={refetchPost} />
 			</div>
-			<div className="grid w-full grid-cols-[114px_100px_89px] grid-rows-1 gap-x-2 px-5">
+			<div className="grid w-full grid-cols-[114px_104px_89px] grid-rows-1 gap-x-2 px-5">
 				<Dropdown
 					selectedLabel={getGameModeTitle(gameMode)}
 					onSelect={(value) => setFilter("gameMode", value)}

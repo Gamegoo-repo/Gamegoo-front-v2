@@ -119,7 +119,7 @@ export default function UserProfileMenu({
 							sizeClass="w-16 h-16"
 							hasDropShadow={false}
 						/>
-						<div className="bold-20 text-gray-900">커피한잔</div>
+						<div className="bold-20 text-gray-900">{name}</div>
 					</div>
 					<Link
 						to="/mypage/notification"
