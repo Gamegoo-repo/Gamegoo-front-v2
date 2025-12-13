@@ -29,7 +29,7 @@ export const PopoverContext = createContext<PopoverContextValue | null>(null);
 
 interface PopoverProviderProps {
 	children: ReactNode;
-	containerRef?: RefObject<HTMLElement>;
+	containerRef?: RefObject<HTMLElement | null>;
 }
 
 export function PopoverProvider({
@@ -156,7 +156,7 @@ export function PopoverProvider({
 
 interface PopoverProps {
 	children: ReactNode;
-	containerRef?: RefObject<HTMLElement>;
+	containerRef?: RefObject<HTMLElement | null>;
 }
 
 export function Popover({ children, containerRef }: PopoverProps) {
