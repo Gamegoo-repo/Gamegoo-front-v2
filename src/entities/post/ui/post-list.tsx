@@ -46,6 +46,16 @@ export default function PostList() {
 		return <></>;
 	}
 
+	const isEmpty = pages && pages[0]?.boards.length === 0;
+
+	if (isEmpty) {
+		return (
+			<div className="flex w-full items-center justify-center px-5 py-28">
+				<p className="text-gray-700 text-sm">게시된 글이 없습니다.</p>
+			</div>
+		);
+	}
+
 	return (
 		<div className="flex w-full flex-col gap-4 px-5 pt-4">
 			<ul className="flex flex-col gap-4">
