@@ -54,3 +54,45 @@ export interface MatchingSuccessData {
 		subP: string;
 	};
 }
+
+export type GameMode = "FAST" | "SOLO" | "FREE" | "ARAM";
+export type MikeStatus = "AVAILABLE" | "UNAVAILABLE";
+
+export interface GameStyleItem {
+	gameStyleId: number;
+	gameStyleName: string;
+}
+
+export interface OpponentProfilePayload {
+	memberId: number;
+	matchingUuid: string;
+	gameName: string;
+	tag: string;
+	soloTier: string;
+	soloRank: number;
+	freeTier: string;
+	freeRank: number;
+	mannerLevel: number;
+	profileImg: number;
+	gameMode: GameMode;
+	mainP: string;
+	subP: string;
+	wantP: string[];
+	mike: MikeStatus;
+	gameStyleResponseList: GameStyleItem[];
+}
+
+export interface MatchingFoundSenderEvent {
+	event: "matching-found-sender";
+	data: OpponentProfilePayload;
+	timestamp: string;
+}
+
+export interface MatchingFoundReceiverEvent {
+	event: "matching-found-receiver";
+	data: {
+		senderMatchingInfo: OpponentProfilePayload;
+		receiverMatchingUuid: string;
+	};
+	timestamp: string;
+}

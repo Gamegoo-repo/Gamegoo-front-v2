@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
 import { useLoginRequiredModalStore } from "@/features/auth";
 import type { MyProfileResponse } from "@/shared/api";
+import type { OpponentProfilePayload } from "@/widgets/match/lib/matching-types";
 import type { FunnelStep } from "../lib/types";
 
 export interface UseMatchFunnelReturn {
@@ -12,13 +13,7 @@ export interface UseMatchFunnelReturn {
 	profile: Partial<MyProfileResponse> | null;
 	matchComplete?: {
 		role: "sender" | "receiver";
-		opponent: {
-			gameName: string;
-			tag: string;
-			tier: string;
-			mainP: string;
-			subP: string;
-		};
+		opponent: OpponentProfilePayload;
 		matchingUuid: string;
 	};
 	toStep: (
