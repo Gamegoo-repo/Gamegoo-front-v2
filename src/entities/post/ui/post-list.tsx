@@ -4,9 +4,12 @@ import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
 import { useFetchPostsWithCursorQuery } from "../model/use-mobile-post-list";
 import PostCard from "./post-card";
 import PostCardSkeletons from "./post-card-skeleton";
+import PostActionMenu from "@/features/board/ui/post-action-menu";
+import { useAuth } from "@/shared/model/use-auth";
 
 export default function PostList() {
 	const { gameMode, tier, position, mike } = useBoardFilterStore();
+	const { isAuthenticated, user } = useAuth();
 
 	const {
 		pages,
@@ -51,7 +54,19 @@ export default function PostList() {
 						<Fragment key={page?.cursorId}>
 							{page?.boards.map((post) => (
 								<li key={post.boardId}>
-									<PostCard {...post} />
+									<PostCard
+										{...post}
+										kebabMenu={
+											isAuthenticated && user ? (
+												<PostActionMenu
+													postOwnerId={post.memberId}
+													currentUserId={user.id}
+													postId={post.boardId}
+													isBlocked={false} // TODO: 차단 상태 API에서 가져오기
+												/>
+											) : undefined
+										}
+									/>
 								</li>
 							))}
 						</Fragment>

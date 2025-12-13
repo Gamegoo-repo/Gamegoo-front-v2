@@ -28,7 +28,8 @@ export default function PostCard({
 	createdAt,
 	profileImage,
 	winRate,
-}: BoardListResponse) {
+	kebabMenu,
+}: BoardListResponse & { kebabMenu?: React.ReactNode }) {
 	const { text: textColor } = getWinRateColors(winRate || 0);
 
 	const mainPositionIcon = useMemo(() => getPositionIcon(mainP), [mainP]);
@@ -39,22 +40,29 @@ export default function PostCard({
 	);
 	return (
 		<div className="flex w-full flex-col gap-4 rounded-lg bg-gray-100 p-4">
-			<div className="flex gap-2">
-				<Link
-					to="/users/$userId"
-					params={{ userId: (memberId || 0).toString() }}
-					className="relative"
-				>
-					<UserProfile id={profileImage} sizeClass="w-11 h-11" hasDropShadow />
+			<div className="flex items-center justify-between">
+				<div className="flex gap-2">
+					<Link
+						to="/users/$userId"
+						params={{ userId: (memberId || 0).toString() }}
+						className="relative"
+					>
+						<UserProfile
+							id={profileImage}
+							sizeClass="w-11 h-11"
+							hasDropShadow
+						/>
 
-					<span className="-translate-x-1/2 absolute bottom-0 left-1/2 inline-block translate-y-2/5 rounded-full bg-black/65 px-1.5 py-[1px] font-bold text-[9px] text-violet-300">
-						LV.{mannerLevel}
-					</span>
-				</Link>
-				<div className="flex flex-col">
-					<p className="bold-16 text-gray-800">{gameName}</p>
-					<span className="bold-12 text-gray-500">#{tag}</span>
+						<span className="-translate-x-1/2 absolute bottom-0 left-1/2 inline-block translate-y-2/5 rounded-full bg-black/65 px-1.5 py-[1px] font-bold text-[9px] text-violet-300">
+							LV.{mannerLevel}
+						</span>
+					</Link>
+					<div className="flex flex-col">
+						<p className="bold-16 text-gray-800">{gameName}</p>
+						<span className="bold-12 text-gray-500">#{tag}</span>
+					</div>
 				</div>
+				{kebabMenu && <div>{kebabMenu}</div>}
 			</div>
 
 			<div className="flex w-full items-center">
