@@ -127,6 +127,19 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 					payload?.opponent ??
 					matchComplete?.opponent;
 
+				const createFallbackChatroom = (uuid: string): ChatroomResponse => ({
+					chatroomId: 0,
+					uuid: uuid,
+					targetMemberId: 0,
+					targetMemberImg: 0,
+					targetMemberName:
+						(opponent?.gameName as string | undefined) || "상대",
+					friend: false,
+					blocked: false,
+					blind: false,
+					notReadMsgCnt: 0,
+				});
+
 				const { openDialog, setChatDialogType, setChatroom } =
 					useChatDialogStore.getState();
 
@@ -151,35 +164,11 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 						};
 						setChatroom(mapped);
 					} else {
-						// fallback: 최소 uuid만 세팅
-						setChatroom({
-							chatroomId: 0,
-							uuid: chatroomUuid,
-							targetMemberId: 0,
-							targetMemberImg: 0,
-							targetMemberName:
-								(opponent?.gameName as string | undefined) || "상대",
-							friend: false,
-							blocked: false,
-							blind: false,
-							notReadMsgCnt: 0,
-						});
+						setChatroom(createFallbackChatroom(chatroomUuid));
 					}
 				} catch (e) {
 					console.error("enterChatroom 호출 실패:", e);
-					// 실패 시에도 uuid로 진입 가능하도록 최소 정보 세팅
-					setChatroom({
-						chatroomId: 0,
-						uuid: chatroomUuid,
-						targetMemberId: 0,
-						targetMemberImg: 0,
-						targetMemberName:
-							(opponent?.gameName as string | undefined) || "상대",
-						friend: false,
-						blocked: false,
-						blind: false,
-						notReadMsgCnt: 0,
-					});
+					setChatroom(createFallbackChatroom(chatroomUuid));
 				}
 				setChatDialogType("chatroom");
 				openDialog();
