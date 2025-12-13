@@ -112,8 +112,6 @@ export const useChatroomSocket = (chatroomUuid: string | null) => {
 			if (data.chatroomUuid !== chatroomUuid) return;
 
 			const { chatroomUuid: _, ...messageData } = data;
-			// eslint-disable-next-line no-console
-			console.log("[socket] manner-system-message", { raw: data });
 			const message: ChatMessage = {
 				...messageData,
 				senderName: messageData.senderName || undefined,
