@@ -32,7 +32,7 @@ const ProfileAvatar = ({ size, profileIndex = 0 }: ProfileAvatarProps) => {
 	// TODO: icon 파일로 src/shared/assets 안의 svg 사용하도록 수정
 	return (
 		<div
-			className={`${WRAPPER_SIZE[size]} relative rounded-full`}
+			className={`${WRAPPER_SIZE[size]} relative shrink-0 rounded-full`}
 			style={{
 				backgroundColor: BACKGROUND_COLOR[profileIndex ? profileIndex - 1 : 0],
 			}}

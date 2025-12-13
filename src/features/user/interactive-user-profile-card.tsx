@@ -44,7 +44,7 @@ export default function InteractiveUserProfileCard({
 	return (
 		<div className="flex items-center gap-3">
 			<p className="relative">
-				<BubbleTooltip />
+				<BubbleTooltip variant="sm" align="right" />
 				<UserProfile
 					id={profileImage}
 					sizeClass="w-[74px] h-[74px]"
