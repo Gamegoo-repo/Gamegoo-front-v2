@@ -3,11 +3,13 @@ import { useRef } from "react";
 import TierBadge from "@/entities/game/ui/tier-badge";
 import EditableProfileAvatar from "@/features/profile/editable-profile-avatar";
 import type { MyProfileResponse } from "@/shared/api";
+import { useResponsive } from "@/shared/model/responsive-context";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../../hooks";
 import MatchHeader from "../../match-header";
 import BasicProfileForm from "./basic-profile-form";
 import PreciseProfileForm from "./precise-profile-form";
+import ProfileStepMobile from "./profile-step-mobile";
 
 interface ProfileStepProps {
 	funnel: UseMatchFunnelReturn;
@@ -17,10 +19,15 @@ interface ProfileStepProps {
 function ProfileStep({ funnel, user }: ProfileStepProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const router = useRouter();
+	const { isMobile } = useResponsive();
 
 	const matchType = funnel.type;
 
 	if (!user) return null;
+
+	if (isMobile) {
+		return <ProfileStepMobile funnel={funnel} user={user} />;
+	}
 
 	const handleMatchStart = () => {
 		const currentProfile = funnel.profile || {};
