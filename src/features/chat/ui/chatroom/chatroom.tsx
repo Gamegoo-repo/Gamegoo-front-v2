@@ -112,6 +112,7 @@ const Chatroom = () => {
 			}
 
 			if (message.systemType !== undefined && message.systemType !== null) {
+				// 5: 매너평가 시스템 메시지
 				if (message.systemType === 5) {
 					elements.push(
 						<div key={key} data-message-index={index}>
@@ -123,23 +124,15 @@ const Chatroom = () => {
 						</div>,
 					);
 				} else {
-					const mySystemFlag = (
-						enterData?.data as unknown as { system?: { flag?: number } }
-					)?.system?.flag;
-					const isBoardEntrySystem = message.systemType === 0;
-
-					if (isBoardEntrySystem && mySystemFlag === 1) {
-						elements.push(
-							<div key={key} data-message-index={index}>
-								<ChatroomSystemMessage
-									message={message.message || ""}
-									href={
-										message.boardId ? `/board/${message.boardId}` : undefined
-									}
-								/>
-							</div>,
-						);
-					}
+					// 기타 시스템 메시지: 매칭성공 포함 모든 시스템 메시지를 표시
+					elements.push(
+						<div key={key} data-message-index={index}>
+							<ChatroomSystemMessage
+								message={message.message || ""}
+								href={message.boardId ? `/board/${message.boardId}` : undefined}
+							/>
+						</div>,
+					);
 				}
 			} else if (isMyMessage) {
 				elements.push(

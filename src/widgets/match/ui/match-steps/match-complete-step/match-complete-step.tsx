@@ -7,6 +7,8 @@ import type { UseMatchFunnelReturn } from "../../../hooks";
 import type { OpponentProfilePayload } from "../../../lib/matching-types";
 import MatchHeader from "../../match-header";
 import MatchStartProfile from "../match-start-step/match-start-profile";
+import { api } from "@/shared/api";
+import type { ChatroomResponse, EnterChatroomResponse } from "@/shared/api";
 
 const MATCHING_COMPLETE_TIME = 10; // 10초
 
@@ -94,7 +96,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 			}, 3000);
 		};
 
-		const handleMatchingSuccess = (_res: unknown) => {
+		const handleMatchingSuccess = async (_res: unknown) => {
 			clearAllTimers();
 			try {
 				const payload = _res as {
@@ -128,18 +130,55 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				const { openDialog, setChatDialogType, setChatroom } =
 					useChatDialogStore.getState();
 
-				setChatroom({
-					chatroomId: 0,
-					uuid: chatroomUuid,
-					targetMemberId: 0,
-					targetMemberImg: 0,
-					targetMemberName:
-						(opponent?.gameName as string | undefined) || "상대",
-					friend: false,
-					blocked: false,
-					blind: false,
-					notReadMsgCnt: 0,
-				});
+				// 채팅방 정보를 API로 조회해 헤더 아바타/닉네임을 정확히 표시 (floating modal 진입과 동일)
+				try {
+					const enterRes = await api.private.chat.enterChatroom(chatroomUuid);
+					const enterData = enterRes.data?.data as EnterChatroomResponse | undefined;
+					if (enterData) {
+						// EnterChatroomResponse -> ChatroomResponse 매핑
+						const mapped: ChatroomResponse = {
+							chatroomId: 0,
+							uuid: enterData.uuid,
+							targetMemberId: enterData.memberId,
+							targetMemberImg: enterData.memberProfileImg,
+							targetMemberName: enterData.gameName,
+							friend: enterData.friend,
+							blocked: enterData.blocked,
+							blind: enterData.blind,
+							notReadMsgCnt: 0,
+						};
+						setChatroom(mapped);
+					} else {
+						// fallback: 최소 uuid만 세팅
+						setChatroom({
+							chatroomId: 0,
+							uuid: chatroomUuid,
+							targetMemberId: 0,
+							targetMemberImg: 0,
+							targetMemberName:
+								(opponent?.gameName as string | undefined) || "상대",
+							friend: false,
+							blocked: false,
+							blind: false,
+							notReadMsgCnt: 0,
+						});
+					}
+				} catch (e) {
+					console.error("enterChatroom 호출 실패:", e);
+					// 실패 시에도 uuid로 진입 가능하도록 최소 정보 세팅
+					setChatroom({
+						chatroomId: 0,
+						uuid: chatroomUuid,
+						targetMemberId: 0,
+						targetMemberImg: 0,
+						targetMemberName:
+							(opponent?.gameName as string | undefined) || "상대",
+						friend: false,
+						blocked: false,
+						blind: false,
+						notReadMsgCnt: 0,
+					});
+				}
 				setChatDialogType("chatroom");
 				openDialog();
 				setIsMatched(true);
