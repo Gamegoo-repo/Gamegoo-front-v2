@@ -6,7 +6,9 @@ import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
 import { userKeys } from "@/entities/user/config/query-keys";
 import GameStylePopover from "@/features/board/ui/game-style-popover";
 import EditableProfileAvatar from "@/features/profile/editable-profile-avatar";
+import ProfileSummaryCard from "@/features/profile/profile-summary-card";
 import { api, type Mike } from "@/shared/api";
+import { useResponsive } from "@/shared/model/responsive-context";
 import { Switch } from "@/shared/ui/toggle-switch/switch";
 
 export const Route = createFileRoute("/_header-layout/mypage/profile")({
@@ -17,6 +19,7 @@ function RouteComponent() {
 	const { data: user } = useFetchMyInfo();
 	const containerRef = useRef<HTMLDivElement>(null);
 	const queryClient = useQueryClient();
+	const { isMobile } = useResponsive();
 
 	const initialGameStyleIds = useMemo(
 		() => (user?.gameStyleResponseList || []).map((s) => s.gameStyleId) ?? [],
@@ -70,6 +73,51 @@ function RouteComponent() {
 		updateMikeMutation.mutate(next);
 	};
 
+	if (isMobile) {
+		if (!user) {
+			return null;
+		}
+		return (
+			<div className="h-full w-full">
+				<div className="mb-4 flex items-center gap-3">
+					<h2 className="bold-25 flex-1 border-gray-200 border-b pb-4">
+						내 정보
+					</h2>
+				</div>
+				<div
+					className="flex w-full items-center justify-center"
+					ref={containerRef}
+				>
+					<div className="w-full">
+						<ProfileSummaryCard
+							variant={isMobile ? "sm" : "lg"}
+							gameName={user.gameName}
+							tag={user.tag}
+							soloTier={user.soloTier}
+							soloRank={user.soloRank}
+							freeTier={user.freeTier}
+							freeRank={user.freeRank}
+							gameStyleChips={
+								(user.gameStyleResponseList || [])
+									.filter((s) => selectedGameStyleIds.includes(s.gameStyleId))
+									.map((s) => s.gameStyleName) || []
+							}
+							gameStyleAddon={
+								<GameStylePopover
+									selectedGameStyle={selectedGameStyleIds}
+									onChangeGameStyle={handleToggleGameStyle}
+									containerRef={containerRef}
+								/>
+							}
+							micChecked={user.mike === "AVAILABLE"}
+							onMicToggle={handleToggleMike}
+						/>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className="h-full w-full">
 			{/* Header */}
@@ -86,7 +134,7 @@ function RouteComponent() {
 			>
 				{/* Avatar with edit */}
 				<div className="shrink-0">
-					<EditableProfileAvatar />
+					<EditableProfileAvatar variant="lg" />
 				</div>
 
 				{/* Right content */}

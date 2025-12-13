@@ -1,11 +1,16 @@
+import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { useRef } from "react";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
+import { userKeys } from "@/entities/user/config/query-keys";
 import { ProfileAvatar } from "@/features/profile";
+import MannerProfileAvatar from "@/features/profile/manner-profile-avatar";
 import type {
 	MyProfileResponse,
 	OtherProfileResponse,
 	Position,
 } from "@/shared/api";
+import { api } from "@/shared/api";
 import MicOffIcon from "@/shared/assets/icons/mic_off.svg?react";
 import MicOnIcon from "@/shared/assets/icons/mic_on.svg?react";
 import type {
@@ -23,6 +28,28 @@ interface MatchStartProfileProps {
 }
 
 function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
+	const containerRef = useRef<HTMLDivElement | null>(null);
+	// opponent일 때만 매너 키워드 데이터 로드
+	const memberId =
+		typeof (user as Partial<OtherProfileResponse>)?.id === "number"
+			? ((user as Partial<OtherProfileResponse>).id as number)
+			: (
+					user as Partial<
+						import("@/widgets/match/lib/matching-types").OpponentProfilePayload
+					>
+				)?.memberId;
+
+	const { data: userMannerInfo } = useQuery({
+		queryKey: userKeys.mannerDetail(memberId as number, "keywords"),
+		queryFn: async () => {
+			const response = await api.private.manner.getMannerKeywordInfo(
+				memberId as number,
+			);
+			return response.data?.data || null;
+		},
+		enabled: opponent && typeof memberId === "number",
+	});
+
 	if (!user) return null;
 
 	const MainPositionIcon = getPositionIcon((user.mainP as Position) ?? "ANY");
@@ -31,11 +58,16 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 		(user.wantP?.[0] as Position) ?? "ANY",
 	);
 	const isMicOn = user.mike === "AVAILABLE";
+	const mannerLevel =
+		opponent &&
+		typeof (user as Partial<{ mannerLevel: number }>).mannerLevel === "number"
+			? ((user as Partial<{ mannerLevel: number }>).mannerLevel as number)
+			: undefined;
 
 	return (
 		<div
 			className={clsx(
-				"flex h-[560px] w-[560px] flex-col items-center gap-[16px] rounded-2xl border-[1px] bg-white p-[36px] shadow-[0_0_21.3px_rgba(0,0,0,0.15)]",
+				"flex h-[600px] w-[560px] flex-col items-center gap-[16px] rounded-2xl border-[1px] bg-white p-[36px] shadow-[0_0_21.3px_rgba(0,0,0,0.15)]",
 				opponent ? "border-violet-600" : "border-gray-400",
 			)}
 		>
@@ -44,7 +76,6 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 				<h2 className="font-bold text-3xl text-gray-900">{user.gameName}</h2>
 				<p className="text-base text-gray-500">#{user.tag}</p>
 			</div>
-
 			{/* 랭크 정보 */}
 			<div className="mb-8 flex items-center justify-center gap-6">
 				<div className="flex items-center gap-2">
@@ -57,10 +88,17 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 					<span className="text-gray-500 text-sm">{user.freeTier}</span>
 				</div>
 			</div>
-
 			{/* 아바타 */}
-			<ProfileAvatar size="xl" profileIndex={user.profileImg} />
-
+			{opponent && userMannerInfo && mannerLevel ? (
+				<MannerProfileAvatar
+					containerRef={containerRef}
+					profileIndex={user.profileImg ?? 0}
+					userMannerInfo={userMannerInfo}
+					mannerLevel={mannerLevel}
+				/>
+			) : (
+				<ProfileAvatar size="xl" profileIndex={user.profileImg} />
+			)}
 			{/* 마이크 상태 */}
 			<div className="flex flex-col items-center gap-[6px]">
 				{isMicOn ? <MicOnIcon /> : <MicOffIcon />}
@@ -73,7 +111,6 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 					{isMicOn ? "마이크 ON" : "마이크 OFF"}
 				</span>
 			</div>
-
 			{/* 게임 스타일 태그 */}
 			<div className="flex flex-wrap justify-center gap-2">
 				{user.gameStyleResponseList?.map((style: GameStyleItem) => (
@@ -85,7 +122,6 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 					</span>
 				))}
 			</div>
-
 			{/* 포지션 */}
 			<div className="flex h-[104px] w-full gap-[12px]">
 				<div className="h-full flex-1 rounded-[10px] bg-gray-100 px-11 py-4">

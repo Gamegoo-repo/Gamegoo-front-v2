@@ -3,11 +3,13 @@ import { useRef } from "react";
 import TierBadge from "@/entities/game/ui/tier-badge";
 import EditableProfileAvatar from "@/features/profile/editable-profile-avatar";
 import type { MyProfileResponse } from "@/shared/api";
+import { useResponsive } from "@/shared/model/responsive-context";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../../hooks";
 import MatchHeader from "../../match-header";
 import BasicProfileForm from "./basic-profile-form";
 import PreciseProfileForm from "./precise-profile-form";
+import ProfileStepMobile from "./profile-step-mobile";
 
 interface ProfileStepProps {
 	funnel: UseMatchFunnelReturn;
@@ -17,10 +19,15 @@ interface ProfileStepProps {
 function ProfileStep({ funnel, user }: ProfileStepProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const router = useRouter();
+	const { isMobile } = useResponsive();
 
 	const matchType = funnel.type;
 
 	if (!user) return null;
+
+	if (isMobile) {
+		return <ProfileStepMobile funnel={funnel} user={user} />;
+	}
 
 	const handleMatchStart = () => {
 		const currentProfile = funnel.profile || {};
@@ -60,34 +67,34 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 				funnel={funnel}
 			/>
 			<div
-				className="w-full flex justify-center items-center pt-[110px] mobile:pt-0"
+				className="flex w-full items-center justify-center mobile:pt-0 pt-[110px]"
 				ref={containerRef}
 			>
-				<div className="max-w-[1440px] w-full px-[80px] pt-[60px] mobile:px-[20px] mobile:pt-[24px]">
-					<div className="w-full flex flex-col items-center gap-4 mt-[72px] mb-[150px] mobile:mt-[15px]">
-						<div className="w-full flex bg-violet-100 rounded-2xl p-12 gap-[32px]">
-							<EditableProfileAvatar />
-							<div className="flex flex-col items-start gap-[36px] py-[20px] flex-1">
-								<div className="flex flex-col items-start gap-[24px] w-full">
+				<div className="w-full max-w-[1440px] mobile:px-[20px] px-[80px] mobile:pt-[24px] pt-[60px]">
+					<div className="mobile:mt-[15px] mt-[72px] mb-[150px] flex w-full flex-col items-center gap-4">
+						<div className="flex w-full gap-[32px] rounded-2xl bg-violet-100 p-12">
+							<EditableProfileAvatar variant="lg" />
+							<div className="flex flex-1 flex-col items-start gap-[36px] py-[20px]">
+								<div className="flex w-full flex-col items-start gap-[24px]">
 									<div className="flex items-center gap-2">
-										<p className="text-gray-800 bold-32">{user.gameName}</p>
-										<p className="text-gray-500 bold-20">#{user.tag}</p>
+										<p className="bold-32 text-gray-800">{user.gameName}</p>
+										<p className="bold-20 text-gray-500">#{user.tag}</p>
 									</div>
 									<div className="flex gap-[28px]">
 										<div className="w-1/2">
-											<span className="mb-1.5 text-gray-800 semibold-14">
+											<span className="semibold-14 mb-1.5 text-gray-800">
 												솔로랭크
 											</span>
 											<TierBadge tier={user.soloTier} rank={user.soloRank} />
 										</div>
 										<div className="w-1/2">
-											<span className="mb-1.5 text-gray-800 semibold-14">
+											<span className="semibold-14 mb-1.5 text-gray-800">
 												자유랭크
 											</span>
 											<TierBadge tier={user.freeTier} rank={user.freeRank} />
 										</div>
 									</div>
-									<div className=" border-b border-gray-400 w-full" />
+									<div className="w-full border-gray-400 border-b" />
 								</div>
 								{matchType === "BASIC" && (
 									<BasicProfileForm
@@ -109,7 +116,7 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 								)}
 							</div>
 						</div>
-						<div className="flex justify-end w-full">
+						<div className="flex w-full justify-end">
 							<Button
 								variant="default"
 								className="h-14 w-[380px] rounded-2xl px-8"

@@ -27,7 +27,7 @@ export default function MannerSelectModal({
 		<Modal
 			isOpen={isOpen}
 			onClose={onClose}
-			contentRef={contentRef}
+			ref={contentRef}
 			className="w-[354px] overflow-hidden rounded-[10px] bg-white p-0"
 		>
 			<div className="flex flex-col border-gray-300 border-b">
