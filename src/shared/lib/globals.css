@@ -479,7 +479,7 @@
   }
 
   .label {
-    @apply text-sm font-semibold text-gray-800;
+    @apply font-medium mobile:font-semibold mobile:text-sm text-[11px] text-gray-800;
   }
 
   .popover {
