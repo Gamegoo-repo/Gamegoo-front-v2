@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { socketManager } from "@/shared/api/socket";
-import {
-	getAuthUserId,
-	makeMatchingRequestKeyFromId,
-} from "@/shared/lib/auth-user";
+import { getAuthUserId } from "@/shared/lib/auth-user";
 import type { UseMatchFunnelReturn } from "@/widgets/match/hooks";
 import type {
 	MatchingCountData,
@@ -209,27 +206,11 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				})(),
 			};
 
-			// memberId 기반 중복 전송 방지 (id가 유효할 때만 적용)
-			const userId = getAuthUserId(authUser);
-			const hasValidId = typeof userId === "number";
-			const requestDedupKey = hasValidId
-				? makeMatchingRequestKeyFromId(userId)
-				: null;
-
-			const shouldBlock =
-				didSendMatchingRequestRef.current ||
-				(requestDedupKey
-					? sessionStorage.getItem(requestDedupKey) === "true"
-					: false);
+			// 중복 전송 방지
+			const shouldBlock = didSendMatchingRequestRef.current;
 
 			if (!shouldBlock) {
 				didSendMatchingRequestRef.current = true;
-				if (requestDedupKey) {
-					sessionStorage.setItem(requestDedupKey, "true");
-				} else {
-					// id가 아직 로드 전이라면 dedup을 스킵하고 전송
-					console.warn("⚠️ [V2-Progress] 유효하지 않은 userId로 dedup 스킵");
-				}
 				socketManager.send("matching-request", matchingData);
 			}
 
@@ -271,10 +252,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 	// JWT 만료 처리: dedup 해제 및 재전송 플래그 설정
 	const handleJwtExpired = () => {
-		const userId = getAuthUserId(authUser);
-		if (typeof userId === "number") {
-			sessionStorage.removeItem(`matching-request-sent:${userId}`);
-		}
 		shouldResendRequestRef.current = true;
 		didSendMatchingRequestRef.current = false;
 	};
@@ -339,16 +316,8 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 		// 중복 전송 가드 초기화
 		didSendMatchingRequestRef.current = false;
 		didSendFoundSuccessRef.current = false;
-		// 세션 스토리지 dedup 키 제거
-		const userId = getAuthUserId(authUser);
-		if (typeof userId === "number") {
-			sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
-		}
-		// 혹시 'unknown'으로 저장된 키가 있다면 제거
-		sessionStorage.removeItem("matching-request-sent:unknown");
 		// 프로필 단계로 이동
 		funnel.toStep("profile");
-		// 토스트 노출
 		toast.error("화면 이탈로 매칭이 종료되었습니다.");
 	};
 

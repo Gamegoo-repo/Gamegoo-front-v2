@@ -1,15 +1,10 @@
-import { useRouter } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useChatDialogStore } from "@/entities/chat";
-import type { OtherProfileResponse } from "@/shared/api";
 import { socketManager } from "@/shared/api/socket";
-import {
-	getAuthUserId,
-	makeMatchingRequestKeyFromId,
-} from "@/shared/lib/auth-user";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../../hooks";
+import type { OpponentProfilePayload } from "../../../lib/matching-types";
 import MatchHeader from "../../match-header";
 import MatchStartProfile from "../match-start-step/match-start-profile";
 
@@ -21,7 +16,6 @@ interface MatchCompleteStepProps {
 
 function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	const [timeLeft, setTimeLeft] = useState(MATCHING_COMPLETE_TIME);
-	const router = useRouter();
 	const authUser = funnel.user;
 	const matchComplete = funnel.matchComplete;
 	const role = matchComplete?.role;
@@ -49,16 +43,8 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		// 모든 타이머 정리
 		clearAllTimers();
 
-		// 중복 전송 방지 키 해제
-		const userId = getAuthUserId(authUser);
-		if (typeof userId === "number") {
-			sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
-		}
-		sessionStorage.removeItem("matching-request-sent:unknown");
-
 		// 프로필 단계로 이동
 		funnel.toStep("profile");
-		// 토스트 노출
 		toast.error("화면 이탈로 매칭이 종료되었습니다.");
 	};
 
@@ -109,13 +95,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 		const handleMatchingSuccess = (_res: unknown) => {
 			clearAllTimers();
-			// 중복 전송 방지 키 해제 (새 매칭 허용)
-			const userId = getAuthUserId(authUser);
-			if (typeof userId === "number") {
-				sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
-			}
-			sessionStorage.removeItem("matching-request-sent:unknown");
-			// 채팅 전환 처리
 			try {
 				const payload = _res as {
 					data?: {
@@ -148,10 +127,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				const { openDialog, setChatDialogType, setChatroom } =
 					useChatDialogStore.getState();
 
-				sessionStorage.removeItem("funnel-step");
-				sessionStorage.removeItem("funnel-context");
-				router.navigate({ to: "/" });
-
 				setChatroom({
 					chatroomId: 0,
 					uuid: chatroomUuid,
@@ -173,12 +148,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 		const handleMatchingFail = () => {
 			clearAllTimers();
-			// 중복 전송 방지 키 해제 (새 매칭 허용)
-			const userId = getAuthUserId(authUser);
-			if (typeof userId === "number") {
-				sessionStorage.removeItem(makeMatchingRequestKeyFromId(userId));
-			}
-			sessionStorage.removeItem("matching-request-sent:unknown");
 			funnel.toStep("profile");
 		};
 
@@ -222,31 +191,28 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 	return (
 		<>
-			<MatchHeader
-				title="매칭 완료"
-				onBack={() => funnel.toStep("match-start")}
-			/>
-			<div className="w-full flex justify-center items-center pt-[110px] mobile:pt-0">
-				<div className="max-w-[1440px] w-full px-[80px] pt-[60px] mobile:px-[20px] mobile:pt-[24px]">
-					<div className="flex flex-col items-center w-full gap-[59px] mt-[72px] mb-[150px] max-[1300px]:gap-[40px] mobile:mt-[15px]">
+			<MatchHeader title="매칭 완료" onBack={() => funnel.toStep("profile")} />
+			<div className="flex w-full items-center justify-center mobile:pt-0 pt-[110px]">
+				<div className="w-full max-w-[1440px] mobile:px-[20px] px-[80px] mobile:pt-[24px] pt-[60px]">
+					<div className="mobile:mt-[15px] mt-[72px] mb-[150px] flex w-full flex-col items-center gap-[59px] max-[1300px]:gap-[40px]">
 						<div className="flex justify-center gap-[59px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
 							<MatchStartProfile user={authUser} />
 							<div>
 								<MatchStartProfile
 									user={
-										matchComplete?.opponent as Partial<OtherProfileResponse>
+										matchComplete?.opponent as Partial<OpponentProfilePayload>
 									}
 									opponent
 								/>
-								<div className="flex flex-col items-center w-[560px] gap-4 mt-4">
-									<div className="text-lg font-semibold text-gray-700">
+								<div className="mt-4 flex w-[560px] flex-col items-center gap-4">
+									<div className="font-semibold text-gray-700 text-lg">
 										{timeLeft > 0
 											? `${timeLeft}초 후 자동으로 매칭이 진행됩니다`
 											: "매칭 대기 중..."}
 									</div>
 									<Button
 										variant="default"
-										className="h-12 w-full rounded-2xl px-8 bg-gray-800"
+										className="h-12 w-full rounded-2xl bg-gray-800 px-8"
 										onClick={handleCancel}
 									>
 										매칭 다시하기
