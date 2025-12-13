@@ -1,4 +1,4 @@
-import { formatKDAStats } from "@/entities/game/lib/kda";
+import { formatKDA, formatKDAStats } from "@/entities/game/lib/kda";
 import UserProfileHeader from "@/features/profile/user-profile-header";
 import type {
 	MannerKeywordListResponse,
@@ -140,7 +140,7 @@ export default function UserInfoWidget({
 								)}
 							</p>
 							<span className="font-semibold mobile:text-sm text-gray-500 text-xs">
-								KDA {recAvgKDA}
+								KDA {formatKDA(recAvgKDA)}
 							</span>
 						</div>
 

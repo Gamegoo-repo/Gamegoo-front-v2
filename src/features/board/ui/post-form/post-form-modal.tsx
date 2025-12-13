@@ -1,5 +1,7 @@
+/** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
 import type { AxiosError } from "axios";
 import { useRef, useState } from "react";
+import { isEqual } from "lodash-es";
 import UserProfileCard from "@/entities/user/ui/user-profile-card";
 import { GAME_MODE_ITEMS } from "@/features/board/config/dropdown-items";
 import { getGameModeTitle } from "@/features/board/lib/getGameModeTitle";
@@ -16,11 +18,13 @@ import CloseButton from "@/shared/ui/button/close-button";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import Modal from "@/shared/ui/modal/modal";
 import { Switch } from "@/shared/ui/toggle-switch/switch";
-import { useCreatePost } from "../api/use-create-post";
-import { GAME_STYLE } from "../config/game-styles";
-import GameStylePopover from "./game-style-popover";
-import PositionSelector from "./position-selector";
+import { useCreatePost } from "../../api/use-create-post";
+import { GAME_STYLE } from "../../config/game-styles";
+import GameStylePopover from "../game-style-popover";
+import PositionSelector from "../position-selector";
 import { toast } from "@/shared/lib/toast";
+import { Card } from "@/shared/ui/card/card";
+import { useUpdatePost } from "../../api/use-update-post";
 
 export interface BoardFormData
 	extends Omit<BoardInsertRequest, "mainP" | "subP" | "mike" | "contents"> {
@@ -51,28 +55,36 @@ export const validateBoardForm = (formData: BoardFormData): boolean => {
 	);
 };
 
-export default function PostFormModal({
-	isOpen,
-	onClose,
-	mode,
-	postToEdit,
-	userInfo,
-}: {
+type CreateModeProps = {
+	mode: "create";
+	userInfo: MyProfileResponse;
+};
+
+type EditModeProps = {
+	mode: "edit";
+	postId: number;
+	postToEdit: BoardFormData;
+	userInfo: MyProfileResponse;
+};
+
+type PostFormModalProps = {
 	isOpen: boolean;
 	onClose: () => void;
-	mode: "create" | "edit";
-	postToEdit?: BoardFormData;
-	userInfo: MyProfileResponse;
-}) {
+} & (CreateModeProps | EditModeProps);
+
+export default function PostFormModal(props: PostFormModalProps) {
+	const { isOpen, onClose, userInfo } = props;
+
 	const [formData, setFormData] = useState(() =>
-		!postToEdit ? INITIAL_BOARD_FORM : postToEdit,
+		props.mode === "edit" ? props.postToEdit : INITIAL_BOARD_FORM,
 	);
 	const [contentError, setContentError] = useState<string | undefined>(
 		undefined,
 	);
 	const modalRef = useRef<HTMLDivElement>(null);
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
-	const { mutate } = useCreatePost();
+	const { mutate: createPostMutate } = useCreatePost();
+	const { mutate: updatePostMutate } = useUpdatePost();
 
 	const isFormValid = validateBoardForm(formData);
 
@@ -128,14 +140,12 @@ export default function PostFormModal({
 			mainP: formData.mainP,
 			subP: formData.subP,
 		};
-		mutate(form, {
+		createPostMutate(form, {
 			onSuccess: () => {
 				toast.confirm("게시글이 작성되었습니다.");
 				handleClose();
 			},
 			onError: (error: AxiosError<ApiErrorResponse>) => {
-				/** TODO: ANY 보다 더 좋은 타입이 있나 체크*/
-
 				if (error.response?.data?.code === "BOARD_408") {
 					textareaRef.current?.focus();
 					setContentError(error.response?.data.message);
@@ -148,6 +158,12 @@ export default function PostFormModal({
 
 	const onEditPost = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
+
+		if (props.mode !== "edit") {
+			console.error("Edit mode required");
+			return;
+		}
+
 		if (
 			!formData.mainP ||
 			!formData.subP ||
@@ -163,20 +179,23 @@ export default function PostFormModal({
 			mainP: formData.mainP,
 			subP: formData.subP,
 		};
-		mutate(form, {
-			onSuccess: () => {
-				toast.confirm("게시글을 수정하였습니다.");
-				handleClose();
-			},
-			onError: (error: AxiosError<ApiErrorResponse>) => {
-				if (error.response?.data?.code === "BOARD_408") {
-					textareaRef.current?.focus();
-					setContentError(error.response?.data.message);
-				} else {
+		updatePostMutate(
+			{ postId: props.postId, postData: form },
+			{
+				onSuccess: () => {
+					toast.confirm("게시글을 수정하였습니다.");
 					handleClose();
-				}
+				},
+				onError: (error: AxiosError<ApiErrorResponse>) => {
+					if (error.response?.data?.code === "BOARD_408") {
+						textareaRef.current?.focus();
+						setContentError(error.response?.data.message);
+					} else {
+						handleClose();
+					}
+				},
 			},
-		});
+		);
 	};
 
 	return (
@@ -184,11 +203,11 @@ export default function PostFormModal({
 			isBackdropClosable={false}
 			isOpen={isOpen}
 			onClose={handleClose}
-			className="w-[555px]"
+			className="mobile:w-[555px] w-full"
 			ref={modalRef}
 		>
 			<form className="flex flex-col gap-5">
-				<section className="flex flex-col gap-[30px]">
+				<section className="flex flex-col gap-5 mobile:gap-[30px]">
 					<UserProfileCard
 						{...{
 							profileImage: userInfo.profileImg,
@@ -196,85 +215,84 @@ export default function PostFormModal({
 							gameName: userInfo.gameName,
 						}}
 					/>
-					<div className="w-full">
-						<p className="label mb-1.5">포지션</p>
-						<div className="flex h-[98px] w-full gap-2">
-							<div className="h-full flex-1 rounded-[10px] bg-white px-11 py-4">
-								<ul className="flex h-full w-full justify-between">
-									<li className="flex h-full w-[49px] flex-col items-center justify-between">
-										<span className="bold-12 w-full text-center text-gray-700">
-											주 포지션
-										</span>
-										<PositionSelector
-											onChangePosition={(newState) =>
-												handleChangeFormData("mainP", newState)
+					<fieldset className="w-full">
+						<legend className="mb-1 mobile:mb-1.5 font-medium mobile:font-semibold mobile:text-sm text-[11px] text-gray-800">
+							포지션
+						</legend>
+
+						{/** 포지션 카드 두 개 묶는 div */}
+						<div className="grid h-fit mobile:h-[98px] w-full grid-cols-[1fr_1fr] grid-rows-1 gap-x-2">
+							<Card
+								padding="lg"
+								rounded="lg"
+								className="flex h-full flex-1 justify-center gap-3 mobile:gap-14 bg-white"
+							>
+								<PositionSelector
+									label="주포지션"
+									onChangePosition={(newState) =>
+										handleChangeFormData("mainP", newState)
+									}
+									selectedPosition={formData.mainP}
+									title={"주 포지션 선택"}
+									containerRef={modalRef}
+								/>
+
+								<PositionSelector
+									label="부포지션"
+									onChangePosition={(newState) =>
+										handleChangeFormData("subP", newState)
+									}
+									selectedPosition={formData.subP}
+									title={"부 포지션 선택"}
+									containerRef={modalRef}
+								/>
+							</Card>
+							<Card
+								padding="lg"
+								rounded="lg"
+								className="flex h-full flex-1 flex-col items-center justify-between mobile:gap-2 bg-white"
+							>
+								<span className="font-medium mobile:font-bold text-[11px] text-gray-700 text-xs">
+									내가 찾는 포지션
+								</span>
+								<div className="flex h-full items-center gap-4">
+									<PositionSelector
+										onChangePosition={(newState) => {
+											if (newState) {
+												handleChangeFormData("wantP", [
+													newState,
+													...formData.wantP.slice(1),
+												]);
 											}
-											selectedPosition={formData.mainP}
-											title={"주 포지션 선택"}
-											containerRef={modalRef}
-										/>
-									</li>
+										}}
+										selectedPosition={formData.wantP[0]}
+										containerRef={modalRef}
+									/>
 
-									<li className="flex h-full w-[49px] flex-col items-center justify-between">
-										<span className="bold-12 w-full text-center text-gray-700">
-											부 포지션
-										</span>
-										<PositionSelector
-											onChangePosition={(newState) =>
-												handleChangeFormData("subP", newState)
+									<PositionSelector
+										onChangePosition={(newState) => {
+											if (newState) {
+												handleChangeFormData("wantP", [
+													...formData.wantP.slice(0, 1),
+													newState,
+												]);
 											}
-											selectedPosition={formData.subP}
-											title={"부 포지션 선택"}
-											containerRef={modalRef}
-										/>
-									</li>
-								</ul>
-							</div>
-							<div className="flex h-full flex-1 flex-col items-center justify-between rounded-[10px] bg-white px-11 py-4">
-								<span className="bold-12 text-gray-700">내가 찾는 포지션</span>
-
-								<ul className="flex w-full items-end justify-center gap-4">
-									<li className="flex flex-col items-center justify-between">
-										<PositionSelector
-											onChangePosition={(newState) => {
-												if (newState) {
-													handleChangeFormData("wantP", [
-														newState,
-														...formData.wantP.slice(1),
-													]);
-												}
-											}}
-											selectedPosition={formData.wantP[0]}
-											title={"내가 찾는 포지션"}
-											containerRef={modalRef}
-										/>
-									</li>
-
-									<li className="flex flex-col justify-between gap-3">
-										<PositionSelector
-											onChangePosition={(newState) => {
-												if (newState) {
-													handleChangeFormData("wantP", [
-														...formData.wantP.slice(0, 1),
-														newState,
-													]);
-												}
-											}}
-											selectedPosition={formData.wantP[1]}
-											title={"내가 찾는 포지션"}
-											containerRef={modalRef}
-										/>
-									</li>
-								</ul>
-							</div>
+										}}
+										selectedPosition={formData.wantP[1]}
+										containerRef={modalRef}
+									/>
+								</div>
+							</Card>
 						</div>
-					</div>
+					</fieldset>
 					<div className="flex flex-col gap-2">
-						<p className="label">선호 게임 모드</p>
+						<label htmlFor="game-mode" className="label">
+							선호 게임 모드
+						</label>
 						<Dropdown
-							className="w-[240px]"
+							id="game-mode"
+							className="w-1/2"
 							variant="secondary"
-							size="lg"
 							selectedLabel={getGameModeTitle(formData.gameMode)}
 							onSelect={(value) => {
 								if (value) handleChangeFormData<"gameMode">("gameMode", value);
@@ -282,8 +300,8 @@ export default function PostFormModal({
 							items={GAME_MODE_ITEMS.slice(1)}
 						/>
 					</div>
-					<div className="flex flex-col gap-2">
-						<p className="label">게임 스타일</p>
+					<fieldset className="flex flex-col">
+						<legend className="label mb-2 block">게임 스타일</legend>
 						<div className="flex w-full flex-wrap items-center gap-2 gap-y-3">
 							{formData.gameStyles.map((styleId, _idx) => {
 								const style = GAME_STYLE.find(
@@ -292,13 +310,13 @@ export default function PostFormModal({
 								return style ? (
 									<span
 										key={styleId}
-										className="flex items-center justify-center gap-1 rounded-full bg-white px-3 py-1"
+										className="flex items-center justify-center gap-1 rounded-full bg-white mobile:px-3 px-1 mobile:py-1 py-0.5 mobile:font-medium mobile:text-base text-[13px] text-gray-800"
 									>
 										{style.gameStyleName}
 										{/** TODO: 임의로 넣어본 부분이라 허락 받아야 함*/}
 										<CloseButton
 											className="rounded-full p-0 hover:bg-gray-100"
-											iconClass="w-5 text-gray-600"
+											iconClass="w-3.5 mobile:w-5 text-gray-600"
 											onClose={() => handleGameStyleToggle(styleId)}
 										/>
 									</span>
@@ -308,11 +326,12 @@ export default function PostFormModal({
 								selectedGameStyle={formData.gameStyles}
 								containerRef={modalRef}
 								onChangeGameStyle={handleGameStyleToggle}
+								aria-label="게임 스타일 추가"
 							/>
 						</div>
-					</div>
+					</fieldset>
 
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-1 mobile:gap-2">
 						<p className="label">마이크</p>
 						<Switch
 							checked={formData.mike === "AVAILABLE"}
@@ -331,7 +350,7 @@ export default function PostFormModal({
 						<textarea
 							ref={textareaRef}
 							className={cn(
-								"h-[70px] w-full resize-none rounded-10 border-1 border-gray-400 px-2.5 py-2 transition-colors duration-150 focus:border-violet-400 focus:outline-none",
+								"h-[70px] w-full resize-none rounded-10 border-1 border-gray-400 px-2.5 py-2 mobile:text-lg text-gray-700 text-xs transition-colors duration-150 focus:border-violet-400 focus:outline-none",
 								contentError && "focus:border-red-500",
 							)}
 							maxLength={80}
@@ -363,12 +382,15 @@ export default function PostFormModal({
 				{/* MODAL-ACTION */}
 				<section className="modal-actions">
 					<button
-						disabled={!isFormValid || postToEdit === formData}
-						onClick={mode === "create" ? onCreatePost : onEditPost}
+						disabled={
+							!isFormValid ||
+							(props.mode === "edit" && isEqual(props.postToEdit, formData))
+						}
+						onClick={props.mode === "create" ? onCreatePost : onEditPost}
 						type="button"
 						className="primary-btn w-full py-[18px] disabled:bg-gray-400"
 					>
-						{mode === "create" ? "작성 완료" : "수정 완료"}
+						{props.mode === "create" ? "작성 완료" : "수정 완료"}
 					</button>
 				</section>
 			</form>

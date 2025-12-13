@@ -17,23 +17,20 @@ export default function BoardFilter() {
 	return (
 		<section className="flex h-full gap-2">
 			<Dropdown
-				className="w-[138px]"
+				className="h-full w-[138px]"
 				selectedLabel={getGameModeTitle(gameMode)}
-				size="lg"
 				onSelect={(value) => setFilter("gameMode", value)}
 				items={GAME_MODE_ITEMS}
 			/>
 			<Dropdown
 				selectedLabel={getTierTitle(tier)}
-				size="lg"
-				className="w-[138px]"
+				className="h-full w-[138px]"
 				onSelect={(value) => setFilter("tier", value)}
 				items={TIER_ITEMS}
 			/>
 			<Dropdown
 				selectedLabel={getMike(mike)}
-				size="lg"
-				className="w-[138px]"
+				className="h-full w-[138px]"
 				onSelect={(value) => setFilter("mike", value)}
 				items={MIKE_ITEMS}
 			/>

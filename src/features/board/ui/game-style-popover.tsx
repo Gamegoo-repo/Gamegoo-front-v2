@@ -1,4 +1,3 @@
-import type { RefObject } from "react";
 import PlusIcon from "@/shared/assets/icons/ic-plus.svg?react";
 import { cn } from "@/shared/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
@@ -12,14 +11,14 @@ export default function GameStylePopover({
 }: {
 	selectedGameStyle: number[];
 	onChangeGameStyle: (selectedId: number) => void;
-	containerRef: React.RefObject<HTMLDivElement | null>;
+	containerRef?: React.RefObject<HTMLElement | null>;
 }) {
 	return (
-		<Popover containerRef={containerRef as RefObject<HTMLElement>}>
+		<Popover containerRef={containerRef}>
 			<PopoverTrigger asChild>
 				<button
 					type="button"
-					className="flex h-8 w-12 cursor-pointer items-center justify-center rounded-full bg-white"
+					className="flex h-7 mobile:h-8 mobile:w-12 w-10 cursor-pointer items-center justify-center rounded-full bg-white"
 				>
 					<PlusIcon />
 				</button>
@@ -46,9 +45,6 @@ export default function GameStylePopover({
 							);
 						})}
 					</div>
-					{/* <small className="text-red-600">
-						게임 스타일은 최대 3개까지 선택 가능합니다.
-					</small> */}
 				</div>
 			</PopoverContent>
 		</Popover>

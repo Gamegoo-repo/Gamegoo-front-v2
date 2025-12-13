@@ -45,7 +45,7 @@ export default function PostCard({
 					params={{ userId: (memberId || 0).toString() }}
 					className="relative"
 				>
-					<UserProfile id={profileImage} size={44} hasDropShadow />
+					<UserProfile id={profileImage} sizeClass="w-11 h-11" hasDropShadow />
 
 					<span className="-translate-x-1/2 absolute bottom-0 left-1/2 inline-block translate-y-2/5 rounded-full bg-black/65 px-1.5 py-[1px] font-bold text-[9px] text-violet-300">
 						LV.{mannerLevel}

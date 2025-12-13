@@ -97,9 +97,13 @@ export default function UserProfileMenu({
 				onClick={() => setOpen(true)}
 				className="flex cursor-pointer items-center gap-[10px]"
 			>
-				<UserProfile id={profileImage} hasDropShadow={false} />
-				{name}
-				<ChevronDownIcon />
+				<UserProfile
+					id={profileImage}
+					hasDropShadow={false}
+					sizeClass="w-9 h-9 mobile:w-10 mobile:h-10"
+				/>
+				<span className="mobile:inline hidden">{name}</span>
+				<ChevronDownIcon className="mobile:block hidden" />
 			</button>
 			<Modal
 				isOpen={open}
@@ -110,7 +114,11 @@ export default function UserProfileMenu({
 			>
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-4">
-						<UserProfile id={profileImage} size={64} hasDropShadow={false} />
+						<UserProfile
+							id={profileImage}
+							sizeClass="w-16 h-16"
+							hasDropShadow={false}
+						/>
 						<div className="bold-20 text-gray-900">커피한잔</div>
 					</div>
 					<Link

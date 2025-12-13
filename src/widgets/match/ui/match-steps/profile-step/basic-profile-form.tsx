@@ -97,7 +97,6 @@ export default function BasicProfileForm({
 				<Dropdown
 					className="z-10 h-14 w-[240px]"
 					variant="secondary"
-					size="lg"
 					selectedLabel={
 						currentGameMode ? getGameModeTitle(currentGameMode) : "선택"
 					}

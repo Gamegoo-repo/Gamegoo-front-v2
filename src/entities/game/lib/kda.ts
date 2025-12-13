@@ -3,5 +3,5 @@ export function formatKDAStats(kills: number, deaths: number, assists: number) {
 }
 
 export function formatKDA(kda: number) {
-	return kda.toFixed(2);
+	return kda.toFixed(1);
 }

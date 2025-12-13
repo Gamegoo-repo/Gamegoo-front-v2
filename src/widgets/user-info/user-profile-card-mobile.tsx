@@ -23,7 +23,11 @@ export default function UserProfileCardMobile({
 	return (
 		<div className="flex w-full flex-col gap-5 rounded-lg bg-gray-100 p-5">
 			<div className="flex w-full items-center gap-2">
-				<UserProfile id={data.profileImg} size={52} hasDropShadow />
+				<UserProfile
+					id={data.profileImg}
+					sizeClass="w-[52px] h-[52px]"
+					hasDropShadow
+				/>
 				<p className="flex flex-col">
 					<div className="flex items-center gap-1">
 						<h3 className="font-bold text-base text-gray-800">
