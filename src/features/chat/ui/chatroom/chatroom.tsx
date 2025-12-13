@@ -14,6 +14,7 @@ import {
 import {
 	deduplicateMessages,
 	formatMessageDate,
+	SYSTEM_MESSAGE_TYPE,
 	shouldShowDate,
 	shouldShowProfileImage,
 	shouldShowTime,
@@ -114,8 +115,8 @@ const Chatroom = () => {
 			}
 
 			if (message.systemType !== undefined && message.systemType !== null) {
-				// 5: 매너평가 시스템 메시지
-				if (message.systemType === 5) {
+				// 매너평가 시스템 메시지
+				if (message.systemType === SYSTEM_MESSAGE_TYPE.MANNER_EVALUATION) {
 					elements.push(
 						<div key={key} data-message-index={index}>
 							<ChatroomFeedbackMessage
