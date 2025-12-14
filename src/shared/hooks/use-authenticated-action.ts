@@ -1,6 +1,6 @@
-import { useAuth } from "@/shared/model/use-auth";
-import { useLoginRequiredModalStore } from "@/features/auth";
 import { useCallback } from "react";
+import { useLoginRequiredModalStore } from "@/features/auth";
+import { useAuth } from "@/shared/model/use-auth";
 
 /**
  * 인증이 필요한 액션을 감싸는 커스텀 훅입니다.

@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
 import type { AxiosError } from "axios";
-import { useRef, useState } from "react";
 import { isEqual } from "lodash-es";
+import { useRef, useState } from "react";
 import UserProfileCard from "@/entities/user/ui/user-profile-card";
 import { GAME_MODE_ITEMS } from "@/features/board/config/dropdown-items";
 import { getGameModeTitle } from "@/features/board/lib/getGameModeTitle";
@@ -13,18 +13,18 @@ import type {
 	MyProfileResponse,
 	Position,
 } from "@/shared/api";
+import { toast } from "@/shared/lib/toast";
 import { cn } from "@/shared/lib/utils";
 import CloseButton from "@/shared/ui/button/close-button";
+import { Card } from "@/shared/ui/card/card";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import Modal from "@/shared/ui/modal/modal";
 import { Switch } from "@/shared/ui/toggle-switch/switch";
 import { useCreatePost } from "../../api/use-create-post";
+import { useUpdatePost } from "../../api/use-update-post";
 import { GAME_STYLE } from "../../config/game-styles";
 import GameStylePopover from "../game-style-popover";
 import PositionSelector from "../position-selector";
-import { toast } from "@/shared/lib/toast";
-import { Card } from "@/shared/ui/card/card";
-import { useUpdatePost } from "../../api/use-update-post";
 
 export interface BoardFormData
 	extends Omit<BoardInsertRequest, "mainP" | "subP" | "mike" | "contents"> {

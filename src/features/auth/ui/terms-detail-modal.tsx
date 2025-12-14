@@ -1,11 +1,10 @@
+import { lazy, Suspense } from "react";
+import { TERMS } from "@/entities/term/model";
+import { cn } from "@/shared/lib/utils";
+import CloseButton from "@/shared/ui/button/close-button";
+import LoadingSpinner from "@/shared/ui/loading-spinner/loading-spinner";
 import Modal from "@/shared/ui/modal/modal";
 import { useTermsDetailModalStore } from "./use-terms-detail-modal-store";
-import { TERMS } from "@/entities/term/model";
-
-import { lazy, Suspense } from "react";
-import { cn } from "@/shared/lib/utils";
-import LoadingSpinner from "@/shared/ui/loading-spinner/loading-spinner";
-import CloseButton from "@/shared/ui/button/close-button";
 
 const termComponents = {
 	service: lazy(() => import("@/entities/term/ui/service-term-content")),

@@ -1,8 +1,8 @@
-import { TERMS } from "@/entities/term/model";
-import LoadingSpinner from "@/shared/ui/loading-spinner/loading-spinner";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import z from "zod";
+import { TERMS } from "@/entities/term/model";
+import LoadingSpinner from "@/shared/ui/loading-spinner/loading-spinner";
 
 const termSearchSchema = z.object({
 	term: z.enum(["privacy", "service"]),

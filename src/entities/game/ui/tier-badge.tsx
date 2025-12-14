@@ -10,9 +10,9 @@ export default function TierBadge({
 }) {
 	const TierIcon = getTierIcon(tier);
 	return (
-		<div className="flex gap-0.5 min-w-[100px]">
-			<TierIcon className="text-gray-700 width-[32px] height-[32px]" />
-			<span className="text-gray-800 bold-20">{`${tier?.charAt(0)}${rank}`}</span>
+		<div className="flex min-w-[100px] gap-0.5">
+			<TierIcon className="width-[32px] height-[32px] text-gray-700" />
+			<span className="bold-20 text-gray-800">{`${tier?.charAt(0)}${rank}`}</span>
 		</div>
 	);
 }

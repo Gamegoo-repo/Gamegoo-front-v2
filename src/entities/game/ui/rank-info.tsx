@@ -1,9 +1,10 @@
 // components/ui/rank-info.tsx
+
+import { cva, type VariantProps } from "class-variance-authority";
 import type { Tier } from "@/shared/api";
 import { capitalize } from "@/shared/lib/capitalize";
 import { cn } from "@/shared/lib/utils";
 import { getTierIcon } from "../lib/getTierIcon";
-import { cva, type VariantProps } from "class-variance-authority";
 
 /**
  *  - 카드 : 모바일 무한 스크롤에서 사용되는 형태 (확인 완료)

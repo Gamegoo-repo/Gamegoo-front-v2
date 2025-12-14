@@ -1,10 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import { boardKeys } from "../../api/query-keys";
 import BoardFilter from "../board-filter";
 import BumpButton from "../bump-button";
 import CreatePostButton from "../create-post-button";
 import RefetchButton from "../refetch-button";
-import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 
 export default function BoardToolbarDesktop({
 	handleOpenCreateModal,

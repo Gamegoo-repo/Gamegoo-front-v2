@@ -2,9 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import { userKeys } from "@/entities/user/config/query-keys";
 import { api, type OtherProfileResponse } from "@/shared/api";
 import { queryClient } from "@/shared/lib/query-client";
+import { toast } from "@/shared/lib/toast";
 import { useAuth } from "@/shared/model/use-auth";
 import { Button } from "@/shared/ui";
-import { toast } from "@/shared/lib/toast";
 
 export default function FriendRequestSendButton({
 	userId,

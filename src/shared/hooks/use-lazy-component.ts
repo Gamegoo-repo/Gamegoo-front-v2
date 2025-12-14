@@ -1,4 +1,4 @@
-import { lazy, type ComponentType, type LazyExoticComponent } from "react";
+import { type ComponentType, type LazyExoticComponent, lazy } from "react";
 
 export type ReactLazyFactory<T = any> = () => Promise<{
 	default: ComponentType<T>;

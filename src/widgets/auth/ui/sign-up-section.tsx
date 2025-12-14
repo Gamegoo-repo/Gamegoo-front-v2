@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { TERMS, type TermKey } from "@/entities/term/model";
 import SignUpButton from "@/features/auth/ui/sign-up-button";
+import { useTermsDetailModalStore } from "@/features/auth/ui/use-terms-detail-modal-store";
 import { cn } from "@/shared/lib/utils";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
 import { LogoButton } from "@/shared/ui/logo";
-import { useTermsDetailModalStore } from "@/features/auth/ui/use-terms-detail-modal-store";
-import { TERMS, type TermKey } from "@/entities/term/model";
 
 export default function SignUpSection({ puuid }: { puuid: string }) {
 	const [termsState, setTermsState] = useState(

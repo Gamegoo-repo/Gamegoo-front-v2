@@ -1,9 +1,9 @@
 import type { UserRelationshipStatus } from "@/widgets/user-info/model/user-info.types";
-import FriendRequestSendButton from "./friend-request-send-button";
 import FriendDeleteButton from "./friend-delete-button";
-import FriendRequestCancelButton from "./friend-request-cancel-button";
 import FriendRequestAcceptButton from "./friend-request-accept-button";
+import FriendRequestCancelButton from "./friend-request-cancel-button";
 import FriendRequestDeclineButton from "./friend-request-decline-button";
+import FriendRequestSendButton from "./friend-request-send-button";
 
 export default function UserActionButtons({
 	userId,

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { z } from "zod";
 import PostList from "@/entities/post/ui/post-list";
 import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
+import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 import PostDetailModal from "@/features/board/ui/post-detail-modal";
 import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
 import BoardToolbarDesktop from "@/features/board/ui/toolbar/board-toolbar-desktop";
@@ -16,7 +17,6 @@ import {
 } from "@/shared/api";
 import { useResponsive } from "@/shared/model/responsive-context";
 import BoardTable from "@/widgets/board-view/ui/board-table";
-import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 
 const searchSchema = z.object({
 	page: z.number().min(1).optional().catch(1),

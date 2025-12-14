@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
+import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 import TierBadge from "@/entities/game/ui/tier-badge";
 import MannerLevelBadge from "@/entities/user/ui/manner-level-badge";
 import UserProfile from "@/entities/user/ui/user-profile";
+import CopyRiotIdButton from "@/features/board/ui/copy-riot-id-button";
 import PostActionMenu from "@/features/board/ui/post-action-menu";
 import type { BlockListResponse, BoardListResponse } from "@/shared/api";
 import { formatDateSimple } from "@/shared/lib/format-date-simple";
@@ -10,8 +12,6 @@ import type { UserStore } from "@/shared/model/use-auth-store";
 import type { Column } from "@/shared/ui/table/table";
 import SearchingPosition from "../ui/searching-positions";
 import UserPositions from "../ui/user-positions";
-import CopyRiotIdButton from "@/features/board/ui/copy-riot-id-button";
-import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 
 export const getColumns = (options?: {
 	user: UserStore;
@@ -125,6 +125,8 @@ export const getColumns = (options?: {
 					<div
 						className="flex h-full w-full items-center"
 						onClick={(e) => e.stopPropagation()}
+						onKeyDown={(e) => e.stopPropagation()}
+						onKeyUp={(e) => e.stopPropagation()}
 					>
 						{options && (
 							<PostActionMenu

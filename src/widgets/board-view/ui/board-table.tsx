@@ -1,4 +1,5 @@
 import { useSearch } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { useBoardList } from "@/entities/post/model/use-board-list";
 import { useFetchMyBlockedUsers } from "@/entities/user/api/use-fetch-my-blocked-users";
 import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
@@ -7,7 +8,6 @@ import type { BoardListResponse } from "@/shared/api";
 import { useAuth } from "@/shared/model/use-auth";
 import Table from "@/shared/ui/table/table";
 import { getColumns } from "../config/columns";
-import { useEffect } from "react";
 
 export default function BoardTable({
 	onRowClick,

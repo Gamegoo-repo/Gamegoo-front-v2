@@ -1,8 +1,8 @@
+import { useNavigate } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
 import PrecautionIcon from "@/shared/assets/icons/precaution.svg?react";
-import { useLogoutAlertModalState } from "../model/logout-alert-modal-store";
-import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/shared/model/use-auth";
+import { useLogoutAlertModalState } from "../model/logout-alert-modal-store";
 
 function LogoutAlertModal() {
 	const { isOpen, closeModal } = useLogoutAlertModalState();

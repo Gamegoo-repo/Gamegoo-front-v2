@@ -1,11 +1,11 @@
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
+import PostActionMenu from "@/features/board/ui/post-action-menu";
+import { useAuth } from "@/shared/model/use-auth";
 import { useFetchPostsWithCursorQuery } from "../model/use-mobile-post-list";
 import PostCard from "./post-card";
 import PostCardSkeletons from "./post-card-skeleton";
-import PostActionMenu from "@/features/board/ui/post-action-menu";
-import { useAuth } from "@/shared/model/use-auth";
 
 export default function PostList() {
 	const { gameMode, tier, position, mike } = useBoardFilterStore();
@@ -43,7 +43,7 @@ export default function PostList() {
 	}
 
 	if (isError) {
-		return <></>;
+		return null;
 	}
 
 	const isEmpty = pages && pages[0]?.boards.length === 0;
