@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/shared/api";
-import { boardKeys } from "./query-keys";
 import { toast } from "@/shared/lib/toast";
+import { boardKeys } from "./query-keys";
 
 export const useBumpPost = () => {
 	const queryClient = useQueryClient();

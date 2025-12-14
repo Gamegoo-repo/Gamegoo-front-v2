@@ -5,8 +5,8 @@ import {
 } from "@/features/popover-menu";
 import { api } from "@/shared/api";
 import { queryClient } from "@/shared/lib/query-client";
-import { boardKeys } from "../api/query-keys";
 import { toast } from "@/shared/lib/toast";
+import { boardKeys } from "../api/query-keys";
 
 interface PostDeleteMenuItemProps {
 	postId: number;

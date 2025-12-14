@@ -3,6 +3,7 @@ import { useRef } from "react";
 import TierBadge from "@/entities/game/ui/tier-badge";
 import EditableProfileAvatar from "@/features/profile/editable-profile-avatar";
 import type { MyProfileResponse } from "@/shared/api";
+import { cn } from "@/shared/lib/utils";
 import { useResponsive } from "@/shared/model/responsive-context";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../../hooks";
@@ -72,7 +73,12 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 			>
 				<div className="w-full max-w-[1440px] mobile:px-[20px] px-[80px] mobile:pt-[24px] pt-[60px]">
 					<div className="mobile:mt-[15px] mt-[72px] mb-[150px] flex w-full flex-col items-center gap-4">
-						<div className="flex w-full gap-[32px] rounded-2xl bg-violet-100 p-12">
+						<div
+							className={cn(
+								"flex w-full gap-[32px] rounded-2xl p-12",
+								matchType === "BASIC" ? "bg-gray-100" : "bg-violet-100",
+							)}
+						>
 							<EditableProfileAvatar variant="lg" />
 							<div className="flex flex-1 flex-col items-start gap-[36px] py-[20px]">
 								<div className="flex w-full flex-col items-start gap-[24px]">

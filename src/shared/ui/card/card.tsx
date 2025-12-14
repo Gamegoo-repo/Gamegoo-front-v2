@@ -1,5 +1,5 @@
-import { cn } from "@/shared/lib/utils";
 import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import { cn } from "@/shared/lib/utils";
 
 interface CardProps<T extends ElementType = "div"> {
 	/** 렌더링할 HTML 태그 또는 컴포넌트 */

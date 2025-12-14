@@ -1,8 +1,8 @@
 import { useId, useState } from "react";
 import { LoginButton, login } from "@/features/auth";
+import RightArrowIcon from "@/shared/assets/icons/arrow_right.svg?react";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
 import { LogoButton } from "@/shared/ui/logo";
-import RightArrowIcon from "@/shared/assets/icons/arrow_right.svg?react";
 
 export default function AuthSection() {
 	const checkboxId = useId();

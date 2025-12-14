@@ -18,14 +18,14 @@ export default function PositionCard({
 		<div
 			className={cn(
 				size === "md" &&
-					"text-gray-700 medium-11 flex flex-col items-center justify-between",
+					"medium-11 flex flex-col items-center justify-between text-gray-700",
 				size === "lg" &&
-					"text-gray-800 text-xs font-bold flex flex-col items-center justify-between",
+					"flex flex-col items-center justify-between font-bold text-gray-800 text-xs",
 				className,
 			)}
 		>
 			<span className="w-full text-center">{title}</span>
-			<ul className="flex w-full justify-center gap-4 items-end">
+			<ul className="flex w-full items-end justify-center gap-4">
 				{positionIcons.map((positionIcon) => {
 					const PositionIcon = positionIcon;
 					return (

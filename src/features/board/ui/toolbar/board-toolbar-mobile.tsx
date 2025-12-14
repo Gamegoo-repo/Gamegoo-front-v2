@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import { boardKeys } from "../../api/query-keys";
 import {
@@ -10,11 +11,10 @@ import { getGameModeTitle } from "../../lib/getGameModeTitle";
 import { getMike } from "../../lib/getMike";
 import { getTierTitle } from "../../lib/getTierTitle";
 import { useBoardFilterStore } from "../../model/board-filter-store";
+import BumpButton from "../bump-button";
 import CreatePostButton from "../create-post-button";
 import RefetchButton from "../refetch-button";
 import PositionButtons from "./position-buttons";
-import BumpButton from "../bump-button";
-import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 
 export default function BoardToolbarMobile({
 	handleOpenCreateModal,

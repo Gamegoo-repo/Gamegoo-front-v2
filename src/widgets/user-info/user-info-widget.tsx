@@ -1,20 +1,20 @@
 import { formatKDA, formatKDAStats } from "@/entities/game/lib/kda";
+import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 import UserProfileHeader from "@/features/profile/user-profile-header";
+import { UserActionMenu } from "@/features/user/action-menu";
+import UserActionButtons from "@/features/user/buttons/user-action-buttons";
 import type {
 	MannerKeywordListResponse,
 	MannerResponse,
 	OtherProfileResponse,
 } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
+import { useResponsive } from "@/shared/model/responsive-context";
 import MannerKeywordsCard from "./manner-keywords-card";
 import MannerLevelCard from "./manner-level-card";
 import type { UserRelationshipStatus } from "./model/user-info.types";
 import UserProfileCard from "./user-profile-card";
-import { useResponsive } from "@/shared/model/responsive-context";
 import UserProfileCardMobile from "./user-profile-card-mobile";
-import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
-import UserActionButtons from "@/features/user/buttons/user-action-buttons";
-import { UserActionMenu } from "@/features/user/action-menu";
 
 interface UserInfoWidgetProps {
 	relationshipStatus: UserRelationshipStatus;

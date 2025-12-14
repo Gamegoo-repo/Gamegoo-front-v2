@@ -1,9 +1,9 @@
 import {
+	forwardRef,
 	type ReactNode,
 	useEffect,
-	useRef,
-	forwardRef,
 	useImperativeHandle,
+	useRef,
 } from "react";
 import { cn } from "@/shared/lib/utils";
 import CloseButton from "../button/close-button";

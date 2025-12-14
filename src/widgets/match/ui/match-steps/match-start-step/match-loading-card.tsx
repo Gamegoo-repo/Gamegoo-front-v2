@@ -83,7 +83,7 @@ function MatchLoadingCard({
 	}, [tierCounts, userTier]);
 
 	return (
-		<div className="w-[560px] h-[560px] p-[30px_80px] rounded-[30px] bg-gray-100 flex flex-col items-center justify-center gap-[42px] text-gray-800 regular-25 animate-fade-in transition-opacity duration-500">
+		<div className="regular-25 flex h-[560px] w-[560px] animate-fade-in flex-col items-center justify-center gap-[42px] rounded-[30px] bg-gray-100 p-[30px_80px] text-gray-800 transition-opacity duration-500">
 			{/* 하트 애니메이션 */}
 			<div className="animate-grow-shrink">
 				<HeartIcon width={225} height={225} className="text-violet-600" />
@@ -93,18 +93,18 @@ function MatchLoadingCard({
 			<div className="flex flex-col items-center gap-[4px]">
 				<div
 					className={clsx(
-						"transition-opacity duration-300 regular-20 h-[60px] flex items-center justify-center text-center",
+						"regular-20 flex h-[60px] items-center justify-center text-center transition-opacity duration-300",
 						textVisible
-							? "opacity-100 animate-fade-in"
-							: "opacity-0 animate-fade-out",
+							? "animate-fade-in opacity-100"
+							: "animate-fade-out opacity-0",
 					)}
 				>
 					{currentMessage}
 				</div>
 
 				{/* 시간 표시 */}
-				<div className="text-gray-700 light-32">
-					<span className="text-violet-600 bold-32">
+				<div className="light-32 text-gray-700">
+					<span className="bold-32 text-violet-600">
 						{formatTime(timeLeft)}&nbsp;
 					</span>
 					/ 5:00

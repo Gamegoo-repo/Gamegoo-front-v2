@@ -101,7 +101,7 @@ export default function PrivacyTermContent() {
 					<li>
 						정보주체는 '겜구'에 대해 언제든지 다음 각 호의 개인정보 보호 관련
 						권리를 행사할 수 있습니다.
-						<ol type="a" className=" pl-5 [list-style-type:lower-alpha]">
+						<ol type="a" className="pl-5 [list-style-type:lower-alpha]">
 							<li>개인정보 조회</li>
 							<li>개인정보 수정</li>
 							<li>오류 등이 있을 경우 정정 요구</li>

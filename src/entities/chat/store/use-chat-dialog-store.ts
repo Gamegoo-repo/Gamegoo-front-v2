@@ -35,6 +35,7 @@ export const useChatDialogStore = create<ChatDialogState>((set) => ({
 	setChatDialogType: (chatDialogType: ChatDialogType) =>
 		set({ chatDialogType }),
 	setChatroom: (chatroom: ChatroomResponse) => set({ chatroom }),
-	setSystemData: (system: SystemData | undefined) => set({ systemData: system }),
+	setSystemData: (system: SystemData | undefined) =>
+		set({ systemData: system }),
 	clearSystemData: () => set({ systemData: undefined }),
 }));

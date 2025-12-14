@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import type { ToastProps, ToastType } from "../../lib/toast/types";
-import { cn } from "@/shared/lib/utils";
-import WaringIcon from "@/shared/assets/icons/toast/warning-ic.svg?react";
 import ConfirmIcon from "@/shared/assets/icons/toast/confirm-ic.svg?react";
+import WaringIcon from "@/shared/assets/icons/toast/warning-ic.svg?react";
+import { cn } from "@/shared/lib/utils";
+import type { ToastProps, ToastType } from "../../lib/toast/types";
 
 const renderIcon = (type: ToastType) => {
 	if (type === "confirm") return <ConfirmIcon />;

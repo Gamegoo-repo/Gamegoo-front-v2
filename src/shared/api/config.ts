@@ -1,6 +1,6 @@
 import axios, { type AxiosError, type AxiosInstance } from "axios";
-import { Configuration } from "./@generated/configuration";
 import { STORAGE_KEYS } from "../config/storage";
+import { Configuration } from "./@generated/configuration";
 
 // 토큰 관리 - 액세스 토큰은 메모리, 리프레시 토큰은 로컬스토리지
 let isRefreshing = false;

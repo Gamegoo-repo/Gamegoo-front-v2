@@ -1,14 +1,14 @@
+import { Link } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
 import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
+import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 import PositionCard from "@/entities/game/ui/position-card";
+import RankInfo from "@/entities/game/ui/rank-info";
 import UserProfile from "@/entities/user/ui/user-profile";
 import type { BoardListResponse } from "@/shared/api";
 import { formatDateSimple } from "@/shared/lib/format-date-simple";
 import { cn } from "@/shared/lib/utils";
-import RankInfo from "@/entities/game/ui/rank-info";
-import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
-import { Link } from "@tanstack/react-router";
 
 export default function PostCard({
 	gameName,
@@ -125,7 +125,7 @@ export default function PostCard({
 					<p className="line-clamp-2">{contents}</p>
 				</div>
 				<span className="medium-11 block text-end text-gray-500">
-					{formatDateSimple(bumpTime || createdAt!)}
+					{formatDateSimple(bumpTime || createdAt)}
 				</span>
 			</div>
 		</div>

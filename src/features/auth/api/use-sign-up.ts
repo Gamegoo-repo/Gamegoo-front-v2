@@ -1,17 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+import type { AxiosError } from "axios";
 import {
-	api,
 	type ApiErrorResponse,
+	api,
 	type BanType,
 	type RiotJoinRequest,
 } from "@/shared/api";
-import { useAuthStore } from "@/shared/model/use-auth-store";
 import type { RiotJoinResponse } from "@/shared/api/@generated/models/riot-join-response";
-import type { AxiosError } from "axios";
-import { toast } from "@/shared/lib/toast";
-import { useNavigate } from "@tanstack/react-router";
 import { isValidApiError } from "@/shared/api/guard";
-type RequiredApiErrorResponse = Required<ApiErrorResponse>;
+import { toast } from "@/shared/lib/toast";
+import { useAuthStore } from "@/shared/model/use-auth-store";
 
 export const useSignUp = () => {
 	const auth = useAuthStore();

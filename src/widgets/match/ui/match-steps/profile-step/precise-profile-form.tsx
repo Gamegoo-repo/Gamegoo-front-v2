@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { GAME_MODE_ITEMS } from "@/features/board/config/dropdown-items";
 import { GAME_STYLE } from "@/features/board/config/game-styles";
 import { getGameModeTitle } from "@/features/board/lib/getGameModeTitle";
@@ -36,36 +36,50 @@ export default function PreciseProfileForm({
 		);
 	}, []);
 
+	useEffect(() => {
+		const validIds = new Set(gameModeItems.map((i) => i.id));
+		const current = funnel.gameMode;
+		if (current && !validIds.has(current)) {
+			const first = gameModeItems[0]?.id;
+			funnel.toStep("profile", {
+				gameMode: (first as GameMode | undefined) ?? null,
+			});
+		}
+	}, [funnel.gameMode, gameModeItems]);
+
 	const handleGameModeChange = (value: GameMode | undefined) => {
 		funnel.toStep("profile", {
 			gameMode: value || null,
 		});
 	};
 
-	const handleMainPositionChange = (position: Position | undefined) => {
-		funnel.toStep("profile", {
-			profile: {
-				...currentProfile,
-				mainP: position,
-			},
-		});
-	};
+	const handlePositionChange = (
+		field: "mainP" | "subP" | "wantP",
+		position: Position | undefined,
+		index?: 0 | 1,
+	) => {
+		if (field === "wantP") {
+			const previousWant = currentProfile.wantP ?? [];
+			const nextWant = [...previousWant];
+			if (index === 0 || index === 1) {
+				if (position) {
+					nextWant[index] = position;
+				}
+			}
+			funnel.toStep("profile", {
+				profile: {
+					...currentProfile,
+					wantP: nextWant,
+				},
+			});
+			return;
+		}
 
-	const handleSubPositionChange = (position: Position | undefined) => {
 		funnel.toStep("profile", {
 			profile: {
 				...currentProfile,
-				subP: position,
-			},
-		});
-	};
-
-	const handleWantPositionChange = (position: Position | undefined) => {
-		funnel.toStep("profile", {
-			profile: {
-				...currentProfile,
-				wantP: position ? [position] : [currentProfile.wantP?.[0] ?? "ANY"],
-			},
+				[field]: position,
+			} as MyProfileResponse,
 		});
 	};
 
@@ -141,7 +155,7 @@ export default function PreciseProfileForm({
 								</span>
 								<PositionSelector
 									onChangePosition={(newState) =>
-										handleMainPositionChange(newState)
+										handlePositionChange("mainP", newState)
 									}
 									selectedPosition={currentProfile.mainP}
 									title={"주 포지션 선택"}
@@ -155,7 +169,7 @@ export default function PreciseProfileForm({
 								</span>
 								<PositionSelector
 									onChangePosition={(newState) =>
-										handleSubPositionChange(newState)
+										handlePositionChange("subP", newState)
 									}
 									selectedPosition={currentProfile.subP}
 									title={"부 포지션 선택"}
@@ -170,11 +184,19 @@ export default function PreciseProfileForm({
 						<ul className="flex w-full items-end justify-center gap-4">
 							<li className="flex flex-col items-center justify-between">
 								<PositionSelector
-									onChangePosition={(newState) => {
-										handleWantPositionChange(newState);
-									}}
+									onChangePosition={(newState) =>
+										handlePositionChange("wantP", newState, 0)
+									}
 									selectedPosition={currentProfile.wantP?.[0]}
-									title={"내가 찾는 포지션"}
+									containerRef={containerRef}
+								/>
+							</li>
+							<li>
+								<PositionSelector
+									onChangePosition={(newState) =>
+										handlePositionChange("wantP", newState, 1)
+									}
+									selectedPosition={currentProfile.wantP?.[1]}
 									containerRef={containerRef}
 								/>
 							</li>
