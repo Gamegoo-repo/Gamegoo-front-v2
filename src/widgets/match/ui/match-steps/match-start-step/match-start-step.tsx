@@ -274,16 +274,14 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 			threshold: isFirstSend
 				? defaultThreshold
 				: thresholdRef.current || defaultThreshold,
-			mike: profile.mike ?? authUser?.mike ?? "UNAVAILABLE",
-			mainP: profile.mainP ?? authUser?.mainP ?? "ANY",
-			subP: profile.subP ?? authUser?.subP ?? "ANY",
+			mike: profile.mike ?? "UNAVAILABLE",
+			mainP: profile.mainP ?? "ANY",
+			subP: profile.subP ?? "ANY",
 			wantP:
 				funnel.type === "PRECISE" ? mapPreciseWantPositions(profile.wantP) : [],
 			gameStyleIdList: (() => {
 				const ids =
-					profile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
-					authUser?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
-					[];
+					profile.gameStyleResponseList?.map((s) => s.gameStyleId) ?? [];
 				return ids.length > 0 ? ids : null;
 			})(),
 		};
