@@ -1,10 +1,10 @@
 import type { ComponentPropsWithoutRef, RefObject } from "react";
 import type { Position } from "@/shared/api";
 import PlusIcon from "@/shared/assets/icons/ic-plus.svg?react";
+import { cn } from "@/shared/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { POSITION_BUTTON_ITEMS } from "../config/position-button-items";
 import PositionSelectorContent from "./position-selector-content";
-import { cn } from "@/shared/lib/utils";
 
 export interface PositionSelectorProps
 	extends Omit<ComponentPropsWithoutRef<"button">, "onChange"> {
@@ -45,7 +45,10 @@ export default function PositionSelector({
 	return (
 		<div className={cn("flex flex-col items-center mobile:gap-2", className)}>
 			{label && (
-				<label className="font-medium mobile:font-bold text-[11px] text-gray-700 text-xs">
+				<label
+					htmlFor={label}
+					className="font-medium mobile:font-bold text-[11px] text-gray-700 text-xs"
+				>
 					{label}
 				</label>
 			)}
