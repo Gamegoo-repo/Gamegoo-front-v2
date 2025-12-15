@@ -9,18 +9,19 @@ export default function MannerLevelPopover({
 	children,
 	containerRef,
 	userMannerInfo,
+	userMannerLevel,
 }: {
 	children: ReactNode;
 	containerRef: React.RefObject<HTMLDivElement | null>;
 	userMannerInfo: MannerKeywordListResponse;
+	userMannerLevel: number;
 }) {
-	const level = 5;
 	return (
 		<Popover containerRef={containerRef as RefObject<HTMLElement>}>
 			<PopoverTrigger asChild>{children}</PopoverTrigger>
 			<PopoverContent className="popover w-[472px] p-8">
 				<div className="flex w-full flex-col gap-7">
-					<PopoverHeader title={`매너 레벨 LV. ${level}`} />
+					<PopoverHeader title={`매너 레벨 LV. ${userMannerLevel}`} />
 					<div className="flex w-full gap-14">
 						<section className="flex w-1/2 flex-col gap-4">
 							<span className="semibold-13 block text-white">
