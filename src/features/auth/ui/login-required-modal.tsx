@@ -9,7 +9,7 @@ function LoginRequiredModal() {
 	if (!isOpen) return null;
 
 	return createPortal(
-		<div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/62">
+		<div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/62">
 			<div className="absolute bottom-[28px] mobile:w-[640px] w-[90%] overflow-hidden">
 				<div className="mb-2 mobile:mb-3 flex flex-col items-center justify-center mobile:rounded-[18px] rounded-[14px] bg-white px-0 py-5 text-center font-bold mobile:text-lg text-base">
 					<div className="mobile:mb-4 h-12 mobile:h-[72px] mobile:w-[72px] w-12">
