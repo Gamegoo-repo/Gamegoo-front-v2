@@ -15,37 +15,37 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RiotJoinResponse } from './riot-join-response';
+import type { TokensResponse } from './tokens-response';
 
 /**
  * 
  * @export
- * @interface ApiResponseRiotJoinResponse
+ * @interface ApiResponseTokensResponse
  */
-export interface ApiResponseRiotJoinResponse {
+export interface ApiResponseTokensResponse {
     /**
      * 
      * @type {number}
-     * @memberof ApiResponseRiotJoinResponse
+     * @memberof ApiResponseTokensResponse
      */
     'status': number;
     /**
      * 
      * @type {string}
-     * @memberof ApiResponseRiotJoinResponse
+     * @memberof ApiResponseTokensResponse
      */
     'message': string;
     /**
      * 
      * @type {string}
-     * @memberof ApiResponseRiotJoinResponse
+     * @memberof ApiResponseTokensResponse
      */
     'code'?: string;
     /**
      * 
-     * @type {RiotJoinResponse}
-     * @memberof ApiResponseRiotJoinResponse
+     * @type {TokensResponse}
+     * @memberof ApiResponseTokensResponse
      */
-    'data'?: RiotJoinResponse;
+    'data'?: TokensResponse;
 }
 

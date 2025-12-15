@@ -456,10 +456,11 @@ export const BoardApiAxiosParamCreator = function (configuration?: Configuration
          * @param {Tier} [tier] (선택) 티어를 선택해주세요.
          * @param {Position} [position1] (선택) 주 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt;
          * @param {Position} [position2] (선택) 부 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt;
+         * @param {Mike} [mike] (선택) 마이크 여부를 선택해주세요.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBoardsWithCursor: async (cursor?: string, cursorId?: number, gameMode?: GameMode, tier?: Tier, position1?: Position, position2?: Position, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getBoardsWithCursor: async (cursor?: string, cursorId?: number, gameMode?: GameMode, tier?: Tier, position1?: Position, position2?: Position, mike?: Mike, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/v2/posts/cursor`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -500,6 +501,10 @@ export const BoardApiAxiosParamCreator = function (configuration?: Configuration
 
             if (position2 !== undefined) {
                 localVarQueryParameter['position2'] = position2;
+            }
+
+            if (mike !== undefined) {
+                localVarQueryParameter['mike'] = mike;
             }
 
 
@@ -821,11 +826,12 @@ export const BoardApiFp = function(configuration?: Configuration) {
          * @param {Tier} [tier] (선택) 티어를 선택해주세요.
          * @param {Position} [position1] (선택) 주 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt;
          * @param {Position} [position2] (선택) 부 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt;
+         * @param {Mike} [mike] (선택) 마이크 여부를 선택해주세요.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getBoardsWithCursor(cursor?: string, cursorId?: number, gameMode?: GameMode, tier?: Tier, position1?: Position, position2?: Position, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseBoardCursorResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getBoardsWithCursor(cursor, cursorId, gameMode, tier, position1, position2, options);
+        async getBoardsWithCursor(cursor?: string, cursorId?: number, gameMode?: GameMode, tier?: Tier, position1?: Position, position2?: Position, mike?: Mike, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseBoardCursorResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getBoardsWithCursor(cursor, cursorId, gameMode, tier, position1, position2, mike, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BoardApi.getBoardsWithCursor']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -998,11 +1004,12 @@ export const BoardApiFactory = function (configuration?: Configuration, basePath
          * @param {Tier} [tier] (선택) 티어를 선택해주세요.
          * @param {Position} [position1] (선택) 주 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt;
          * @param {Position} [position2] (선택) 부 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt;
+         * @param {Mike} [mike] (선택) 마이크 여부를 선택해주세요.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getBoardsWithCursor(cursor?: string, cursorId?: number, gameMode?: GameMode, tier?: Tier, position1?: Position, position2?: Position, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseBoardCursorResponse> {
-            return localVarFp.getBoardsWithCursor(cursor, cursorId, gameMode, tier, position1, position2, options).then((request) => request(axios, basePath));
+        getBoardsWithCursor(cursor?: string, cursorId?: number, gameMode?: GameMode, tier?: Tier, position1?: Position, position2?: Position, mike?: Mike, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseBoardCursorResponse> {
+            return localVarFp.getBoardsWithCursor(cursor, cursorId, gameMode, tier, position1, position2, mike, options).then((request) => request(axios, basePath));
         },
         /**
          * 모바일에서 내가 작성한 게시판 글을 조회하는 API 입니다.
@@ -1178,12 +1185,13 @@ export class BoardApi extends BaseAPI {
      * @param {Tier} [tier] (선택) 티어를 선택해주세요.
      * @param {Position} [position1] (선택) 주 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt;
      * @param {Position} [position2] (선택) 부 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt;
+     * @param {Mike} [mike] (선택) 마이크 여부를 선택해주세요.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof BoardApi
      */
-    public getBoardsWithCursor(cursor?: string, cursorId?: number, gameMode?: GameMode, tier?: Tier, position1?: Position, position2?: Position, options?: RawAxiosRequestConfig) {
-        return BoardApiFp(this.configuration).getBoardsWithCursor(cursor, cursorId, gameMode, tier, position1, position2, options).then((request) => request(this.axios, this.basePath));
+    public getBoardsWithCursor(cursor?: string, cursorId?: number, gameMode?: GameMode, tier?: Tier, position1?: Position, position2?: Position, mike?: Mike, options?: RawAxiosRequestConfig) {
+        return BoardApiFp(this.configuration).getBoardsWithCursor(cursor, cursorId, gameMode, tier, position1, position2, mike, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

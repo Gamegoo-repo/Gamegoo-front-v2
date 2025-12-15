@@ -24,6 +24,8 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 // @ts-ignore
 import type { ApiErrorResponse } from '../models';
 // @ts-ignore
+import type { ApiResponseRiotJoinResponse } from '../models';
+// @ts-ignore
 import type { ApiResponseString } from '../models';
 // @ts-ignore
 import type { RiotJoinRequest } from '../models';
@@ -192,7 +194,7 @@ export const RiotApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async joinByRSO(riotJoinRequest: RiotJoinRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseString>> {
+        async joinByRSO(riotJoinRequest: RiotJoinRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseRiotJoinResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.joinByRSO(riotJoinRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RiotApi.joinByRSO']?.[localVarOperationServerIndex]?.url;
@@ -239,7 +241,7 @@ export const RiotApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        joinByRSO(riotJoinRequest: RiotJoinRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseString> {
+        joinByRSO(riotJoinRequest: RiotJoinRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseRiotJoinResponse> {
             return localVarFp.joinByRSO(riotJoinRequest, options).then((request) => request(axios, basePath));
         },
         /**

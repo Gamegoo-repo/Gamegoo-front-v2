@@ -26,9 +26,13 @@ import type { ApiErrorResponse } from '../models';
 // @ts-ignore
 import type { ApiResponseRefreshTokenResponse } from '../models';
 // @ts-ignore
+import type { ApiResponseRejoinResponse } from '../models';
+// @ts-ignore
 import type { ApiResponseString } from '../models';
 // @ts-ignore
 import type { RefreshTokenRequest } from '../models';
+// @ts-ignore
+import type { RejoinRequest } from '../models';
 /**
  * AuthControllerApi - axios parameter creator
  * @export
@@ -142,6 +146,46 @@ export const AuthControllerApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
+         * Rejoin API for blind member
+         * @summary 탈퇴했던 사용자 재가입 API입니다.
+         * @param {RejoinRequest} rejoinRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rejoinMember: async (rejoinRequest: RejoinRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'rejoinRequest' is not null or undefined
+            assertParamExists('rejoinMember', 'rejoinRequest', rejoinRequest)
+            const localVarPath = `/api/v2/auth/rejoin`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWT TOKEN required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(rejoinRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * API for Refresh Token
          * @summary refresh   토큰을 통한 access, refresh 토큰 재발급 API 입니다.
          * @param {RefreshTokenRequest} refreshTokenRequest 
@@ -229,6 +273,19 @@ export const AuthControllerApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Rejoin API for blind member
+         * @summary 탈퇴했던 사용자 재가입 API입니다.
+         * @param {RejoinRequest} rejoinRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async rejoinMember(rejoinRequest: RejoinRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseRejoinResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.rejoinMember(rejoinRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthControllerApi.rejoinMember']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * API for Refresh Token
          * @summary refresh   토큰을 통한 access, refresh 토큰 재발급 API 입니다.
          * @param {RefreshTokenRequest} refreshTokenRequest 
@@ -278,6 +335,16 @@ export const AuthControllerApiFactory = function (configuration?: Configuration,
          */
         logout(options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseString> {
             return localVarFp.logout(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Rejoin API for blind member
+         * @summary 탈퇴했던 사용자 재가입 API입니다.
+         * @param {RejoinRequest} rejoinRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rejoinMember(rejoinRequest: RejoinRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseRejoinResponse> {
+            return localVarFp.rejoinMember(rejoinRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * API for Refresh Token
@@ -331,6 +398,18 @@ export class AuthControllerApi extends BaseAPI {
      */
     public logout(options?: RawAxiosRequestConfig) {
         return AuthControllerApiFp(this.configuration).logout(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Rejoin API for blind member
+     * @summary 탈퇴했던 사용자 재가입 API입니다.
+     * @param {RejoinRequest} rejoinRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthControllerApi
+     */
+    public rejoinMember(rejoinRequest: RejoinRequest, options?: RawAxiosRequestConfig) {
+        return AuthControllerApiFp(this.configuration).rejoinMember(rejoinRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -5,8 +5,8 @@ All URIs are relative to *https://api.gamegoo.co.kr*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**error**](#error) | **GET** /errortest | 에러 테스트|
-|[**getMemberId**](#getmemberid) | **POST** /home/getMemberId | 소환사명과 태그로 해당 회원 id 조회|
-|[**getTestAccessToken**](#gettestaccesstoken) | **GET** /home/token/{memberId} | memberId로 access token 발급 API|
+|[**getMemberId**](#getmemberid) | **POST** /home/memberId | 소환사명과 태그로 해당 회원 id 조회|
+|[**getTestAccessToken**](#gettestaccesstoken) | **GET** /home/tokens/{memberId} | memberId로 access,refresh token 발급 API|
 |[**healthcheck**](#healthcheck) | **GET** /healthcheck | Health Check|
 |[**home**](#home) | **GET** /home | 홈 엔드포인트|
 |[**joinTest**](#jointest) | **POST** /home/join | 라이엇 계정 회원 가입|
@@ -110,9 +110,9 @@ const { status, data } = await apiInstance.getMemberId(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getTestAccessToken**
-> ApiResponseString getTestAccessToken()
+> ApiResponseTokensResponse getTestAccessToken()
 
-테스트용으로 access token을 발급받을 수 있는 API 입니다.
+테스트용으로 access, refresh token을 발급받을 수 있는 API 입니다.
 
 ### Example
 
@@ -141,7 +141,7 @@ const { status, data } = await apiInstance.getTestAccessToken(
 
 ### Return type
 
-**ApiResponseString**
+**ApiResponseTokensResponse**
 
 ### Authorization
 
