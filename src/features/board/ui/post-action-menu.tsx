@@ -39,7 +39,7 @@ export default function PostActionMenu({
 			<PopoverMenu
 				menuItems={[
 					<ReportMenuItem
-						key={""}
+key={"report"}
 						userId={postOwnerId}
 						boardId={postId}
 						reportType="BOARD"
