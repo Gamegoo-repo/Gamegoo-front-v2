@@ -1,10 +1,12 @@
 import { toast } from "@/shared/lib/toast";
 import { PopoverMenu, ReportMenuItem } from "../popover-menu";
 import { BlockToggleMenu } from "../popover-menu/menu-items/block-toggle-menu-item";
+import type { ReportPath } from "@/shared/api";
 
-export default function BlockMenu({
+export default function BlockReportMenu({
 	userId,
 	relationshipStatus,
+	reportType,
 }: {
 	userId: number;
 	relationshipStatus:
@@ -13,6 +15,7 @@ export default function BlockMenu({
 		| "pending-sent"
 		| "pending-received"
 		| "friend";
+	reportType: ReportPath;
 }) {
 	const handleSuccess = () => {
 		toast.confirm(
@@ -29,7 +32,7 @@ export default function BlockMenu({
 	return (
 		<PopoverMenu
 			menuItems={[
-				<ReportMenuItem key={""} userId={userId} />,
+				<ReportMenuItem key={""} userId={userId} reportType={reportType} />,
 				<BlockToggleMenu
 					relationshipStatus={relationshipStatus}
 					key={""}

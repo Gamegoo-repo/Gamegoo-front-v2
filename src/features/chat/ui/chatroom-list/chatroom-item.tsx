@@ -47,7 +47,11 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 	const MENU_ITEMS = [
 		<ChatroomLeaveMenuItem key="leave" chatroomId={room.uuid || ""} />,
 		<BlockMenuItem key="block" userId={room.targetMemberId || 0} />,
-		<ReportMenuItem key="report" userId={room.targetMemberId || 0} />,
+		<ReportMenuItem
+			key="report"
+			userId={room.targetMemberId || 0}
+			reportType="CHAT"
+		/>,
 	];
 
 	const handleChatroomClick = () => {
