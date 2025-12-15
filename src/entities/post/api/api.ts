@@ -5,7 +5,7 @@ export const fetchPostsWithCursor = async (
 	params: FetchPostsWithCursorParams,
 	pageParam?: PageParam,
 ) => {
-	const { gameMode, tier, mainP, subP } = params;
+	const { gameMode, tier, mainP, subP, mike } = params;
 	const response = await api.public.board.getBoardsWithCursor(
 		pageParam?.cursor,
 		pageParam?.cursorId,
@@ -13,6 +13,7 @@ export const fetchPostsWithCursor = async (
 		tier,
 		mainP,
 		subP,
+		mike,
 	);
 
 	return response.data.data;

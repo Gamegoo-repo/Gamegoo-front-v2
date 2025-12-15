@@ -7,6 +7,7 @@ All URIs are relative to *https://api.gamegoo.co.kr*
 |[**blindMember**](#blindmember) | **DELETE** /api/v2/auth | 탈퇴 API입니다.|
 |[**getTestAccessToken1**](#gettestaccesstoken1) | **GET** /api/v2/auth/token/{memberId} | 임시 access token 발급 API|
 |[**logout**](#logout) | **POST** /api/v2/auth/logout | logout API 입니다.|
+|[**rejoinMember**](#rejoinmember) | **POST** /api/v2/auth/rejoin | 탈퇴했던 사용자 재가입 API입니다.|
 |[**updateToken**](#updatetoken) | **POST** /api/v2/auth/refresh | refresh   토큰을 통한 access, refresh 토큰 재발급 API 입니다.|
 
 # **blindMember**
@@ -150,6 +151,60 @@ This endpoint does not have any parameters.
 |**200** | OK |  -  |
 |**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 |**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **rejoinMember**
+> ApiResponseRejoinResponse rejoinMember(rejoinRequest)
+
+Rejoin API for blind member
+
+### Example
+
+```typescript
+import {
+    AuthControllerApi,
+    Configuration,
+    RejoinRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AuthControllerApi(configuration);
+
+let rejoinRequest: RejoinRequest; //
+
+const { status, data } = await apiInstance.rejoinMember(
+    rejoinRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **rejoinRequest** | **RejoinRequest**|  | |
+
+
+### Return type
+
+**ApiResponseRejoinResponse**
+
+### Authorization
+
+[JWT TOKEN](../README.md#JWT TOKEN)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*, application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+|**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. |  -  |
+|**400** | [AUTH_413] 탈퇴하지 않은 사용자입니다. [AUTH_414] 중복된 사용자입니다. 서버 관리자에게 문의하세요. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

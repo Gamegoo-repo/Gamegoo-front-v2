@@ -30,6 +30,8 @@ import type { ApiResponseObject } from '../models';
 // @ts-ignore
 import type { ApiResponseString } from '../models';
 // @ts-ignore
+import type { ApiResponseTokensResponse } from '../models';
+// @ts-ignore
 import type { RiotUserInfo } from '../models';
 /**
  * HomeApi - axios parameter creator
@@ -81,7 +83,7 @@ export const HomeApiAxiosParamCreator = function (configuration?: Configuration)
         getMemberId: async (riotUserInfo: RiotUserInfo, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'riotUserInfo' is not null or undefined
             assertParamExists('getMemberId', 'riotUserInfo', riotUserInfo)
-            const localVarPath = `/home/getMemberId`;
+            const localVarPath = `/home/memberId`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -112,8 +114,8 @@ export const HomeApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
-         * 테스트용으로 access token을 발급받을 수 있는 API 입니다.
-         * @summary memberId로 access token 발급 API
+         * 테스트용으로 access, refresh token을 발급받을 수 있는 API 입니다.
+         * @summary memberId로 access,refresh token 발급 API
          * @param {number} memberId 대상 회원의 id 입니다.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -121,7 +123,7 @@ export const HomeApiAxiosParamCreator = function (configuration?: Configuration)
         getTestAccessToken: async (memberId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'memberId' is not null or undefined
             assertParamExists('getTestAccessToken', 'memberId', memberId)
-            const localVarPath = `/home/token/{memberId}`
+            const localVarPath = `/home/tokens/{memberId}`
                 .replace(`{${"memberId"}}`, encodeURIComponent(String(memberId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -331,13 +333,13 @@ export const HomeApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
-         * 테스트용으로 access token을 발급받을 수 있는 API 입니다.
-         * @summary memberId로 access token 발급 API
+         * 테스트용으로 access, refresh token을 발급받을 수 있는 API 입니다.
+         * @summary memberId로 access,refresh token 발급 API
          * @param {number} memberId 대상 회원의 id 입니다.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTestAccessToken(memberId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseString>> {
+        async getTestAccessToken(memberId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseTokensResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getTestAccessToken(memberId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['HomeApi.getTestAccessToken']?.[localVarOperationServerIndex]?.url;
@@ -423,13 +425,13 @@ export const HomeApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.getMemberId(riotUserInfo, options).then((request) => request(axios, basePath));
         },
         /**
-         * 테스트용으로 access token을 발급받을 수 있는 API 입니다.
-         * @summary memberId로 access token 발급 API
+         * 테스트용으로 access, refresh token을 발급받을 수 있는 API 입니다.
+         * @summary memberId로 access,refresh token 발급 API
          * @param {number} memberId 대상 회원의 id 입니다.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTestAccessToken(memberId: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseString> {
+        getTestAccessToken(memberId: number, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseTokensResponse> {
             return localVarFp.getTestAccessToken(memberId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -504,8 +506,8 @@ export class HomeApi extends BaseAPI {
     }
 
     /**
-     * 테스트용으로 access token을 발급받을 수 있는 API 입니다.
-     * @summary memberId로 access token 발급 API
+     * 테스트용으로 access, refresh token을 발급받을 수 있는 API 입니다.
+     * @summary memberId로 access,refresh token 발급 API
      * @param {number} memberId 대상 회원의 id 입니다.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

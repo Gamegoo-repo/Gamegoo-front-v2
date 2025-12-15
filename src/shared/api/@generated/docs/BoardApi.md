@@ -542,6 +542,7 @@ let gameMode: GameMode; //(선택) 게임 모드를 입력해주세요. < 빠른
 let tier: Tier; //(선택) 티어를 선택해주세요. (optional) (default to undefined)
 let position1: Position; //(선택) 주 포지션을 입력해주세요. < 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP > (optional) (default to undefined)
 let position2: Position; //(선택) 부 포지션을 입력해주세요. < 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP > (optional) (default to undefined)
+let mike: Mike; //(선택) 마이크 여부를 선택해주세요. (optional) (default to undefined)
 
 const { status, data } = await apiInstance.getBoardsWithCursor(
     cursor,
@@ -549,7 +550,8 @@ const { status, data } = await apiInstance.getBoardsWithCursor(
     gameMode,
     tier,
     position1,
-    position2
+    position2,
+    mike
 );
 ```
 
@@ -563,6 +565,7 @@ const { status, data } = await apiInstance.getBoardsWithCursor(
 | **tier** | **Tier** | (선택) 티어를 선택해주세요. | (optional) defaults to undefined|
 | **position1** | **Position** | (선택) 주 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt; | (optional) defaults to undefined|
 | **position2** | **Position** | (선택) 부 포지션을 입력해주세요. &lt; 전체: ANY, 탑: TOP, 정글: JUNGLE, 미드: MID, 원딜: ADC, 서포터: SUP &gt; | (optional) defaults to undefined|
+| **mike** | **Mike** | (선택) 마이크 여부를 선택해주세요. | (optional) defaults to undefined|
 
 
 ### Return type

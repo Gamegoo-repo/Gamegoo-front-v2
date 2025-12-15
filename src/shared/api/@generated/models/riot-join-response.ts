@@ -25,36 +25,36 @@ export interface RiotJoinResponse {
      * @type {number}
      * @memberof RiotJoinResponse
      */
-    'id'?: number;
+    'id': number;
     /**
      * 
      * @type {string}
      * @memberof RiotJoinResponse
      */
-    'name'?: string;
+    'name': string;
     /**
      * 
      * @type {string}
      * @memberof RiotJoinResponse
      */
-    'tag'?: string;
+    'tag': string;
     /**
      * 
      * @type {number}
      * @memberof RiotJoinResponse
      */
-    'profileImage'?: number;
+    'profileImage': number;
     /**
      * 
      * @type {string}
      * @memberof RiotJoinResponse
      */
-    'accessToken'?: string;
+    'accessToken': string;
     /**
      * 
      * @type {string}
      * @memberof RiotJoinResponse
      */
-    'refreshToken'?: string;
+    'refreshToken': string;
 }
 

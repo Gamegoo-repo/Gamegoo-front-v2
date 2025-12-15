@@ -15,37 +15,37 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { RiotJoinResponse } from './riot-join-response';
+import type { RejoinResponse } from './rejoin-response';
 
 /**
  * 
  * @export
- * @interface ApiResponseRiotJoinResponse
+ * @interface ApiResponseRejoinResponse
  */
-export interface ApiResponseRiotJoinResponse {
+export interface ApiResponseRejoinResponse {
     /**
      * 
      * @type {number}
-     * @memberof ApiResponseRiotJoinResponse
+     * @memberof ApiResponseRejoinResponse
      */
     'status': number;
     /**
      * 
      * @type {string}
-     * @memberof ApiResponseRiotJoinResponse
+     * @memberof ApiResponseRejoinResponse
      */
     'message': string;
     /**
      * 
      * @type {string}
-     * @memberof ApiResponseRiotJoinResponse
+     * @memberof ApiResponseRejoinResponse
      */
     'code'?: string;
     /**
      * 
-     * @type {RiotJoinResponse}
-     * @memberof ApiResponseRiotJoinResponse
+     * @type {RejoinResponse}
+     * @memberof ApiResponseRejoinResponse
      */
-    'data'?: RiotJoinResponse;
+    'data'?: RejoinResponse;
 }
 

@@ -1,4 +1,4 @@
-# ApiResponseRiotJoinResponse
+# ApiResponseRejoinResponse
 
 
 ## Properties
@@ -8,14 +8,14 @@ Name | Type | Description | Notes
 **status** | **number** |  | [default to undefined]
 **message** | **string** |  | [default to undefined]
 **code** | **string** |  | [optional] [default to undefined]
-**data** | [**RiotJoinResponse**](RiotJoinResponse.md) |  | [optional] [default to undefined]
+**data** | [**RejoinResponse**](RejoinResponse.md) |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { ApiResponseRiotJoinResponse } from './api';
+import { ApiResponseRejoinResponse } from './api';
 
-const instance: ApiResponseRiotJoinResponse = {
+const instance: ApiResponseRejoinResponse = {
     status,
     message,
     code,

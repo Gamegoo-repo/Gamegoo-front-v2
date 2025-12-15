@@ -233,6 +233,7 @@ const { status, data } = await apiInstance.updateBothMatchingStatus(
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
 |**404** | [MATCH_401] 해당 매칭이 존재하지 않습니다. [MATCH_402] 해당 회원과 매칭된 회원이 없습니다 |  -  |
+|**400** | [MATCH_403] 현재 매칭 상태에서는 요청할 수 없습니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -288,6 +289,7 @@ const { status, data } = await apiInstance.updateMatchingStatus(
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
 |**404** | [MATCH_401] 해당 매칭이 존재하지 않습니다. |  -  |
+|**400** | [MATCH_403] 현재 매칭 상태에서는 요청할 수 없습니다. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

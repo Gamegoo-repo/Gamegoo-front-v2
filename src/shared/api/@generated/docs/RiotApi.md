@@ -65,7 +65,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **joinByRSO**
-> ApiResponseString joinByRSO(riotJoinRequest)
+> ApiResponseRiotJoinResponse joinByRSO(riotJoinRequest)
 
 API for RSO join
 
@@ -97,7 +97,7 @@ const { status, data } = await apiInstance.joinByRSO(
 
 ### Return type
 
-**ApiResponseString**
+**ApiResponseRiotJoinResponse**
 
 ### Authorization
 

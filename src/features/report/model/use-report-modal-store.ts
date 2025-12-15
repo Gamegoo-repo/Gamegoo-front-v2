@@ -16,9 +16,10 @@ export const useReportModalStore = create<ReportModalStore>((set, _get) => ({
 	userId: undefined,
 
 	openModal: (path, userId, postId) => {
-		if (!path) return;
+		if (!path || !userId) return;
 
 		if (path === "BOARD") {
+			if (!postId) return;
 			set({
 				path,
 				userId,

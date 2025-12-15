@@ -72,7 +72,7 @@ export default function ReportModal() {
 		<Modal
 			isOpen={path !== undefined}
 			onClose={closeModal}
-			className="mobile:w-[494px] w-full bg-white mobile:px-8 mobile:py-4"
+			className="mobile:w-[494px] w-full bg-white mobile:px-8 mobile:py-6"
 			isBackdropClosable={false}
 			hasCloseButton={false}
 		>
@@ -101,6 +101,7 @@ export default function ReportModal() {
 									pathCode: reportPathToNumber(path),
 									reportCodeList: [...formState.selectedReasons],
 									contents: formState.details,
+									boardId: selectedPostId,
 								},
 							},
 							{
@@ -112,12 +113,13 @@ export default function ReportModal() {
 								onError: () => {
 									closeModal();
 									setFormState(INITIAL_FORM_STATE);
+									toast.error("신고 제출에 실패했습니다. 다시 시도해주세요.");
 								},
 							},
 						);
 					}}
 				>
-					<fieldset className="flex w-full flex-col gap-1.5 mobile:gap-3">
+					<fieldset className="flex w-full flex-col gap-1.5 mobile:gap-4">
 						<legend className="mb-1 mobile:mb-2 font-semibold mobile:text-lg text-[17px]">
 							신고 사유
 						</legend>
@@ -137,7 +139,7 @@ export default function ReportModal() {
 										}}
 									/>
 									<label
-										htmlFor="scales"
+										htmlFor={reportType.type}
 										className="cursor-pointer select-none"
 									>
 										{reportType.label}
@@ -170,6 +172,7 @@ export default function ReportModal() {
 
 					<button
 						type="submit"
+						disabled={!formState.selectedReasons.size}
 						className="primary-btn w-full py-[18px] disabled:bg-gray-400"
 					>
 						신고하기
