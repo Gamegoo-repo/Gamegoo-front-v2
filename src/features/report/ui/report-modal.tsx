@@ -101,6 +101,7 @@ export default function ReportModal() {
 									pathCode: reportPathToNumber(path),
 									reportCodeList: [...formState.selectedReasons],
 									contents: formState.details,
+									boardId: selectedPostId,
 								},
 							},
 							{
