@@ -81,7 +81,12 @@ export default function ReportModal() {
 					<h2 className="inline-block font-bold mobile:text-xl text-gray-800 text-lg">
 						유저 신고하기
 					</h2>
-					<CloseButton onClose={closeModal} />
+					<CloseButton
+						onClose={() => {
+							setFormState(INITIAL_FORM_STATE);
+							closeModal();
+						}}
+					/>
 				</header>
 				<form
 					className="flex flex-col gap-5 mobile:gap-[30px] text-gray-800"
