@@ -72,13 +72,13 @@ export default function ReportModal() {
 		<Modal
 			isOpen={path !== undefined}
 			onClose={closeModal}
-			className="mobile:w-[494px] w-full bg-white px-8 py-4"
+			className="mobile:w-[494px] w-full bg-white mobile:px-8 mobile:py-4"
 			isBackdropClosable={false}
 			hasCloseButton={false}
 		>
-			<section className="flex flex-col gap-5">
+			<section className="flex flex-col gap-2 mobile:gap-5">
 				<header className="flex items-center justify-between">
-					<h2 className="inline-block font-bold text-gray-800 text-xl">
+					<h2 className="inline-block font-bold mobile:text-xl text-gray-800 text-lg">
 						유저 신고하기
 					</h2>
 					<CloseButton onClose={closeModal} />
@@ -117,17 +117,19 @@ export default function ReportModal() {
 						);
 					}}
 				>
-					<fieldset className="flex w-full flex-col gap-3">
-						<legend className="mb-2 font-semibold text-lg">신고 사유</legend>
+					<fieldset className="flex w-full flex-col gap-1.5 mobile:gap-3">
+						<legend className="mb-1 mobile:mb-2 font-semibold mobile:text-lg text-[17px]">
+							신고 사유
+						</legend>
 
 						{REPORT_REASONS.map((reportType) => {
 							return (
 								<div
 									key={reportType.id}
-									className="flex items-center gap-2 text-gray-800 text-lg"
+									className="flex items-center gap-2 mobile:text-lg text-base text-gray-800"
 								>
 									<Checkbox
-										className="h-[21px] w-[21px]"
+										className="h-[16px] mobile:h-[21px] mobile:w-[21px] w-[16px]"
 										id={reportType.type}
 										isChecked={formState.selectedReasons.has(reportType.id)}
 										onCheckedChange={() => {
@@ -146,7 +148,9 @@ export default function ReportModal() {
 					</fieldset>
 
 					<div className="group flex flex-col gap-2">
-						<p className="font-semibold text-lg">상세 내용</p>
+						<p className="font-semibold mobile:text-lg text-[17px]">
+							상세 내용
+						</p>
 
 						<textarea
 							className={cn(
