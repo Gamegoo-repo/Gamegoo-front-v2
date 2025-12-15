@@ -22,6 +22,7 @@ import {
 	FloatingChatDialog,
 } from "@/widgets/floating-chat-dialog";
 import Page404Component from "@/widgets/page-404-component";
+import ReportModal from "@/features/report/ui/report-modal";
 
 function RootLayout() {
 	useChatroomUpdateHandler();
@@ -63,6 +64,7 @@ function RootLayout() {
 						<FloatingChatDialog />
 						<LoginRequiredModal />
 						<LogoutAlertModal />
+						<ReportModal />
 						<TanStackRouterDevtools />
 					</ResponsiveProvider>
 				</ConfirmDialogProvider>

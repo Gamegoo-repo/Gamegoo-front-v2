@@ -38,7 +38,12 @@ export default function PostActionMenu({
 		return (
 			<PopoverMenu
 				menuItems={[
-					<ReportMenuItem key={""} userId={postOwnerId} />,
+					<ReportMenuItem
+key={"report"}
+						userId={postOwnerId}
+						boardId={postId}
+						reportType="BOARD"
+					/>,
 					<BlockToggleMenu
 						relationshipStatus={isBlocked ? "blocked" : "stranger"}
 						key={""}

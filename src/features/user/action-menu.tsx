@@ -1,5 +1,5 @@
 import type { UserRelationshipStatus } from "@/widgets/user-info/model/user-info.types";
-import BlockMenu from "./block-menu";
+import BlockReportMenu from "./block-menu";
 
 export function UserActionMenu({
 	userId,
@@ -16,5 +16,11 @@ export function UserActionMenu({
 		return null;
 	}
 
-	return <BlockMenu userId={userId} relationshipStatus={relationshipStatus} />;
+	return (
+		<BlockReportMenu
+			userId={userId}
+			relationshipStatus={relationshipStatus}
+			reportType="PROFILE"
+		/>
+	);
 }
