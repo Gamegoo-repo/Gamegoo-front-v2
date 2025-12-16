@@ -17,6 +17,8 @@ import { formatDateTime } from "@/shared/lib/format-date-time";
 import { cn } from "@/shared/lib/utils";
 import Modal from "@/shared/ui/modal/modal";
 import { getGameModeTitle } from "../lib/getGameModeTitle";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
+import { useAuth } from "@/shared/model/use-auth";
 
 export default function PostDetailModal({
 	postId,
@@ -27,6 +29,62 @@ export default function PostDetailModal({
 }) {
 	const { isPending, data, isError, error } = usePostDetail(postId);
 	const modalRef = useRef<HTMLDivElement>(null);
+	const { user } = useAuth();
+
+	const handleStartChat = useAuthenticatedAction(async () => {
+		try {
+			const response = await api.private.chat.startChatroomByBoardId(postId);
+			const chatroomData = response.data?.data;
+
+			if (chatroomData?.uuid) {
+				if (chatroomData.system) {
+					setSystemData({
+						flag: chatroomData.system.flag,
+						boardId: chatroomData.system.boardId,
+					});
+				} else {
+					clearSystemData();
+				}
+				const chatroom: ChatroomResponse = {
+					chatroomId: 0,
+					uuid: chatroomData.uuid,
+					targetMemberId: chatroomData.memberId,
+					targetMemberName: chatroomData.gameName,
+					targetMemberImg: chatroomData.memberProfileImg,
+					friend: chatroomData.friend,
+					blocked: chatroomData.blocked,
+					blind: chatroomData.blind,
+					notReadMsgCnt: 0,
+					friendRequestMemberId: chatroomData.friendRequestMemberId || 0,
+					lastMsg: "",
+					lastMsgAt: "",
+					lastMsgTimestamp: 0,
+				};
+				// Preload enter data to ensure system flag is available before first send
+				await queryClient.prefetchQuery({
+					queryKey: ["enter-chatroom", chatroom.uuid],
+					queryFn: async () => {
+						const enterRes = await api.private.chat.enterChatroom(
+							chatroom.uuid,
+						);
+						return enterRes.data;
+					},
+				});
+				// Optimistically update chatroom list and trigger server refetch
+				updateChatroom(chatroom);
+				void queryClient.invalidateQueries({
+					queryKey: ["chatrooms"],
+				});
+				setChatroom(chatroom);
+				setChatDialogType("chatroom");
+				openDialog();
+				onClose();
+			}
+		} catch (e) {
+			console.error("채팅방 시작 실패:", e);
+		}
+	});
+
 	const {
 		setChatroom,
 		setChatDialogType,
@@ -212,68 +270,16 @@ export default function PostDetailModal({
 				</section>
 
 				{/* MODAL-ACTION */}
-				<section className="modal-actions">
-					<button
-						onClick={async () => {
-							try {
-								const response =
-									await api.private.chat.startChatroomByBoardId(postId);
-								const chatroomData = response.data?.data;
-
-								if (chatroomData?.uuid) {
-									if (chatroomData.system) {
-										setSystemData({
-											flag: chatroomData.system.flag,
-											boardId: chatroomData.system.boardId,
-										});
-									} else {
-										clearSystemData();
-									}
-									const chatroom: ChatroomResponse = {
-										chatroomId: 0,
-										uuid: chatroomData.uuid,
-										targetMemberId: chatroomData.memberId,
-										targetMemberName: chatroomData.gameName,
-										targetMemberImg: chatroomData.memberProfileImg,
-										friend: chatroomData.friend,
-										blocked: chatroomData.blocked,
-										blind: chatroomData.blind,
-										notReadMsgCnt: 0,
-										friendRequestMemberId:
-											chatroomData.friendRequestMemberId || 0,
-										lastMsg: "",
-										lastMsgAt: "",
-										lastMsgTimestamp: 0,
-									};
-									// Preload enter data to ensure system flag is available before first send
-									await queryClient.prefetchQuery({
-										queryKey: ["enter-chatroom", chatroom.uuid],
-										queryFn: async () => {
-											const enterRes = await api.private.chat.enterChatroom(
-												chatroom.uuid,
-											);
-											return enterRes.data;
-										},
-									});
-									// Optimistically update chatroom list and trigger server refetch
-									updateChatroom(chatroom);
-									void queryClient.invalidateQueries({
-										queryKey: ["chatrooms"],
-									});
-									setChatroom(chatroom);
-									setChatDialogType("chatroom");
-									openDialog();
-									onClose();
-								}
-							} catch (e) {
-								console.error("채팅방 시작 실패:", e);
-							}
-						}}
-						type="button"
-						className="primary-btn w-full py-[18px] disabled:bg-gray-400"
-					>
-						말 걸어보기
-					</button>
+				<section>
+					{user?.id !== data.memberId && (
+						<button
+							onClick={handleStartChat}
+							type="button"
+							className="primary-btn w-full py-[18px] disabled:bg-gray-400"
+						>
+							말 걸어보기
+						</button>
+					)}
 				</section>
 			</div>
 		</Modal>
