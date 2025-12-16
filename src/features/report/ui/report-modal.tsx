@@ -7,7 +7,10 @@ import { useReportModalStore } from "../model/use-report-modal-store";
 import useSubmitReport from "../api/use-submit-report";
 import { toast } from "@/shared/lib/toast";
 import { reportPathToNumber } from "../lib/report-path-mapper";
-import { REPORT_ERROR_MESSAGES } from "@/shared/config/error-message/report-error";
+import {
+	isReportErrorCode,
+	REPORT_ERROR_MESSAGES,
+} from "@/shared/config/error-message/report-error";
 import axios from "axios";
 import type { ApiErrorResponse } from "@/shared/api";
 
@@ -132,8 +135,10 @@ export default function ReportModal() {
 									closeModal();
 									setFormState(INITIAL_FORM_STATE);
 
-									if (error.response.data.code === "REPORT_404") {
-										toast.error(REPORT_ERROR_MESSAGES.REPORT_404);
+									const errorCode = error.response.data.code || "";
+
+									if (isReportErrorCode(errorCode)) {
+										toast.error(REPORT_ERROR_MESSAGES[errorCode]);
 									} else {
 										toast.error("신고 제출에 실패했습니다. 다시 시도해주세요.");
 									}
