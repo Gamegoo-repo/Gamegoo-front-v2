@@ -72,7 +72,7 @@ export default function ReportModal() {
 		<Modal
 			isOpen={path !== undefined}
 			onClose={closeModal}
-			className="mobile:w-[494px] w-full bg-white mobile:px-8 mobile:py-6"
+			className="mobile:w-[494px] w-full bg-white mobile:px-8 mobile:py-8"
 			isBackdropClosable={false}
 			hasCloseButton={false}
 		>
