@@ -1,14 +1,16 @@
 import {
 	forwardRef,
 	type ReactNode,
+	useCallback,
 	useEffect,
 	useImperativeHandle,
 	useRef,
 } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/shared/lib/utils";
 import CloseButton from "../button/close-button";
 
-interface ModalProps {
+export interface ModalProps {
 	className?: string;
 	isOpen: boolean;
 	isBackdropClosable?: boolean;
@@ -29,8 +31,16 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		},
 		forwardedRef,
 	) => {
-		const dialogRef = useRef<HTMLDialogElement>(null);
 		const contentRef = useRef<HTMLDivElement>(null);
+
+		const handleEscKeyPress = useCallback(
+			(event: KeyboardEvent) => {
+				if (event.key === "Escape" && isBackdropClosable) {
+					onClose();
+				}
+			},
+			[onClose, isBackdropClosable],
+		);
 
 		// forwardedRef를 contentRef와 동기화
 		useImperativeHandle(
@@ -40,12 +50,6 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		);
 
 		useEffect(() => {
-			const dialog = dialogRef.current;
-
-			if (!dialog) {
-				return;
-			}
-
 			if (isOpen) {
 				document.body.style.cssText = `
 					position: fixed; 
@@ -53,46 +57,42 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 					overflow-y: scroll;	
 					width: 100%;
 				`;
-				dialog.showModal();
+
+				window.addEventListener("keydown", handleEscKeyPress);
 			} else {
 				const scrollY = document.body.style.top;
 				document.body.style.cssText = "";
 				window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
-				try {
-					dialog.close();
-				} catch (_e) {}
 			}
 			return () => {
 				const scrollY = document.body.style.top;
 				document.body.style.cssText = "";
 				window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+				window.removeEventListener("keydown", handleEscKeyPress);
 			};
-		}, [isOpen]);
+		}, [isOpen, handleEscKeyPress]);
 
 		if (!isOpen) {
 			return null;
 		}
 
-		return (
-			// biome-ignore lint/a11y/useKeyWithClickEvents: The <dialog> element with an onClick handler for backdrop clicks is accessible. Keyboard interaction (ESC key) is handled natively by the dialog element to trigger the onClose event.
-			<dialog
-				ref={dialogRef}
-				onClose={onClose}
-				onClick={(e) => {
-					if (!isBackdropClosable) return;
-					const contentEl = contentRef.current;
-					const target = e.target as Node | null;
+		const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+			if (isBackdropClosable && e.target === e.currentTarget) {
+				onClose();
+			}
+		};
 
-					if (!contentEl || (target && !contentEl.contains(target))) onClose();
-				}}
-				className="backdrop:bg-black/62"
-			>
+		return createPortal(
+			// biome-ignore lint/a11y/useKeyWithClickEvents: Backdrop click is handled with ESC key listener
+			<div onClick={handleBackdropClick} className="modal-backdrop z-[1000]">
+				{/* biome-ignore lint/a11y/useKeyWithClickEvents: Click propagation stop is intentional for modal content */}
 				<div
 					className={cn(
-						"relative rounded-[20px] bg-gray-100 mobile:px-8 px-5 mobile:py-12 py-6",
+						"relative rounded-[20px] bg-gray-100 mobile:px-8 px-5 mobile:py-8 py-6",
 						className,
 					)}
 					ref={contentRef}
+					onClick={(e) => e.stopPropagation()}
 				>
 					{hasCloseButton && (
 						<CloseButton
@@ -102,7 +102,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 					)}
 					{children}
 				</div>
-			</dialog>
+			</div>,
+			document.getElementById("modal-root") || document.body,
 		);
 	},
 );

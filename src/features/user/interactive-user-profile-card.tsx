@@ -51,6 +51,7 @@ export default function InteractiveUserProfileCard({
 					hasDropShadow
 				/>
 				<MannerLevelPopover
+					userMannerLevel={level}
 					containerRef={modalRef}
 					userMannerInfo={userMannerInfo}
 				>
