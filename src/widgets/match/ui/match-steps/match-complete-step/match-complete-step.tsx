@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { useChatDialogStore } from "@/entities/chat";
 import type { ChatroomResponse, EnterChatroomResponse } from "@/shared/api";
 import { api } from "@/shared/api";
-import { socketManager } from "@/shared/api/socket";
 import { toast } from "@/shared/lib/toast";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../../hooks";
+import { matchFlow } from "../../../lib/match-flow";
 import type { OpponentProfilePayload } from "../../../lib/matching-types";
 import MatchHeader from "../../match-header";
 import MatchStartProfile from "../match-start-step/match-start-profile";
@@ -28,6 +28,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	const finalTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const didSendSuccessReceiverRef = useRef(false);
 	const didSendSuccessFinalRef = useRef(false);
+	const sessionIdRef = useRef(0);
 
 	// 공통 클린업
 	const clearAllTimers = () => {
@@ -39,9 +40,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	// 매칭 취소 핸들러
 	const handleCancel = () => {
 		// 매칭 취소 이벤트 전송
-		if (socketManager.connected) {
-			socketManager.send("matching-quit");
-		}
+		matchFlow.reject(sessionIdRef.current);
 
 		// 모든 타이머 정리
 		clearAllTimers();
@@ -52,6 +51,10 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	};
 
 	useEffect(() => {
+		// 완료 단계 진입 마크 (quit 방지)
+		matchFlow.beginCompletePhase();
+		sessionIdRef.current = matchFlow.getSessionId();
+
 		// 10초 카운트다운
 		mainTimerRef.current = setInterval(() => {
 			setTimeLeft((prev) => {
@@ -64,9 +67,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 					if (role === "receiver" && matchingUuid) {
 						if (!didSendSuccessReceiverRef.current) {
 							didSendSuccessReceiverRef.current = true;
-							socketManager.send("matching-success-receiver", {
-								senderMatchingUuid: matchingUuid,
-							});
+							matchFlow.completeAsReceiver(matchingUuid);
 						} else {
 							console.warn(
 								"⚠️ [V2-Complete] 중복 matching-success-receiver 차단",
@@ -74,7 +75,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 						}
 						// 5초 대기 후 실패 처리
 						secondaryTimerRef.current = setTimeout(() => {
-							socketManager.send("matching-fail");
+							matchFlow.fail();
 						}, 5000);
 					}
 					return 0;
@@ -87,12 +88,12 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		const handleMatchingSuccessSender = () => {
 			if (!didSendSuccessFinalRef.current) {
 				didSendSuccessFinalRef.current = true;
-				socketManager.send("matching-success-final");
+				matchFlow.completeAsSenderFinal();
 			} else {
 				console.warn("⚠️ [V2-Complete] 중복 matching-success-final 차단");
 			}
 			finalTimerRef.current = setTimeout(() => {
-				socketManager.send("matching-fail");
+				matchFlow.fail();
 			}, 3000);
 		};
 
@@ -173,6 +174,8 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				setChatDialogType("chatroom");
 				openDialog();
 				setIsMatched(true);
+				// 최종 성공 단계 반영 (quit 억제)
+				matchFlow.markSuccess();
 			} catch (e) {
 				console.error("채팅 전환 처리 중 오류:", e);
 			}
@@ -185,38 +188,17 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		};
 
 		if (role === "sender") {
-			socketManager.on("matching-success-sender", handleMatchingSuccessSender);
+			matchFlow.on("matching-success-sender", handleMatchingSuccessSender);
 		}
-		socketManager.on("matching-success", handleMatchingSuccess);
-		socketManager.on("matching-fail", handleMatchingFail);
-		// 백업: raw 소켓에도 등록
-		if (socketManager.socketInstance?.socket) {
-			const socket = socketManager.socketInstance.socket;
-			if (role === "sender") {
-				socket.on("matching-success-sender", handleMatchingSuccessSender);
-			}
-			socket.on("matching-success", handleMatchingSuccess);
-			socket.on("matching-fail", handleMatchingFail);
-		}
+		matchFlow.on("matching-success", handleMatchingSuccess);
+		matchFlow.on("matching-fail", handleMatchingFail);
 
 		return () => {
 			if (role === "sender") {
-				socketManager.off(
-					"matching-success-sender",
-					handleMatchingSuccessSender,
-				);
-				if (socketManager.socketInstance?.socket) {
-					const socket = socketManager.socketInstance.socket;
-					socket.off("matching-success-sender", handleMatchingSuccessSender);
-				}
+				matchFlow.off("matching-success-sender", handleMatchingSuccessSender);
 			}
-			socketManager.off("matching-success", handleMatchingSuccess);
-			socketManager.off("matching-fail", handleMatchingFail);
-			if (socketManager.socketInstance?.socket) {
-				const socket = socketManager.socketInstance.socket;
-				socket.off("matching-success", handleMatchingSuccess);
-				socket.off("matching-fail", handleMatchingFail);
-			}
+			matchFlow.off("matching-success", handleMatchingSuccess);
+			matchFlow.off("matching-fail", handleMatchingFail);
 			clearAllTimers();
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
