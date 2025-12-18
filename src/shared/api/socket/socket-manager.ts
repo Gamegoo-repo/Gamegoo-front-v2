@@ -58,6 +58,9 @@ class SocketManager {
 
 			// 연결 시도
 			await this.socket.connect(authData);
+
+			// 연결 후 즉시 기존에 등록된 커스텀 이벤트 리스너들을 소켓에 부착
+			this.attachCustomEventListeners();
 		} catch (error) {
 			console.error("❌ SocketManager 연결 실패:", error);
 			this.socket = null;
@@ -104,6 +107,7 @@ class SocketManager {
 	private attachCustomEventListeners(): void {
 		// 저장된 콜백 중 내부 이벤트를 제외한 커스텀 이벤트를 소켓에 부착
 		if (!this.socket?.socket) return;
+
 		for (const [event, callbacks] of this.eventCallbacks.entries()) {
 			if (this.internalEvents.has(event)) continue;
 			for (const callback of callbacks) {

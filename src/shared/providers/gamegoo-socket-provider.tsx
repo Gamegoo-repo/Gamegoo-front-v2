@@ -26,7 +26,6 @@ interface GamegooSocketProviderProps {
 export function GamegooSocketProvider({
 	children,
 }: GamegooSocketProviderProps) {
-	const accessToken = tokenManager.getAccessToken();
 	const SOCKET_ENDPOINT = process.env.PUBLIC_SOCKET_URL || "";
 	const { user: authUser, isAuthenticated } = useAuth();
 	const [isConnected, setIsConnected] = useState(false);
@@ -55,7 +54,6 @@ export function GamegooSocketProvider({
 						heartbeatInterval: 0,
 						heartbeatTimeout: 0,
 					},
-					// tokenProvider: 토큰 만료 시 자동 갱신 및 재연결에 사용
 					async () => {
 						const newToken = await tokenManager.refreshToken();
 						return newToken;
@@ -118,20 +116,59 @@ export function GamegooSocketProvider({
 			}
 		};
 
-		const handleJwtExpired = async (..._args: unknown[]) => {
+		// JWT 만료 시 실패한 이벤트 재전송 처리
+		const handleJwtExpired = async (...args: unknown[]) => {
+			const errorData = args[0] as {
+				event: string;
+				data: {
+					eventName: string;
+					eventData: unknown;
+				};
+				timestamp: string;
+			};
+
 			try {
-				await tokenManager.refreshToken();
-			} catch (e) {
-				console.error("❌ 토큰 재발급 실패:", e);
-				return;
-			}
-			try {
-				// 강제 재연결
-				hasConnectedRef.current = false;
-				socketManager.disconnect();
-				await connectSocket();
-			} catch (e) {
-				console.error("❌ 토큰 재발급 후 재연결 실패:", e);
+				// 1. 토큰 갱신
+				const newToken = await tokenManager.refreshToken();
+
+				if (!newToken) {
+					console.error("❌ 토큰 갱신 실패");
+					return;
+				}
+
+				// 2. 소켓에 새 토큰 업데이트 (서버 명세: connection-update-token)
+				const socket = socketManager.socketInstance?.socket;
+				if (socket?.connected) {
+					socket.emit("connection-update-token", { token: newToken });
+
+					// 토큰 업데이트 후 충분한 대기 시간 확보
+					// - 서버가 토큰을 업데이트할 시간
+					// - 첫 번째 요청이 완전히 롤백/처리될 시간
+					// - DB 트랜잭션이 완료될 시간
+					await new Promise((resolve) => setTimeout(resolve, 500));
+				}
+
+				// 3. 실패한 이벤트 재전송
+				const canRetry =
+					socketManager.connected &&
+					errorData?.data?.eventName &&
+					errorData?.data?.eventData;
+
+				console.log("🔄 재전송 조건 체크:", {
+					connected: socketManager.connected,
+					hasEventName: !!errorData?.data?.eventName,
+					hasEventData: !!errorData?.data?.eventData,
+					canRetry,
+				});
+
+				if (canRetry) {
+					socketManager.send(
+						errorData.data.eventName,
+						errorData.data.eventData,
+					);
+				}
+			} catch (error) {
+				console.error("❌ jwt-expired-error 처리 실패:", error);
 			}
 		};
 
@@ -172,7 +209,7 @@ export function GamegooSocketProvider({
 				clearAuthErrorTimeoutRef.current = null;
 			}
 		};
-	}, [isAuthenticated, authUser?.id, accessToken, SOCKET_ENDPOINT]);
+	}, [isAuthenticated, authUser?.id, SOCKET_ENDPOINT]);
 
 	return (
 		<GamegooSocketContext.Provider value={{ isAuthenticated, isConnected }}>

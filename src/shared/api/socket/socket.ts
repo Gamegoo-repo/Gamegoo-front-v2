@@ -8,6 +8,16 @@ export interface SocketOptions {
 	heartbeatTimeout?: number;
 }
 
+interface SocketIOError extends Error {
+	type?: string;
+	description?: {
+		status?: number;
+		statusText?: string;
+		[key: string]: any;
+	};
+	context?: any;
+}
+
 export interface SocketAuthData {
 	token: string;
 	userId: string;
@@ -155,10 +165,36 @@ export class GamegooSocket {
 	}
 
 	private async handleConnectionError(error: Error): Promise<void> {
-		const errorMessage = error.message.toLowerCase();
+		const socketError = error as SocketIOError;
 
-		if (errorMessage.includes("unauthorized") || errorMessage.includes("401")) {
+		if (socketError.description?.status === 401) {
 			await this.handleTokenExpiry();
+		}
+	}
+
+	/**
+	 * connection-jwt-error 수신 → 토큰 갱신 → connection-update-token emit
+	 */
+	private async handleConnectionJwtError(): Promise<void> {
+		if (!this.tokenProvider) return;
+
+		try {
+			// 1. 새 토큰 발급
+			const newToken = await this.tokenProvider();
+
+			// 2. authData 업데이트
+			if (this.authData) {
+				this.authData.token = newToken;
+			}
+
+			// 3. 서버에 connection-update-token 이벤트 전송
+			if (this.socket?.connected) {
+				this.socket.emit("connection-update-token", { token: newToken });
+				console.log("✅ connection-update-token 전송 완료");
+			}
+		} catch (error) {
+			console.error("❌ connection-jwt-error 처리 실패:", error);
+			this.emit("error", new Error("Failed to handle connection JWT error"));
 		}
 	}
 
