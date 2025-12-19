@@ -15,6 +15,8 @@ import { cn } from "@/shared/lib/utils";
 import { useAuth } from "@/shared/model/use-auth";
 import type { Column } from "@/shared/ui/table/table";
 import Table from "@/shared/ui/table/table";
+import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
+import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 
 export const Route = createFileRoute("/_header-layout/mypage/post")({
 	component: RouteComponent,
@@ -22,6 +24,8 @@ export const Route = createFileRoute("/_header-layout/mypage/post")({
 
 function RouteComponent() {
 	const { user } = useAuth();
+
+	const { activeModal, selectedPostId, closeModal } = useBoardModalStore();
 	const { page = 1 } = useSearch({
 		from: "/_header-layout/mypage/post",
 	}) as { page?: number };
@@ -144,6 +148,15 @@ function RouteComponent() {
 						<MyPostsPagination totalPages={data.totalPage} />
 					)}
 				</div>
+			)}
+
+			{activeModal === "edit" && selectedPostId && (
+				<PostFormModalContainer
+					isOpen
+					onClose={closeModal}
+					mode="edit"
+					postId={selectedPostId}
+				/>
 			)}
 		</div>
 	);
