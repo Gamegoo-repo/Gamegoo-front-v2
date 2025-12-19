@@ -18,6 +18,9 @@ import Table from "@/shared/ui/table/table";
 import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
 import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 
+import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
+import ArrowRightIcon from "@/shared/assets/icons/arrow-right.svg?react";
+
 export const Route = createFileRoute("/_header-layout/mypage/post")({
 	component: RouteComponent,
 });
@@ -138,13 +141,13 @@ function RouteComponent() {
 			)}
 
 			{!isLoading && !isError && (
-				<div className="flex min-h-[500px] w-full min-w-[1055px] flex-col gap-15">
+				<div className="flex min-h-[500px] w-full mobile:min-w-[700px] flex-col gap-15">
 					<Table
 						data={rows}
 						columns={columns}
 						ariaLabel="내가 작성한 글 목록"
 					/>
-					{data && data.totalPage > 1 && (
+					{data && data.totalPage >= 1 && (
 						<MyPostsPagination totalPages={data.totalPage} />
 					)}
 				</div>
@@ -195,7 +198,7 @@ function MyPostsPagination({ totalPages }: { totalPages: number }) {
 				)}
 				aria-label="이전 페이지"
 			>
-				‹
+				<ArrowLeftIcon />
 			</button>
 			<ol className="flex items-center gap-2">
 				{visiblePages.map((p) => {
@@ -227,7 +230,7 @@ function MyPostsPagination({ totalPages }: { totalPages: number }) {
 				)}
 				aria-label="다음 페이지"
 			>
-				›
+				<ArrowRightIcon />
 			</button>
 		</div>
 	);
