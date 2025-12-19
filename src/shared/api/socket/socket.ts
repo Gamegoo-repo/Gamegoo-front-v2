@@ -46,6 +46,8 @@ export class GamegooSocket {
 	private heartbeatTimeoutId: ReturnType<typeof setInterval> | null = null;
 	private reconnectAttempts = 0;
 	private eventListeners = new Map<string, ((...args: unknown[]) => void)[]>();
+	private jwtRetryMap = new Map<string, number>(); // 이벤트별 재시도 횟수
+	private readonly MAX_JWT_RETRY = 3; // 최대 3번까지 재시도
 
 	constructor(
 		private endpoint: string,
@@ -121,6 +123,8 @@ export class GamegooSocket {
 			this.emit("connect");
 		});
 
+		this.socket.on("jwt-expired-error", this.handleJwtExpired.bind(this));
+
 		this.socket.on("disconnect", (reason: string) => {
 			this.stopHeartbeat();
 			this.emit("disconnect", reason);
@@ -168,10 +172,9 @@ export class GamegooSocket {
 		const socketError = error as SocketIOError;
 
 		if (socketError.description?.status === 401) {
-			await this.handleTokenExpiry();
+			await this.handleConnectionJwtError();
 		}
 	}
-
 	/**
 	 * connection-jwt-error 수신 → 토큰 갱신 → connection-update-token emit
 	 */
@@ -190,7 +193,6 @@ export class GamegooSocket {
 			// 3. 서버에 connection-update-token 이벤트 전송
 			if (this.socket?.connected) {
 				this.socket.emit("connection-update-token", { token: newToken });
-				console.log("✅ connection-update-token 전송 완료");
 			}
 		} catch (error) {
 			console.error("❌ connection-jwt-error 처리 실패:", error);
@@ -217,6 +219,77 @@ export class GamegooSocket {
 			this.reconnect();
 		} catch (_error) {
 			this.emit("error", new Error("Failed to refresh token"));
+		}
+	}
+
+	// JWT 만료 시 실패한 이벤트 재전송 처리
+	private async handleJwtExpired(...args: unknown[]): Promise<void> {
+		const errorData = args[0] as {
+			event: string;
+			data: {
+				eventName: string;
+				eventData: unknown;
+			};
+			timestamp: string;
+		};
+
+		const eventName = errorData?.data?.eventName;
+
+		if (!eventName) {
+			console.error("❌ eventName이 없습니다");
+			return;
+		}
+
+		// 재시도 횟수 확인
+		const retryCount = this.jwtRetryMap.get(eventName) || 0;
+		if (retryCount >= this.MAX_JWT_RETRY) {
+			this.jwtRetryMap.delete(eventName);
+			return;
+		}
+
+		// 재시도 횟수 증가
+		this.jwtRetryMap.set(eventName, retryCount + 1);
+
+		try {
+			// 토큰 갱신 (tokenProvider 사용)
+			if (!this.tokenProvider) {
+				console.error("❌ tokenProvider가 없습니다");
+				return;
+			}
+
+			const newToken = await this.tokenProvider();
+
+			if (!newToken) {
+				console.error("❌ 토큰 갱신 실패");
+				return;
+			}
+
+			// authData 업데이트
+			if (this.authData) {
+				this.authData.token = newToken;
+			}
+
+			// 실패한 이벤트에 새 토큰을 포함하여 재전송
+			const canRetry =
+				this.socket?.connected &&
+				errorData?.data?.eventName &&
+				errorData?.data?.eventData;
+
+			if (canRetry) {
+				// 원본 이벤트 데이터에 새 토큰을 추가
+				const eventDataWithToken = {
+					...(errorData.data.eventData as Record<string, unknown>),
+					token: newToken, // 토큰
+				};
+
+				this.send(errorData.data.eventName, eventDataWithToken);
+
+				this.jwtRetryMap.delete(eventName);
+			} else {
+				console.warn("⚠️ 재전송 조건 미충족, 재전송 스킵");
+			}
+		} catch (error) {
+			console.error("❌ jwt-expired-error 처리 실패:", error);
 		}
 	}
 
