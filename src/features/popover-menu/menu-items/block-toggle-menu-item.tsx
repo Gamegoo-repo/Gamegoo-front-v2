@@ -54,9 +54,9 @@ export function BlockToggleMenu({
 		showConfirmDialog({
 			title: isBlocked ? "차단을 해제하시겠습니까?" : "차단하시겠습니까?",
 			description: isBlocked
-				? `차단한 상대에게는 메시지를 받을 수 없으며
-매칭이 이루어지지 않습니다.`
-				: "",
+				? ""
+				: `차단한 상대에게는 메시지를 받을 수 없으며,\n
+매칭이 이루어지지 않습니다.`,
 			confirmText: isBlocked ? "해제" : "차단",
 			onConfirm: () => toggleBlockMutation.mutate(userId),
 		});
