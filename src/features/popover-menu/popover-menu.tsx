@@ -26,11 +26,12 @@ type MenuItemComponent =
 
 interface PopoverMenuProps {
 	menuItems: React.ReactElement<MenuItemComponent>[];
+	align?: "start" | "center" | "end";
 }
 
-function PopoverMenu({ menuItems }: PopoverMenuProps) {
+function PopoverMenu({ menuItems, align = "end" }: PopoverMenuProps) {
 	return (
-		<Popover>
+		<Popover align={align}>
 			<PopoverTrigger asChild>
 				<Button
 					variant={"ghost"}
