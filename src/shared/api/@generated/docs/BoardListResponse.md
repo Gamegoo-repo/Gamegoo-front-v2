@@ -28,6 +28,7 @@ Name | Type | Description | Notes
 **freeRank** | **number** |  | [default to undefined]
 **soloTier** | [**Tier**](Tier.md) |  | [default to undefined]
 **soloRank** | **number** |  | [default to undefined]
+**isBlocked** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -58,6 +59,7 @@ const instance: BoardListResponse = {
     freeRank,
     soloTier,
     soloRank,
+    isBlocked,
 };
 ```
 

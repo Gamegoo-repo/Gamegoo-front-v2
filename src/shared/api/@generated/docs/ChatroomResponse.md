@@ -11,9 +11,7 @@ Name | Type | Description | Notes
 **targetMemberImg** | **number** |  | [default to undefined]
 **targetMemberName** | **string** |  | [default to undefined]
 **friend** | **boolean** |  | [default to undefined]
-**blocked** | **boolean** |  | [default to undefined]
 **blind** | **boolean** |  | [default to undefined]
-**friendRequestMemberId** | **number** |  | [optional] [default to undefined]
 **lastMsg** | **string** |  | [optional] [default to undefined]
 **lastMsgAt** | **string** |  | [optional] [default to undefined]
 **notReadMsgCnt** | **number** |  | [default to undefined]
@@ -31,9 +29,7 @@ const instance: ChatroomResponse = {
     targetMemberImg,
     targetMemberName,
     friend,
-    blocked,
     blind,
-    friendRequestMemberId,
     lastMsg,
     lastMsgAt,
     notReadMsgCnt,

@@ -13,12 +13,11 @@ export const testLogin = async (memberId: number = 2) => {
 	try {
 		const response = await api.public.home.getTestAccessToken(memberId);
 
-		// API 응답에서 토큰 추출
-		const token = response.data.data;
+		const { accessToken, refreshToken } = response.data.data ?? {};
 
-		if (token) {
+		if (accessToken && refreshToken) {
 			// 토큰을 저장
-			tokenManager.setTokens(token);
+			tokenManager.setTokens(accessToken, refreshToken);
 			return true;
 		}
 

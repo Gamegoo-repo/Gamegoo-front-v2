@@ -26,7 +26,6 @@ interface GamegooSocketProviderProps {
 export function GamegooSocketProvider({
 	children,
 }: GamegooSocketProviderProps) {
-	const accessToken = tokenManager.getAccessToken();
 	const SOCKET_ENDPOINT = process.env.PUBLIC_SOCKET_URL || "";
 	const { user: authUser, isAuthenticated } = useAuth();
 	const [isConnected, setIsConnected] = useState(false);
@@ -55,7 +54,6 @@ export function GamegooSocketProvider({
 						heartbeatInterval: 0,
 						heartbeatTimeout: 0,
 					},
-					// tokenProvider: 토큰 만료 시 자동 갱신 및 재연결에 사용
 					async () => {
 						const newToken = await tokenManager.refreshToken();
 						return newToken;
@@ -118,23 +116,6 @@ export function GamegooSocketProvider({
 			}
 		};
 
-		const handleJwtExpired = async (..._args: unknown[]) => {
-			try {
-				await tokenManager.refreshToken();
-			} catch (e) {
-				console.error("❌ 토큰 재발급 실패:", e);
-				return;
-			}
-			try {
-				// 강제 재연결
-				hasConnectedRef.current = false;
-				socketManager.disconnect();
-				await connectSocket();
-			} catch (e) {
-				console.error("❌ 토큰 재발급 후 재연결 실패:", e);
-			}
-		};
-
 		const handleConnectError = (...args: unknown[]) => {
 			const error = (args?.[0] as Error) || ({} as Error);
 			const msg = (error?.message || "").toLowerCase();
@@ -157,7 +138,6 @@ export function GamegooSocketProvider({
 
 		socketManager.on("connect", handleConnect);
 		socketManager.on("disconnect", handleDisconnect);
-		socketManager.on("jwt-expired-error", handleJwtExpired);
 		socketManager.on("connect_error", handleConnectError);
 
 		connectSocket();
@@ -165,14 +145,13 @@ export function GamegooSocketProvider({
 		return () => {
 			socketManager.off("connect", handleConnect);
 			socketManager.off("disconnect", handleDisconnect);
-			socketManager.off("jwt-expired-error", handleJwtExpired);
 			socketManager.off("connect_error", handleConnectError);
 			if (clearAuthErrorTimeoutRef.current) {
 				clearTimeout(clearAuthErrorTimeoutRef.current);
 				clearAuthErrorTimeoutRef.current = null;
 			}
 		};
-	}, [isAuthenticated, authUser?.id, accessToken, SOCKET_ENDPOINT]);
+	}, [isAuthenticated, authUser?.id, SOCKET_ENDPOINT]);
 
 	return (
 		<GamegooSocketContext.Provider value={{ isAuthenticated, isConnected }}>

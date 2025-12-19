@@ -15,6 +15,11 @@ import { cn } from "@/shared/lib/utils";
 import { useAuth } from "@/shared/model/use-auth";
 import type { Column } from "@/shared/ui/table/table";
 import Table from "@/shared/ui/table/table";
+import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
+import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
+
+import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
+import ArrowRightIcon from "@/shared/assets/icons/arrow-right.svg?react";
 
 export const Route = createFileRoute("/_header-layout/mypage/post")({
 	component: RouteComponent,
@@ -22,6 +27,8 @@ export const Route = createFileRoute("/_header-layout/mypage/post")({
 
 function RouteComponent() {
 	const { user } = useAuth();
+
+	const { activeModal, selectedPostId, closeModal } = useBoardModalStore();
 	const { page = 1 } = useSearch({
 		from: "/_header-layout/mypage/post",
 	}) as { page?: number };
@@ -46,41 +53,53 @@ function RouteComponent() {
 			header: "",
 			width: "4%",
 			accessor: (row) => (
-				<div className="regular-16 text-center text-gray-700">{row.idx}</div>
+				<div className="text-center mobile:font-bold mobile:text-base text-gray-800">
+					{row.idx}
+				</div>
 			),
 		},
 		{
 			header: "소환사",
-			width: "28%",
+			width: "30%",
 			accessor: (row) => (
-				<div className="flex items-center gap-2">
-					<UserProfile id={row.profileImage} hasDropShadow={false} />
-					<div className="flex flex-col items-start gap-0.5">
-						<span className="semibold-16 inline-block max-w-[13ch] overflow-hidden text-ellipsis whitespace-nowrap text-gray-800">
+				<div className="flex items-center gap-5">
+					<UserProfile
+						id={row.profileImage}
+						hasDropShadow={false}
+						className="mobile:h-[50px] mobile:w-[50px]"
+					/>
+					<div className="flex items-center gap-2">
+						<span className="inline-block max-w-[13ch] overflow-hidden text-ellipsis whitespace-nowrap mobile:font-semibold mobile:text-base text-gray-800">
 							{row.gameName}
 						</span>
-						<span className="regular-13 text-gray-600">#{row.tag}</span>
+						<span className="mobile:font-semibold mobile:text-sm text-gray-500">
+							#{row.tag}
+						</span>
 					</div>
 				</div>
 			),
 		},
 		{
 			header: "티어",
-			width: "8%",
-			accessor: (row) => <TierBadge tier={row.tier} rank={row.rank} />,
+			width: "25%",
+			accessor: (row) => (
+				<div className="flex w-full items-center justify-center">
+					<TierBadge tier={row.tier} rank={row.rank} />
+				</div>
+			),
 		},
 		{
 			header: "메모",
-			width: "40%",
+			width: "30%",
 			accessor: (row) => (
-				<div className="regular-13 w-[320px] rounded-lg border border-gray-400 bg-gray-100 p-2 text-gray-800">
+				<div className="w-full rounded-lg border border-gray-400 bg-gray-100 p-2 mobile:text-[13px] text-gray-800">
 					<p className="line-clamp-2 break-words">{row.contents}</p>
 				</div>
 			),
 		},
 		{
 			header: "등록일시",
-			width: "12%",
+			width: "13%",
 			accessor: (row) => (
 				<div className="medium-16 inline-block w-full min-w-max whitespace-nowrap text-center text-gray-500">
 					{formatDateSimple(row.bumpTime || row.createdAt || "")}
@@ -89,7 +108,7 @@ function RouteComponent() {
 		},
 		{
 			header: "",
-			width: "2%",
+			width: "3%",
 			accessor: (row) => (
 				<div className="flex w-full items-center">
 					<PostActionMenu
@@ -122,16 +141,25 @@ function RouteComponent() {
 			)}
 
 			{!isLoading && !isError && (
-				<div className="flex min-h-[500px] w-full min-w-[1055px] flex-col gap-15">
+				<div className="flex min-h-[500px] w-full mobile:min-w-[700px] flex-col gap-15">
 					<Table
 						data={rows}
 						columns={columns}
 						ariaLabel="내가 작성한 글 목록"
 					/>
-					{data && data.totalPage > 1 && (
+					{data && data.totalPage >= 1 && (
 						<MyPostsPagination totalPages={data.totalPage} />
 					)}
 				</div>
+			)}
+
+			{activeModal === "edit" && selectedPostId && (
+				<PostFormModalContainer
+					isOpen
+					onClose={closeModal}
+					mode="edit"
+					postId={selectedPostId}
+				/>
 			)}
 		</div>
 	);
@@ -170,7 +198,7 @@ function MyPostsPagination({ totalPages }: { totalPages: number }) {
 				)}
 				aria-label="이전 페이지"
 			>
-				‹
+				<ArrowLeftIcon />
 			</button>
 			<ol className="flex items-center gap-2">
 				{visiblePages.map((p) => {
@@ -202,7 +230,7 @@ function MyPostsPagination({ totalPages }: { totalPages: number }) {
 				)}
 				aria-label="다음 페이지"
 			>
-				›
+				<ArrowRightIcon />
 			</button>
 		</div>
 	);

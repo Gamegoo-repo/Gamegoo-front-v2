@@ -8,7 +8,10 @@ export const useDevSignUp = () => {
 			const response = await api.public.home.getTestAccessToken(2);
 			// 토큰 자동 저장
 			if (response.data?.data) {
-				tokenManager.setTokens(response.data.data, response.data.data);
+				tokenManager.setTokens(
+					response.data.data.accessToken,
+					response.data.data.refreshToken,
+				);
 			}
 			return response.data?.data;
 		},
