@@ -24,6 +24,7 @@ import {
 import Page404Component from "@/widgets/page-404-component";
 import ReportModal from "@/features/report/ui/report-modal";
 import PostDeletedAlertModal from "@/features/board/ui/post-deleted-alert-modal";
+import { GlobalBoardModals } from "@/app/providers/global-board-modals";
 
 function RootLayout() {
 	useChatroomUpdateHandler();
@@ -67,6 +68,7 @@ function RootLayout() {
 						<LogoutAlertModal />
 						<PostDeletedAlertModal />
 						<ReportModal />
+						<GlobalBoardModals />
 						<TanStackRouterDevtools />
 					</ResponsiveProvider>
 				</ConfirmDialogProvider>

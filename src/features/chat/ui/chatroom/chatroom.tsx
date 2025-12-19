@@ -35,6 +35,7 @@ import {
 	ChatroomOpponentMessage,
 	ChatroomSystemMessage,
 } from "./";
+import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 
 const Chatroom = () => {
 	const { chatroom } = useChatDialogStore();
@@ -68,6 +69,8 @@ const Chatroom = () => {
 	const { resetUnreadCount } = useChatStore();
 	const { mutate: readMessage } = useReadChatMessage();
 	const authUser = useAuthStore();
+
+	const { openDetailModal } = useBoardModalStore();
 
 	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
 	const opponentId = enterData?.data?.memberId;
@@ -132,7 +135,14 @@ const Chatroom = () => {
 						<div key={key} data-message-index={index}>
 							<ChatroomSystemMessage
 								message={message.message || ""}
-								href={message.boardId ? `/board/${message.boardId}` : undefined}
+								// href={message.boardId ? `/board/${message.boardId}` : undefined}
+								onClickMessage={
+									message.boardId
+										? () => {
+												openDetailModal(Number(message.boardId));
+											}
+										: undefined
+								}
 							/>
 						</div>,
 					);

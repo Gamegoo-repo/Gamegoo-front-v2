@@ -4,9 +4,7 @@ import { z } from "zod";
 import PostList from "@/entities/post/ui/post-list";
 import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
 import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
-import PostDetailModal from "@/features/board/ui/post-detail-modal";
-import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
-import BoardToolbarDesktop from "@/features/board/ui/toolbar/board-toolbar-desktop";
+// import PostFormModalContainer from "@/features/board/ui/post-form-mo;
 import BoardToolbarMobile from "@/features/board/ui/toolbar/board-toolbar-mobile";
 import {
 	type BoardListResponse,
@@ -17,6 +15,7 @@ import {
 } from "@/shared/api";
 import { useResponsive } from "@/shared/model/responsive-context";
 import BoardTable from "@/widgets/board-view/ui/board-table";
+import BoardToolbarDesktop from "@/features/board/ui/toolbar/board-toolbar-desktop";
 
 const searchSchema = z.object({
 	page: z.number().min(1).optional().catch(1),
@@ -35,13 +34,7 @@ export const Route = createFileRoute("/_header-layout/board/")({
 function BoardPage() {
 	const { isMobile } = useResponsive();
 
-	const {
-		activeModal,
-		selectedPostId,
-		openDetailModal,
-		openCreateModal,
-		closeModal,
-	} = useBoardModalStore();
+	const { openDetailModal, openCreateModal, closeModal } = useBoardModalStore();
 
 	const resetFilters = useBoardFilterStore((s) => s.resetFilters);
 
@@ -70,24 +63,6 @@ function BoardPage() {
 					<BoardToolbarDesktop handleOpenCreateModal={openCreateModal} />
 					<BoardTable onRowClick={handleRowClick} />
 				</div>
-			)}
-			{activeModal === "create" && (
-				<PostFormModalContainer isOpen onClose={closeModal} mode="create" />
-			)}
-			{activeModal === "edit" && selectedPostId && (
-				<PostFormModalContainer
-					isOpen
-					onClose={closeModal}
-					mode="edit"
-					postId={selectedPostId}
-				/>
-			)}
-			{activeModal === "detail" && selectedPostId && (
-				<PostDetailModal
-					key={selectedPostId}
-					postId={selectedPostId}
-					onClose={closeModal}
-				/>
 			)}
 		</>
 	);
