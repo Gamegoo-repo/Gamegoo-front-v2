@@ -150,6 +150,11 @@ export const queryClient = new QueryClient({
 				return;
 			}
 
+			// meta.skipErrorCatcher가 true인 경우 ErrorCatcher 처리 건너뛰기
+			if (query.meta?.skipErrorCatcher) {
+				return;
+			}
+
 			// AxiosError인 경우만 처리
 			if (!isApiError(error)) {
 				// 일반 에러는 Error Boundary로 전파

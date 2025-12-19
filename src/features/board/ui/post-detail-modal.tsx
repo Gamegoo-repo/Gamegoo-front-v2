@@ -13,7 +13,7 @@ import {
 } from "@/entities/post/model/use-post-detail";
 import WinRateTooltip from "@/entities/user/ui/win-rate-tooltip";
 import InteractiveUserProfileCard from "@/features/user/interactive-user-profile-card";
-import type { ChatroomResponse } from "@/shared/api";
+import type { ApiErrorResponse, ChatroomResponse } from "@/shared/api";
 import { api } from "@/shared/api";
 import CheckIcon from "@/shared/assets/icons/ic-check.svg?react";
 import { formatDateTime } from "@/shared/lib/format-date-time";
@@ -23,6 +23,8 @@ import { getGameModeTitle } from "../lib/getGameModeTitle";
 import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import { useAuth } from "@/shared/model/use-auth";
 import { toast } from "@/shared/lib/toast";
+import { usePostDeletedAlertModalState } from "../model/post-deleted-alert-modal-store";
+import type { AxiosError } from "axios";
 
 export default function PostDetailModal({
 	postId,
@@ -100,13 +102,30 @@ export default function PostDetailModal({
 	} = useChatDialogStore();
 	const queryClient = useQueryClient();
 	const { updateChatroom } = useChatStore();
+	const { isOpen, openModal } = usePostDeletedAlertModalState();
 
 	if (isPending) {
 		return null;
 	}
 
 	if (isError) {
-		return <div>게시글 정보를 불러오는 데 실패했습니다.</div>;
+		const axiosError = error as AxiosError<ApiErrorResponse>;
+		const errorData = axiosError?.response?.data;
+		const errorCode = errorData?.code;
+
+		if (errorCode === "BOARD_401") {
+			if (isOpen) return null;
+			openModal();
+		} else if (errorCode === "MEMBER_401") {
+			toast.error("사용자를 찾을 수 없습니다.");
+		} else if (errorCode === "AUTH_412") {
+			toast.error("탈퇴한 사용자입니다.");
+		} else {
+			toast.error(errorData?.message || "게시글을 불러오는데 실패했습니다.");
+		}
+
+		onClose(); // PostDetailModal 닫기
+		return null;
 	}
 
 	if (!data || !data.memberId) {
