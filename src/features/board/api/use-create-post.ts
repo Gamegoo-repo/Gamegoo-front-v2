@@ -15,5 +15,8 @@ export const useCreatePost = () => {
 				queryKey: boardKeys.all,
 			});
 		},
+		meta: {
+			handledErrorCodes: ["BOARD_408"],
+		},
 	});
 };

@@ -48,9 +48,10 @@ export const usePostDetail = (
 			// 나머지 에러는 Error Boundary로 throw
 			return true;
 		},
+		/** TODO: MEMBER_401랑 AUTH_412를 여기서 처리하는게 맞는지 확인*/
 		meta: {
-			// ErrorCatcher가 이 쿼리의 에러를 자동으로 토스트하지 않도록 설정
-			skipErrorCatcher: true,
+			// 나머지 에러는 ErrorCatcher가 자동으로 토스트 표시
+			handledErrorCodes: ["BOARD_401", "MEMBER_401", "AUTH_412"],
 		},
 		enabled: enabled,
 		staleTime: 5 * 60 * 1000,
