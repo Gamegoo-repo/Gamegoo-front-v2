@@ -1,4 +1,5 @@
 import { socketManager } from "@/shared/api/socket";
+import { toast } from "@/shared/lib/toast";
 import type {
 	MatchingCountData,
 	MatchingFoundReceiverEvent,
@@ -272,18 +273,18 @@ class MatchFlow {
 		return this.currentThreshold;
 	}
 
-	cancel(sessionId?: number): void {
+	cancel(sessionId?: number): boolean {
 		// 세션 불일치면 무시
 		if (sessionId && sessionId !== this.currentSessionId) {
-			return;
+			return false;
 		}
 		// 완료 단계에서는 전송 금지
 		if (this.phase === "completing" || this.phase === "completed") {
-			return;
+			return false;
 		}
 		// 이미 스케줄된 cancel이 있으면 중복 스케줄 금지
 		if (this.pendingCancelTimer) {
-			return;
+			return false;
 		}
 		// 검색/발견 단계에서만 cancel 스케줄
 		if (this.phase === "searching" || this.phase === "found") {
@@ -304,7 +305,10 @@ class MatchFlow {
 				this.pendingCancelSessionId = null;
 				this.pendingCancelTimer = null;
 			}, 400);
+			toast.error("화면 이탈로 매칭이 취소되었습니다.");
+			return true;
 		}
+		return false;
 	}
 
 	reject(sessionId?: number): void {

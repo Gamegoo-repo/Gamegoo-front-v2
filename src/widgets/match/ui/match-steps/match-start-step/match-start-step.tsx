@@ -198,9 +198,11 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 					isFirstCleanupRef.current = false;
 				} else {
 					// cancel은 내부에서 phase를 확인하여 필요 시에만 quit 전송
-					matchFlow.cancel(sessionIdRef.current);
-					// 페이지 이탈 시 단계도 프로필로 강제 이동
-					funnel.toStep("profile");
+					const didSchedule = matchFlow.cancel(sessionIdRef.current);
+					// 실제 cancel이 스케줄된 경우에만 프로필로 이동
+					if (didSchedule) {
+						funnel.toStep("profile");
+					}
 				}
 
 				clearTimers();

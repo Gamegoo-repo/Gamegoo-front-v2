@@ -184,7 +184,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		const handleMatchingFail = () => {
 			clearAllTimers();
 			funnel.toStep("profile");
-			toast.error("채팅 연결에 실패했어요. 다시 시도해 주세요.");
+			toast.error("매칭에 실패했어요. 다시 시도해 주세요.");
 		};
 
 		if (role === "sender") {
@@ -206,7 +206,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 	return (
 		<>
-			<MatchHeader title="매칭 완료" onBack={() => funnel.toStep("profile")} />
+			<MatchHeader title="매칭 완료" onBack={handleCancel} />
 			<div className="flex w-full items-center justify-center mobile:pt-0 pt-[110px]">
 				<div className="w-full max-w-[1440px] mobile:px-[20px] px-[80px] mobile:pt-[24px] pt-[60px]">
 					<div className="mobile:mt-[15px] mt-[72px] mb-[150px] flex w-full flex-col items-center gap-[59px] max-[1300px]:gap-[40px]">
