@@ -61,19 +61,7 @@ export interface ChatroomResponse {
      * @type {boolean}
      * @memberof ChatroomResponse
      */
-    'blocked': boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ChatroomResponse
-     */
     'blind': boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof ChatroomResponse
-     */
-    'friendRequestMemberId'?: number;
     /**
      * 
      * @type {string}

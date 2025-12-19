@@ -146,6 +146,10 @@ export const queryClient = new QueryClient({
 				});
 			}
 
+			if ((error as any)?.silent) {
+				return;
+			}
+
 			// AxiosError인 경우만 처리
 			if (!isApiError(error)) {
 				// 일반 에러는 Error Boundary로 전파

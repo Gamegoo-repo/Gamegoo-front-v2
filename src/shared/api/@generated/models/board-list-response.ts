@@ -176,6 +176,12 @@ export interface BoardListResponse {
      * @memberof BoardListResponse
      */
     'soloRank': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof BoardListResponse
+     */
+    'isBlocked'?: boolean;
 }
 
 export const BoardListResponseWantP = {

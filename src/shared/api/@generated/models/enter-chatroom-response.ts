@@ -67,6 +67,12 @@ export interface EnterChatroomResponse {
      * @type {boolean}
      * @memberof EnterChatroomResponse
      */
+    'blockedByTarget': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof EnterChatroomResponse
+     */
     'blind': boolean;
     /**
      * 

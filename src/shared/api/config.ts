@@ -96,7 +96,7 @@ privateApiClient.interceptors.request.use(
 	(error) => Promise.reject(error),
 );
 
-// refresh 토큰 함수
+// refresh 토큰으로 accessToken을 재발급하는 함수
 const refreshAccessToken = async (): Promise<string> => {
 	if (isRefreshing && refreshPromise) {
 		// 이미 갱신 중이면 큐에 추가하고 대기
@@ -113,6 +113,10 @@ const refreshAccessToken = async (): Promise<string> => {
 			const error = new Error("No refresh token available");
 			processQueue(error, null);
 			tokenManager.clearTokens();
+
+			// logout-alert-modal 열기
+			tokenManager.onRefreshFailed?.();
+
 			throw error;
 		}
 
@@ -174,7 +178,12 @@ privateApiClient.interceptors.response.use(
 				// logout-alert-modal 열기
 				tokenManager.onRefreshFailed?.();
 
-				return Promise.reject(error);
+				// React Query 에러 토스트 방지
+				return Promise.reject({
+					type: "AUTH_FAILED",
+					message: "Session expired",
+					silent: true, // React Query가 처리 안 하도록
+				});
 			}
 		}
 
