@@ -1,10 +1,5 @@
 import { useChatDialogStore } from "@/entities/chat";
-import {
-	BlockMenuItem,
-	ChatroomLeaveMenuItem,
-	PopoverMenu,
-	ReportMenuItem,
-} from "@/features/popover-menu";
+import { ChatroomLeaveMenuItem, PopoverMenu } from "@/features/popover-menu";
 import { ProfileAvatar } from "@/features/profile";
 import type { ChatroomResponse } from "@/shared/api/@generated/models/chatroom-response";
 import { cn } from "@/shared/lib/utils";
@@ -46,12 +41,6 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 
 	const MENU_ITEMS = [
 		<ChatroomLeaveMenuItem key="leave" chatroomId={room.uuid || ""} />,
-		<BlockMenuItem key="block" userId={room.targetMemberId || 0} />,
-		<ReportMenuItem
-			key="report"
-			userId={room.targetMemberId || 0}
-			reportType="CHAT"
-		/>,
 	];
 
 	const handleChatroomClick = () => {

@@ -74,10 +74,7 @@ function PopoverMenuContent({ menuItems }: PopoverMenuProps) {
 	if (menuItems.length === 0) return null;
 
 	return (
-		<div
-			// onClick={(e) => e.stopPropagation()}
-			className="medium-14 text-gray-600 [&>*:not(:last-child)]:border-gray-200 [&>*:not(:last-child)]:border-b"
-		>
+		<div className="medium-14 text-gray-600 [&>*:not(:last-child)]:border-gray-200 [&>*:not(:last-child)]:border-b">
 			{menuItemsWithCloseHandler}
 		</div>
 	);
