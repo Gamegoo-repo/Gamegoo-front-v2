@@ -11,7 +11,7 @@ export default function TierBadge({
 	const TierIcon = getTierIcon(tier);
 	return (
 		<div className="flex min-w-[100px] items-center justify-center gap-0.5">
-			<TierIcon className="width-[32px] height-[32px] text-gray-700" />
+			<TierIcon className="h-[32px] w-[32px] text-gray-700" />
 			<span className="bold-20 text-gray-800">{`${tier?.charAt(0)}${rank}`}</span>
 		</div>
 	);
