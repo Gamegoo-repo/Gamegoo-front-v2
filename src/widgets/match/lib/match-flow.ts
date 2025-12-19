@@ -1,36 +1,11 @@
 import { socketManager } from "@/shared/api/socket";
 import { toast } from "@/shared/lib/toast";
 import type {
-	MatchingCountData,
-	MatchingFoundReceiverEvent,
-	MatchingFoundSenderEvent,
-	MatchingRequest,
-} from "./matching-types";
-
-type MatchEventName =
-	| "matching-started"
-	| "matching-count"
-	| "matching-found-sender"
-	| "matching-found-receiver"
-	| "matching-not-found"
-	| "matching-fail"
-	| "matching-success"
-	| "matching-success-sender"
-	| "jwt-expired-error"
-	| "connect";
-
-type MatchEventPayloadMap = {
-	"matching-started": unknown;
-	"matching-count": MatchingCountData;
-	"matching-found-sender": MatchingFoundSenderEvent;
-	"matching-found-receiver": MatchingFoundReceiverEvent;
-	"matching-not-found": undefined;
-	"matching-fail": undefined;
-	"matching-success": unknown;
-	"matching-success-sender": unknown;
-	"jwt-expired-error": undefined;
-	connect: undefined;
-};
+	MatchEventName,
+	MatchEventPayloadMap,
+} from "./match-event-manager";
+import { matchEventManager } from "./match-event-manager";
+import type { MatchingRequest } from "./matching-types";
 
 /**
  * 매칭의 '동작'을 메서드 단위로 제공하는 상위 레벨 유즈케이스 모음
@@ -44,7 +19,6 @@ class MatchFlow {
 	private shouldResendOnConnect = false;
 	private lastRequest: (MatchingRequest & { memberId?: number }) | null = null;
 	private currentThreshold: number | null = null;
-	private detachConnectHandler: (() => void) | null = null;
 	private phase:
 		| "idle"
 		| "searching"
@@ -87,19 +61,22 @@ class MatchFlow {
 				this.emit(event, args[0] as MatchEventPayloadMap[E]);
 			};
 
-		socketManager.on("connect", forward("connect"));
-		socketManager.on("jwt-expired-error", forward("jwt-expired-error"));
-		socketManager.on("matching-started", forward("matching-started"));
-		socketManager.on("matching-count", forward("matching-count"));
-		socketManager.on("matching-found-sender", forward("matching-found-sender"));
-		socketManager.on(
+		matchEventManager.on("connect", forward("connect"));
+		matchEventManager.on("jwt-expired-error", forward("jwt-expired-error"));
+		matchEventManager.on("matching-started", forward("matching-started"));
+		matchEventManager.on("matching-count", forward("matching-count"));
+		matchEventManager.on(
+			"matching-found-sender",
+			forward("matching-found-sender"),
+		);
+		matchEventManager.on(
 			"matching-found-receiver",
 			forward("matching-found-receiver"),
 		);
-		socketManager.on("matching-not-found", forward("matching-not-found"));
-		socketManager.on("matching-fail", forward("matching-fail"));
-		socketManager.on("matching-success", forward("matching-success"));
-		socketManager.on(
+		matchEventManager.on("matching-not-found", forward("matching-not-found"));
+		matchEventManager.on("matching-fail", forward("matching-fail"));
+		matchEventManager.on("matching-success", forward("matching-success"));
+		matchEventManager.on(
 			"matching-success-sender",
 			forward("matching-success-sender"),
 		);
@@ -180,42 +157,6 @@ class MatchFlow {
 			});
 		}
 	}
-	attachConnectResend(): () => void {
-		if (this.detachConnectHandler) return this.detachConnectHandler;
-
-		const handler = () => {
-			if (!this.lastRequest) return;
-			// 연결 직후: 초기 전송을 안 했으면 최초 요청 전송
-			if (!this.didSendInitialRequest) {
-				this.didSendInitialRequest = true;
-				const threshold =
-					this.currentThreshold ?? this.lastRequest.threshold ?? 0;
-				socketManager.send("matching-request", {
-					...this.lastRequest,
-					threshold,
-				});
-				return;
-			}
-			// JWT 만료 등으로 재전송 플래그가 켜진 경우에만 재전송
-			if (this.shouldResendOnConnect) {
-				this.shouldResendOnConnect = false;
-				const threshold =
-					this.currentThreshold ?? this.lastRequest.threshold ?? 0;
-				socketManager.send("matching-request", {
-					...this.lastRequest,
-					threshold,
-				});
-			}
-		};
-
-		socketManager.on("connect", handler);
-		const off = () => socketManager.off("connect", handler);
-		this.detachConnectHandler = off;
-		return () => {
-			off();
-			this.detachConnectHandler = null;
-		};
-	}
 
 	onJwtExpired(): void {
 		this.shouldResendOnConnect = true;
@@ -227,10 +168,6 @@ class MatchFlow {
 		this.shouldResendOnConnect = false;
 		this.lastRequest = null;
 		this.currentThreshold = null;
-		if (this.detachConnectHandler) {
-			this.detachConnectHandler();
-			this.detachConnectHandler = null;
-		}
 		this.phase = "idle";
 		this.successReceiverSent = false;
 		this.successFinalSent = false;

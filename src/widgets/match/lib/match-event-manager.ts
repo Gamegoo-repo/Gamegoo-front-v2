@@ -6,7 +6,7 @@ import type {
 	MatchingRequest,
 } from "./matching-types";
 
-type MatchEventName =
+export type MatchEventName =
 	| "matching-started"
 	| "matching-count"
 	| "matching-found-sender"
@@ -18,7 +18,7 @@ type MatchEventName =
 	| "jwt-expired-error"
 	| "connect";
 
-type MatchEventPayloadMap = {
+export type MatchEventPayloadMap = {
 	"matching-started": unknown;
 	"matching-count": MatchingCountData;
 	"matching-found-sender": MatchingFoundSenderEvent;
