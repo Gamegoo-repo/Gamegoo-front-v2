@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **memberProfileImg** | **number** |  | [default to undefined]
 **friend** | **boolean** |  | [default to undefined]
 **blocked** | **boolean** |  | [default to undefined]
+**blockedByTarget** | **boolean** |  | [default to undefined]
 **blind** | **boolean** |  | [default to undefined]
 **friendRequestMemberId** | **number** |  | [optional] [default to undefined]
 **system** | [**SystemFlagResponse**](SystemFlagResponse.md) |  | [optional] [default to undefined]
@@ -28,6 +29,7 @@ const instance: EnterChatroomResponse = {
     memberProfileImg,
     friend,
     blocked,
+    blockedByTarget,
     blind,
     friendRequestMemberId,
     system,
