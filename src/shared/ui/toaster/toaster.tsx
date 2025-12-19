@@ -13,7 +13,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
 			theme={"light"}
 			position="top-center"
 			richColors
-			className="toaster group"
+			className="toaster group z-[9999]"
 			icons={{
 				success: <CircleCheckIcon className="size-6" />,
 				info: <InfoIcon className="size-6" />,
