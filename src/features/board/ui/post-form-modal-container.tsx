@@ -13,7 +13,7 @@ type PostFormModalContainerProps =
 			isOpen: boolean;
 			onClose: () => void;
 			mode: "edit";
-			postId: number; // edit일 때는 필수!
+			postId: number;
 	  };
 
 export default function PostFormModalContainer(
@@ -33,7 +33,7 @@ export default function PostFormModalContainer(
 		isPending: isPendingPostData,
 		data: postData,
 		isError: isPostError,
-	} = usePostDetail(postId ?? 0, mode === "edit" && !!postId);
+	} = usePostDetail(true, postId ?? 0, mode === "edit" && !!postId);
 
 	if (!isOpen) return null;
 

@@ -7,7 +7,10 @@ import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
 import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 import RankInfo from "@/entities/game/ui/rank-info";
 import { getGameStyle } from "@/entities/post/lib/get-game-style";
-import { usePostDetail } from "@/entities/post/model/use-post-detail";
+import {
+	isAuthenticatedPostDetail,
+	usePostDetail,
+} from "@/entities/post/model/use-post-detail";
 import WinRateTooltip from "@/entities/user/ui/win-rate-tooltip";
 import InteractiveUserProfileCard from "@/features/user/interactive-user-profile-card";
 import type { ChatroomResponse } from "@/shared/api";
@@ -19,6 +22,7 @@ import Modal from "@/shared/ui/modal/modal";
 import { getGameModeTitle } from "../lib/getGameModeTitle";
 import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import { useAuth } from "@/shared/model/use-auth";
+import { toast } from "@/shared/lib/toast";
 
 export default function PostDetailModal({
 	postId,
@@ -27,9 +31,13 @@ export default function PostDetailModal({
 	postId: number;
 	onClose: () => void;
 }) {
-	const { isPending, data, isError, error } = usePostDetail(postId);
+	const { user, isAuthenticated } = useAuth();
+
+	const { isPending, data, isError, error } = usePostDetail(
+		isAuthenticated,
+		postId,
+	);
 	const modalRef = useRef<HTMLDivElement>(null);
-	const { user } = useAuth();
 
 	const handleStartChat = useAuthenticatedAction(async () => {
 		try {
@@ -52,10 +60,8 @@ export default function PostDetailModal({
 					targetMemberName: chatroomData.gameName,
 					targetMemberImg: chatroomData.memberProfileImg,
 					friend: chatroomData.friend,
-					blocked: chatroomData.blocked,
 					blind: chatroomData.blind,
 					notReadMsgCnt: 0,
-					friendRequestMemberId: chatroomData.friendRequestMemberId || 0,
 					lastMsg: "",
 					lastMsgAt: "",
 					lastMsgTimestamp: 0,
@@ -100,12 +106,16 @@ export default function PostDetailModal({
 	}
 
 	if (isError) {
-		return <div>{error.message}</div>;
+		return <div>게시글 정보를 불러오는 데 실패했습니다.</div>;
 	}
 
 	if (!data || !data.memberId) {
 		return <div>게시글 정보를 불러오는 데 실패했습니다.</div>;
 	}
+
+	const isOwner = user?.id === data.memberId;
+	// const canStartChat = isAuthenticated && !isOwner;
+	const isBlocked = isAuthenticatedPostDetail(data) ? data.isBlocked : false;
 
 	const MainPositionIcon = getPositionIcon(data.mainP);
 	const SubPositionIcon = getPositionIcon(data.subP);
@@ -114,6 +124,12 @@ export default function PostDetailModal({
 	const { bg: winRateBgColor, text: winRateTextColor } = getWinRateColors(
 		data.winRate || 0,
 	);
+
+	let handleClickStartChatBtn: () => void = handleStartChat;
+
+	if (isBlocked) {
+		handleClickStartChatBtn = () => toast.error("차단한 사용자입니다.");
+	}
 
 	return (
 		<Modal
@@ -132,23 +148,23 @@ export default function PostDetailModal({
 							profileImage={data.profileImage}
 							gameName={data.gameName}
 							tag={data.tag}
-							mike={data.mike}
+							mike={data.mike || "UNAVAILABLE"}
 							level={data.mannerLevel}
 						/>
 					</p>
 					<div className="gap flex w-full">
 						<div className="w-1/2">
 							<RankInfo
-								tier={data.soloTier}
-								rank={data.soloRank}
+								tier={data.soloTier || "UNRANKED"}
+								rank={data.soloRank || 1}
 								label="솔로랭크"
 								variant={"modal"}
 							/>
 						</div>
 						<div className="w-1/2">
 							<RankInfo
-								tier={data.freeTier}
-								rank={data.freeRank}
+								tier={data.freeTier || "UNRANKED"}
+								rank={data.freeRank || 1}
 								label="자유랭크"
 								variant={"modal"}
 							/>
@@ -271,9 +287,9 @@ export default function PostDetailModal({
 
 				{/* MODAL-ACTION */}
 				<section>
-					{user?.id !== data.memberId && (
+					{!isOwner && (
 						<button
-							onClick={handleStartChat}
+							onClick={handleClickStartChatBtn}
 							type="button"
 							className="primary-btn w-full py-[18px] disabled:bg-gray-400"
 						>
