@@ -10,6 +10,7 @@ import DeletedUserView from "@/widgets/user-info/deleted-user-view";
 import type { UserRelationshipStatus } from "@/widgets/user-info/model/user-info.types";
 import UserInfoSkeleton from "@/widgets/user-info/user-info-skeleton";
 import UserInfoWidget from "@/widgets/user-info/user-info-widget";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/_header-layout/users/$userId")({
 	component: RouteComponent,
@@ -23,6 +24,10 @@ function RouteComponent() {
 	const { data, isPending, isError } = useFetchOtherUserInfo(Number(userId), {
 		enabled: isAuthenticated,
 	});
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	function getRelationshipStatus(
 		userId: number,

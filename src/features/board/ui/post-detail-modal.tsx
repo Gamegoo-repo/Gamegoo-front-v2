@@ -167,6 +167,7 @@ export default function PostDetailModal({
 							profileImage={data.profileImage}
 							gameName={data.gameName}
 							tag={data.tag}
+							onNavigate={onClose}
 							mike={data.mike ?? "UNAVAILABLE"}
 							level={data.mannerLevel}
 						/>
