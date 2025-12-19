@@ -19,6 +19,7 @@ export default function PostList() {
 		isFetchingNextPage,
 		hasNextPage,
 	} = useFetchPostsWithCursorQuery({
+		isAuthenticated,
 		gameMode: gameMode,
 		tier: tier,
 		mainP: position,
@@ -72,7 +73,7 @@ export default function PostList() {
 													postOwnerId={post.memberId}
 													currentUserId={user.id}
 													postId={post.boardId}
-													isBlocked={false} // TODO: 차단 상태 API에서 가져오기
+													isBlocked={post.isBlocked ?? false}
 												/>
 											) : undefined
 										}

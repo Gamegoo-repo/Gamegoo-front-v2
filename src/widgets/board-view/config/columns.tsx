@@ -5,17 +5,17 @@ import MannerLevelBadge from "@/entities/user/ui/manner-level-badge";
 import UserProfile from "@/entities/user/ui/user-profile";
 import CopyRiotIdButton from "@/features/board/ui/copy-riot-id-button";
 import PostActionMenu from "@/features/board/ui/post-action-menu";
-import type { BlockListResponse, BoardListResponse } from "@/shared/api";
+import type { BoardListResponse } from "@/shared/api";
 import { formatDateSimple } from "@/shared/lib/format-date-simple";
 import { cn } from "@/shared/lib/utils";
-import type { UserStore } from "@/shared/model/use-auth-store";
 import type { Column } from "@/shared/ui/table/table";
 import SearchingPosition from "../ui/searching-positions";
 import UserPositions from "../ui/user-positions";
+import type { UserStore } from "@/shared/model/use-auth-store";
 
 export const getColumns = (options?: {
+	isAuthenticated: boolean;
 	user: UserStore;
-	blockedUsers: BlockListResponse;
 }): Column<BoardListResponse>[] => {
 	return [
 		{
@@ -117,10 +117,7 @@ export const getColumns = (options?: {
 		{
 			width: "2%",
 			accessor: (row) => {
-				const isBlocked =
-					options?.blockedUsers?.blockedMemberList.some(
-						(user) => user.memberId === row.memberId,
-					) || false;
+				if (!options?.isAuthenticated) return null;
 				return (
 					<div
 						className="flex h-full w-full items-center"
@@ -128,12 +125,12 @@ export const getColumns = (options?: {
 						onKeyDown={(e) => e.stopPropagation()}
 						onKeyUp={(e) => e.stopPropagation()}
 					>
-						{options && (
+						{options.isAuthenticated && (
 							<PostActionMenu
 								postId={row.boardId}
 								currentUserId={options.user.id}
 								postOwnerId={row.memberId}
-								isBlocked={isBlocked}
+								isBlocked={row.isBlocked ?? false}
 							/>
 						)}
 					</div>

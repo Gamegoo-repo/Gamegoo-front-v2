@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { userKeys } from "@/entities/user/config/query-keys";
+import { boardKeys } from "@/features/board/api/query-keys";
 import { api } from "@/shared/api";
 import { useConfirmDialog } from "@/shared/providers";
 import type { UserRelationshipStatus } from "@/widgets/user-info/model/user-info.types";
@@ -42,6 +43,8 @@ export function BlockToggleMenu({
 			queryClient.invalidateQueries({
 				queryKey: userKeys.profile(userId),
 			});
+			// 게시판 목록의 isBlocked 상태 업데이트를 위해 무효화
+			queryClient.invalidateQueries({ queryKey: boardKeys.all });
 			onSuccess?.();
 		},
 		onError: (error) => {
