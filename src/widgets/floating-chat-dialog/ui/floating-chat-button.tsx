@@ -8,21 +8,23 @@ export interface FloatingChatButtonProps {
 }
 
 const FloatingChatButton: FC<FloatingChatButtonProps> = ({ onClick }) => {
-	const totalUnreadCount = useChatStore((state) => state.totalUnreadCount);
-	const displayCount = totalUnreadCount > 99 ? "99+" : totalUnreadCount;
+	const unreadRoomCount = useChatStore(
+		(state) => state.chatrooms.filter((r) => (r.notReadMsgCnt || 0) > 0).length,
+	);
+	const displayCount = unreadRoomCount > 99 ? "99+" : unreadRoomCount;
 
 	return (
-		<div className="fixed z-50 bottom-6 right-6">
+		<div className="fixed right-6 bottom-6 z-50">
 			<div className="relative">
 				<button
 					type="button"
 					onClick={onClick}
-					className="h-22 w-22 rounded-full focus:outline-none focus:ring-4 bg-gradient-to-r bg-violet-600 text-white shadow-xl flex items-center justify-center"
+					className="flex h-22 w-22 items-center justify-center rounded-full bg-gradient-to-r bg-violet-600 text-white shadow-xl focus:outline-none focus:ring-4"
 				>
 					<MessageIcon />
 				</button>
 			</div>
-			<Badge className="absolute -top-0 -right-0 h-6 w-6 rounded-full bg-violet-100 border-1 border-violet-400 text-violet-600">
+			<Badge className="-top-0 -right-0 absolute h-6 w-6 rounded-full border-1 border-violet-400 bg-violet-100 text-violet-600">
 				{displayCount}
 			</Badge>
 		</div>
