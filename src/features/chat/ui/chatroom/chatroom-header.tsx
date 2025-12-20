@@ -24,6 +24,7 @@ interface ChatroomHeaderProps {
 const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 	const { chatroom, setChatDialogType } = useChatDialogStore();
 	const { onlineFriends } = useChatStore();
+
 	const isOnline = chatroom?.targetMemberId
 		? onlineFriends.includes(chatroom.targetMemberId)
 		: false;
@@ -32,9 +33,14 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 	const isReceivedFriendRequest =
 		!!enterData?.data?.friendRequestMemberId &&
 		enterData?.data?.friendRequestMemberId === (chatroom?.targetMemberId || 0);
+
 	const MENU_ITEMS = useMemo(() => {
 		const items: React.ReactElement[] = [
-			<ChatroomLeaveMenuItem key="leave" chatroomId={chatroom?.uuid || ""} />,
+			<ChatroomLeaveMenuItem
+				key="leave"
+				chatroomId={chatroom?.uuid || ""}
+				onSuccess={() => setChatDialogType("chatroom-list")}
+			/>,
 		];
 
 		if (!isFriend && !enterData?.data?.friendRequestMemberId) {
