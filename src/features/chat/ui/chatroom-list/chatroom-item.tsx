@@ -69,9 +69,9 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 								{room.targetMemberName}
 							</span>
 							{room.notReadMsgCnt !== 0 && (
-								<div className="regular-11 inline-flex h-[16px] min-w-[16px] translate-y-[0.5px] items-center justify-center rounded-full bg-violet-600 px-[6px] text-white leading-none">
+								<span className="inline-flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-violet-600 px-[6px] text-[11px] text-white leading-none">
 									{formatUnreadCount(room.notReadMsgCnt || 0)}
-								</div>
+								</span>
 							)}
 						</div>
 						<div className="flex h-4.25 min-w-0 items-center justify-between">
