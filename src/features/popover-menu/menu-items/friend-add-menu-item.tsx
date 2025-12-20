@@ -5,6 +5,7 @@ import {
 	PopoverMenuItem,
 	type PopoverMenuItemProps,
 } from "../popover-menu-item";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 
 interface FriendAddMenuItemProps {
 	userId: number;
@@ -28,6 +29,8 @@ export function FriendAddMenuItem({
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.friend() });
+			queryClient.invalidateQueries({ queryKey: userKeys.profile(userId) });
+			queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
 			onSuccess?.();
 		},
 		onError: (error) => {

@@ -7,6 +7,7 @@ import {
 	FriendAddMenuItem,
 	FriendDeleteMenuItem,
 	FriendRequestAcceptMenuItem,
+	FriendRequestCancelMenuItem,
 	FriendRequestDeclineMenuItem,
 	MannerEvaluateMenuItem,
 	PopoverMenu,
@@ -16,6 +17,7 @@ import {
 import { ProfileAvatar } from "@/features/profile";
 import type { ApiResponseEnterChatroomResponse } from "@/shared/api";
 import LeftArrowIcon from "@/shared/assets/icons/left_arrow.svg?react";
+import { useAuth } from "@/shared/model/use-auth";
 
 interface ChatroomHeaderProps {
 	enterData?: ApiResponseEnterChatroomResponse;
@@ -30,6 +32,10 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 		: false;
 
 	const isFriend = enterData?.data?.friend;
+	const { user } = useAuth();
+	const isMyFriendRequest =
+		!!enterData?.data?.friendRequestMemberId &&
+		enterData?.data?.friendRequestMemberId === (user?.id || 0);
 	const isReceivedFriendRequest =
 		!!enterData?.data?.friendRequestMemberId &&
 		enterData?.data?.friendRequestMemberId === (chatroom?.targetMemberId || 0);
@@ -63,6 +69,16 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 			items.push(
 				<FriendRequestDeclineMenuItem
 					key="friend-request-decline"
+					userId={chatroom?.targetMemberId || 0}
+					chatroomUuid={chatroom?.uuid || ""}
+				/>,
+			);
+		}
+
+		if (!isFriend && isMyFriendRequest) {
+			items.push(
+				<FriendRequestCancelMenuItem
+					key="friend-request-cancel"
 					userId={chatroom?.targetMemberId || 0}
 					chatroomUuid={chatroom?.uuid || ""}
 				/>,
