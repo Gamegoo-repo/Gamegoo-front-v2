@@ -25,21 +25,13 @@ export default function HeaderNav() {
 	});
 
 	return (
-		<nav className="flex grow justify-start ml-0 mobile:ml-[70px] px-5 mobile:px-0 gap-[42px] mobile:gap-10 mobile:col-span-2 w-full mobile:w-auto  mt-4 mobile:mt-0  border-b border-gray-300 mobile:border-none">
+		<nav className="mobile:col-span-2 mobile:mt-0 mt-4 ml-0 mobile:ml-[70px] flex mobile:w-auto w-full grow justify-start gap-[42px] mobile:gap-10 border-gray-300 border-b mobile:border-none mobile:px-0 px-5">
 			{visibleMenus.map((menu) => (
 				<Link
 					key={menu.href}
 					to={menu.href}
 					activeOptions={{ exact: true }}
-					className="
-						py-2.5 
-						text-sm mobile:text-xl
-						font-semibold mobile:font-normal
-						text-gray-800
-						[&.active]:border-b-[3px] [&.active]:border-gray-800
-						mobile:[&.active]:border-b-0
-						mobile:[&.active]:font-bold
-					"
+					className="py-2.5 font-semibold mobile:font-normal mobile:text-xl text-gray-800 text-sm [&.active]:border-gray-800 [&.active]:border-b-[3px] mobile:[&.active]:border-b-0 mobile:[&.active]:font-bold"
 				>
 					{menu.label}
 				</Link>
