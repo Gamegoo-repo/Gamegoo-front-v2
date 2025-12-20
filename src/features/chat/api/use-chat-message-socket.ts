@@ -26,7 +26,6 @@ export const useChatMessageSocket = () => {
 			const list = response.data?.data?.chatroomResponseList || [];
 			setChatrooms(list);
 		} catch (_e) {
-			// ignore network errors here; fallback to invalidation
 		} finally {
 			void queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
 		}
@@ -53,6 +52,9 @@ export const useChatMessageSocket = () => {
 		} else {
 			// rely on server-sent 'unread_count_update' to set unread count
 		}
+
+		// Always refresh chatroom list so last message/time/unread reflect latest
+		void queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
 	});
 
 	useSocketMessage<SystemMessageEventData>(
@@ -75,6 +77,8 @@ export const useChatMessageSocket = () => {
 				resetUnreadCount(chatroomUuid);
 				readMessage({ chatroomUuid, timestamp });
 			}
+
+			void queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
 		},
 	);
 
@@ -98,6 +102,8 @@ export const useChatMessageSocket = () => {
 				resetUnreadCount(chatroomUuid);
 				readMessage({ chatroomUuid, timestamp });
 			}
+
+			void queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
 		},
 	);
 };
