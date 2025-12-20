@@ -29,10 +29,10 @@ interface MatchStartStepProps {
 }
 
 const GAME_MODE_THRESHOLD: Record<string, number> = {
-	FAST: 25, // 빠른 대전
-	SOLO: 67, // 개인 랭크
-	FREE: 65, // 자유 랭크
-	ARAM: 19, // 칼바람
+	FAST: 15, // 빠른 대전
+	SOLO: 50, // 개인 랭크
+	FREE: 50, // 자유 랭크
+	ARAM: 10, // 칼바람
 };
 
 function MatchStartStep({ funnel }: MatchStartStepProps) {
