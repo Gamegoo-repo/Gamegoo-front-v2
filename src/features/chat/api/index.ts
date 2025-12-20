@@ -6,5 +6,4 @@ export * from "./use-chatroom-list-manager";
 export * from "./use-chatroom-message-socket";
 export * from "./use-chatroom-update-handler";
 export * from "./use-read-chat-message";
-export * from "./use-read-message";
 export * from "./use-send-message";

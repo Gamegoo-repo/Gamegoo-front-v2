@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 import { useRef } from "react";
 import { useChatStore } from "@/entities/chat";
 import { chatKeys } from "@/entities/chat/config/query-keys";
@@ -19,15 +20,12 @@ import { api } from "@/shared/api";
 import CheckIcon from "@/shared/assets/icons/ic-check.svg?react";
 import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import { formatDateTime } from "@/shared/lib/format-date-time";
+import { toast } from "@/shared/lib/toast";
 import { cn } from "@/shared/lib/utils";
 import { useAuth } from "@/shared/model/use-auth";
 import Modal from "@/shared/ui/modal/modal";
 import { getGameModeTitle } from "../lib/getGameModeTitle";
-import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
-import { useAuth } from "@/shared/model/use-auth";
-import { toast } from "@/shared/lib/toast";
 import { usePostDeletedAlertModalState } from "../model/post-deleted-alert-modal-store";
-import type { AxiosError } from "axios";
 
 export default function PostDetailModal({
 	postId,

@@ -74,6 +74,7 @@ const Chatroom = ({ enterData, isEntering, enterError }: ChatroomProps) => {
 	const { mutate: readMessage } = useReadChatMessage();
 	const authUser = useAuthStore();
 	const queryClient = useQueryClient();
+	const didMarkReadRef = useRef(false);
 
 	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
 	const opponentId = enterData?.data?.memberId;
@@ -94,7 +95,12 @@ const Chatroom = ({ enterData, isEntering, enterError }: ChatroomProps) => {
 	useEffect(() => {
 		if (!chatroomUuid) return;
 		if (!enterData) return;
+		// 항상 클라이언트 로컬 unread 카운트는 초기화
 		resetUnreadCount(chatroomUuid);
+		// 메시지가 하나도 없는 신규 방(말 걸어보기)에서는 read API를 호출하지 않음
+		const hasAnyMessage = apiMessages.length > 0 || socketMessages.length > 0;
+		if (!hasAnyMessage || didMarkReadRef.current) return;
+		didMarkReadRef.current = true;
 		readMessage(
 			{ chatroomUuid },
 			{
@@ -106,7 +112,7 @@ const Chatroom = ({ enterData, isEntering, enterError }: ChatroomProps) => {
 				},
 			},
 		);
-	}, [chatroomUuid, enterData]);
+	}, [chatroomUuid, enterData, apiMessages.length, socketMessages.length]);
 
 	const renderMessage = useCallback(
 		(message: ChatMessage, index: number) => {
