@@ -18,26 +18,52 @@ export default function GameStylePopover({
 			<PopoverTrigger asChild>
 				<button
 					type="button"
-					className="flex h-7 mobile:h-8 mobile:w-12 w-10 cursor-pointer items-center justify-center rounded-full bg-white"
+					className="
+            flex cursor-pointer items-center justify-center rounded-full bg-white
+            h-7 w-10
+            mobile:h-8 mobile:w-12
+          "
 				>
 					<PlusIcon />
 				</button>
 			</PopoverTrigger>
-			<PopoverContent className="popover w-[500px] p-8">
-				<div className="flex w-full flex-col gap-7">
+
+			<PopoverContent
+				className="
+          popover
+          w-[calc(100vw-32px)]
+          mobile:w-[500px]
+          p-4
+          mobile:p-8
+        "
+			>
+				<div className="flex w-full flex-col gap-4 mobile:gap-7">
 					<PopoverHeader title="게임 스타일 선택 *최대 3개" />
+
 					<div className="flex w-full flex-wrap gap-2">
 						{GAME_STYLE.map((item) => {
-							const isSelected = selectedGameStyle.includes(item.gameStyleId);
+							const isSelected = selectedGameStyle.includes(
+								item.gameStyleId,
+							);
+
 							return (
 								<button
 									type="button"
 									key={item.gameStyleId}
 									onClick={() => onChangeGameStyle(item.gameStyleId)}
 									className={cn(
-										"medium-14 cursor-pointer rounded-full border-1 border-gray-500 px-5 py-1.5 text-white hover:border-violet-400 hover:text-violet-300",
+										`
+                    cursor-pointer rounded-full border-1 border-gray-500
+                    medium-14 px-5 py-1.5
+                    mobile:text-xs mobile:px-3 mobile:py-1
+                    text-white
+                    hover:border-violet-400 hover:text-violet-300
+                  `,
 										isSelected &&
-											"border-violet-600 bg-violet-600 hover:border-violet-600 hover:text-white",
+											`
+                    border-violet-600 bg-violet-600
+                    hover:border-violet-600 hover:text-white
+                  `,
 									)}
 								>
 									{item.gameStyleName}
