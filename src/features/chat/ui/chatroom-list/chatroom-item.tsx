@@ -75,7 +75,7 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 							)}
 						</div>
 						<div className="flex h-4.25 min-w-0 items-center justify-between">
-							<span className="regular-14 min-w-0 flex-1 truncate pr-2 text-left">
+							<span className="regular-14 max-w-[280px] flex-1 truncate pr-2 text-left">
 								{room.lastMsg}
 							</span>
 							<span className="regular-11 text-gray-300">
