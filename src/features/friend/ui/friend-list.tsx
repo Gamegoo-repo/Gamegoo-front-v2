@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useChatDialogStore, useChatStore } from "@/entities/chat";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 import type { ChatroomResponse } from "@/shared/api";
 import { api, type FriendInfoResponse } from "@/shared/api";
 import SearchIcon from "@/shared/assets/icons/search.svg?react";
@@ -59,13 +60,12 @@ function FriendList() {
 					targetMemberImg:
 						chatroomData.memberProfileImg || friend.profileImg || 0,
 					friend: chatroomData.friend,
-					blocked: chatroomData.blocked,
 					blind: chatroomData.blind,
 					notReadMsgCnt: 0,
 				};
 				clearSystemData();
 				await queryClient.prefetchQuery({
-					queryKey: ["enter-chatroom", chatroom.uuid],
+					queryKey: chatKeys.enter(chatroom.uuid),
 					queryFn: async () => {
 						const enterRes = await api.private.chat.enterChatroom(
 							chatroom.uuid,
@@ -73,9 +73,9 @@ function FriendList() {
 						return enterRes.data;
 					},
 				});
-				// Optimistically update chatroom list and refetch
+
 				updateChatroom(chatroom);
-				void queryClient.invalidateQueries({ queryKey: ["chatrooms"] });
+				void queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
 				setChatroom(chatroom);
 				setChatDialogType("chatroom");
 			}

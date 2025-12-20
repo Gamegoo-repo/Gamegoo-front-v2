@@ -1,17 +1,14 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { ChatMessage } from "@/entities/chat";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 import { api, type ChatMessageListResponse } from "@/shared/api";
 
 export const useChatMessageFetcher = (chatroomUuid: string | null) => {
 	return useInfiniteQuery({
-		queryKey: ["chat-messages", chatroomUuid],
+		queryKey: chatKeys.messages(chatroomUuid || ""),
 		queryFn: async ({ pageParam = undefined }) => {
-			if (!chatroomUuid) {
-				throw new Error("Chatroom UUID is required");
-			}
-
 			const response = await api.private.chat.getChatMessages(
-				chatroomUuid,
+				chatroomUuid || "",
 				pageParam,
 			);
 			return (

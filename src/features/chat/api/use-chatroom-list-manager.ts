@@ -1,6 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useChatStore } from "@/entities/chat";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 import { api } from "@/shared/api";
 import { tokenManager } from "@/shared/api/config";
 import { useSocketMessage } from "@/shared/api/socket";
@@ -16,7 +17,7 @@ export const useChatroomListManager = () => {
 		isFetching,
 		refetch,
 	} = useQuery({
-		queryKey: ["chatrooms"],
+		queryKey: chatKeys.rooms(),
 		queryFn: async () => {
 			const response = await api.private.chat.getChatroom();
 			return response.data;

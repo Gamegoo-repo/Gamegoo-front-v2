@@ -1,4 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { chatKeys } from "@/entities/chat/config/query-keys";
+import { userKeys } from "@/entities/user/config/query-keys";
 import { api } from "@/shared/api";
 import { useConfirmDialog } from "@/shared/providers";
 import {
@@ -8,6 +10,7 @@ import {
 
 interface BlockMenuItemProps {
 	userId: number;
+	chatroomUuid?: string;
 	onSuccess?: () => void;
 	onError?: (error: Error) => void;
 	className?: string;
@@ -16,6 +19,7 @@ interface BlockMenuItemProps {
 
 export function BlockMenuItem({
 	userId,
+	chatroomUuid,
 	onSuccess,
 	onError,
 	className,
@@ -30,7 +34,14 @@ export function BlockMenuItem({
 			return response.data;
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["blocked-users"] });
+			queryClient.invalidateQueries({ queryKey: userKeys.blocked() });
+			queryClient.invalidateQueries({ queryKey: userKeys.profile(userId) });
+			queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
+			if (chatroomUuid) {
+				queryClient.invalidateQueries({
+					queryKey: chatKeys.enter(chatroomUuid),
+				});
+			}
 			onSuccess?.();
 		},
 		onError: (error) => {

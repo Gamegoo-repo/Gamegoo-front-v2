@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
 import { useChatStore } from "@/entities/chat";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
 import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
@@ -13,12 +14,12 @@ import InteractiveUserProfileCard from "@/features/user/interactive-user-profile
 import type { ChatroomResponse } from "@/shared/api";
 import { api } from "@/shared/api";
 import CheckIcon from "@/shared/assets/icons/ic-check.svg?react";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import { formatDateTime } from "@/shared/lib/format-date-time";
 import { cn } from "@/shared/lib/utils";
+import { useAuth } from "@/shared/model/use-auth";
 import Modal from "@/shared/ui/modal/modal";
 import { getGameModeTitle } from "../lib/getGameModeTitle";
-import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
-import { useAuth } from "@/shared/model/use-auth";
 
 export default function PostDetailModal({
 	postId,
@@ -52,17 +53,15 @@ export default function PostDetailModal({
 					targetMemberName: chatroomData.gameName,
 					targetMemberImg: chatroomData.memberProfileImg,
 					friend: chatroomData.friend,
-					blocked: chatroomData.blocked,
 					blind: chatroomData.blind,
 					notReadMsgCnt: 0,
-					friendRequestMemberId: chatroomData.friendRequestMemberId || 0,
 					lastMsg: "",
 					lastMsgAt: "",
 					lastMsgTimestamp: 0,
 				};
 				// Preload enter data to ensure system flag is available before first send
 				await queryClient.prefetchQuery({
-					queryKey: ["enter-chatroom", chatroom.uuid],
+					queryKey: chatKeys.enter(chatroom.uuid),
 					queryFn: async () => {
 						const enterRes = await api.private.chat.enterChatroom(
 							chatroom.uuid,
@@ -73,7 +72,7 @@ export default function PostDetailModal({
 				// Optimistically update chatroom list and trigger server refetch
 				updateChatroom(chatroom);
 				void queryClient.invalidateQueries({
-					queryKey: ["chatrooms"],
+					queryKey: chatKeys.rooms(),
 				});
 				setChatroom(chatroom);
 				setChatDialogType("chatroom");

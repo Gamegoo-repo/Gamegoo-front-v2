@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 import { api } from "@/shared/api";
 
 export const useEnterChatroom = (
@@ -6,12 +7,9 @@ export const useEnterChatroom = (
 	options?: { enabled?: boolean },
 ) => {
 	return useQuery({
-		queryKey: ["enter-chatroom", chatroomUuid],
+		queryKey: chatKeys.enter(chatroomUuid || ""),
 		queryFn: async () => {
-			if (!chatroomUuid) {
-				throw new Error("Chatroom UUID is required");
-			}
-			const response = await api.private.chat.enterChatroom(chatroomUuid);
+			const response = await api.private.chat.enterChatroom(chatroomUuid || "");
 			return response.data;
 		},
 		enabled: !!chatroomUuid && (options?.enabled ?? true),

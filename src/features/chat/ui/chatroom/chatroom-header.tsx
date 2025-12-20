@@ -61,7 +61,11 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 		// 차단하기: 이미 차단했거나 상대가 나를 차단한 경우는 노출하지 않음
 		if (!enterData?.data?.blocked && !enterData?.data?.blockedByTarget) {
 			items.push(
-				<BlockMenuItem key="block" userId={chatroom?.targetMemberId || 0} />,
+				<BlockMenuItem
+					key="block"
+					userId={chatroom?.targetMemberId || 0}
+					chatroomUuid={chatroom?.uuid || ""}
+				/>,
 			);
 		}
 
@@ -71,6 +75,7 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 				<UnblockMenuItem
 					key="unblock"
 					userId={chatroom?.targetMemberId || 0}
+					chatroomUuid={chatroom?.uuid || ""}
 				/>,
 			);
 		}
@@ -84,6 +89,7 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 		enterData?.data?.friendRequestMemberId,
 		chatroom?.uuid,
 		chatroom?.targetMemberId,
+		enterData?.data?.blocked,
 	]);
 
 	return (

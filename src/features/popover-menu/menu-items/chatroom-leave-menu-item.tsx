@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 import { api } from "@/shared/api";
 import { useConfirmDialog } from "@/shared/providers";
 import {
@@ -30,7 +31,7 @@ export function ChatroomLeaveMenuItem({
 			return response.data;
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["chatrooms"] });
+			queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
 			onSuccess?.();
 		},
 		onError: (error) => {
