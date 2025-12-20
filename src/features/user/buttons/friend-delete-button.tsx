@@ -46,7 +46,7 @@ export default function FriendDeleteButton({ userId }: { userId: number }) {
 			className="bold-14 h-[45px] mobile:w-[218px] w-full mobile:rounded-xl rounded-[6px]"
 			onClick={() => deleteFriendMutation.mutate()}
 		>
-			삭제
+			친구 삭제
 		</Button>
 	);
 }

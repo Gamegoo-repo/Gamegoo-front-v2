@@ -2,8 +2,7 @@ import { useChatStore } from "@/entities/chat";
 import { useSocketMessage } from "@/shared/api/socket";
 
 export const useChatNotifications = () => {
-	const { updateChatroom, totalUnreadCount, incrementUnreadCount } =
-		useChatStore();
+	const { updateChatroom, totalUnreadCount, setUnreadCount } = useChatStore();
 
 	// 채팅방 업데이트
 	useSocketMessage(
@@ -30,9 +29,7 @@ export const useChatNotifications = () => {
 	useSocketMessage(
 		"unread_count_update",
 		({ chatroomUuid, count }: { chatroomUuid: string; count: number }) => {
-			if (count > 0) {
-				incrementUnreadCount(chatroomUuid);
-			}
+			setUnreadCount(chatroomUuid, count);
 		},
 	);
 

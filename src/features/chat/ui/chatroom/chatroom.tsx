@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	useCallback,
 	useEffect,
@@ -11,6 +12,7 @@ import {
 	useChatDialogStore,
 	useChatStore,
 } from "@/entities/chat";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 import {
 	deduplicateMessages,
 	formatMessageDate,
@@ -20,11 +22,11 @@ import {
 	shouldShowTime,
 	useChatMessage,
 	useChatroomSocket,
-	useEnterChatroom,
 	useReadChatMessage,
 } from "@/features/chat";
 import MannerEvaluationModal from "@/features/manner/ui/manner-evaluation-modal";
 import MannerSelectModal from "@/features/manner/ui/manner-select-modal";
+import type { ApiResponseEnterChatroomResponse } from "@/shared/api";
 import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
 import { useAuthStore } from "@/shared/model/use-auth-store";
 import {
@@ -36,7 +38,13 @@ import {
 	ChatroomSystemMessage,
 } from "./";
 
-const Chatroom = () => {
+interface ChatroomProps {
+	enterData?: ApiResponseEnterChatroomResponse;
+	isEntering?: boolean;
+	enterError?: unknown;
+}
+
+const Chatroom = ({ enterData, isEntering, enterError }: ChatroomProps) => {
 	const { chatroom } = useChatDialogStore();
 	const chatroomUuid = chatroom?.uuid || null;
 	const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -45,10 +53,12 @@ const Chatroom = () => {
 	const [hasInitiallyScrolled, setHasInitiallyScrolled] = useState(false);
 	const [previousMessageCount, setPreviousMessageCount] = useState(0);
 	const [isMannerSelectOpen, setIsMannerSelectOpen] = useState(false);
-	const [isMannerEvalOpen, setIsMannerEvalOpen] = useState(false);
-	const [mannerType, setMannerType] = useState<"manner" | "badManner">(
-		"manner",
-	);
+	const {
+		isMannerModalOpen,
+		mannerModalType,
+		openMannerModal,
+		closeMannerModal,
+	} = useChatDialogStore();
 
 	const {
 		messages: apiMessages,
@@ -60,14 +70,10 @@ const Chatroom = () => {
 	} = useChatMessage(chatroomUuid);
 
 	const socketMessages = useChatroomSocket(chatroomUuid);
-	const {
-		data: enterData,
-		isLoading: isEntering,
-		error: enterError,
-	} = useEnterChatroom(chatroomUuid);
 	const { resetUnreadCount } = useChatStore();
 	const { mutate: readMessage } = useReadChatMessage();
 	const authUser = useAuthStore();
+	const queryClient = useQueryClient();
 
 	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
 	const opponentId = enterData?.data?.memberId;
@@ -89,7 +95,17 @@ const Chatroom = () => {
 		if (!chatroomUuid) return;
 		if (!enterData) return;
 		resetUnreadCount(chatroomUuid);
-		readMessage({ chatroomUuid });
+		readMessage(
+			{ chatroomUuid },
+			{
+				onSuccess: () => {
+					void queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
+					void queryClient.invalidateQueries({
+						queryKey: chatKeys.enter(chatroomUuid),
+					});
+				},
+			},
+		);
 	}, [chatroomUuid, enterData]);
 
 	const renderMessage = useCallback(
@@ -253,10 +269,10 @@ const Chatroom = () => {
 	}
 
 	return (
-		<div className="flex h-[calc(var(--dialog-height)-var(--chatroom-header-height)-var(--chatroom-input-height))] flex-col">
+		<div className="flex h-[calc(100vh-var(--chatroom-header-height)-var(--chatroom-input-height))] tablet:h-[calc(var(--dialog-height)-var(--chatroom-header-height)-var(--chatroom-input-height))] flex-col">
 			<div
 				ref={scrollContainerRef}
-				className="scrollbar-hide flex min-h-0 flex-1 flex-col overflow-y-auto px-2"
+				className="scrollbar-hide flex min-h-0 flex-1 flex-col overflow-y-auto px-[16px]"
 				onScroll={handleScroll}
 			>
 				{allMessages.length === 0 ? (
@@ -283,23 +299,22 @@ const Chatroom = () => {
 				)}
 			</div>
 			<div className="absolute right-0 bottom-0 left-0">
-				<ChatroomMessageInput />
+				<ChatroomMessageInput enterData={enterData} />
 			</div>
 			{/* Manner Select Modal */}
 			<MannerSelectModal
 				isOpen={isMannerSelectOpen}
 				onClose={() => setIsMannerSelectOpen(false)}
 				onConfirm={(type) => {
-					setMannerType(type);
-					setIsMannerEvalOpen(true);
+					openMannerModal(type);
 				}}
 			/>
 			{/* Manner Evaluation Modal */}
 			<MannerEvaluationModal
-				isOpen={isMannerEvalOpen}
-				onClose={() => setIsMannerEvalOpen(false)}
+				isOpen={isMannerModalOpen}
+				onClose={() => closeMannerModal()}
 				memberId={opponentId}
-				type={mannerType}
+				type={mannerModalType || "manner"}
 			/>
 		</div>
 	);

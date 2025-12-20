@@ -37,7 +37,7 @@ export default function NotificationPagination({
 				disabled={page === 1}
 				className={cn(
 					"w-[14px] cursor-pointer text-gray-500",
-					page === 1 && "opacity-30 cursor-not-allowed",
+					page === 1 && "cursor-not-allowed opacity-30",
 				)}
 				aria-label="이전 페이지"
 			>
@@ -54,7 +54,7 @@ export default function NotificationPagination({
 								className={cn(
 									isActive
 										? "font-bold text-violet-600"
-										: "text-sm font-normal text-gray-500 hover:text-violet-400",
+										: "font-normal text-gray-500 text-sm hover:text-violet-400",
 								)}
 							>
 								{p}
@@ -69,7 +69,7 @@ export default function NotificationPagination({
 				disabled={page === totalPages}
 				className={cn(
 					"w-[14px] cursor-pointer text-gray-500",
-					page === totalPages && "opacity-30 cursor-not-allowed",
+					page === totalPages && "cursor-not-allowed opacity-30",
 				)}
 				aria-label="다음 페이지"
 			>

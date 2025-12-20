@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearch } from "@tanstack/react-router";
+import { notificationKeys } from "@/features/notification/api/query-keys";
 import { api } from "@/shared/api";
 import type { NotificationSearch } from "../lib/types";
 import AlertItem from "./alert-item.tsx";
@@ -31,6 +32,9 @@ export default function NotificationComponent() {
 			await queryClient.invalidateQueries({
 				queryKey: ["notifications"],
 			});
+			await queryClient.invalidateQueries({
+				queryKey: notificationKeys.unreadCount(),
+			});
 		},
 	});
 
@@ -47,8 +51,8 @@ export default function NotificationComponent() {
 	};
 
 	return (
-		<div className="w-full h-full">
-			<h2 className="bold-25 mb-4 border-b border-gray-200 pb-4">알림</h2>
+		<div className="h-full w-full">
+			<h2 className="bold-25 mb-4 border-gray-200 border-b pb-4">알림</h2>
 
 			{isLoading && (
 				<div className="flex h-[300px] items-center justify-center text-gray-500">
@@ -67,7 +71,7 @@ export default function NotificationComponent() {
 				data &&
 				(data.notificationList.length > 0 ? (
 					<>
-						<ul className="flex w-full flex-col gap-3 mt-4 mb-8">
+						<ul className="mt-4 mb-8 flex w-full flex-col gap-3">
 							{data.notificationList.map((n) => (
 								<li key={n.notificationId}>
 									<AlertItem

@@ -24,7 +24,7 @@ export function PopoverContent({
 		throw new Error("PopoverContent must be used within a Popover");
 	}
 
-	const { isOpen, position, contentRef, isCalculated } = context;
+	const { isOpen, position, contentRef, isCalculated, useAbsolute } = context;
 
 	if (!isOpen) return null;
 
@@ -55,10 +55,10 @@ export function PopoverContent({
 	return (
 		<div
 			ref={contentRef}
-			className={`fixed z-50 ${className}`}
+			className={`${useAbsolute ? "absolute" : "fixed"} z-50 ${className}`}
 			style={{
-				left: `${position.x}px`,
-				top: `${position.y}px`,
+				left: isCalculated ? `${position.x}px` : `-99999px`,
+				top: isCalculated ? `${position.y}px` : `-99999px`,
 				visibility: isCalculated ? "visible" : "hidden",
 			}}
 		>

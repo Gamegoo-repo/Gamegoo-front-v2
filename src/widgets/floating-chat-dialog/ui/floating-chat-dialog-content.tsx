@@ -1,8 +1,20 @@
+import type { FC } from "react";
 import { useChatDialogStore } from "@/entities/chat";
 import { Chatroom, ChatroomList } from "@/features/chat";
 import FriendList from "@/features/friend/ui/friend-list";
+import type { ApiResponseEnterChatroomResponse } from "@/shared/api";
 
-function FloatingChatDialogContent() {
+interface FloatingChatDialogContentProps {
+	enterData?: ApiResponseEnterChatroomResponse;
+	isEntering?: boolean;
+	enterError?: unknown;
+}
+
+const FloatingChatDialogContent: FC<FloatingChatDialogContentProps> = ({
+	enterData,
+	isEntering,
+	enterError,
+}) => {
 	const { chatDialogType } = useChatDialogStore();
 
 	if (chatDialogType === "friend-list") {
@@ -14,10 +26,16 @@ function FloatingChatDialogContent() {
 	}
 
 	if (chatDialogType === "chatroom") {
-		return <Chatroom />;
+		return (
+			<Chatroom
+				enterData={enterData}
+				isEntering={isEntering}
+				enterError={enterError}
+			/>
+		);
 	}
 
 	return null;
-}
+};
 
 export default FloatingChatDialogContent;

@@ -136,7 +136,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 					targetMemberName:
 						(opponent?.gameName as string | undefined) || "상대",
 					friend: false,
-					blocked: false,
 					blind: false,
 					notReadMsgCnt: 0,
 				});
@@ -159,7 +158,6 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 							targetMemberImg: enterData.memberProfileImg,
 							targetMemberName: enterData.gameName,
 							friend: enterData.friend,
-							blocked: enterData.blocked,
 							blind: enterData.blind,
 							notReadMsgCnt: 0,
 						};

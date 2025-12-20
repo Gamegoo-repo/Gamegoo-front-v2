@@ -8,33 +8,39 @@ import {
 	type PopoverMenuItemProps,
 } from "../popover-menu-item";
 
-interface FriendDeleteMenuItemProps {
+interface UnblockMenuItemProps {
 	userId: number;
+	chatroomUuid?: string;
 	onSuccess?: () => void;
 	onError?: (error: Error) => void;
 	className?: string;
 	onClosePopover?: () => void;
 }
 
-export function FriendDeleteMenuItem({
+export function UnblockMenuItem({
 	userId,
+	chatroomUuid,
 	onSuccess,
 	onError,
 	className,
 	onClosePopover,
-}: FriendDeleteMenuItemProps) {
+}: UnblockMenuItemProps) {
 	const { showConfirmDialog } = useConfirmDialog();
 	const queryClient = useQueryClient();
 
-	const deleteFriendMutation = useMutation({
+	const unblockUserMutation = useMutation({
 		mutationFn: async (targetUserId: number) => {
-			const response = await api.private.friend.deleteFriend(targetUserId);
+			const response = await api.private.block.unblockMember(targetUserId);
 			return response.data;
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: userKeys.friend() });
+			queryClient.invalidateQueries({ queryKey: userKeys.blocked() });
 			queryClient.invalidateQueries({ queryKey: userKeys.profile(userId) });
-			queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
+			if (chatroomUuid) {
+				queryClient.invalidateQueries({
+					queryKey: chatKeys.enter(chatroomUuid),
+				});
+			}
 			onSuccess?.();
 		},
 		onError: (error) => {
@@ -42,19 +48,19 @@ export function FriendDeleteMenuItem({
 		},
 	});
 
-	const handleDeleteFriend = () => {
+	const handleUnblockUser = () => {
 		onClosePopover?.();
 		showConfirmDialog({
-			title: "친구를 삭제하시겠습니까?",
-			description: "이 작업은 되돌릴 수 없습니다.",
-			confirmText: "삭제",
-			onConfirm: () => deleteFriendMutation.mutate(userId),
+			title: "차단을 해제하시겠습니까?",
+			description: "",
+			confirmText: "해제",
+			onConfirm: () => unblockUserMutation.mutate(userId),
 		});
 	};
 
 	const menuItemProps: PopoverMenuItemProps = {
-		text: "친구 삭제",
-		onClick: handleDeleteFriend,
+		text: "차단 해제",
+		onClick: handleUnblockUser,
 		className,
 	};
 

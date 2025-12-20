@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 import { useChatDialogStore } from "@/entities/chat";
 import type { SystemData } from "@/features/chat";
-import { useEnterChatroom, useSendMessage } from "@/features/chat";
+import { useSendMessage } from "@/features/chat";
+import type { ApiResponseEnterChatroomResponse } from "@/shared/api";
 import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
 
-const ChatroomMessageInput = () => {
+interface ChatroomMessageInputProps {
+	enterData?: ApiResponseEnterChatroomResponse;
+}
+
+const ChatroomMessageInput = ({ enterData }: ChatroomMessageInputProps) => {
 	const { chatroom } = useChatDialogStore();
 	const [message, setMessage] = useState("");
 	const [isSystemMsgSent, setIsSystemMsgSent] = useState(false);
 	const { mutate: sendMessage, isPending } = useSendMessage();
-	const { data: enterData } = useEnterChatroom(chatroom?.uuid || null);
 	const { isConnected } = useGamegooSocket();
 
 	const chatroomUuid = chatroom?.uuid;
-	const isBlocked = chatroom?.blocked;
+	const isBlocked =
+		enterData?.data?.blocked || enterData?.data?.blockedByTarget;
 	const isBlind = chatroom?.blind;
 	// Prefer system data from dialog store (set on startChatroomByBoardId), fallback to enter response
 	const systemDataFromStore: SystemData | undefined = useChatDialogStore(
@@ -109,7 +114,7 @@ const ChatroomMessageInput = () => {
 	}
 
 	return (
-		<div className="relative h-[138px] w-full rounded-b-none bg-white md:rounded-b-[20px]">
+		<div className="relative h-[var(--chatroom-input-height)] w-full rounded-b-none bg-white md:rounded-b-[20px]">
 			<form
 				onSubmit={handleSubmit}
 				className="h-full rounded-b-none shadow-[0_4px_46.7px_0_rgba(0,0,0,0.1)] md:rounded-b-[20px]"
@@ -126,7 +131,7 @@ const ChatroomMessageInput = () => {
 						onKeyDown={handleKeyDown}
 						disabled={isPending || isBlocked || isBlind || !isConnected}
 						placeholder={getPlaceholderText()}
-						className="scrollbar-hide w-full resize-none border-none text-base text-gray-800 focus:outline-none disabled:bg-transparent disabled:placeholder:font-semibold disabled:placeholder:text-gray-800 disabled:placeholder:text-sm"
+						className="scrollbar-hide w-full resize-none border-none text-base text-gray-800 focus:outline-none disabled:bg-transparent disabled:placeholder:text-sm"
 						style={{
 							transform: "scale(0.875)",
 							transformOrigin: "top left",

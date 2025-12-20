@@ -32,7 +32,7 @@ export function ConfirmDialog({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onOpenChange}>
-			<DialogContent className="z-[110] w-[320px] gap-0 overflow-hidden rounded-[20px] border-none bg-white p-0 text-center shadow-[0_0_14.76px_0_rgba(0,0,0,0.15)]">
+			<DialogContent className="z-[110] w-[360px] gap-0 overflow-hidden rounded-[20px] border-none bg-white p-0 text-center shadow-[0_0_14.76px_0_rgba(0,0,0,0.15)]">
 				<div className="flex min-h-[189px] items-center justify-center border-gray-300 border-b px-4 text-center font-normal text-[25px] text-gray-800">
 					<div>
 						<div className="mb-2">{title}</div>

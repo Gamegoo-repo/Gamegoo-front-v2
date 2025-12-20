@@ -70,17 +70,8 @@ export const useChatStore = create<ChatState & ChatActions>((set, _get) => ({
 		}),
 
 	setChatrooms: (chatrooms) =>
-		set((state) => {
-			const updatedChatrooms = chatrooms.map((newRoom) => {
-				const existingRoom = state.chatrooms.find(
-					(r) => r.uuid === newRoom.uuid,
-				);
-
-				if (existingRoom && existingRoom.notReadMsgCnt === 0) {
-					return { ...newRoom, notReadMsgCnt: 0 };
-				}
-				return newRoom;
-			});
+		set(() => {
+			const updatedChatrooms = chatrooms;
 
 			const totalUnread = updatedChatrooms.reduce(
 				(sum, room) => sum + (room.notReadMsgCnt || 0),

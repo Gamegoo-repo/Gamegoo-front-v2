@@ -1,10 +1,5 @@
 import { useChatDialogStore } from "@/entities/chat";
-import {
-	BlockMenuItem,
-	ChatroomLeaveMenuItem,
-	PopoverMenu,
-	ReportMenuItem,
-} from "@/features/popover-menu";
+import { ChatroomLeaveMenuItem, PopoverMenu } from "@/features/popover-menu";
 import { ProfileAvatar } from "@/features/profile";
 import type { ChatroomResponse } from "@/shared/api/@generated/models/chatroom-response";
 import { cn } from "@/shared/lib/utils";
@@ -46,12 +41,6 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 
 	const MENU_ITEMS = [
 		<ChatroomLeaveMenuItem key="leave" chatroomId={room.uuid || ""} />,
-		<BlockMenuItem key="block" userId={room.targetMemberId || 0} />,
-		<ReportMenuItem
-			key="report"
-			userId={room.targetMemberId || 0}
-			reportType="CHAT"
-		/>,
 	];
 
 	const handleChatroomClick = () => {
@@ -80,13 +69,13 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 								{room.targetMemberName}
 							</span>
 							{room.notReadMsgCnt !== 0 && (
-								<span className="regular-11 rounded-full bg-violet-600 px-1.25 py-0 text-white">
+								<span className="inline-flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-violet-600 px-[6px] text-[11px] text-white">
 									{formatUnreadCount(room.notReadMsgCnt || 0)}
 								</span>
 							)}
 						</div>
-						<div className="flex h-4.25 items-center justify-between">
-							<span className="regular-14 flex w-53.75 truncate">
+						<div className="flex h-4.25 min-w-0 items-center justify-between">
+							<span className="regular-14 min-w-0 flex-1 truncate pr-2 text-left">
 								{room.lastMsg}
 							</span>
 							<span className="regular-11 text-gray-300">

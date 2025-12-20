@@ -8,33 +8,40 @@ import {
 	type PopoverMenuItemProps,
 } from "../popover-menu-item";
 
-interface FriendDeleteMenuItemProps {
+interface FriendRequestCancelMenuItemProps {
 	userId: number;
+	chatroomUuid?: string;
 	onSuccess?: () => void;
 	onError?: (error: Error) => void;
 	className?: string;
 	onClosePopover?: () => void;
 }
 
-export function FriendDeleteMenuItem({
+export function FriendRequestCancelMenuItem({
 	userId,
+	chatroomUuid,
 	onSuccess,
 	onError,
 	className,
 	onClosePopover,
-}: FriendDeleteMenuItemProps) {
+}: FriendRequestCancelMenuItemProps) {
 	const { showConfirmDialog } = useConfirmDialog();
 	const queryClient = useQueryClient();
 
-	const deleteFriendMutation = useMutation({
-		mutationFn: async (targetUserId: number) => {
-			const response = await api.private.friend.deleteFriend(targetUserId);
+	const cancelMutation = useMutation({
+		mutationFn: async (memberId: number) => {
+			const response = await api.private.friend.cancelFriendRequest(memberId);
 			return response.data;
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.friend() });
 			queryClient.invalidateQueries({ queryKey: userKeys.profile(userId) });
 			queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
+			if (chatroomUuid) {
+				queryClient.invalidateQueries({
+					queryKey: chatKeys.enter(chatroomUuid),
+				});
+			}
 			onSuccess?.();
 		},
 		onError: (error) => {
@@ -42,19 +49,19 @@ export function FriendDeleteMenuItem({
 		},
 	});
 
-	const handleDeleteFriend = () => {
+	const handleCancel = () => {
 		onClosePopover?.();
 		showConfirmDialog({
-			title: "친구를 삭제하시겠습니까?",
-			description: "이 작업은 되돌릴 수 없습니다.",
-			confirmText: "삭제",
-			onConfirm: () => deleteFriendMutation.mutate(userId),
+			title: "친구 요청을 취소하시겠습니까?",
+			description: "",
+			confirmText: "취소",
+			onConfirm: () => cancelMutation.mutate(userId),
 		});
 	};
 
 	const menuItemProps: PopoverMenuItemProps = {
-		text: "친구 삭제",
-		onClick: handleDeleteFriend,
+		text: "친구 요청 취소",
+		onClick: handleCancel,
 		className,
 	};
 

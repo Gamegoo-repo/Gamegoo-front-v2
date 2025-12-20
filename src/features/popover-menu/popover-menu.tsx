@@ -3,34 +3,15 @@ import ThreeDotsButtonBlack from "@/shared/assets/icons/three_dots_button_black.
 import { Button } from "@/shared/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { PopoverContext } from "@/shared/ui/popover/popover";
-import type { PostDeleteMenuItem } from "../board/ui/post-delete-menu-item";
-import type { PostEditMenuItem } from "../board/ui/post-edit-menu-item";
-import type {
-	BlockMenuItem,
-	ChatroomLeaveMenuItem,
-	FriendAddMenuItem,
-	FriendDeleteMenuItem,
-	ReportMenuItem,
-} from "./menu-items";
-import type { BlockToggleMenu } from "./menu-items/block-toggle-menu-item";
-
-type MenuItemComponent =
-	| typeof BlockMenuItem
-	| typeof BlockToggleMenu
-	| typeof ChatroomLeaveMenuItem
-	| typeof FriendAddMenuItem
-	| typeof FriendDeleteMenuItem
-	| typeof ReportMenuItem
-	| typeof PostDeleteMenuItem
-	| typeof PostEditMenuItem;
 
 interface PopoverMenuProps {
-	menuItems: React.ReactElement<MenuItemComponent>[];
+	menuItems: React.ReactElement[];
+	align?: "start" | "center" | "end";
 }
 
-function PopoverMenu({ menuItems }: PopoverMenuProps) {
+function PopoverMenu({ menuItems, align = "end" }: PopoverMenuProps) {
 	return (
-		<Popover>
+		<Popover align={align}>
 			<PopoverTrigger asChild>
 				<Button
 					variant={"ghost"}
@@ -41,8 +22,6 @@ function PopoverMenu({ menuItems }: PopoverMenuProps) {
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent
-				// side="right"
-				// align="start"
 				showArrow={false}
 				className="w-48 rounded-[10px] bg-white p-0 shadow-lg"
 			>
@@ -63,20 +42,20 @@ function PopoverMenuContent({ menuItems }: PopoverMenuProps) {
 
 	const menuItemsWithCloseHandler = useMemo(() => {
 		return menuItems.map((menuItem) => {
-			return React.cloneElement(menuItem, {
-				...menuItem.props,
-				onClosePopover: handleClose,
-			} as React.ComponentProps<MenuItemComponent>);
+			return React.cloneElement(
+				menuItem as React.ReactElement,
+				{
+					...(menuItem.props as React.ComponentProps<any>),
+					onClosePopover: handleClose,
+				} as React.ComponentProps<any>,
+			);
 		});
 	}, [menuItems, handleClose]);
 
 	if (menuItems.length === 0) return null;
 
 	return (
-		<div
-			// onClick={(e) => e.stopPropagation()}
-			className="medium-14 text-gray-600 [&>*:not(:last-child)]:border-gray-200 [&>*:not(:last-child)]:border-b"
-		>
+		<div className="medium-14 text-gray-600 [&>*:not(:last-child)]:border-gray-200 [&>*:not(:last-child)]:border-b">
 			{menuItemsWithCloseHandler}
 		</div>
 	);
