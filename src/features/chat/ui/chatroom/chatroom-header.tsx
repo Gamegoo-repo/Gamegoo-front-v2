@@ -24,7 +24,7 @@ const ChatroomHeader = () => {
 	];
 
 	return (
-		<div className="flex px-[12px] pt-[12px]">
+		<div className="flex h-[var(--chatroom-header-height)] px-[12px] pt-[12px]">
 			<div className="flex w-full items-center gap-2 border-violet-300 border-b py-2 pl-2">
 				<LeftArrowIcon
 					className="cursor-pointer"

@@ -253,10 +253,10 @@ const Chatroom = () => {
 	}
 
 	return (
-		<div className="flex h-[calc(var(--dialog-height)-var(--chatroom-header-height)-var(--chatroom-input-height))] flex-col">
+		<div className="flex h-[calc(100vh-var(--chatroom-header-height)-var(--chatroom-input-height))] tablet:h-[calc(var(--dialog-height)-var(--chatroom-header-height)-var(--chatroom-input-height))] flex-col">
 			<div
 				ref={scrollContainerRef}
-				className="scrollbar-hide flex min-h-0 flex-1 flex-col overflow-y-auto px-2"
+				className="scrollbar-hide flex min-h-0 flex-1 flex-col overflow-y-auto px-[16px]"
 				onScroll={handleScroll}
 			>
 				{allMessages.length === 0 ? (

@@ -109,7 +109,7 @@ const ChatroomMessageInput = () => {
 	}
 
 	return (
-		<div className="relative h-[138px] w-full rounded-b-none bg-white md:rounded-b-[20px]">
+		<div className="relative h-[var(--chatroom-input-height)] w-full rounded-b-none bg-white md:rounded-b-[20px]">
 			<form
 				onSubmit={handleSubmit}
 				className="h-full rounded-b-none shadow-[0_4px_46.7px_0_rgba(0,0,0,0.1)] md:rounded-b-[20px]"
