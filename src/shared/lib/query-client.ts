@@ -150,6 +150,22 @@ export const queryClient = new QueryClient({
 				return;
 			}
 
+			// meta에 handledErrorCodes가 있으면 해당 에러는 컴포넌트에서 처리
+			if (query.meta?.handledErrorCodes && isApiError(error)) {
+				const errorCode = error.response?.data?.code;
+				const handledCodes = query.meta.handledErrorCodes as string[];
+
+				if (handledCodes.includes(errorCode || "")) {
+					// 이 에러는 컴포넌트에서 직접 처리하므로 ErrorCatcher 건너뛰기
+					return;
+				}
+			}
+
+			// meta.skipErrorCatcher가 true인 경우 모든 에러를 ErrorCatcher에서 건너뛰기
+			if (query.meta?.skipErrorCatcher) {
+				return;
+			}
+
 			// AxiosError인 경우만 처리
 			if (!isApiError(error)) {
 				// 일반 에러는 Error Boundary로 전파
@@ -175,9 +191,25 @@ export const queryClient = new QueryClient({
 		},
 	}),
 	mutationCache: new MutationCache({
-		onError: (error: Error) => {
+		onError: (error: Error, _variables, _context, mutation) => {
 			if (!isApiError(error)) {
 				throw error;
+			}
+
+			// meta에 handledErrorCodes가 있으면 해당 에러는 컴포넌트에서 처리
+			if (mutation.meta?.handledErrorCodes) {
+				const errorCode = error.response?.data?.code;
+				const handledCodes = mutation.meta.handledErrorCodes as string[];
+
+				if (handledCodes.includes(errorCode || "")) {
+					// 이 에러는 컴포넌트에서 직접 처리하므로 ErrorCatcher 건너뛰기
+					return;
+				}
+			}
+
+			// meta.skipErrorCatcher가 true인 경우 모든 에러를 ErrorCatcher에서 건너뛰기
+			if (mutation.meta?.skipErrorCatcher) {
+				return;
 			}
 
 			if (isAuthError(error)) {

@@ -61,10 +61,11 @@ export function Toast({
 	};
 
 	return createPortal(
+		// biome-ignore lint/a11y/useKeyWithClickEvents: 추후에 구현 예정
 		<div
 			{...htmlProps}
 			onClick={handleClickToClose}
-			className={`-translate-x-1/2 fixed left-1/2 z-50 w-full max-w-md px-4`}
+			className={`-translate-x-1/2 fixed left-1/2 z-[9999] w-full max-w-md px-4`}
 			style={positionStyle}
 		>
 			<div

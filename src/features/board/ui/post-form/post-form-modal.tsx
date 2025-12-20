@@ -145,10 +145,11 @@ export default function PostFormModal(props: PostFormModalProps) {
 				toast.confirm("게시글이 작성되었습니다.");
 				handleClose();
 			},
-			onError: (error: AxiosError<ApiErrorResponse>) => {
-				if (error.response?.data?.code === "BOARD_408") {
+			onError: (error: Error) => {
+				const axiosError = error as AxiosError<ApiErrorResponse>;
+				if (axiosError.response?.data?.code === "BOARD_408") {
 					textareaRef.current?.focus();
-					setContentError(error.response?.data.message);
+					setContentError(axiosError.response?.data.message);
 				} else {
 					handleClose();
 				}
