@@ -29,5 +29,8 @@ export const useUpdatePost = () => {
 		onError: (error: AxiosError<ApiErrorResponse>) => {
 			console.log(error);
 		},
+		meta: {
+			handledErrorCodes: ["BOARD_408"],
+		},
 	});
 };

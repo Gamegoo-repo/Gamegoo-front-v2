@@ -276,9 +276,20 @@ export class GamegooSocket {
 				errorData?.data?.eventData;
 
 			if (canRetry) {
+				const originalEventData = errorData.data.eventData;
+				if (
+					typeof originalEventData !== "object" ||
+					originalEventData === null
+				) {
+					console.error(
+						`Cannot retry event "${eventName}" because its data is not an object.`,
+					);
+					return; // 현재 재시도 중단
+				}
+
 				// 원본 이벤트 데이터에 새 토큰을 추가
 				const eventDataWithToken = {
-					...(errorData.data.eventData as Record<string, unknown>),
+					...originalEventData,
 					token: newToken, // 토큰
 				};
 
