@@ -35,7 +35,7 @@ const ChatroomList = () => {
 	}
 
 	return (
-		<div>
+		<div className="modal-scrollbar-custom overflow-y-auto">
 			{chatrooms.map((room) => (
 				<ChatroomItem key={room.uuid} room={room} onChatRoom={() => {}} />
 			))}
