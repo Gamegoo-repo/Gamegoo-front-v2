@@ -87,9 +87,9 @@ export const formatMessageDate = (timestamp: number): string => {
 	}
 
 	return date.toLocaleDateString("ko-KR", {
+		year: "numeric",
 		month: "long",
 		day: "numeric",
-		weekday: "short",
 	});
 };
 
