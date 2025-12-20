@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	useCallback,
 	useEffect,
@@ -11,6 +12,7 @@ import {
 	useChatDialogStore,
 	useChatStore,
 } from "@/entities/chat";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 import {
 	deduplicateMessages,
 	formatMessageDate,
@@ -71,6 +73,7 @@ const Chatroom = ({ enterData, isEntering, enterError }: ChatroomProps) => {
 	const { resetUnreadCount } = useChatStore();
 	const { mutate: readMessage } = useReadChatMessage();
 	const authUser = useAuthStore();
+	const queryClient = useQueryClient();
 
 	const allMessages = deduplicateMessages([...apiMessages, ...socketMessages]);
 	const opponentId = enterData?.data?.memberId;
@@ -92,7 +95,17 @@ const Chatroom = ({ enterData, isEntering, enterError }: ChatroomProps) => {
 		if (!chatroomUuid) return;
 		if (!enterData) return;
 		resetUnreadCount(chatroomUuid);
-		readMessage({ chatroomUuid });
+		readMessage(
+			{ chatroomUuid },
+			{
+				onSuccess: () => {
+					void queryClient.invalidateQueries({ queryKey: chatKeys.rooms() });
+					void queryClient.invalidateQueries({
+						queryKey: chatKeys.enter(chatroomUuid),
+					});
+				},
+			},
+		);
 	}, [chatroomUuid, enterData]);
 
 	const renderMessage = useCallback(
