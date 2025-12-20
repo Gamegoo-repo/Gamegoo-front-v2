@@ -6,6 +6,8 @@ import {
 	ChatroomLeaveMenuItem,
 	FriendAddMenuItem,
 	FriendDeleteMenuItem,
+	FriendRequestAcceptMenuItem,
+	FriendRequestDeclineMenuItem,
 	MannerEvaluateMenuItem,
 	PopoverMenu,
 	ReportMenuItem,
@@ -27,6 +29,9 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 		: false;
 
 	const isFriend = enterData?.data?.friend;
+	const isReceivedFriendRequest =
+		!!enterData?.data?.friendRequestMemberId &&
+		enterData?.data?.friendRequestMemberId === (chatroom?.targetMemberId || 0);
 	const MENU_ITEMS = useMemo(() => {
 		const items: React.ReactElement[] = [
 			<ChatroomLeaveMenuItem key="leave" chatroomId={chatroom?.uuid || ""} />,
@@ -37,6 +42,23 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 				<FriendAddMenuItem
 					key="friend-add"
 					userId={chatroom?.targetMemberId || 0}
+				/>,
+			);
+		}
+
+		if (!isFriend && isReceivedFriendRequest) {
+			items.push(
+				<FriendRequestAcceptMenuItem
+					key="friend-request-accept"
+					userId={chatroom?.targetMemberId || 0}
+					chatroomUuid={chatroom?.uuid || ""}
+				/>,
+			);
+			items.push(
+				<FriendRequestDeclineMenuItem
+					key="friend-request-decline"
+					userId={chatroom?.targetMemberId || 0}
+					chatroomUuid={chatroom?.uuid || ""}
 				/>,
 			);
 		}
@@ -106,12 +128,16 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 							<p className="font-medium text-gray-900">
 								{chatroom?.targetMemberName}
 							</p>
-							{isOnline && (
-								<div className="-top-1 -right-2 absolute h-[7px] w-[7px] rounded-full bg-green-500" />
+							{isFriend && (
+								<>
+									{isOnline && (
+										<div className="-top-1 -right-2 absolute h-[7px] w-[7px] rounded-full bg-green-500" />
+									)}
+									<p className="regular-11 text-gray-600">
+										{isOnline ? "온라인" : "오프라인"}
+									</p>
+								</>
 							)}
-							<p className="regular-11 text-gray-600">
-								{isOnline ? "온라인" : "오프라인"}
-							</p>
 						</div>
 					</div>
 				</div>
