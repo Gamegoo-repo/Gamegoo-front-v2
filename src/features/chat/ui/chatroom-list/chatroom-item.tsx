@@ -69,7 +69,7 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 								{room.targetMemberName}
 							</span>
 							{room.notReadMsgCnt !== 0 && (
-								<span className="inline-flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-violet-600 px-[6px] text-[11px] text-white leading-none">
+								<span className="inline-flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-violet-600 px-[6px] text-[11px] text-white">
 									{formatUnreadCount(room.notReadMsgCnt || 0)}
 								</span>
 							)}
