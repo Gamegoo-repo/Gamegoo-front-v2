@@ -236,9 +236,9 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				subtitle="나와 꼭 맞는 상대를 찾는 중..."
 				onBack={handleBack}
 			/>
-			<div className="flex w-full items-center justify-center mobile:pt-0 pt-[110px]">
-				<div className="w-full max-w-[1440px] mobile:px-[20px] px-[80px] mobile:pt-[24px] pt-[60px]">
-					<div className="mobile:mt-[15px] mt-[72px] mb-[150px] flex w-full items-center justify-center gap-[59px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
+			<div className="flex w-full items-center justify-center">
+				<div className="w-full max-w-[1440px]">
+					<div className="mobile:mt-[70px] mt-[0px] mb-[150px] flex w-full items-center justify-center gap-[59px] mobile:px-[0px] px-[10px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
 						<MatchStartProfile user={authUser} />
 						<MatchLoadingCard
 							timeLeft={timeLeft}

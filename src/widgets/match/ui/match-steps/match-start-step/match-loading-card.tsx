@@ -83,17 +83,40 @@ function MatchLoadingCard({
 	}, [tierCounts, userTier]);
 
 	return (
-		<div className="regular-25 flex h-[560px] w-[560px] animate-fade-in flex-col items-center justify-center gap-[42px] rounded-[30px] bg-gray-100 p-[30px_80px] text-gray-800 transition-opacity duration-500">
+		<div
+			className="
+        flex flex-col items-center justify-center
+        w-full max-w-[560px]
+        h-auto md:h-[560px]
+        gap-6 md:gap-[42px]
+        rounded-[24px] md:rounded-[30px]
+        bg-gray-100
+        px-6 py-8 md:p-[30px_80px]
+        text-gray-800
+        transition-opacity duration-500
+        animate-fade-in
+      "
+		>
 			{/* 하트 애니메이션 */}
 			<div className="animate-grow-shrink">
-				<HeartIcon width={225} height={225} className="text-violet-600" />
+				<HeartIcon
+					className="text-violet-600
+            w-[140px] h-[140px]
+            md:w-[225px] md:h-[225px]"
+				/>
 			</div>
 
-			{/* 랜덤 메세지 */}
-			<div className="flex flex-col items-center gap-[4px]">
+			{/* 랜덤 메세지 + 시간 */}
+			<div className="flex flex-col items-center gap-2 md:gap-[4px]">
+				{/* 랜덤 메세지 */}
 				<div
 					className={clsx(
-						"regular-20 flex h-[60px] items-center justify-center text-center transition-opacity duration-300",
+						`
+            flex items-center justify-center text-center
+            transition-opacity duration-300
+            h-[48px] md:h-[60px]
+            text-sm md:regular-20
+          `,
 						textVisible
 							? "animate-fade-in opacity-100"
 							: "animate-fade-out opacity-0",
@@ -103,8 +126,8 @@ function MatchLoadingCard({
 				</div>
 
 				{/* 시간 표시 */}
-				<div className="light-32 text-gray-700">
-					<span className="bold-32 text-violet-600">
+				<div className="text-lg md:light-32 text-gray-700">
+					<span className="font-bold text-violet-600 text-xl md:bold-32">
 						{formatTime(timeLeft)}&nbsp;
 					</span>
 					/ 5:00

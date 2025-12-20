@@ -29,14 +29,12 @@ interface MatchStartProfileProps {
 
 function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 	const containerRef = useRef<HTMLDivElement | null>(null);
-	// opponent일 때만 매너 키워드 데이터 로드
+
 	const memberId =
 		typeof (user as Partial<OtherProfileResponse>)?.id === "number"
 			? ((user as Partial<OtherProfileResponse>).id as number)
 			: (
-					user as Partial<
-						import("@/widgets/match/lib/matching-types").OpponentProfilePayload
-					>
+					user as Partial<OpponentProfilePayload>
 				)?.memberId;
 
 	const { data: userMannerInfo } = useQuery({
@@ -57,7 +55,9 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 	const WantPositionIcon = getPositionIcon(
 		(user.wantP?.[0] as Position) ?? "ANY",
 	);
+
 	const isMicOn = user.mike === "AVAILABLE";
+
 	const mannerLevel =
 		opponent &&
 		typeof (user as Partial<{ mannerLevel: number }>).mannerLevel === "number"
@@ -67,27 +67,50 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 	return (
 		<div
 			className={clsx(
-				"flex h-[600px] w-[560px] flex-col items-center gap-[16px] rounded-2xl border-[1px] bg-white p-[36px] shadow-[0_0_21.3px_rgba(0,0,0,0.15)]",
+				`
+        flex flex-col items-center rounded-2xl border bg-white
+        shadow-[0_0_21.3px_rgba(0,0,0,0.15)]
+        w-full max-w-[560px]
+        h-auto md:h-[600px]
+        p-5 md:p-[36px]
+        gap-3 md:gap-[16px]
+        `,
 				opponent ? "border-violet-600" : "border-gray-400",
 			)}
 		>
 			{/* 헤더 */}
-			<div className="flex items-center gap-2 text-center">
-				<h2 className="font-bold text-3xl text-gray-900">{user.gameName}</h2>
-				<p className="text-base text-gray-500">#{user.tag}</p>
+			<div className="flex items-center gap-1 md:gap-2 text-center">
+				<h2 className="font-bold text-xl md:text-3xl text-gray-900">
+					{user.gameName}
+				</h2>
+				<p className="text-sm md:text-base text-gray-500">
+					#{user.tag}
+				</p>
 			</div>
+
 			{/* 랭크 정보 */}
-			<div className="mb-8 flex items-center justify-center gap-6">
-				<div className="flex items-center gap-2">
-					<span className="font-medium text-gray-700 text-sm">솔로랭크</span>
-					<span className="text-gray-500 text-sm">{user.soloTier}</span>
+			<div className="mb-4 md:mb-8 flex items-center justify-center gap-4 md:gap-6">
+				<div className="flex items-center gap-1 md:gap-2">
+					<span className="font-medium text-xs md:text-sm text-gray-700">
+						솔로랭크
+					</span>
+					<span className="text-xs md:text-sm text-gray-500">
+						{user.soloTier}
+					</span>
 				</div>
-				<div className="h-5 w-px bg-gray-300"></div>
-				<div className="flex items-center gap-2">
-					<span className="font-medium text-gray-700 text-sm">자유랭크</span>
-					<span className="text-gray-500 text-sm">{user.freeTier}</span>
+
+				<div className="h-4 md:h-5 w-px bg-gray-300" />
+
+				<div className="flex items-center gap-1 md:gap-2">
+					<span className="font-medium text-xs md:text-sm text-gray-700">
+						자유랭크
+					</span>
+					<span className="text-xs md:text-sm text-gray-500">
+						{user.freeTier}
+					</span>
 				</div>
 			</div>
+
 			{/* 아바타 */}
 			{opponent && userMannerInfo && mannerLevel ? (
 				<MannerProfileAvatar
@@ -97,58 +120,69 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 					mannerLevel={mannerLevel}
 				/>
 			) : (
-				<ProfileAvatar size="xl" profileIndex={user.profileImg} />
+				<div className="scale-90 md:scale-100">
+					<ProfileAvatar size="xl" profileIndex={user.profileImg} />
+				</div>
 			)}
+
 			{/* 마이크 상태 */}
-			<div className="flex flex-col items-center gap-[6px]">
-				{isMicOn ? <MicOnIcon /> : <MicOffIcon />}
+			<div className="flex flex-col items-center gap-1 md:gap-[6px]">
+				<div className="scale-90 md:scale-100">
+					{isMicOn ? <MicOnIcon /> : <MicOffIcon />}
+				</div>
 				<span
 					className={clsx(
-						"semi-bold-13",
+						"text-xs md:semi-bold-13",
 						isMicOn ? "text-violet-600" : "text-gray-500",
 					)}
 				>
 					{isMicOn ? "마이크 ON" : "마이크 OFF"}
 				</span>
 			</div>
-			{/* 게임 스타일 태그 */}
+
+			{/* 게임 스타일 */}
 			<div className="flex flex-wrap justify-center gap-2">
 				{user.gameStyleResponseList?.map((style: GameStyleItem) => (
 					<span
-						className="semi-bold-13 rounded-full bg-violet-200 px-4 py-2 text-gray-700"
 						key={style.gameStyleId}
+						className="
+              rounded-full bg-violet-200
+              px-3 py-1 md:px-4 md:py-2
+              text-xs md:semi-bold-13
+              text-gray-700
+            "
 					>
 						{style.gameStyleName}
 					</span>
 				))}
 			</div>
+
 			{/* 포지션 */}
-			<div className="flex h-[104px] w-full gap-[12px]">
-				<div className="h-full flex-1 rounded-[10px] bg-gray-100 px-11 py-4">
-					<ul className="flex h-full w-full justify-between gap-[8px]">
-						<li className="flex h-full w-[49px] flex-col items-center justify-between">
-							<span className="bold-12 w-full text-center text-gray-700">
+			<div className="flex w-full gap-2 md:gap-[12px]">
+				<div className="flex-1 rounded-[10px] bg-gray-100 px-4 md:px-11 py-3 md:py-4">
+					<ul className="flex h-full w-full justify-between gap-2">
+						<li className="flex flex-col items-center justify-between">
+							<span className="text-[11px] md:bold-12 text-gray-700">
 								주 포지션
 							</span>
-							<MainPositionIcon className="w-12 text-gray-700" />
+							<MainPositionIcon className="w-9 md:w-12 text-gray-700" />
 						</li>
 
-						<li className="flex h-full w-[49px] flex-col items-center justify-between">
-							<span className="bold-12 w-full text-center text-gray-700">
+						<li className="flex flex-col items-center justify-between">
+							<span className="text-[11px] md:bold-12 text-gray-700">
 								부 포지션
 							</span>
-							<SubPositionIcon className="w-12 text-gray-700" />
+							<SubPositionIcon className="w-9 md:w-12 text-gray-700" />
 						</li>
 					</ul>
 				</div>
-				<div className="flex h-full flex-1 flex-col items-center justify-between rounded-[10px] bg-gray-100 px-11 py-4">
-					<span className="bold-12 text-gray-700">내가 찾는 포지션</span>
 
-					<ul className="flex w-full items-end justify-center gap-4">
-						<li className="flex flex-col items-center justify-between">
-							<WantPositionIcon className="w-12 text-gray-700" />
-						</li>
-					</ul>
+				<div className="flex flex-1 flex-col items-center justify-between rounded-[10px] bg-gray-100 px-4 md:px-11 py-3 md:py-4">
+					<span className="text-[11px] md:bold-12 text-gray-700">
+						내가 찾는 포지션
+					</span>
+
+					<WantPositionIcon className="w-9 md:w-12 text-gray-700" />
 				</div>
 			</div>
 		</div>
