@@ -85,10 +85,10 @@ function FeedbackForm() {
 
 		emailjs
 			.send(
-				import.meta.env.PUBLIC_EMAILJS_SERVICE_ID,
-				import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID,
+				process.env.PUBLIC_EMAILJS_SERVICE_ID!,
+				process.env.PUBLIC_EMAILJS_TEMPLATE_ID!,
 				{ feedback: enteredFeedback, date: dateKr },
-				import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY,
+				process.env.PUBLIC_EMAILJS_PUBLIC_KEY!,
 			)
 			.then(
 				(result) => {
