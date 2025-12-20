@@ -140,7 +140,7 @@ export default function BasicProfileForm({
 			{currentGameMode !== "ARAM" && (
 				<div>
 					<p className="label mb-1.5">포지션</p>
-					<div className="flex h-[104px] w-full gap-[12px]">
+					<div className="flex min-h-[104px] w-full tablet:flex-row flex-col gap-[12px]">
 						<div className="h-full flex-1 rounded-[10px] bg-white px-11 py-4">
 							<ul className="flex h-full w-full justify-between gap-[8px]">
 								<li className="flex h-full w-[49px] flex-col items-center justify-between">
@@ -175,7 +175,7 @@ export default function BasicProfileForm({
 						<div className="flex h-full flex-1 flex-col items-center justify-between rounded-[10px] bg-white px-11 py-4">
 							<span className="bold-12 text-gray-700">내가 찾는 포지션</span>
 
-							<ul className="flex w-full items-end justify-center gap-4">
+							<ul className="flex w-full items-end tablet:justify-center justify-between gap-4">
 								<li className="flex flex-col items-center justify-between">
 									<PositionSelector
 										onChangePosition={(newState) =>

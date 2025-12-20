@@ -1,12 +1,13 @@
 import { useRouter } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
-import type TierBadge from "@/entities/game/ui/tier-badge";
-import GameStylePopover from "@/features/board/ui/game-style-popover";
-import ProfileSummaryCard from "@/features/profile/profile-summary-card";
-import type { Mike, MyProfileResponse } from "@/shared/api";
+import { useRef } from "react";
+import TierBadge from "@/entities/game/ui/tier-badge";
+import EditableProfileAvatar from "@/features/profile/editable-profile-avatar";
+import type { MyProfileResponse } from "@/shared/api";
 import { Button } from "@/shared/ui";
 import type { UseMatchFunnelReturn } from "../../../hooks";
 import MatchHeader from "../../match-header";
+import BasicProfileForm from "./basic-profile-form";
+import PreciseProfileForm from "./precise-profile-form";
 
 interface ProfileStepMobileProps {
 	funnel: UseMatchFunnelReturn;
@@ -20,64 +21,7 @@ export default function ProfileStepMobile({
 	const containerRef = useRef<HTMLDivElement>(null);
 	const router = useRouter();
 
-	const profileFromState = funnel.profile || {};
-
-	const initialSelectedIds = useMemo<number[]>(
-		() =>
-			(
-				profileFromState.gameStyleResponseList ||
-				user?.gameStyleResponseList ||
-				[]
-			).map((s) => s.gameStyleId),
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[user, funnel.profile],
-	);
-	const [selectedGameStyleIds, setSelectedGameStyleIds] =
-		useState<number[]>(initialSelectedIds);
-
-	const gameStyleChips = useMemo(
-		() =>
-			(user?.gameStyleResponseList || [])
-				.filter((s) => selectedGameStyleIds.includes(s.gameStyleId))
-				.map((s) => s.gameStyleName),
-		[user, selectedGameStyleIds],
-	);
-
 	if (!user) return null;
-
-	const handleToggleGameStyle = (styleId: number) => {
-		setSelectedGameStyleIds((prev) => {
-			let next: number[];
-			if (prev.includes(styleId)) {
-				next = prev.filter((id) => id !== styleId);
-			} else if (prev.length < 3) {
-				next = [...prev, styleId];
-			} else {
-				return prev;
-			}
-			const nextList =
-				(user.gameStyleResponseList || []).filter((s) =>
-					next.includes(s.gameStyleId),
-				) || [];
-			funnel.toStep("profile", {
-				profile: {
-					...(funnel.profile || {}),
-					gameStyleResponseList: nextList,
-				},
-			});
-			return next;
-		});
-	};
-
-	const handleToggleMike = (checked: boolean) => {
-		const next: Mike = (checked ? "AVAILABLE" : "UNAVAILABLE") as Mike;
-		funnel.toStep("profile", {
-			profile: {
-				...(funnel.profile || {}),
-				mike: next,
-			},
-		});
-	};
 
 	const matchType = funnel.type;
 
@@ -119,49 +63,72 @@ export default function ProfileStepMobile({
 				funnel={funnel}
 			/>
 			<div
-				className="flex w-full items-center justify-center pt-[20px]"
+				className="flex w-full items-center justify-center pt-0"
 				ref={containerRef}
 			>
-				<div className="w-full max-w-[1440px] px-[20px]">
-					<div className="mt-[15px] mb-[32px] flex w-full flex-col gap-4">
-						<ProfileSummaryCard
-							variant="sm"
-							gameName={user.gameName}
-							tag={user.tag}
-							soloTier={
-								user.soloTier as Parameters<typeof TierBadge>[0]["tier"]
-							}
-							soloRank={
-								user.soloRank as Parameters<typeof TierBadge>[0]["rank"]
-							}
-							freeTier={
-								user.freeTier as Parameters<typeof TierBadge>[0]["tier"]
-							}
-							freeRank={
-								user.freeRank as Parameters<typeof TierBadge>[0]["rank"]
-							}
-							gameStyleChips={gameStyleChips}
-							gameStyleAddon={
-								<GameStylePopover
-									selectedGameStyle={selectedGameStyleIds}
-									onChangeGameStyle={handleToggleGameStyle}
-									containerRef={containerRef}
-								/>
-							}
-							micChecked={(funnel.profile?.mike || user.mike) === "AVAILABLE"}
-							onMicToggle={handleToggleMike}
-						/>
-					</div>
-
-					{/* Action */}
-					<div className="mb-[24px] flex w-full justify-end">
-						<Button
-							variant="default"
-							className="h-14 w-full rounded-2xl px-8"
-							onClick={handleMatchStart}
+				<div className="w-full max-w-[1440px] px-[20px] pt-[16px]">
+					<div className="mt-[12px] mb-[28px] flex w-full flex-col gap-4">
+						<div
+							className={`flex w-full flex-col gap-2 rounded-2xl p-6 ${
+								matchType === "BASIC" ? "bg-gray-100" : "bg-violet-100"
+							}`}
 						>
-							매칭 시작하기
-						</Button>
+							{/* Avatar + name */}
+							<div className="flex items-center gap-4">
+								<EditableProfileAvatar variant="sm" />
+								<div className="flex flex-col">
+									<p className="bold-20 text-gray-800">{user.gameName}</p>
+									<p className="semibold-14 text-gray-500">#{user.tag}</p>
+								</div>
+							</div>
+
+							{/* Ranks */}
+							<div className="grid grid-cols-2 gap-4">
+								<div className="flex flex-col">
+									<span className="semibold-12 mb-1.5 text-gray-800">
+										솔로랭크
+									</span>
+									<TierBadge tier={user.soloTier} rank={user.soloRank} />
+								</div>
+								<div className="flex flex-col">
+									<span className="semibold-12 mb-1.5 text-gray-800">
+										자유랭크
+									</span>
+									<TierBadge tier={user.freeTier} rank={user.freeRank} />
+								</div>
+							</div>
+
+							<div className="w-full border-gray-400 border-b" />
+
+							{matchType === "BASIC" && (
+								<BasicProfileForm
+									funnel={funnel}
+									user={user}
+									containerRef={
+										containerRef as React.RefObject<HTMLDivElement | null>
+									}
+								/>
+							)}
+							{matchType === "PRECISE" && (
+								<PreciseProfileForm
+									funnel={funnel}
+									user={user}
+									containerRef={
+										containerRef as React.RefObject<HTMLDivElement | null>
+									}
+								/>
+							)}
+						</div>
+
+						<div className="flex w-full">
+							<Button
+								variant="default"
+								className="h-14 w-full rounded-2xl px-8"
+								onClick={handleMatchStart}
+							>
+								매칭 시작하기
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>

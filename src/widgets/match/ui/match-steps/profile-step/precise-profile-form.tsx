@@ -181,7 +181,7 @@ export default function PreciseProfileForm({
 					<div className="flex h-full flex-1 flex-col items-center justify-between rounded-[10px] bg-white px-11 py-4">
 						<span className="bold-12 text-gray-700">내가 찾는 포지션</span>
 
-						<ul className="flex w-full items-end justify-center gap-4">
+						<ul className="flex w-full items-end tablet:justify-center justify-between gap-4">
 							<li className="flex flex-col items-center justify-between">
 								<PositionSelector
 									onChangePosition={(newState) =>

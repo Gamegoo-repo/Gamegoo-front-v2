@@ -43,7 +43,12 @@ export default function PositionSelector({
 		: null;
 
 	return (
-		<div className={cn("flex flex-col items-center mobile:gap-2", className)}>
+		<div
+			className={cn(
+				"flex w-[49px] flex-col items-center mobile:gap-2",
+				className,
+			)}
+		>
 			{label && (
 				<label
 					htmlFor={label}

@@ -20,22 +20,26 @@ function MatchHeader({
 	funnel,
 }: MatchHeaderProps) {
 	return (
-		<div className="w-full bg-white z-50">
-			<div className="max-w-6xl mx-auto px-4 py-6">
-				<div className="flex items-center justify-between">
+		<div className="z-50 w-full bg-white">
+			<div className="mx-auto max-w-6xl px-0 py-0 md:px-4 md:py-6">
+				<div className="flex flex-col items-start justify-between gap-2 px-6 md:flex-row md:items-center md:px-0">
 					<div className="flex items-center gap-2">
 						{showBackButton && onBack && (
 							<button
 								type="button"
 								onClick={onBack}
-								className="flex justify-center items-center text-gray-600 hover:text-gray-900 transition-colors duration-200 cursor-pointer"
+								className="flex cursor-pointer items-center justify-center text-gray-600 transition-colors duration-200 hover:text-gray-900"
 							>
 								<BackIcon />
 							</button>
 						)}
-						<div className="flex gap-2 items-center text-center">
-							<h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-							{subtitle && <p className="text-lg text-gray-600">{subtitle}</p>}
+						<div className="flex items-center gap-2 text-center">
+							<h1 className="font-bold text-gray-900 text-xl md:text-3xl">
+								{title}
+							</h1>
+							{subtitle && (
+								<p className="text-gray-600 text-sm md:text-lg">{subtitle}</p>
+							)}
 						</div>
 					</div>
 
