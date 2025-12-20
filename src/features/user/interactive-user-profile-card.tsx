@@ -1,5 +1,4 @@
 import type { RefObject } from "react";
-import { Link } from "@tanstack/react-router";
 import { useFetchMannerKeywords } from "@/entities/user/api/use-fetch-manner-keywords";
 import MannerLevelPopover from "@/entities/user/ui/manner-level-popover";
 import UserProfile from "@/entities/user/ui/user-profile";
@@ -15,7 +14,6 @@ export default function InteractiveUserProfileCard({
 	level,
 	mike,
 	memberId,
-	onNavigate,
 }: {
 	modalRef: RefObject<HTMLDivElement | null>;
 	profileImage: number;
@@ -24,7 +22,6 @@ export default function InteractiveUserProfileCard({
 	level: number;
 	mike: Mike;
 	memberId: number;
-	onNavigate?: () => void;
 }) {
 	const {
 		data: userMannerInfo,
@@ -48,17 +45,11 @@ export default function InteractiveUserProfileCard({
 		<div className="flex items-center gap-3">
 			<p className="relative">
 				<BubbleTooltip variant="sm" align="right" />
-				<Link
-					to={"/users/$userId"}
-					params={{ userId: memberId.toString() }}
-					onClick={onNavigate}
-				>
-					<UserProfile
-						id={profileImage}
-						sizeClass="w-[74px] h-[74px]"
-						hasDropShadow
-					/>
-				</Link>
+				<UserProfile
+					id={profileImage}
+					sizeClass="w-[74px] h-[74px]"
+					hasDropShadow
+				/>
 				<MannerLevelPopover
 					userMannerLevel={level}
 					containerRef={modalRef}

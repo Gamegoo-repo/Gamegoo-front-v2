@@ -168,24 +168,23 @@ export default function PostDetailModal({
 							profileImage={data.profileImage}
 							gameName={data.gameName}
 							tag={data.tag}
-							onNavigate={onClose}
-							mike={data.mike ?? "UNAVAILABLE"}
+							mike={data.mike || "UNAVAILABLE"}
 							level={data.mannerLevel}
 						/>
 					</p>
 					<div className="gap flex w-full">
 						<div className="w-1/2">
 							<RankInfo
-								tier={data.soloTier ?? "UNRANKED"}
-								rank={data.soloRank ?? 1}
+								tier={data.soloTier || "UNRANKED"}
+								rank={data.soloRank || 1}
 								label="솔로랭크"
 								variant={"modal"}
 							/>
 						</div>
 						<div className="w-1/2">
 							<RankInfo
-								tier={data.freeTier ?? "UNRANKED"}
-								rank={data.freeRank ?? 1}
+								tier={data.freeTier || "UNRANKED"}
+								rank={data.freeRank || 1}
 								label="자유랭크"
 								variant={"modal"}
 							/>

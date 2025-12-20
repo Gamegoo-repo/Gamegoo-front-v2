@@ -9,7 +9,6 @@ import {
 } from "@/shared/api";
 
 interface UseBoardListProps {
-	isAuthenticated: boolean;
 	page?: number;
 	gameMode?: GameMode;
 	tier?: Tier;
@@ -18,28 +17,26 @@ interface UseBoardListProps {
 	mike?: Mike;
 }
 
-export const useBoardList = ({
-	isAuthenticated,
-	...props
-}: UseBoardListProps) => {
-	return useQuery({
+export const useBoardList = (props: UseBoardListProps) => {
+	const query = useQuery({
 		queryKey: boardKeys.list(props),
-		queryFn: async () => {
-			const boardService = isAuthenticated
-				? api.private.board
-				: api.public.board;
-
-			const response = await boardService.boardList(
+		queryFn: () =>
+			api.public.board.boardList(
 				props.page || 1,
 				props.gameMode,
 				props.tier,
 				props.mainP,
 				props.subP,
 				props.mike,
-			);
-
-			return response.data.data;
-		},
+			),
 		staleTime: 5 * 60 * 1000,
 	});
+
+	/** TODO: data. 반복 확인하기 */
+	return {
+		...query,
+		boards: query.data?.data.data?.boards,
+		totalPages: query.data?.data.data?.totalPages,
+		totalElements: query.data?.data.data?.totalElements,
+	};
 };

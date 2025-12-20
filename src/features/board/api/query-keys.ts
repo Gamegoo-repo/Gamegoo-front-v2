@@ -19,8 +19,10 @@ export const boardKeys = {
 		mike?: Mike;
 	}) => [...boardKeys.lists(), "infinite", filters] as const,
 	details: () => [...boardKeys.all, "detail"] as const,
-	detail: (id: number, isAuthenticated: boolean) =>
-		[...boardKeys.details(), id, isAuthenticated] as const,
+	detail: (id: number, isAuthenticated?: boolean) =>
+		isAuthenticated !== undefined
+			? ([...boardKeys.details(), id, isAuthenticated] as const)
+			: ([...boardKeys.details(), id] as const),
 	myBoards: () => [...boardKeys.all, "my-boards"] as const,
 	myBoard: (filters: { page?: number }) =>
 		[...boardKeys.myBoards(), filters] as const,

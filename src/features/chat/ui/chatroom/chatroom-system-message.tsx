@@ -3,14 +3,9 @@ import { Link } from "@tanstack/react-router";
 interface SystemMessageProps {
 	message: string;
 	href?: string;
-	onClickMessage?: () => void;
 }
 
-const ChatroomSystemMessage = ({
-	message,
-	href,
-	onClickMessage,
-}: SystemMessageProps) => {
+const ChatroomSystemMessage = ({ message, href }: SystemMessageProps) => {
 	const highlightedText = "게시한 글";
 	const parts = message.split(highlightedText);
 
@@ -31,11 +26,7 @@ const ChatroomSystemMessage = ({
 					</span>
 				</Link>
 			) : (
-				// biome-ignore lint/a11y/useKeyWithClickEvents: span에 onClick 추가
-				<span
-					className="cursor-pointer underline"
-					onClick={onClickMessage ? onClickMessage : () => {}}
-				>
+				<span className="cursor-pointer underline">
 					{`${parts[0]} ${highlightedText}`}
 				</span>
 			)}

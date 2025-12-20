@@ -1,6 +1,7 @@
 import { useSearch } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useBoardList } from "@/entities/post/model/use-board-list";
+import { useFetchMyBlockedUsers } from "@/entities/user/api/use-fetch-my-blocked-users";
 import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
 import PaginationButtons from "@/features/board/ui/pagination-buttons";
 import type { BoardListResponse } from "@/shared/api";
@@ -13,7 +14,7 @@ export default function BoardTable({
 }: {
 	onRowClick?: (row: BoardListResponse) => void;
 }) {
-	const { user, isAuthenticated } = useAuth();
+	const { user } = useAuth();
 
 	const { gameMode, tier, position, mike } = useBoardFilterStore();
 
@@ -26,10 +27,9 @@ export default function BoardTable({
 	}, []);
 
 	/** TODO: isFetching 써도 되는지 확인하기 */
-	// const { data, isFetching } = useFetchMyBlockedUsers(currentPage || 1, !!user);
+	const { data, isFetching } = useFetchMyBlockedUsers(currentPage || 1, !!user);
 
-	const { isLoading, data: boardData } = useBoardList({
-		isAuthenticated,
+	const { isLoading, boards, totalPages } = useBoardList({
 		page: currentPage,
 		gameMode: gameMode,
 		tier: tier,
@@ -42,24 +42,24 @@ export default function BoardTable({
 		<section className="flex min-h-[500px] w-full min-w-[1055px] flex-col gap-15">
 			<Table<{ id: number } & BoardListResponse>
 				data={
-					boardData?.boards
-						? boardData.boards.map((post) => ({
+					boards
+						? boards.map((post) => ({
 								...post,
 								id: post.boardId,
 							}))
 						: undefined
 				}
-				isLoading={isLoading}
+				isLoading={isLoading || isFetching}
 				columns={
-					!!user && isAuthenticated
-						? getColumns({ isAuthenticated, user })
+					!!user && data
+						? getColumns({ user, blockedUsers: data })
 						: getColumns()
 				}
 				ariaLabel="게시판 목록"
 				onRowClick={onRowClick}
 			/>
-			{boardData?.boards && boardData?.boards.length > 0 && (
-				<PaginationButtons totalPages={boardData?.totalPages || 1} />
+			{boards && boards.length > 0 && (
+				<PaginationButtons totalPages={totalPages || 1} />
 			)}
 		</section>
 	);
