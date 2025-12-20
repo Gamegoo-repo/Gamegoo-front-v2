@@ -54,18 +54,18 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 		<button
 			type="button"
 			className={cn(
-				"relative flex w-full cursor-pointer items-start justify-between gap-2 p-4",
+				"relative flex w-full cursor-pointer items-start justify-between gap-2 overflow-hidden px-3 py-3 md:p-4",
 				"transition-colors hover:bg-gray-50",
 				className,
 			)}
 			onClick={handleChatroomClick}
 		>
-			<div className="flex flex-1 items-center">
+			<div className="flex min-w-0 flex-1 items-center">
 				<ProfileAvatar size="sm" profileIndex={room.targetMemberImg} />
-				<div className="ml-3.5 min-w-0 flex-1">
-					<div className="min-w-75">
+				<div className="ml-3.5 min-w-0 flex-1 overflow-hidden">
+					<div className="w-full min-w-0">
 						<div className="mb-0.5 flex h-4.25 items-center justify-between">
-							<span className="font-semibold text-gray-800 text-sm">
+							<span className="truncate pr-2 font-semibold text-gray-800 text-sm">
 								{room.targetMemberName}
 							</span>
 							{room.notReadMsgCnt !== 0 && (
@@ -75,10 +75,10 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 							)}
 						</div>
 						<div className="flex h-4.25 min-w-0 items-center justify-between">
-							<span className="regular-14 max-w-[280px] flex-1 truncate pr-2 text-left">
+							<span className="regular-14 min-w-0 flex-1 truncate pr-2 text-left">
 								{room.lastMsg}
 							</span>
-							<span className="regular-11 text-gray-300">
+							<span className="regular-11 shrink-0 text-gray-300">
 								{room.lastMsgAt && formatChatDate(room.lastMsgAt)}
 							</span>
 						</div>
