@@ -5,6 +5,7 @@ import { fetchPostsWithCursor } from "../api/api";
 import type { PageParam } from "../api/api.types";
 
 interface UseMobilePostListParams {
+	isAuthenticated: boolean;
 	gameMode?: GameMode;
 	tier?: Tier;
 	mainP?: Position;
@@ -12,9 +13,10 @@ interface UseMobilePostListParams {
 	mike?: Mike;
 }
 
-export const useFetchPostsWithCursorQuery = (
-	params: UseMobilePostListParams,
-) => {
+export const useFetchPostsWithCursorQuery = ({
+	isAuthenticated,
+	...params
+}: UseMobilePostListParams) => {
 	const {
 		data,
 		isLoading,
@@ -25,7 +27,8 @@ export const useFetchPostsWithCursorQuery = (
 		hasNextPage,
 	} = useInfiniteQuery({
 		queryKey: boardKeys.infiniteList(params),
-		queryFn: ({ pageParam }) => fetchPostsWithCursor(params, pageParam),
+		queryFn: ({ pageParam }) =>
+			fetchPostsWithCursor(isAuthenticated, params, pageParam),
 		initialPageParam: { cursor: undefined, cursorId: undefined } as PageParam,
 		getNextPageParam: (lastPage) => {
 			if (lastPage?.hasNext) {

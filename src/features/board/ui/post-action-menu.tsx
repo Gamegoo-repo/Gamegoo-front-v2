@@ -29,8 +29,8 @@ export default function PostActionMenu({
 		return (
 			<PopoverMenu
 				menuItems={[
-					<PostEditMenuItem key={""} postId={postId} />,
-					<PostDeleteMenuItem key={""} postId={postId} />,
+					<PostEditMenuItem key={"post-edit-menu"} postId={postId} />,
+					<PostDeleteMenuItem key={"post-delete-menu"} postId={postId} />,
 				]}
 			/>
 		);
@@ -39,14 +39,14 @@ export default function PostActionMenu({
 			<PopoverMenu
 				menuItems={[
 					<ReportMenuItem
-key={"report"}
+						key={"report"}
 						userId={postOwnerId}
 						boardId={postId}
 						reportType="BOARD"
 					/>,
 					<BlockToggleMenu
 						relationshipStatus={isBlocked ? "blocked" : "stranger"}
-						key={""}
+						key={"block-menu"}
 						userId={postOwnerId}
 						onSuccess={handleSuccess}
 						onError={handleFailed}
