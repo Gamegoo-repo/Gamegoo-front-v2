@@ -1,27 +1,90 @@
+import { useMemo } from "react";
 import { useChatDialogStore, useChatStore } from "@/entities/chat";
-import { FriendDeleteMenuItem, PopoverMenu } from "@/features/popover-menu";
+import {
+	BadMannerEvaluateMenuItem,
+	BlockMenuItem,
+	ChatroomLeaveMenuItem,
+	FriendAddMenuItem,
+	FriendDeleteMenuItem,
+	MannerEvaluateMenuItem,
+	PopoverMenu,
+	ReportMenuItem,
+	UnblockMenuItem,
+} from "@/features/popover-menu";
 import { ProfileAvatar } from "@/features/profile";
+import type { ApiResponseEnterChatroomResponse } from "@/shared/api";
 import LeftArrowIcon from "@/shared/assets/icons/left_arrow.svg?react";
 
-const ChatroomHeader = () => {
+interface ChatroomHeaderProps {
+	enterData?: ApiResponseEnterChatroomResponse;
+}
+
+const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 	const { chatroom, setChatDialogType } = useChatDialogStore();
 	const { onlineFriends } = useChatStore();
 	const isOnline = chatroom?.targetMemberId
 		? onlineFriends.includes(chatroom.targetMemberId)
 		: false;
 
-	const MENU_ITEMS = [
-		<FriendDeleteMenuItem
-			key="friend-delete"
-			userId={chatroom?.targetMemberId || 0}
-		/>,
-		// 채팅방 나가기
-		// 친구 삭제 / 요청 / 요청 취소
-		// 차단하기
-		// 신고하기
-		// 매너 평가
-		// 비매너 평가
-	];
+	const isFriend = enterData?.data?.friend;
+	const MENU_ITEMS = useMemo(() => {
+		const items: React.ReactElement[] = [
+			<ChatroomLeaveMenuItem key="leave" chatroomId={chatroom?.uuid || ""} />,
+		];
+
+		if (!isFriend && !enterData?.data?.friendRequestMemberId) {
+			items.push(
+				<FriendAddMenuItem
+					key="friend-add"
+					userId={chatroom?.targetMemberId || 0}
+				/>,
+			);
+		}
+
+		if (isFriend) {
+			items.push(
+				<FriendDeleteMenuItem
+					key="friend-delete"
+					userId={chatroom?.targetMemberId || 0}
+				/>,
+			);
+		}
+
+		items.push(
+			<ReportMenuItem
+				key="report"
+				userId={chatroom?.targetMemberId || 0}
+				reportType="CHAT"
+			/>,
+		);
+
+		// 차단하기: 이미 차단했거나 상대가 나를 차단한 경우는 노출하지 않음
+		if (!enterData?.data?.blocked && !enterData?.data?.blockedByTarget) {
+			items.push(
+				<BlockMenuItem key="block" userId={chatroom?.targetMemberId || 0} />,
+			);
+		}
+
+		// 차단 해제: 내가 차단한 경우 노출
+		if (enterData?.data?.blocked) {
+			items.push(
+				<UnblockMenuItem
+					key="unblock"
+					userId={chatroom?.targetMemberId || 0}
+				/>,
+			);
+		}
+
+		items.push(<MannerEvaluateMenuItem key="manner-evaluate" />);
+		items.push(<BadMannerEvaluateMenuItem key="bad-manner-evaluate" />);
+
+		return items;
+	}, [
+		isFriend,
+		enterData?.data?.friendRequestMemberId,
+		chatroom?.uuid,
+		chatroom?.targetMemberId,
+	]);
 
 	return (
 		<div className="flex h-[var(--chatroom-header-height)] px-[12px] pt-[12px]">

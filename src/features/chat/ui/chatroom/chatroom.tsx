@@ -20,11 +20,11 @@ import {
 	shouldShowTime,
 	useChatMessage,
 	useChatroomSocket,
-	useEnterChatroom,
 	useReadChatMessage,
 } from "@/features/chat";
 import MannerEvaluationModal from "@/features/manner/ui/manner-evaluation-modal";
 import MannerSelectModal from "@/features/manner/ui/manner-select-modal";
+import type { ApiResponseEnterChatroomResponse } from "@/shared/api";
 import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
 import { useAuthStore } from "@/shared/model/use-auth-store";
 import {
@@ -36,7 +36,13 @@ import {
 	ChatroomSystemMessage,
 } from "./";
 
-const Chatroom = () => {
+interface ChatroomProps {
+	enterData?: ApiResponseEnterChatroomResponse;
+	isEntering?: boolean;
+	enterError?: unknown;
+}
+
+const Chatroom = ({ enterData, isEntering, enterError }: ChatroomProps) => {
 	const { chatroom } = useChatDialogStore();
 	const chatroomUuid = chatroom?.uuid || null;
 	const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -45,10 +51,12 @@ const Chatroom = () => {
 	const [hasInitiallyScrolled, setHasInitiallyScrolled] = useState(false);
 	const [previousMessageCount, setPreviousMessageCount] = useState(0);
 	const [isMannerSelectOpen, setIsMannerSelectOpen] = useState(false);
-	const [isMannerEvalOpen, setIsMannerEvalOpen] = useState(false);
-	const [mannerType, setMannerType] = useState<"manner" | "badManner">(
-		"manner",
-	);
+	const {
+		isMannerModalOpen,
+		mannerModalType,
+		openMannerModal,
+		closeMannerModal,
+	} = useChatDialogStore();
 
 	const {
 		messages: apiMessages,
@@ -60,11 +68,6 @@ const Chatroom = () => {
 	} = useChatMessage(chatroomUuid);
 
 	const socketMessages = useChatroomSocket(chatroomUuid);
-	const {
-		data: enterData,
-		isLoading: isEntering,
-		error: enterError,
-	} = useEnterChatroom(chatroomUuid);
 	const { resetUnreadCount } = useChatStore();
 	const { mutate: readMessage } = useReadChatMessage();
 	const authUser = useAuthStore();
@@ -283,23 +286,22 @@ const Chatroom = () => {
 				)}
 			</div>
 			<div className="absolute right-0 bottom-0 left-0">
-				<ChatroomMessageInput />
+				<ChatroomMessageInput enterData={enterData} />
 			</div>
 			{/* Manner Select Modal */}
 			<MannerSelectModal
 				isOpen={isMannerSelectOpen}
 				onClose={() => setIsMannerSelectOpen(false)}
 				onConfirm={(type) => {
-					setMannerType(type);
-					setIsMannerEvalOpen(true);
+					openMannerModal(type);
 				}}
 			/>
 			{/* Manner Evaluation Modal */}
 			<MannerEvaluationModal
-				isOpen={isMannerEvalOpen}
-				onClose={() => setIsMannerEvalOpen(false)}
+				isOpen={isMannerModalOpen}
+				onClose={() => closeMannerModal()}
 				memberId={opponentId}
-				type={mannerType}
+				type={mannerModalType || "manner"}
 			/>
 		</div>
 	);

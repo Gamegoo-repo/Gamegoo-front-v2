@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/shared/api";
 
-export const useEnterChatroom = (chatroomUuid: string | null) => {
+export const useEnterChatroom = (
+	chatroomUuid: string | null,
+	options?: { enabled?: boolean },
+) => {
 	return useQuery({
 		queryKey: ["enter-chatroom", chatroomUuid],
 		queryFn: async () => {
@@ -11,7 +14,7 @@ export const useEnterChatroom = (chatroomUuid: string | null) => {
 			const response = await api.private.chat.enterChatroom(chatroomUuid);
 			return response.data;
 		},
-		enabled: !!chatroomUuid,
+		enabled: !!chatroomUuid && (options?.enabled ?? true),
 		staleTime: 0,
 		retry: false,
 	});
