@@ -7,9 +7,14 @@ import { PopoverContext } from "@/shared/ui/popover/popover";
 interface PopoverMenuProps {
 	menuItems: React.ReactElement[];
 	align?: "start" | "center" | "end";
+	contentClassName?: string;
 }
 
-function PopoverMenu({ menuItems, align = "end" }: PopoverMenuProps) {
+function PopoverMenu({
+	menuItems,
+	align = "end",
+	contentClassName,
+}: PopoverMenuProps) {
 	return (
 		<Popover align={align}>
 			<PopoverTrigger asChild>
@@ -23,7 +28,7 @@ function PopoverMenu({ menuItems, align = "end" }: PopoverMenuProps) {
 			</PopoverTrigger>
 			<PopoverContent
 				showArrow={false}
-				className="w-48 rounded-[10px] bg-white p-0 shadow-lg"
+				className={`w-48 rounded-[10px] bg-white p-0 shadow-lg ${contentClassName || ""}`}
 			>
 				<PopoverMenuContent menuItems={menuItems} />
 			</PopoverContent>
@@ -43,11 +48,11 @@ function PopoverMenuContent({ menuItems }: PopoverMenuProps) {
 	const menuItemsWithCloseHandler = useMemo(() => {
 		return menuItems.map((menuItem) => {
 			return React.cloneElement(
-				menuItem as React.ReactElement,
+				menuItem as React.ReactElement<Record<string, unknown>>,
 				{
-					...(menuItem.props as React.ComponentProps<any>),
+					...(menuItem.props as Record<string, unknown>),
 					onClosePopover: handleClose,
-				} as React.ComponentProps<any>,
+				} as Record<string, unknown>,
 			);
 		});
 	}, [menuItems, handleClose]);

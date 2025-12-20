@@ -54,7 +54,7 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 		<button
 			type="button"
 			className={cn(
-				"relative flex w-full cursor-pointer items-start justify-between gap-2 overflow-hidden px-3 py-3 md:p-4",
+				"relative flex w-full cursor-pointer items-start justify-between gap-2 overflow-visible px-3 py-3 md:p-4",
 				"transition-colors hover:bg-gray-50",
 				className,
 			)}
@@ -86,7 +86,7 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 				</div>
 			</div>
 
-			<PopoverMenu menuItems={MENU_ITEMS} />
+			<PopoverMenu menuItems={MENU_ITEMS} contentClassName="z-[200]" />
 		</button>
 	);
 }
