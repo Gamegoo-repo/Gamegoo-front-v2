@@ -10,7 +10,7 @@ import type { OpponentProfilePayload } from "../../../lib/matching-types";
 import MatchHeader from "../../match-header";
 import MatchStartProfile from "../match-start-step/match-start-profile";
 
-const MATCHING_COMPLETE_TIME = 10; // 10초
+const MATCHING_COMPLETE_TIME = 10;
 
 interface MatchCompleteStepProps {
 	funnel: UseMatchFunnelReturn;
@@ -19,43 +19,37 @@ interface MatchCompleteStepProps {
 function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	const [timeLeft, setTimeLeft] = useState(MATCHING_COMPLETE_TIME);
 	const [isMatched, setIsMatched] = useState(false);
+
 	const authUser = funnel.user;
 	const matchComplete = funnel.matchComplete;
 	const role = matchComplete?.role;
 	const matchingUuid = matchComplete?.matchingUuid;
+
 	const mainTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const secondaryTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const finalTimerRef = useRef<NodeJS.Timeout | null>(null);
+
 	const didSendSuccessReceiverRef = useRef(false);
 	const didSendSuccessFinalRef = useRef(false);
 	const sessionIdRef = useRef(0);
 
-	// 공통 클린업
 	const clearAllTimers = () => {
 		if (mainTimerRef.current) clearInterval(mainTimerRef.current);
 		if (secondaryTimerRef.current) clearTimeout(secondaryTimerRef.current);
 		if (finalTimerRef.current) clearTimeout(finalTimerRef.current);
 	};
 
-	// 매칭 취소 핸들러
 	const handleCancel = () => {
-		// 매칭 취소 이벤트 전송
 		matchFlow.reject(sessionIdRef.current);
-
-		// 모든 타이머 정리
 		clearAllTimers();
-
-		// 프로필 단계로 이동
 		funnel.toStep("profile");
 		toast.error("화면 이탈로 매칭이 종료되었습니다.");
 	};
 
 	useEffect(() => {
-		// 완료 단계 진입 마크 (quit 방지)
 		matchFlow.beginCompletePhase();
 		sessionIdRef.current = matchFlow.getSessionId();
 
-		// 10초 카운트다운
 		mainTimerRef.current = setInterval(() => {
 			setTimeLeft((prev) => {
 				if (prev <= 1) {
@@ -63,17 +57,12 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 						clearInterval(mainTimerRef.current);
 						mainTimerRef.current = null;
 					}
-					// Receiver: 타임아웃 시 성공 응답 전송
+
 					if (role === "receiver" && matchingUuid) {
 						if (!didSendSuccessReceiverRef.current) {
 							didSendSuccessReceiverRef.current = true;
 							matchFlow.completeAsReceiver(matchingUuid);
-						} else {
-							console.warn(
-								"⚠️ [V2-Complete] 중복 matching-success-receiver 차단",
-							);
 						}
-						// 5초 대기 후 실패 처리
 						secondaryTimerRef.current = setTimeout(() => {
 							matchFlow.fail();
 						}, 5000);
@@ -84,13 +73,10 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 			});
 		}, 1000);
 
-		// Sender: 서버에서 성공 알림 수신 시 최종 성공 전송 후 3초 타이머
 		const handleMatchingSuccessSender = () => {
 			if (!didSendSuccessFinalRef.current) {
 				didSendSuccessFinalRef.current = true;
 				matchFlow.completeAsSenderFinal();
-			} else {
-				console.warn("⚠️ [V2-Complete] 중복 matching-success-final 차단");
 			}
 			finalTimerRef.current = setTimeout(() => {
 				matchFlow.fail();
@@ -103,25 +89,16 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				const payload = _res as {
 					data?: {
 						chatroomUuid?: string;
-						opponent?: {
-							gameName?: string;
-						};
+						opponent?: { gameName?: string };
 					};
 					chatroomUuid?: string;
-					opponent?: {
-						gameName?: string;
-					};
+					opponent?: { gameName?: string };
 				};
-				const chatroomUuid: string | null =
+
+				const chatroomUuid =
 					payload?.data?.chatroomUuid ?? payload?.chatroomUuid ?? null;
 
-				if (!chatroomUuid) {
-					console.warn(
-						"⚠️ matching-success 수신했지만 chatroomUuid 없음:",
-						_res,
-					);
-					return;
-				}
+				if (!chatroomUuid) return;
 
 				const opponent =
 					payload?.data?.opponent ??
@@ -130,11 +107,10 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 				const createFallbackChatroom = (uuid: string): ChatroomResponse => ({
 					chatroomId: 0,
-					uuid: uuid,
+					uuid,
 					targetMemberId: 0,
 					targetMemberImg: 0,
-					targetMemberName:
-						(opponent?.gameName as string | undefined) || "상대",
+					targetMemberName: opponent?.gameName ?? "상대",
 					friend: false,
 					blind: false,
 					notReadMsgCnt: 0,
@@ -143,15 +119,14 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				const { openDialog, setChatDialogType, setChatroom } =
 					useChatDialogStore.getState();
 
-				// 채팅방 정보를 API로 조회해 헤더 아바타/닉네임을 정확히 표시 (floating modal 진입과 동일)
 				try {
 					const enterRes = await api.private.chat.enterChatroom(chatroomUuid);
 					const enterData = enterRes.data?.data as
 						| EnterChatroomResponse
 						| undefined;
+
 					if (enterData) {
-						// EnterChatroomResponse -> ChatroomResponse 매핑
-						const mapped: ChatroomResponse = {
+						setChatroom({
 							chatroomId: 0,
 							uuid: enterData.uuid,
 							targetMemberId: enterData.memberId,
@@ -160,22 +135,20 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 							friend: enterData.friend,
 							blind: enterData.blind,
 							notReadMsgCnt: 0,
-						};
-						setChatroom(mapped);
+						});
 					} else {
 						setChatroom(createFallbackChatroom(chatroomUuid));
 					}
-				} catch (e) {
-					console.error("enterChatroom 호출 실패:", e);
+				} catch {
 					setChatroom(createFallbackChatroom(chatroomUuid));
 				}
+
 				setChatDialogType("chatroom");
 				openDialog();
 				setIsMatched(true);
-				// 최종 성공 단계 반영 (quit 억제)
 				matchFlow.markSuccess();
 			} catch (e) {
-				console.error("채팅 전환 처리 중 오류:", e);
+				console.error(e);
 			}
 		};
 
@@ -193,7 +166,10 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 		return () => {
 			if (role === "sender") {
-				matchFlow.off("matching-success-sender", handleMatchingSuccessSender);
+				matchFlow.off(
+					"matching-success-sender",
+					handleMatchingSuccessSender,
+				);
 			}
 			matchFlow.off("matching-success", handleMatchingSuccess);
 			matchFlow.off("matching-fail", handleMatchingFail);
@@ -205,29 +181,36 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 	return (
 		<>
 			<MatchHeader title="매칭 완료" onBack={handleCancel} />
-			<div className="flex w-full items-center justify-center mobile:pt-0 pt-[110px]">
-				<div className="w-full max-w-[1440px] mobile:px-[20px] px-[80px] mobile:pt-[24px] pt-[60px]">
-					<div className="mobile:mt-[15px] mt-[72px] mb-[150px] flex w-full flex-col items-center gap-[59px] max-[1300px]:gap-[40px]">
-						<div className="flex justify-center gap-[59px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
+
+			<div className="flex w-full justify-center pt-0 md:pt-[110px]">
+				<div className="w-full max-w-[1440px] px-5 md:px-[80px] pt-6 md:pt-[60px]">
+					<div className="mb-[150px] flex w-full flex-col items-center">
+						{/* 🔥 카드 컨테이너 (정답) */}
+						<div className="flex w-full flex-col md:flex-row items-center md:items-start justify-center gap-6 md:gap-[59px]">
+							{/* 내 프로필 */}
 							<MatchStartProfile user={authUser} />
-							<div>
+
+							{/* 상대 프로필 + 상태 */}
+							<div className="flex w-full max-w-[560px] flex-col items-center">
 								<MatchStartProfile
 									user={
 										matchComplete?.opponent as Partial<OpponentProfilePayload>
 									}
 									opponent
 								/>
-								<div className="mt-4 flex w-[560px] flex-col items-center gap-4">
-									<div className="font-semibold text-gray-700 text-lg">
+
+								<div className="mt-4 flex w-full flex-col items-center gap-4">
+									<div className="text-center font-semibold text-gray-700 text-base md:text-lg">
 										{isMatched
 											? "매칭 완료"
 											: timeLeft > 0
 												? `${timeLeft}초 후 자동으로 매칭이 진행됩니다`
 												: "매칭 대기 중..."}
 									</div>
+
 									<Button
 										variant="default"
-										className="h-12 w-full rounded-2xl bg-gray-800 px-8"
+										className="h-12 w-full rounded-2xl bg-gray-800"
 										onClick={handleCancel}
 									>
 										매칭 다시하기
@@ -235,6 +218,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 								</div>
 							</div>
 						</div>
+						{/* 카드 컨테이너 끝 */}
 					</div>
 				</div>
 			</div>
