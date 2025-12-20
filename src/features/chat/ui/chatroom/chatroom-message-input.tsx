@@ -13,7 +13,8 @@ const ChatroomMessageInput = () => {
 	const { isConnected } = useGamegooSocket();
 
 	const chatroomUuid = chatroom?.uuid;
-	const isBlocked = chatroom?.blocked;
+	const isBlocked =
+		enterData?.data?.blocked || enterData?.data?.blockedByTarget;
 	const isBlind = chatroom?.blind;
 	// Prefer system data from dialog store (set on startChatroomByBoardId), fallback to enter response
 	const systemDataFromStore: SystemData | undefined = useChatDialogStore(
