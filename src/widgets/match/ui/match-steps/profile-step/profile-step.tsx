@@ -32,25 +32,25 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 
 	const handleMatchStart = () => {
 		const currentProfile = funnel.profile || {};
-		const currentMike = currentProfile.mike || user?.mike || "UNAVAILABLE";
+		const currentMike = currentProfile.mike || "UNAVAILABLE";
 		const normalizedProfile =
 			matchType === "PRECISE"
 				? {
+						...currentProfile,
 						mike: currentMike,
-						mainP: currentProfile.mainP || user?.mainP || undefined,
-						subP: currentProfile.subP || user?.subP || undefined,
-						wantP: currentProfile.wantP || user?.wantP || undefined,
+						mainP: currentProfile.mainP ?? undefined,
+						subP: currentProfile.subP ?? undefined,
+						wantP: currentProfile.wantP ?? undefined,
 						gameStyleResponseList:
-							currentProfile.gameStyleResponseList ||
-							user?.gameStyleResponseList ||
-							undefined,
+							currentProfile.gameStyleResponseList ?? undefined,
 					}
 				: {
+						...currentProfile,
 						mike: currentMike,
+						mainP: currentProfile.mainP ?? undefined,
+						subP: currentProfile.subP ?? undefined,
 						gameStyleResponseList:
-							currentProfile.gameStyleResponseList ||
-							user?.gameStyleResponseList ||
-							undefined,
+							currentProfile.gameStyleResponseList ?? undefined,
 					};
 		const payload = {
 			profile: normalizedProfile,
@@ -105,7 +105,6 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 								{matchType === "BASIC" && (
 									<BasicProfileForm
 										funnel={funnel}
-										user={user}
 										containerRef={
 											containerRef as React.RefObject<HTMLDivElement | null>
 										}
@@ -114,7 +113,6 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 								{matchType === "PRECISE" && (
 									<PreciseProfileForm
 										funnel={funnel}
-										user={user}
 										containerRef={
 											containerRef as React.RefObject<HTMLDivElement | null>
 										}

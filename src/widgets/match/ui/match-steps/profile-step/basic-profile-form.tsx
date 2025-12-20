@@ -12,21 +12,17 @@ import type { UseMatchFunnelReturn } from "../../../hooks";
 
 interface BasicProfileFormProps {
 	funnel: UseMatchFunnelReturn;
-	user: MyProfileResponse;
 	containerRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export default function BasicProfileForm({
 	funnel,
-	user,
 	containerRef,
 }: BasicProfileFormProps) {
 	const currentProfile = funnel.profile || {};
 	const selectedGameStyleIds =
-		currentProfile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
-		user?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
-		[];
-	const currentMike = currentProfile.mike || user?.mike || "UNAVAILABLE";
+		currentProfile.gameStyleResponseList?.map((s) => s.gameStyleId) || [];
+	const currentMike = currentProfile.mike || "UNAVAILABLE";
 	const currentGameMode = funnel.gameMode || undefined;
 
 	const gameModeItems = useMemo(() => {

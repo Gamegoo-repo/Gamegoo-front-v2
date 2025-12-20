@@ -55,7 +55,9 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 	const WantPositionIcon = getPositionIcon(
 		(user.wantP?.[0] as Position) ?? "ANY",
 	);
-
+	const WantPositionIcon2 = getPositionIcon(
+		(user.wantP?.[1] as Position) ?? "ANY",
+	);
 	const isMicOn = user.mike === "AVAILABLE";
 
 	const mannerLevel =
@@ -182,7 +184,10 @@ function MatchStartProfile({ user, opponent = false }: MatchStartProfileProps) {
 						내가 찾는 포지션
 					</span>
 
+				<div className="flex items-center gap-2">
 					<WantPositionIcon className="w-9 md:w-12 text-gray-700" />
+					<WantPositionIcon2 className="w-9 md:w-12 text-gray-700" />
+				</div>
 				</div>
 			</div>
 		</div>

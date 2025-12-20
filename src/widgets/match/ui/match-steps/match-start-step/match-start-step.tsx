@@ -161,18 +161,16 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				gameMode: gameMode,
 				memberId: getAuthUserId(authUser) ?? undefined,
 				threshold: GAME_MODE_THRESHOLD[gameMode],
-				mike: profile.mike ?? authUser?.mike ?? "UNAVAILABLE",
-				mainP: profile.mainP ?? authUser?.mainP ?? "ANY",
-				subP: profile.subP ?? authUser?.subP ?? "ANY",
+				mike: profile.mike ?? "UNAVAILABLE",
+				mainP: profile.mainP ?? "ANY",
+				subP: profile.subP ?? "ANY",
 				wantP:
 					funnel.type === "PRECISE"
 						? mapPreciseWantPositions(profile.wantP)
 						: [],
 				gameStyleIdList: (() => {
 					const ids =
-						profile.gameStyleResponseList?.map((s) => s.gameStyleId) ||
-						authUser?.gameStyleResponseList?.map((s) => s.gameStyleId) ||
-						[];
+						profile.gameStyleResponseList?.map((s) => s.gameStyleId) || [];
 					return ids.length > 0 ? ids : null;
 				})(),
 			};
@@ -239,7 +237,16 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 			<div className="flex w-full items-center justify-center">
 				<div className="w-full max-w-[1440px]">
 					<div className="mobile:mt-[70px] mt-[0px] mb-[150px] flex w-full items-center justify-center gap-[59px] mobile:px-[0px] px-[10px] max-[1300px]:flex-col max-[1300px]:gap-[40px]">
-						<MatchStartProfile user={authUser} />
+						<MatchStartProfile
+							user={{
+								...authUser,
+								mike: funnel.profile?.mike,
+								mainP: funnel.profile?.mainP,
+								subP: funnel.profile?.subP,
+								wantP: funnel.profile?.wantP,
+								gameStyleResponseList: funnel.profile?.gameStyleResponseList,
+							}}
+						/>
 						<MatchLoadingCard
 							timeLeft={timeLeft}
 							tierCounts={tierCounts}
