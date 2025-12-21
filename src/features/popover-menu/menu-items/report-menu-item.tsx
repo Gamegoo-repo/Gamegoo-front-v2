@@ -28,7 +28,10 @@ export function ReportMenuItem({
 
 	const menuItemProps: PopoverMenuItemProps = {
 		text: "신고하기",
-		onClick: () => openReportModal(reportType, userId, boardId),
+		onClick: () => {
+			openReportModal(reportType, userId, boardId);
+			onClosePopover?.();
+		},
 		className,
 	};
 
