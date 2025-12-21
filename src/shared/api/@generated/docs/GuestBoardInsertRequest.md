@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **subP** | [**Position**](Position.md) |  | [default to undefined]
 **wantP** | **Array&lt;string&gt;** |  | [default to undefined]
 **mike** | [**Mike**](Mike.md) |  | [optional] [default to undefined]
-**gameStyles** | **Array&lt;number&gt;** |  | [default to undefined]
+**gameStyles** | **Array&lt;number&gt;** | 게임 스타일 리스트 (선택, 최대 3개) | [optional] [default to undefined]
 **contents** | **string** | 게시글 내용 (선택) | [optional] [default to undefined]
 **gameName** | **string** | 게임 내 닉네임 | [default to undefined]
 **tag** | **string** | 게임 태그 | [default to undefined]

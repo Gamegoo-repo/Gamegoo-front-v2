@@ -7,9 +7,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **memberId** | **number** |  | [default to undefined]
 **name** | **string** |  | [default to undefined]
+**tag** | **string** |  | [default to undefined]
 **profileImg** | **number** |  | [default to undefined]
-**liked** | **boolean** |  | [optional] [default to undefined]
 **blind** | **boolean** |  | [optional] [default to undefined]
+**liked** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -19,9 +20,10 @@ import { FriendInfoResponse } from './api';
 const instance: FriendInfoResponse = {
     memberId,
     name,
+    tag,
     profileImg,
-    liked,
     blind,
+    liked,
 };
 ```
 

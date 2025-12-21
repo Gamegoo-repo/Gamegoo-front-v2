@@ -8,7 +8,7 @@
     "build": "rsbuild build",
     "dev": "rsbuild dev --open",
     "preview": "rsbuild preview",
-    "openapi": "openapi-generator-cli generate -i https://qaapi.gamegoo.co.kr/v3/api-docs -g typescript-axios -o ./src/shared/api/@generated --skip-validate-spec -c openapitools.json",
+    "openapi": "openapi-generator-cli generate -i https://api.gamegoo.co.kr/v3/api-docs -g typescript-axios -o ./src/shared/api/@generated --skip-validate-spec -c openapitools.json",
     "format": "biome check --write .",
     "format:check": "biome check .",
     "lint": "biome lint .",

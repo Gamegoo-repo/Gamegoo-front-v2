@@ -46,6 +46,12 @@ export interface EnterChatroomResponse {
     'gameName': string;
     /**
      * 
+     * @type {string}
+     * @memberof EnterChatroomResponse
+     */
+    'tag': string;
+    /**
+     * 
      * @type {number}
      * @memberof EnterChatroomResponse
      */
