@@ -171,7 +171,7 @@ const ChatroomHeader = ({ enterData }: ChatroomHeaderProps) => {
 							<button
 								type="button"
 								onClick={handleCopyRiotId}
-								className="flex cursor-pointer items-center justify-center rounded-sm border border-gray-300 bg-gray-100 px-[2px] font-medium text-[11px] text-gray-600"
+								className="flex w-fit cursor-pointer items-center justify-center rounded-sm border border-gray-300 bg-gray-100 px-[2px] font-medium text-[11px] text-gray-600"
 							>
 								소환사명 복사
 							</button>
