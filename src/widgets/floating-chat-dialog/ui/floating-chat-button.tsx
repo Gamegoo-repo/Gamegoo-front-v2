@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useChatStore } from "@/entities/chat";
 import MessageIcon from "@/shared/assets/icons/message.svg?react";
+import useResponsive from "@/shared/model/use-responsive";
 import { Badge } from "@/shared/ui/badge";
 
 export interface FloatingChatButtonProps {
@@ -13,6 +14,12 @@ const FloatingChatButton: FC<FloatingChatButtonProps> = ({ onClick }) => {
 	);
 	const displayCount = unreadRoomCount > 99 ? "99+" : unreadRoomCount;
 
+	const { isMobile } = useResponsive();
+
+	if (isMobile) {
+		return null;
+	}
+
 	return (
 		<div className="fixed right-6 bottom-6 z-50">
 			<div className="relative">
@@ -24,9 +31,11 @@ const FloatingChatButton: FC<FloatingChatButtonProps> = ({ onClick }) => {
 					<MessageIcon />
 				</button>
 			</div>
-			<Badge className="-top-0 -right-0 absolute h-6 w-6 rounded-full border-1 border-violet-400 bg-violet-100 text-violet-600">
-				{displayCount}
-			</Badge>
+			{displayCount !== 0 && (
+				<Badge className="-top-0 -right-0 absolute h-6 w-6 rounded-full border-1 border-violet-400 bg-violet-100 text-violet-600">
+					{displayCount}
+				</Badge>
+			)}
 		</div>
 	);
 };

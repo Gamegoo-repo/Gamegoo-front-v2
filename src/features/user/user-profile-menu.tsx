@@ -1,10 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
+import { useChatStore } from "@/entities/chat";
+import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import UserProfile from "@/entities/user/ui/user-profile";
+import { useLoginRequiredModalStore } from "@/features/auth";
 import { notificationKeys } from "@/features/notification/api/query-keys";
-import { api } from "@/shared/api";
+import { api, tokenManager } from "@/shared/api";
+import { useSocketMessage } from "@/shared/api/socket";
 import BlockedIcon from "@/shared/assets/icons/blocked.svg?react";
+import ChatIcon from "@/shared/assets/icons/chat.svg?react";
 import ChevronDownIcon from "@/shared/assets/icons/chevron_down.svg?react";
 import CustomerServiceIcon from "@/shared/assets/icons/customer_service.svg?react";
 import LogoutIcon from "@/shared/assets/icons/logout.svg?react";
@@ -14,7 +19,9 @@ import NotiOffIcon from "@/shared/assets/icons/noti_off.svg?react";
 import NotiOnIcon from "@/shared/assets/icons/noti_on.svg?react";
 import SettingIcon from "@/shared/assets/icons/setting.svg?react";
 import { cn } from "@/shared/lib/utils";
+import { useResponsive } from "@/shared/model/responsive-context";
 import { useAuth } from "@/shared/model/use-auth";
+import { Badge } from "@/shared/ui/badge";
 import Modal from "@/shared/ui/modal/modal";
 
 function MenuItem({
@@ -67,6 +74,14 @@ export default function UserProfileMenu({
 	const [open, setOpen] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
 	const { logout } = useAuth();
+	const queryClient = useQueryClient();
+	const { openDialog: openChatDialog } = useChatDialogStore();
+	const { openModal: openLoginRequiredModal } = useLoginRequiredModalStore();
+	const { isMobile } = useResponsive();
+	const unreadRoomCount = useChatStore(
+		(state) => state.chatrooms.filter((r) => (r.notReadMsgCnt || 0) > 0).length,
+	);
+	const displayUnread = unreadRoomCount > 99 ? "99+" : unreadRoomCount;
 
 	const { data: unreadCount } = useQuery({
 		queryKey: notificationKeys.unreadCount(),
@@ -78,9 +93,23 @@ export default function UserProfileMenu({
 	});
 	const hasUnread = (unreadCount ?? 0) > 0;
 
+	useSocketMessage("new-notification", async () => {
+		await queryClient.invalidateQueries({
+			queryKey: notificationKeys.all,
+		});
+	});
+
 	const handleLogout = () => {
 		logout();
 		setOpen(false);
+	};
+
+	const handleHeaderChatClick = () => {
+		if (!tokenManager.getRefreshToken()) {
+			openLoginRequiredModal();
+			return;
+		}
+		openChatDialog();
 	};
 
 	return (
@@ -92,6 +121,23 @@ export default function UserProfileMenu({
 			>
 				{hasUnread ? <NotiOnIcon /> : <NotiOffIcon />}
 			</Link>
+			{isMobile && (
+				<div className="relative">
+					<button
+						type="button"
+						onClick={handleHeaderChatClick}
+						aria-label="채팅 열기"
+						className="flex cursor-pointer items-center"
+					>
+						<ChatIcon width={30} height={30} />
+					</button>
+					{displayUnread !== 0 && (
+						<Badge className="-top-0 -right-0 absolute h-[14px] w-[14px] rounded-full border border-violet-200 bg-violet-600 p-0 text-[10px] text-white leading-none">
+							{displayUnread}
+						</Badge>
+					)}
+				</div>
+			)}
 			<button
 				type="button"
 				onClick={() => setOpen(true)}
