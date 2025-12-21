@@ -71,7 +71,7 @@ export default function InteractiveUserProfileCard({
 				</MannerLevelPopover>
 			</p>
 			<div className="grid grid-cols-2 grid-rows-2 gap-x-1.5 gap-y-[1px]">
-				<span className="col-span-1 mobile:col-span-1 inline-block font-bold mobile:text-xl text-base text-gray-800">
+        <span className="inline-block font-bold mobile:text-xl text-base text-gray-800">
 					{gameName}
 				</span>
 				<div className="inline-block self-center">
