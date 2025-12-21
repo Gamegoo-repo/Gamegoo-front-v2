@@ -11,15 +11,19 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 interface EditableProfileAvatarProps {
 	variant: "sm" | "lg";
 }
+
 function EditableProfileAvatar({ variant }: EditableProfileAvatarProps) {
 	const { data: userInfo } = useFetchMyInfo();
 	const [localProfileId, setLocalProfileId] = useState<number>(
 		userInfo?.profileImg ?? 0,
 	);
+
 	useEffect(() => {
 		setLocalProfileId(userInfo?.profileImg ?? 0);
 	}, [userInfo?.profileImg]);
+
 	const queryClient = useQueryClient();
+
 	const { mutate: updateProfileImage, isPending } = useMutation({
 		mutationFn: async (id: number) => {
 			await api.private.member.modifyProfileImage({ profileImage: id });
@@ -28,6 +32,7 @@ function EditableProfileAvatar({ variant }: EditableProfileAvatarProps) {
 			await queryClient.invalidateQueries({ queryKey: userKeys.me() });
 		},
 	});
+
 	const PROFILE_IDS = useMemo(() => [1, 2, 3, 4, 5, 6, 7, 8], []);
 
 	const profileSizeClass =
@@ -59,11 +64,29 @@ function EditableProfileAvatar({ variant }: EditableProfileAvatarProps) {
 						</div>
 					</button>
 				</PopoverTrigger>
-				<PopoverContent className="popover w-[520px] rounded-2xl border border-black/15 bg-black/70 p-6 text-white shadow-[0_4px_18px_rgba(0,0,0,0.25)] backdrop-blur-md">
+
+				{/* ⬇️ Popover 모바일 대응 (데스크탑 유지) */}
+				<PopoverContent
+					className="
+            popover
+            w-[calc(100vw-32px)]
+            mobile:w-[520px]
+            rounded-2xl
+            border border-black/15
+            bg-black/70
+            p-4 mobile:p-6
+            text-white
+            shadow-[0_4px_18px_rgba(0,0,0,0.25)]
+            backdrop-blur-md
+          "
+				>
 					<p className="bold-20 mb-4">프로필 이미지 선택</p>
-					<div className="grid grid-cols-4 gap-4">
+
+					{/* ⬇️ grid 모바일 대응 */}
+					<div className="grid grid-cols-3 mobile:grid-cols-4 gap-3 mobile:gap-4">
 						{PROFILE_IDS.map((id) => {
 							const isSelected = id === localProfileId;
+
 							return (
 								<button
 									key={id}
@@ -78,7 +101,11 @@ function EditableProfileAvatar({ variant }: EditableProfileAvatarProps) {
 								>
 									<div
 										className={cn(
-											"flex h-[96px] w-[96px] items-center justify-center rounded-full border-2",
+											`
+                      flex items-center justify-center rounded-full border-2
+                      w-[72px] h-[72px]
+                      mobile:w-[96px] mobile:h-[96px]
+                    `,
 											isSelected
 												? "border-white ring-4 ring-violet-400/60"
 												: "border-transparent hover:border-white/40",
@@ -87,11 +114,27 @@ function EditableProfileAvatar({ variant }: EditableProfileAvatarProps) {
 										<img
 											src={`/profile/profile${id}.svg`}
 											alt={`Profile ${id}`}
-											className="h-[76px] w-[76px]"
+											className="
+                        w-[56px] h-[56px]
+                        mobile:w-[76px] mobile:h-[76px]
+                      "
 										/>
 									</div>
+
 									{isSelected && (
-										<span className="absolute top-[2px] left-[2px] inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-violet-600 text-white shadow">
+										<span
+											className="
+                        absolute top-[2px] left-[2px]
+                        inline-flex h-6 w-6
+                        mobile:h-7 mobile:w-7
+                        items-center justify-center
+                        rounded-full
+                        border-2 border-white
+                        bg-violet-600
+                        text-white
+                        shadow
+                      "
+										>
 											✓
 										</span>
 									)}
