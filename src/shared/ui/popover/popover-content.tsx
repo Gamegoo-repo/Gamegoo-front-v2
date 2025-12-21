@@ -1,4 +1,5 @@
 import { type CSSProperties, type ReactNode, useContext } from "react";
+import { createPortal } from "react-dom";
 import { PopoverContext } from "./popover";
 
 // import type { Align, Side } from "./popover-type";
@@ -9,6 +10,7 @@ interface PopoverContentProps {
 	// side?: Side;
 	// align?: Align;
 	showArrow?: boolean;
+	portal?: boolean;
 }
 
 export function PopoverContent({
@@ -17,6 +19,7 @@ export function PopoverContent({
 	// side = "bottom",
 	// align = "center",
 	showArrow = true,
+	portal = true,
 }: PopoverContentProps) {
 	const context = useContext(PopoverContext);
 
@@ -52,14 +55,16 @@ export function PopoverContent({
 		arrowStyle.filter = "drop-shadow(0 2px 2px rgba(0,0,0,0.05))";
 	}
 
-	return (
+	const content = (
 		<div
 			ref={contentRef}
-			className={`${useAbsolute ? "absolute" : "fixed"} z-50 ${className}`}
+			className={`${useAbsolute ? "absolute" : "fixed"} ${className}`}
 			style={{
 				left: isCalculated ? `${position.x}px` : `-99999px`,
 				top: isCalculated ? `${position.y}px` : `-99999px`,
 				visibility: isCalculated ? "visible" : "hidden",
+				// 모달(z-[1000])보다 위
+				zIndex: 2001,
 			}}
 		>
 			{/** 화살표 */}
@@ -69,4 +74,11 @@ export function PopoverContent({
 			{children}
 		</div>
 	);
+
+	// Portal로 렌더링하여 부모의 overflow/stacking context 영향을 피함
+	if (portal && typeof document !== "undefined") {
+		return createPortal(content, document.body);
+	}
+
+	return content;
 }

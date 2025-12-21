@@ -8,7 +8,7 @@ import {
 	useState,
 } from "react";
 
-type Align = "start" | "center" | "end";
+type Align = "start" | "center" | "end" | "left" | "right";
 
 interface PopoverPosition {
 	x: number /** 팝오버의 left */;
@@ -42,6 +42,8 @@ export function PopoverProvider({
 	containerRef,
 	align = "center",
 }: PopoverProviderProps) {
+	const normalizedAlign: "start" | "center" | "end" =
+		align === "left" ? "start" : align === "right" ? "end" : align;
 	const [isOpen, setIsOpen] = useState(false); // 팝오버 상태
 	const [isCalculated, setIsCalculated] = useState(false);
 	const [position, setPosition] = useState<PopoverPosition>({
@@ -49,7 +51,7 @@ export function PopoverProvider({
 		y: 0,
 		arrowX: 0,
 		arrowPosition: "top",
-	}); // 위치 상태
+	});
 
 	const triggerRef = useRef<HTMLElement>(null); // 트리거 버튼 ref
 	const contentRef = useRef<HTMLDivElement>(null); // 팝오버 컨텐츠 ref
@@ -96,9 +98,9 @@ export function PopoverProvider({
 			// 기본: viewport 기준 좌표
 			let x = triggerRect.left + triggerRect.width / 2 - contentRect.width / 2;
 			// 수평 정렬 전략
-			if (align === "start") {
+			if (normalizedAlign === "start") {
 				x = triggerRect.left;
-			} else if (align === "end") {
+			} else if (normalizedAlign === "end") {
 				x = triggerRect.right - contentRect.width;
 			}
 			let y = triggerRect.bottom + gap;
@@ -109,7 +111,7 @@ export function PopoverProvider({
 				y -= baseRect.top;
 			}
 
-			const arrowPosition: "top" | "bottom" = "top";
+			let arrowPosition: "top" | "bottom" = "top";
 
 			// 경계 처리: 기준 폭은 컨테이너 또는 뷰포트
 			const boundaryWidth = baseRect
@@ -120,11 +122,21 @@ export function PopoverProvider({
 				x = boundaryWidth - padding - contentRect.width;
 			}
 
-			// // bottom 경계
-			// if (y + contentRect.height > containerRect.bottom - padding) {
-			// 	y = triggerRect.top - contentRect.height - gap;
-			// 	arrowPosition = "bottom";
-			// }
+			// bottom 경계: 아래 공간이 부족하면 위로 뒤집기
+			const boundaryHeight = baseRect
+				? baseRect.bottom - baseRect.top
+				: window.innerHeight;
+			if (y + contentRect.height > boundaryHeight - padding) {
+				const triggerTopRelative = baseRect
+					? triggerRect.top - baseRect.top
+					: triggerRect.top;
+				y = triggerTopRelative - contentRect.height - gap;
+				arrowPosition = "bottom";
+			}
+			// top 경계: 위로 뒤집었는데도 위 공간이 부족하면 최소 패딩 보장
+			if (y < padding) {
+				y = padding;
+			}
 
 			// 팝오버를 기준으로 화살표의 상대 좌표 구하기
 			let triggerCenterX = triggerRect.left + triggerRect.width / 2;
