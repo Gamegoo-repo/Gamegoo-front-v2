@@ -5,6 +5,9 @@ import { pluginSvgr } from '@rsbuild/plugin-svgr';
 
 
 export default defineConfig({
+    html: {
+        title: '겜구 - 롤 실시간 듀오 매칭 | GAMEGOO'
+    },
     source: {
         entry: {
             index: './src/index',

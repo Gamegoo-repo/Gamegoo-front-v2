@@ -59,7 +59,7 @@ function BoardPage() {
 					<PostList />
 				</div>
 			) : (
-				<div className="flex w-full flex-col">
+				<div className="flex w-full flex-col pb-32">
 					<BoardToolbarDesktop handleOpenCreateModal={openCreateModal} />
 					<BoardTable onRowClick={handleRowClick} />
 				</div>
