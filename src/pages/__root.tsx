@@ -1,6 +1,7 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
+import { GlobalBoardModals } from "@/app/providers/global-board-modals";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import {
 	LoginRequiredModal,
@@ -8,7 +9,9 @@ import {
 } from "@/features/auth";
 import { useLogoutAlertModalState } from "@/features/auth/model/logout-alert-modal-store";
 import LogoutAlertModal from "@/features/auth/ui/logout-alert-modal";
+import PostDeletedAlertModal from "@/features/board/ui/post-deleted-alert-modal";
 import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-update-handler";
+import ReportModal from "@/features/report/ui/report-modal";
 import { tokenManager } from "@/shared/api";
 import { ResponsiveProvider } from "@/shared/model/responsive-context";
 import { useAuth } from "@/shared/model/use-auth";
@@ -22,9 +25,6 @@ import {
 	FloatingChatDialog,
 } from "@/widgets/floating-chat-dialog";
 import Page404Component from "@/widgets/page-404-component";
-import ReportModal from "@/features/report/ui/report-modal";
-import PostDeletedAlertModal from "@/features/board/ui/post-deleted-alert-modal";
-import { GlobalBoardModals } from "@/app/providers/global-board-modals";
 
 function RootLayout() {
 	useChatroomUpdateHandler();
