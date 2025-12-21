@@ -39,14 +39,14 @@ export default function NotificationComponent() {
 	});
 
 	const handleItemClick = async (notificationId: number, pageUrl?: string) => {
-		// 이동
+		// 읽음 처리
+		if (notificationId) {
+			await readMutation.mutateAsync(notificationId);
+		}
+
 		if (pageUrl) {
 			// 내부/외부 경로 모두 안전하게 이동
 			window.location.href = pageUrl;
-		}
-		// 읽음 처리
-		if (notificationId) {
-			readMutation.mutate(notificationId);
 		}
 	};
 

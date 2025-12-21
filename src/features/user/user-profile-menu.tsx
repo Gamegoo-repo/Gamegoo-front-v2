@@ -1,9 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import UserProfile from "@/entities/user/ui/user-profile";
 import { notificationKeys } from "@/features/notification/api/query-keys";
 import { api } from "@/shared/api";
+import { useSocketMessage } from "@/shared/api/socket";
 import BlockedIcon from "@/shared/assets/icons/blocked.svg?react";
 import ChevronDownIcon from "@/shared/assets/icons/chevron_down.svg?react";
 import CustomerServiceIcon from "@/shared/assets/icons/customer_service.svg?react";
@@ -67,6 +68,7 @@ export default function UserProfileMenu({
 	const [open, setOpen] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
 	const { logout } = useAuth();
+	const queryClient = useQueryClient();
 
 	const { data: unreadCount } = useQuery({
 		queryKey: notificationKeys.unreadCount(),
@@ -77,6 +79,12 @@ export default function UserProfileMenu({
 		},
 	});
 	const hasUnread = (unreadCount ?? 0) > 0;
+
+	useSocketMessage("new-notification", async () => {
+		await queryClient.invalidateQueries({
+			queryKey: notificationKeys.all,
+		});
+	});
 
 	const handleLogout = () => {
 		logout();
