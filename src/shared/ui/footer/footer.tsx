@@ -2,10 +2,14 @@ import emailjs from "@emailjs/browser";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import PaperPlaneIcon from "@/shared/assets/icons/ic-paper-plane.svg?react";
+import { toast } from "@/shared/lib/toast";
 import { cn } from "@/shared/lib/utils";
 import useResponsive from "@/shared/model/use-responsive";
 import { LogoButton } from "../logo";
-import { toast } from "@/shared/lib/toast";
+
+const SERVICE_ID = process.env.PUBLIC_EMAILJS_SERVICE_ID!;
+const TEMPLATE_ID = process.env.PUBLIC_EMAILJS_TEMPLATE_ID!;
+const PUBLIC_KEY = process.env.PUBLIC_EMAILJS_PUBLIC_KEY!;
 
 export default function Footer() {
 	const { isMobile } = useResponsive();
@@ -76,10 +80,6 @@ function FooterInfo() {
 function FeedbackForm() {
 	const [enteredFeedback, setEnteredFeedback] = useState("");
 	const canSubmit = enteredFeedback.trim() !== "";
-
-	const SERVICE_ID = process.env.PUBLIC_EMAILJS_SERVICE_ID ?? "";
-	const TEMPLATE_ID = process.env.PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
-	const PUBLIC_KEY = process.env.PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
