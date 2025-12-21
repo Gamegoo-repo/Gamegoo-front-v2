@@ -60,6 +60,7 @@ export default function PostDetailModal({
 					chatroomId: 0,
 					uuid: chatroomData.uuid,
 					targetMemberId: chatroomData.memberId,
+					tag: chatroomData.tag,
 					targetMemberName: chatroomData.gameName,
 					targetMemberImg: chatroomData.memberProfileImg,
 					friend: chatroomData.friend,

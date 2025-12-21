@@ -1,3 +1,5 @@
+import type { MouseEvent } from "react";
+import { copyRiotIdToClipboard } from "@/shared/lib/copy-riot-id";
 import { toast } from "@/shared/lib/toast";
 
 export default function CopyRiotIdButton({
@@ -10,14 +12,13 @@ export default function CopyRiotIdButton({
 	const handleCopyRiotId = async (
 		gameName: string,
 		tag: string,
-		e: React.MouseEvent,
+		e: MouseEvent,
 	) => {
 		e.stopPropagation();
-		const copied = `${gameName.replace(/\s+/g, "")}#${tag}`;
-		try {
-			await navigator.clipboard.writeText(copied);
+		const { ok } = await copyRiotIdToClipboard({ gameName, tag });
+		if (ok) {
 			toast.confirm("소환사명이 복사되었습니다.");
-		} catch (_error) {
+		} else {
 			toast.error("복사 실패");
 		}
 	};

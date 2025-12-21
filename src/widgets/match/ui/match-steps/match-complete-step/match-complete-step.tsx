@@ -110,6 +110,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				const createFallbackChatroom = (uuid: string): ChatroomResponse => ({
 					chatroomId: 0,
 					uuid,
+					tag: "",
 					targetMemberId: 0,
 					targetMemberImg: 0,
 					targetMemberName: opponent?.gameName ?? "상대",
@@ -132,6 +133,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 							chatroomId: 0,
 							uuid: enterData.uuid,
 							targetMemberId: enterData.memberId,
+							tag: enterData.tag,
 							targetMemberImg: enterData.memberProfileImg,
 							targetMemberName: enterData.gameName,
 							friend: enterData.friend,

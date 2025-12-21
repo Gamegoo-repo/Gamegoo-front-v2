@@ -59,8 +59,9 @@ function FriendItem({
 			<ProfileAvatar size="sm" profileIndex={friend.profileImg} />
 			<div className="ml-3 flex-1">
 				<div className="flex items-center gap-2">
-					<div className="relative">
+					<div className="relative flex flex-col gap-[2px]">
 						<p className="font-medium text-gray-900">{friend.name}</p>
+						<p className="regular-13 text-gray-600">#{friend.tag}</p>
 						{isOnline && (
 							<div className="-top-1 -right-4 absolute h-[10px] w-[10px] rounded-full border-2 border-white bg-green-500" />
 						)}
