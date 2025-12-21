@@ -7,6 +7,12 @@ import useResponsive from "@/shared/model/use-responsive";
 import { LogoButton } from "../logo";
 import { toast } from "@/shared/lib/toast";
 
+const EMAILJS_CONFIG = {
+	serviceId: process.env.PUBLIC_EMAILJS_SERVICE_ID ?? "",
+	templateId: process.env.PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
+	publicKey: process.env.PUBLIC_EMAILJS_PUBLIC_KEY ?? "",
+};
+
 export default function Footer() {
 	const { isMobile } = useResponsive();
 
@@ -86,16 +92,16 @@ function FeedbackForm() {
 
 		emailjs
 			.send(
-				process.env.PUBLIC_EMAILJS_SERVICE_ID ?? "",
-				process.env.PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
+				EMAILJS_CONFIG.serviceId,
+				EMAILJS_CONFIG.templateId,
 				{ feedback: enteredFeedback, date: dateKr },
-				process.env.PUBLIC_EMAILJS_PUBLIC_KEY ?? "",
+				EMAILJS_CONFIG.publicKey,
 			)
 			.then(
-				(result) => {
+				(_result) => {
 					toast.confirm("소중한 피드백 감사합니다:)");
 				},
-				(error) => {
+				(_error) => {
 					toast.error("피드백을 제출하지 못했습니다");
 				},
 			);
