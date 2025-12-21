@@ -158,6 +158,9 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 		const handleMatchingFail = () => {
 			clearAllTimers();
+			// 상대 거절/타임아웃 등으로 서버가 fail을 내려주는 경우에도
+			// 다음 매칭 시작을 위해 내부 상태 초기화
+			matchFlow.reset();
 			funnel.toStep("profile");
 			toast.error("매칭에 실패했어요. 다시 시도해 주세요.");
 		};

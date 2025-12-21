@@ -203,6 +203,12 @@ class MatchFlow {
 		this.successFinalSent = false;
 		// 이전 세션/단계의 보류 이벤트는 모두 폐기
 		this.pendingOutgoing = [];
+		// cancel 스케줄이 남아있으면 정리 (다음 매칭에 영향 방지)
+		if (this.pendingCancelTimer) {
+			clearTimeout(this.pendingCancelTimer);
+			this.pendingCancelTimer = null;
+		}
+		this.pendingCancelSessionId = null;
 	}
 
 	private sendOrQueue(event: string, data?: unknown): void {
