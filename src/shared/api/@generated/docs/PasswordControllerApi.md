@@ -1,6 +1,6 @@
 # PasswordControllerApi
 
-All URIs are relative to *https://qaapi.gamegoo.co.kr*
+All URIs are relative to *https://api.gamegoo.co.kr*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|

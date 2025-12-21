@@ -34,6 +34,12 @@ export interface FriendInfoResponse {
     'name': string;
     /**
      * 
+     * @type {string}
+     * @memberof FriendInfoResponse
+     */
+    'tag': string;
+    /**
+     * 
      * @type {number}
      * @memberof FriendInfoResponse
      */
@@ -43,12 +49,12 @@ export interface FriendInfoResponse {
      * @type {boolean}
      * @memberof FriendInfoResponse
      */
-    'liked'?: boolean;
+    'blind'?: boolean;
     /**
      * 
      * @type {boolean}
      * @memberof FriendInfoResponse
      */
-    'blind'?: boolean;
+    'liked'?: boolean;
 }
 

@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **targetMemberId** | **number** |  | [default to undefined]
 **targetMemberImg** | **number** |  | [default to undefined]
 **targetMemberName** | **string** |  | [default to undefined]
+**tag** | **string** |  | [default to undefined]
 **friend** | **boolean** |  | [default to undefined]
 **blind** | **boolean** |  | [default to undefined]
 **lastMsg** | **string** |  | [optional] [default to undefined]
@@ -28,6 +29,7 @@ const instance: ChatroomResponse = {
     targetMemberId,
     targetMemberImg,
     targetMemberName,
+    tag,
     friend,
     blind,
     lastMsg,

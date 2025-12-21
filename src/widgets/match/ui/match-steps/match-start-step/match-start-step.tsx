@@ -127,11 +127,15 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 			const handleMatchingNotFound = () => {
 				clearTimers();
+				// 서버 이벤트로 매칭이 종료되면 matchFlow 내부 상태를 초기화해야
+				// 다음 매칭 시작 시 matching-request가 정상 전송됩니다.
+				matchFlow.reset();
 				handleRetry();
 			};
 
 			const handleMatchingFail = () => {
 				clearTimers();
+				matchFlow.reset();
 				toast.error("매칭에 실패했어요. 다시 시도해 주세요.");
 				funnel.toStep("profile");
 			};

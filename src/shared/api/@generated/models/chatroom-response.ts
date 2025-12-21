@@ -52,6 +52,12 @@ export interface ChatroomResponse {
     'targetMemberName': string;
     /**
      * 
+     * @type {string}
+     * @memberof ChatroomResponse
+     */
+    'tag': string;
+    /**
+     * 
      * @type {boolean}
      * @memberof ChatroomResponse
      */

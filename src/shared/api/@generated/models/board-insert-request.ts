@@ -60,11 +60,11 @@ export interface BoardInsertRequest {
      */
     'mike'?: Mike;
     /**
-     * 
+     * 게임 스타일 리스트 (선택, 최대 3개)
      * @type {Array<number>}
      * @memberof BoardInsertRequest
      */
-    'gameStyles': Array<number>;
+    'gameStyles'?: Array<number>;
     /**
      * 게시글 내용 (선택)
      * @type {string}

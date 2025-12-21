@@ -65,8 +65,11 @@ function ChatroomItem({ room, className }: ChatroomItemProps) {
 				<div className="ml-3.5 min-w-0 flex-1 overflow-hidden">
 					<div className="w-full min-w-0">
 						<div className="mb-0.5 flex h-4.25 items-center justify-between">
-							<span className="truncate pr-2 font-semibold text-gray-800 text-sm">
+							<span className="truncate pr-[2px] font-semibold text-gray-800 text-sm">
 								{room.targetMemberName}
+							</span>
+							<span className="regular-13 min-w-0 flex-1 truncate pr-2 text-left text-gray-600">
+								#{room.tag}
 							</span>
 							{room.notReadMsgCnt !== 0 && (
 								<span className="inline-flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-violet-600 px-[6px] text-[11px] text-white">
