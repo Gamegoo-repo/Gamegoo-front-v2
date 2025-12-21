@@ -14,7 +14,10 @@ export default function WinRateTooltip() {
 	);
 	return (
 		<Tooltip arrowPosition="right" content={content}>
-			<button type="button" className="shrink-0 cursor-pointer">
+			<button
+				type="button"
+				className="flex shrink-0 cursor-pointer items-center justify-center"
+			>
 				<InfoIcon />
 			</button>
 		</Tooltip>

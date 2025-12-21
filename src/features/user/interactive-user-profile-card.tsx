@@ -4,8 +4,8 @@ import { useFetchMannerKeywords } from "@/entities/user/api/use-fetch-manner-key
 import MannerLevelPopover from "@/entities/user/ui/manner-level-popover";
 import UserProfile from "@/entities/user/ui/user-profile";
 import type { Mike } from "@/shared/api";
-import MikeTag from "@/shared/ui/mike-tag";
 import BubbleTooltip from "./bubble-tooltip";
+import MikeTag from "@/shared/ui/mike-tag";
 
 export default function InteractiveUserProfileCard({
 	modalRef,
@@ -45,7 +45,7 @@ export default function InteractiveUserProfileCard({
 		return null;
 	}
 	return (
-		<div className="flex items-center gap-3">
+		<div className="flex items-center gap-2 mobile:gap-3">
 			<p className="relative">
 				<BubbleTooltip variant="sm" align="right" />
 				<Link
@@ -55,27 +55,32 @@ export default function InteractiveUserProfileCard({
 				>
 					<UserProfile
 						id={profileImage}
-						sizeClass="w-[74px] h-[74px]"
+						sizeClass="w-12 h-12 mobile:w-[74px] mobile:h-[74px]"
 						hasDropShadow
 					/>
 				</Link>
+
 				<MannerLevelPopover
 					userMannerLevel={level}
 					containerRef={modalRef}
 					userMannerInfo={userMannerInfo}
 				>
-					<span className="-translate-x-1/2 bold-12 absolute bottom-0 left-1/2 inline-block translate-y-1/3 cursor-pointer rounded-full bg-black/65 px-2 py-0.5 text-violet-300">
+					<span className="-translate-x-1/2 absolute bottom-0 left-1/2 inline-block translate-y-1/3 cursor-pointer rounded-full bg-black/65 px-2 mobile:py-0.5 py-[1px] font-bold mobile:text-xs text-[9px] text-violet-300">
 						LV.{level}
 					</span>
 				</MannerLevelPopover>
 			</p>
-			<p className="flex h-fit flex-col gap-1">
-				<span className="bold-20 flex w-full items-center justify-start gap-1.5 text-gray-800">
+			<div className="grid grid-cols-2 grid-rows-2 gap-x-1.5 gap-y-[1px]">
+        <span className="inline-block font-bold mobile:text-xl text-base text-gray-800">
 					{gameName}
-					{mike && <MikeTag isMikeAvailable={mike === "AVAILABLE"} />}
 				</span>
-				<span className="semibold-14 text-gray-500">#{tag}</span>
-			</p>
+				<div className="inline-block self-center">
+					{mike && <MikeTag isMikeAvailable={mike === "AVAILABLE"} />}
+				</div>
+				<span className="flex items-center justify-start self-center font-semibold mobile:text-sm text-gray-500 text-xs leading-normal">
+					#{tag}
+				</span>
+			</div>
 		</div>
 	);
 }
