@@ -7,12 +7,6 @@ import useResponsive from "@/shared/model/use-responsive";
 import { LogoButton } from "../logo";
 import { toast } from "@/shared/lib/toast";
 
-const EMAILJS_CONFIG = {
-	serviceId: process.env.PUBLIC_EMAILJS_SERVICE_ID ?? "",
-	templateId: process.env.PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
-	publicKey: process.env.PUBLIC_EMAILJS_PUBLIC_KEY ?? "",
-};
-
 export default function Footer() {
 	const { isMobile } = useResponsive();
 
@@ -83,6 +77,10 @@ function FeedbackForm() {
 	const [enteredFeedback, setEnteredFeedback] = useState("");
 	const canSubmit = enteredFeedback.trim() !== "";
 
+	const SERVICE_ID = process.env.PUBLIC_EMAILJS_SERVICE_ID ?? "";
+	const TEMPLATE_ID = process.env.PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
+	const PUBLIC_KEY = process.env.PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (!canSubmit) return;
@@ -92,10 +90,10 @@ function FeedbackForm() {
 
 		emailjs
 			.send(
-				EMAILJS_CONFIG.serviceId,
-				EMAILJS_CONFIG.templateId,
+				SERVICE_ID,
+				TEMPLATE_ID,
 				{ feedback: enteredFeedback, date: dateKr },
-				EMAILJS_CONFIG.publicKey,
+				PUBLIC_KEY,
 			)
 			.then(
 				(_result) => {
