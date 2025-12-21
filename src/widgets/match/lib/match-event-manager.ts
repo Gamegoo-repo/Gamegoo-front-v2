@@ -6,6 +6,15 @@ import type {
 	MatchingRequest,
 } from "./matching-types";
 
+export type JwtExpiredErrorPayload = {
+	event: string;
+	data: {
+		eventName: string;
+		eventData?: unknown;
+	};
+	timestamp: string;
+};
+
 export type MatchEventName =
 	| "matching-started"
 	| "matching-count"
@@ -27,7 +36,7 @@ export type MatchEventPayloadMap = {
 	"matching-fail": undefined;
 	"matching-success": unknown;
 	"matching-success-sender": unknown;
-	"jwt-expired-error": undefined;
+	"jwt-expired-error": JwtExpiredErrorPayload;
 	connect: undefined;
 };
 
@@ -42,7 +51,10 @@ type Listener<K extends MatchEventName> = (
  */
 class MatchEventManager {
 	private static instance: MatchEventManager;
-	private listeners = new Map<MatchEventName, Set<Listener<any>>>();
+	private listeners = new Map<
+		MatchEventName,
+		Set<(payload: unknown) => void>
+	>();
 	private isBoundToSocket = false;
 
 	private constructor() {}
@@ -92,7 +104,9 @@ class MatchEventManager {
 		if (!this.listeners.has(event)) {
 			this.listeners.set(event, new Set());
 		}
-		this.listeners.get(event)?.add(listener as Listener<any>);
+		this.listeners
+			.get(event)
+			?.add(listener as unknown as (payload: unknown) => void);
 		// 구독 시점에 소켓 바인딩이 보장되도록
 		this.bindSocketEvents();
 		return () => this.off(event, listener);
@@ -105,7 +119,7 @@ class MatchEventManager {
 		}
 		const set = this.listeners.get(event);
 		if (!set) return;
-		set.delete(listener as Listener<any>);
+		set.delete(listener as unknown as (payload: unknown) => void);
 		if (set.size === 0) {
 			this.listeners.delete(event);
 		}

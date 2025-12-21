@@ -43,7 +43,9 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		matchFlow.reject(sessionIdRef.current);
 		clearAllTimers();
 		funnel.toStep("profile");
-		toast.error("화면 이탈로 매칭이 종료되었습니다.");
+		if (!isMatched) {
+			toast.error("화면 이탈로 매칭이 종료되었습니다.");
+		}
 	};
 
 	useEffect(() => {
@@ -166,10 +168,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 		return () => {
 			if (role === "sender") {
-				matchFlow.off(
-					"matching-success-sender",
-					handleMatchingSuccessSender,
-				);
+				matchFlow.off("matching-success-sender", handleMatchingSuccessSender);
 			}
 			matchFlow.off("matching-success", handleMatchingSuccess);
 			matchFlow.off("matching-fail", handleMatchingFail);
@@ -182,43 +181,39 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		<>
 			<MatchHeader title="매칭 완료" onBack={handleCancel} />
 
-			<div className="flex w-full justify-center pt-0 md:pt-[110px]">
-				<div className="w-full max-w-[1440px] px-5 md:px-[80px] pt-6 md:pt-[60px]">
-					<div className="mb-[150px] flex w-full flex-col items-center">
-						{/* 🔥 카드 컨테이너 (정답) */}
-						<div className="flex w-full flex-col md:flex-row items-center md:items-start justify-center gap-6 md:gap-[59px]">
-							{/* 내 프로필 */}
+			<div className="flex w-full items-center justify-center">
+				<div className="w-full max-w-[1440px]">
+					<div className="mobile:mt-[70px] mt-[30px] mb-[150px] flex w-full flex-col items-center justify-center mobile:px-[0px] px-[10px]">
+						<div className="flex mobile:grid w-full mobile:grid-cols-2 flex-col mobile:items-start items-center mobile:justify-items-center gap-[40px] mobile:gap-[24px]">
 							<MatchStartProfile user={authUser} />
 
-							{/* 상대 프로필 + 상태 */}
-							<div className="flex w-full max-w-[560px] flex-col items-center">
-								<MatchStartProfile
-									user={
-										matchComplete?.opponent as Partial<OpponentProfilePayload>
-									}
-									opponent
-								/>
+							<MatchStartProfile
+								user={
+									matchComplete?.opponent as Partial<OpponentProfilePayload>
+								}
+								opponent
+							/>
 
-								<div className="mt-4 flex w-full flex-col items-center gap-4">
-									<div className="text-center font-semibold text-gray-700 text-base md:text-lg">
-										{isMatched
-											? "매칭 완료"
-											: timeLeft > 0
-												? `${timeLeft}초 후 자동으로 매칭이 진행됩니다`
-												: "매칭 대기 중..."}
-									</div>
+							<div className="mobile:block hidden" />
 
-									<Button
-										variant="default"
-										className="h-12 w-full rounded-2xl bg-gray-800"
-										onClick={handleCancel}
-									>
-										매칭 다시하기
-									</Button>
+							<div className="flex w-full max-w-[560px] flex-col items-center mobile:items-stretch gap-4">
+								<div className="text-center font-semibold mobile:text-lg text-base text-gray-700">
+									{isMatched
+										? "매칭 완료"
+										: timeLeft > 0
+											? `${timeLeft}초 후 자동으로 매칭이 진행됩니다`
+											: "매칭 대기 중..."}
 								</div>
+
+								<Button
+									variant="default"
+									className="h-12 w-full rounded-2xl bg-gray-800"
+									onClick={handleCancel}
+								>
+									매칭 다시하기
+								</Button>
 							</div>
 						</div>
-						{/* 카드 컨테이너 끝 */}
 					</div>
 				</div>
 			</div>

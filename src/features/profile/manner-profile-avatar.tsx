@@ -22,6 +22,7 @@ function MannerProfileAvatar({
 			<MannerLevelPopover
 				containerRef={containerRef}
 				userMannerInfo={userMannerInfo}
+				userMannerLevel={mannerLevel}
 			>
 				<ProfileAvatar size="xl" profileIndex={profileIndex} />
 				<div className="-translate-x-1/2 absolute bottom-[2px] left-1/2 inline-flex h-[25px] w-[49px] cursor-pointer items-center justify-center rounded-[57px] bg-black/65 px-[10px] py-[6px] opacity-100">

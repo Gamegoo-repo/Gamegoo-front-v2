@@ -1,6 +1,7 @@
 import { socketManager } from "@/shared/api/socket";
 import { toast } from "@/shared/lib/toast";
 import type {
+	JwtExpiredErrorPayload,
 	MatchEventName,
 	MatchEventPayloadMap,
 } from "./match-event-manager";
@@ -19,6 +20,16 @@ class MatchFlow {
 	private shouldResendOnConnect = false;
 	private lastRequest: (MatchingRequest & { memberId?: number }) | null = null;
 	private currentThreshold: number | null = null;
+	/**
+	 * 소켓이 순간적으로 끊긴 상태에서 send()가 호출되면 SocketManager가 warn만 찍고 드랍합니다.
+	 * 매칭은 "드랍"되면 사용자 입장에선 재요청이 안 된 것처럼 보일 수 있어,
+	 * 세션 단위로 outgoing 이벤트를 큐잉해 connect 시점에 flush 합니다.
+	 */
+	private pendingOutgoing: Array<{
+		event: string;
+		data?: unknown;
+		sessionId: number;
+	}> = [];
 	private phase:
 		| "idle"
 		| "searching"
@@ -56,7 +67,7 @@ class MatchFlow {
 				if (event === "connect") {
 					this.handleConnect();
 				} else if (event === "jwt-expired-error") {
-					this.onJwtExpired();
+					this.onJwtExpired(args[0] as JwtExpiredErrorPayload);
 				}
 				this.emit(event, args[0] as MatchEventPayloadMap[E]);
 			};
@@ -134,16 +145,18 @@ class MatchFlow {
 	}
 
 	private handleConnect(): void {
+		// 1) 매칭-request는 기존 플로우대로 우선 처리
 		if (!this.lastRequest) return;
 		// 연결 직후: 초기 전송을 안 했으면 최초 요청 전송
 		if (!this.didSendInitialRequest) {
 			this.didSendInitialRequest = true;
 			const threshold =
 				this.currentThreshold ?? this.lastRequest.threshold ?? 0;
-			socketManager.send("matching-request", {
+			this.sendOrQueue("matching-request", {
 				...this.lastRequest,
 				threshold,
 			});
+			this.flushPendingOutgoing();
 			return;
 		}
 		// JWT 만료 등으로 재전송 플래그가 켜진 경우에만 재전송
@@ -151,16 +164,33 @@ class MatchFlow {
 			this.shouldResendOnConnect = false;
 			const threshold =
 				this.currentThreshold ?? this.lastRequest.threshold ?? 0;
-			socketManager.send("matching-request", {
+			this.sendOrQueue("matching-request", {
 				...this.lastRequest,
 				threshold,
 			});
 		}
+		// 2) 그 외 보류된 outgoing 이벤트 flush
+		this.flushPendingOutgoing();
 	}
 
-	onJwtExpired(): void {
-		this.shouldResendOnConnect = true;
+	onJwtExpired(_payload?: JwtExpiredErrorPayload): void {
+		// jwt-expired-error는 일반적으로 reconnect를 강제하지 않기 때문에
+		// "connect 시 재전송"만 해두면 실제 재요청이 안 나갈 수 있습니다.
+		// 연결돼 있으면 즉시 matching-request를 재전송하고,
+		// 끊겨있으면 connect 시 재전송 플래그로 fallback 합니다.
 		this.didSendInitialRequest = false;
+		this.shouldResendOnConnect = true;
+
+		const canImmediateResend =
+			!!this.lastRequest &&
+			socketManager.connected &&
+			(this.phase === "searching" || this.phase === "found");
+
+		if (canImmediateResend) {
+			// 즉시 재전송이면 connect 훅에서의 중복 재전송을 막음
+			this.shouldResendOnConnect = false;
+			this.handleConnect();
+		}
 	}
 
 	reset(): void {
@@ -171,6 +201,43 @@ class MatchFlow {
 		this.phase = "idle";
 		this.successReceiverSent = false;
 		this.successFinalSent = false;
+		// 이전 세션/단계의 보류 이벤트는 모두 폐기
+		this.pendingOutgoing = [];
+	}
+
+	private sendOrQueue(event: string, data?: unknown): void {
+		if (socketManager.connected) {
+			socketManager.send(event, data);
+			return;
+		}
+		// 연결이 아닌 경우 세션 단위로 큐잉 (동일 이벤트는 최신값으로 덮어씀)
+		const existingIdx = this.pendingOutgoing.findIndex(
+			(p) => p.sessionId === this.currentSessionId && p.event === event,
+		);
+		const payload = { event, data, sessionId: this.currentSessionId };
+		if (existingIdx >= 0) {
+			this.pendingOutgoing[existingIdx] = payload;
+		} else {
+			this.pendingOutgoing.push(payload);
+		}
+	}
+
+	private flushPendingOutgoing(): void {
+		if (!socketManager.connected) return;
+		if (this.pendingOutgoing.length === 0) return;
+
+		const currentSessionId = this.currentSessionId;
+		const toFlush = this.pendingOutgoing.filter(
+			(p) => p.sessionId === currentSessionId,
+		);
+		// flush 후 현재 세션 것만 제거
+		this.pendingOutgoing = this.pendingOutgoing.filter(
+			(p) => p.sessionId !== currentSessionId,
+		);
+
+		for (const item of toFlush) {
+			socketManager.send(item.event, item.data);
+		}
 	}
 
 	// === Actions (동작) ===
@@ -196,9 +263,17 @@ class MatchFlow {
 		if (this.didSendInitialRequest) {
 			return false; // 중복 방지
 		}
-		this.didSendInitialRequest = true;
 		this.phase = "searching";
-		socketManager.send("matching-request", request);
+
+		// 연결돼 있으면 즉시 전송, 아니면 connect 때 전송되도록 플래그/큐잉
+		if (socketManager.connected) {
+			this.didSendInitialRequest = true;
+			this.sendOrQueue("matching-request", request);
+		} else {
+			this.didSendInitialRequest = false;
+			this.shouldResendOnConnect = true;
+			this.sendOrQueue("matching-request", request);
+		}
 		return true;
 	}
 
@@ -206,7 +281,11 @@ class MatchFlow {
 		if (this.phase !== "searching") return this.currentThreshold ?? 0;
 		const base = this.currentThreshold ?? this.lastRequest?.threshold ?? 0;
 		this.currentThreshold = base - delta;
-		socketManager.send("matching-retry", { threshold: this.currentThreshold });
+		// retry는 드랍되면 체감이 크므로, 연결이 아니면 큐에 넣고 connect 시 flush
+		if (!socketManager.connected) {
+			this.shouldResendOnConnect = true;
+		}
+		this.sendOrQueue("matching-retry", { threshold: this.currentThreshold });
 		return this.currentThreshold;
 	}
 
@@ -235,7 +314,7 @@ class MatchFlow {
 					sameSession &&
 					(this.phase === "searching" || this.phase === "found")
 				) {
-					socketManager.send("matching-quit");
+					this.sendOrQueue("matching-quit");
 					this.phase = "cancelled";
 					this.reset();
 				}
@@ -254,35 +333,35 @@ class MatchFlow {
 		}
 		// 완료 대기 단계에서만 의미 있음
 		if (this.phase === "completing") {
-			socketManager.send("matching-reject");
+			this.sendOrQueue("matching-reject");
 		}
 		this.phase = "cancelled";
 		this.reset();
 	}
 
 	markNotFound(): void {
-		socketManager.send("matching-not-found");
+		this.sendOrQueue("matching-not-found");
 		this.phase = "idle";
 	}
 
 	confirmFoundReceiver(senderMatchingUuid: string): void {
-		socketManager.send("matching-found-success", { senderMatchingUuid });
+		this.sendOrQueue("matching-found-success", { senderMatchingUuid });
 	}
 
 	completeAsReceiver(senderMatchingUuid: string): void {
 		if (this.successReceiverSent) return;
 		this.successReceiverSent = true;
-		socketManager.send("matching-success-receiver", { senderMatchingUuid });
+		this.sendOrQueue("matching-success-receiver", { senderMatchingUuid });
 	}
 
 	completeAsSenderFinal(): void {
 		if (this.successFinalSent) return;
 		this.successFinalSent = true;
-		socketManager.send("matching-success-final");
+		this.sendOrQueue("matching-success-final");
 	}
 
 	fail(): void {
-		socketManager.send("matching-fail");
+		this.sendOrQueue("matching-fail");
 		this.phase = "idle";
 	}
 
