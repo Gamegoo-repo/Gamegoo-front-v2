@@ -43,7 +43,9 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		matchFlow.reject(sessionIdRef.current);
 		clearAllTimers();
 		funnel.toStep("profile");
-		toast.error("화면 이탈로 매칭이 종료되었습니다.");
+		if (!isMatched) {
+			toast.error("화면 이탈로 매칭이 종료되었습니다.");
+		}
 	};
 
 	useEffect(() => {
@@ -166,10 +168,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 
 		return () => {
 			if (role === "sender") {
-				matchFlow.off(
-					"matching-success-sender",
-					handleMatchingSuccessSender,
-				);
+				matchFlow.off("matching-success-sender", handleMatchingSuccessSender);
 			}
 			matchFlow.off("matching-success", handleMatchingSuccess);
 			matchFlow.off("matching-fail", handleMatchingFail);
@@ -182,11 +181,11 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 		<>
 			<MatchHeader title="매칭 완료" onBack={handleCancel} />
 
-			<div className="flex w-full justify-center pt-0 md:pt-[110px]">
-				<div className="w-full max-w-[1440px] px-5 md:px-[80px] pt-6 md:pt-[60px]">
+			<div className="flex w-full justify-center pt-0 md:pt-[30px]">
+				<div className="w-full max-w-[1440px] px-5 pt-6 md:px-[80px] md:pt-[60px]">
 					<div className="mb-[150px] flex w-full flex-col items-center">
 						{/* 🔥 카드 컨테이너 (정답) */}
-						<div className="flex w-full flex-col md:flex-row items-center md:items-start justify-center gap-6 md:gap-[59px]">
+						<div className="flex w-full flex-col items-center justify-center gap-6 md:flex-row md:items-start md:gap-[59px]">
 							{/* 내 프로필 */}
 							<MatchStartProfile user={authUser} />
 
@@ -200,7 +199,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 								/>
 
 								<div className="mt-4 flex w-full flex-col items-center gap-4">
-									<div className="text-center font-semibold text-gray-700 text-base md:text-lg">
+									<div className="text-center font-semibold text-base text-gray-700 md:text-lg">
 										{isMatched
 											? "매칭 완료"
 											: timeLeft > 0
