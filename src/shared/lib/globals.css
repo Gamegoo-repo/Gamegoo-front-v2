@@ -120,6 +120,10 @@
     @apply font-pretendard;
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   button:focus,
   button:focus-visible {
     outline: none;
