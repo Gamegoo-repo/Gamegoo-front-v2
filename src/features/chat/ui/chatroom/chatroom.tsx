@@ -13,6 +13,7 @@ import {
 	useChatStore,
 } from "@/entities/chat";
 import { chatKeys } from "@/entities/chat/config/query-keys";
+import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 import {
 	deduplicateMessages,
 	formatMessageDate,
@@ -37,7 +38,6 @@ import {
 	ChatroomOpponentMessage,
 	ChatroomSystemMessage,
 } from "./";
-import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 
 interface ChatroomProps {
 	enterData?: ApiResponseEnterChatroomResponse;
@@ -100,9 +100,12 @@ const Chatroom = ({ enterData, isEntering, enterError }: ChatroomProps) => {
 		if (!enterData) return;
 		// 항상 클라이언트 로컬 unread 카운트는 초기화
 		resetUnreadCount(chatroomUuid);
-		// 메시지가 하나도 없는 신규 방(말 걸어보기)에서는 read API를 호출하지 않음
-		const hasAnyMessage = apiMessages.length > 0 || socketMessages.length > 0;
-		if (!hasAnyMessage || didMarkReadRef.current) return;
+		// 서버 기준으로 메시지 자체가 0개인 신규 방(말 걸어보기)에서는 read API를 호출하지 않음
+		// (친구 목록에서 바로 입장할 때, 소켓 시스템 이벤트 등으로 클라이언트 배열이 잠깐 채워지는 경우가 있어
+		//  enter 응답의 listSize를 우선 기준으로 삼는다)
+		const serverMessageCount =
+			enterData.data?.chatMessageListResponse?.listSize ?? 0;
+		if (serverMessageCount <= 0 || didMarkReadRef.current) return;
 		didMarkReadRef.current = true;
 		readMessage(
 			{ chatroomUuid },
