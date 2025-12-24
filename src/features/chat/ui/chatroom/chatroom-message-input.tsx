@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useChatDialogStore } from "@/entities/chat";
 import type { SystemData } from "@/features/chat";
 import { useSendMessage } from "@/features/chat";
@@ -15,12 +15,16 @@ const ChatroomMessageInput = ({ enterData }: ChatroomMessageInputProps) => {
 	const [isSystemMsgSent, setIsSystemMsgSent] = useState(false);
 	const { mutate: sendMessage, isPending } = useSendMessage();
 	const { isConnected } = useGamegooSocket();
+	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const shouldRestoreFocusRef = useRef(false);
 
 	const chatroomUuid = chatroom?.uuid;
 	const isBlocked =
 		enterData?.data?.blocked || enterData?.data?.blockedByTarget;
 	const isBlind = chatroom?.blind;
-	// Prefer system data from dialog store (set on startChatroomByBoardId), fallback to enter response
+	const isDisabled = useMemo(() => {
+		return isPending || isBlocked || isBlind || !isConnected;
+	}, [isPending, isBlocked, isBlind, isConnected]);
 	const systemDataFromStore: SystemData | undefined = useChatDialogStore(
 		(state) => state.systemData,
 	);
@@ -31,6 +35,23 @@ const ChatroomMessageInput = ({ enterData }: ChatroomMessageInputProps) => {
 	useEffect(() => {
 		setIsSystemMsgSent(false);
 	}, [chatroomUuid]);
+
+	useEffect(() => {
+		const el = textareaRef.current;
+		if (!el) return;
+
+		if (isDisabled) {
+			if (document.activeElement === el) {
+				shouldRestoreFocusRef.current = true;
+			}
+			return;
+		}
+
+		if (shouldRestoreFocusRef.current) {
+			el.focus();
+			shouldRestoreFocusRef.current = false;
+		}
+	}, [isDisabled]);
 
 	const getPlaceholderText = () => {
 		if (!isConnected) {
@@ -43,9 +64,7 @@ const ChatroomMessageInput = ({ enterData }: ChatroomMessageInputProps) => {
 		return "메시지를 입력하세요...";
 	};
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
+	const submitMessage = () => {
 		if (
 			!chatroomUuid ||
 			!message.trim() ||
@@ -98,6 +117,11 @@ const ChatroomMessageInput = ({ enterData }: ChatroomMessageInputProps) => {
 		});
 	};
 
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		submitMessage();
+	};
+
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
 		if (e.nativeEvent.isComposing) {
 			return;
@@ -105,7 +129,7 @@ const ChatroomMessageInput = ({ enterData }: ChatroomMessageInputProps) => {
 
 		if (e.key === "Enter" && !e.shiftKey) {
 			e.preventDefault();
-			handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>);
+			submitMessage();
 		}
 	};
 
@@ -121,17 +145,19 @@ const ChatroomMessageInput = ({ enterData }: ChatroomMessageInputProps) => {
 			>
 				<div className="w-full p-[14px_17px]">
 					<textarea
+						ref={textareaRef}
 						maxLength={1000}
 						value={message}
 						onChange={(e) => {
-							if (message.length < 1000) {
-								setMessage(e.target.value);
-							}
+							const next = e.target.value;
+							setMessage(next.length <= 1000 ? next : next.slice(0, 1000));
 						}}
 						onKeyDown={handleKeyDown}
-						disabled={isPending || isBlocked || isBlind || !isConnected}
+						readOnly={isDisabled}
+						aria-disabled={isDisabled}
 						placeholder={getPlaceholderText()}
-						className="scrollbar-hide w-full resize-none border-none text-base text-gray-800 focus:outline-none disabled:bg-transparent disabled:placeholder:text-sm"
+						className={`scrollbar-hide w-full resize-none border-none text-base text-gray-800 focus:outline-none${isDisabled ? "bg-transparent placeholder:text-sm" : ""}
+						`}
 						style={{
 							transform: "scale(0.875)",
 							transformOrigin: "top left",
