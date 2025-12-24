@@ -57,6 +57,7 @@ function FriendList() {
 					targetMemberId: chatroomData.memberId || friend.memberId,
 					targetMemberName:
 						chatroomData.gameName || friend.name || "알 수 없음",
+					tag: chatroomData.tag || friend.tag || "",
 					targetMemberImg:
 						chatroomData.memberProfileImg || friend.profileImg || 0,
 					friend: chatroomData.friend,
