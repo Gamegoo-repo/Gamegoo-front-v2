@@ -2,6 +2,7 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
 import { GlobalBoardModals } from "@/app/providers/global-board-modals";
+import { GoogleAnalyticsTracker } from "@/app/providers/google-analytics-tracker";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import {
 	LoginRequiredModal,
@@ -61,6 +62,7 @@ function RootLayout() {
 			<ChatSocketProvider>
 				<ConfirmDialogProvider>
 					<ResponsiveProvider>
+						<GoogleAnalyticsTracker />
 						<Outlet />
 						<FloatingChatButton onClick={handleChatButtonClick} />
 						<FloatingChatDialog />

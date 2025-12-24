@@ -45,6 +45,8 @@ jobs:
           echo "PUBLIC_EMAILJS_SERVICE_ID=${{ secrets.PUBLIC_EMAILJS_SERVICE_ID }}" >> .env
           echo "PUBLIC_EMAILJS_TEMPLATE_ID=${{ secrets.PUBLIC_EMAILJS_TEMPLATE_ID }}" >> .env
           echo "PUBLIC_EMAILJS_PUBLIC_KEY=${{ secrets.PUBLIC_EMAILJS_PUBLIC_KEY }}" >> .env
+          echo "PUBLIC_GOOGLE_ANALYTICS=${{ secrets.PUBLIC_GOOGLE_ANALYTICS }}" >> .env
+          echo "PUBLIC_GOOGLE_TAG_MANAGER=${{ secrets.PUBLIC_GOOGLE_TAG_MANAGER }}" >> .env
 
       # 5) Rsbuild 빌드
       - name: Build (Rsbuild)
