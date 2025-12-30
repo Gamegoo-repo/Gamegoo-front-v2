@@ -5,6 +5,9 @@ import { pluginSvgr } from '@rsbuild/plugin-svgr';
 
 const GA_ID = process.env.PUBLIC_GOOGLE_ANALYTICS;
 const GTM_ID = process.env.PUBLIC_GOOGLE_TAG_MANAGER;
+const AMPLITUDE_SCRIPT_SRC =
+    'https://cdn.amplitude.com/script/1426db31e62b94fdef9462dc06ff93b8.js';
+const AMPLITUDE_API_KEY = '1426db31e62b94fdef9462dc06ff93b8';
 
 export default defineConfig({
     html: {
@@ -72,6 +75,20 @@ export default defineConfig({
                         },
                     ]
                 : []),
+            // Amplitude
+            {
+                tag: 'script',
+                attrs: {
+                    src: AMPLITUDE_SCRIPT_SRC,
+                },
+                head: true,
+            },
+            {
+                tag: 'script',
+                attrs: {},
+                children: `window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));window.amplitude.init('${AMPLITUDE_API_KEY}', {"fetchRemoteConfig":true,"autocapture":{"attribution":true,"fileDownloads":true,"formInteractions":true,"pageViews":true,"sessions":true,"elementInteractions":true,"networkTracking":true,"webVitals":true,"frustrationInteractions":true}});`,
+                head: true,
+            },
         ],
     },
     source: {
