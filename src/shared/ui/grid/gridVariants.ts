@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 
 export const gridVariants = cva("grid", {
 	variants: {
@@ -16,30 +16,30 @@ export const gridVariants = cva("grid", {
 			none: "gap-0",
 			xs: "gap-1",
 			sm: "gap-2",
-			md: "gap-4",
-			lg: "gap-6",
-			xl: "gap-8",
-			"2xl": "gap-10",
+			md: "gap-3",
+			lg: "gap-4",
+			xl: "gap-6",
+			"2xl": "gap-8",
 		},
 
 		rowGap: {
-			none: "row-gap-0",
-			xs: "row-gap-1",
-			sm: "row-gap-2",
-			md: "row-gap-4",
-			lg: "row-gap-6",
-			xl: "row-gap-8",
-			"2xl": "row-gap-10",
+			none: "gap-y-0",
+			xs: "gap-y-1",
+			sm: "gap-y-2",
+			md: "gap-y-3",
+			lg: "gap-y-4",
+			xl: "gap-y-6",
+			"2xl": "gap-y-8",
 		},
 
 		columnGap: {
-			none: "col-gap-0",
-			xs: "col-gap-1",
-			sm: "col-gap-2",
-			md: "col-gap-4",
-			lg: "col-gap-6",
-			xl: "col-gap-8",
-			"2xl": "col-gap-10",
+			none: "gap-x-0",
+			xs: "gap-x-1",
+			sm: "gap-x-2",
+			md: "gap-x-3",
+			lg: "gap-x-4",
+			xl: "gap-x-6",
+			"2xl": "gap-x-8",
 		},
 
 		fullWidth: {

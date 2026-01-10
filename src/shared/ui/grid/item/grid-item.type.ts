@@ -7,6 +7,7 @@ import type {
 
 export type GridItemProps<T extends ElementType = "div"> = {
 	as?: T;
+	asChild?: boolean;
 	children?: ReactNode;
 	colSpan?: number;
 	rowSpan?: number;

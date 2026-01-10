@@ -8,8 +8,10 @@ import type {
 export type GridColumns = 1 | 2 | 3 | 4 | 5 | 6 | 12;
 export type GridGap = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 export type GridMinWidth = "xs" | "sm" | "md" | "lg" | "xl";
+
 type PolymorphicProps<T extends ElementType> = {
 	as?: T;
+	asChild?: boolean;
 	children: ReactNode;
 	columns?: GridColumns;
 	gap?: GridGap;
