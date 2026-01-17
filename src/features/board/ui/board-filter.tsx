@@ -9,44 +9,71 @@ import { POSITION_BUTTON_ITEMS } from "../config/position-button-items";
 import { getGameModeTitle } from "../lib/getGameModeTitle";
 import { getMike } from "../lib/getMike";
 import { getTierTitle } from "../lib/getTierTitle";
-import { useBoardFilterStore } from "../model/board-filter-store";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import type { Position } from "@/shared/api";
 
 export default function BoardFilter() {
-	const { gameMode, tier, mike, setFilter } = useBoardFilterStore();
+	const navigate = useNavigate({ from: "/board" });
+	const search = useSearch({ from: "/_header-layout/board/" });
+	const { mode, tier, mike, position } = search;
+
+	const updateFilter = <K extends keyof typeof search>(
+		key: K,
+		value: (typeof search)[K],
+	) => {
+		navigate({
+			search: {
+				...search,
+				[key]: value,
+				page: 1,
+			},
+		});
+	};
 
 	return (
 		<section className="flex h-full gap-2">
 			<Dropdown
 				className="h-full w-[138px]"
-				selectedLabel={getGameModeTitle(gameMode)}
-				onSelect={(value) => setFilter("gameMode", value)}
+				selectedLabel={getGameModeTitle(mode)}
+				onSelect={(value) => updateFilter("mode", value)}
 				items={GAME_MODE_ITEMS}
 			/>
 			<Dropdown
 				selectedLabel={getTierTitle(tier)}
 				className="h-full w-[138px]"
-				onSelect={(value) => setFilter("tier", value)}
+				onSelect={(value) => updateFilter("tier", value)}
 				items={TIER_ITEMS}
 			/>
 			<Dropdown
 				selectedLabel={getMike(mike)}
 				className="h-full w-[138px]"
-				onSelect={(value) => setFilter("mike", value)}
+				onSelect={(value) => updateFilter("mike", value)}
 				items={MIKE_ITEMS}
 			/>
-			<PositionButtons />
+			<PositionButtons
+				selectedPosition={position}
+				onSelectPosition={(value) =>
+					updateFilter("position", value as Position)
+				}
+			/>
 		</section>
 	);
 }
 
-function PositionButtons() {
-	const { position, setFilter } = useBoardFilterStore();
+interface PositionButtonsProps {
+	selectedPosition?: string;
+	onSelectPosition: (position: string) => void;
+}
 
+function PositionButtons({
+	selectedPosition,
+	onSelectPosition,
+}: PositionButtonsProps) {
 	return (
 		<ul className="flex h-full w-[286px] overflow-hidden rounded-lg bg-gray-100">
 			{POSITION_BUTTON_ITEMS.map((item) => {
 				const Icon = item.icon;
-				const isSelected = position === item.position;
+				const isSelected = selectedPosition === item.position;
 				return (
 					<li
 						key={item.position}
@@ -58,7 +85,7 @@ function PositionButtons() {
 								"flex h-full w-full cursor-pointer items-center justify-center",
 								isSelected && "bg-gray-700 hover:bg-gray-600",
 							)}
-							onClick={() => setFilter("position", item.position)}
+							onClick={() => onSelectPosition(item.position)}
 						>
 							<Icon
 								className={cn(
