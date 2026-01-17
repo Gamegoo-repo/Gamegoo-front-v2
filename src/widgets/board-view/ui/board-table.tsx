@@ -1,7 +1,5 @@
 import { useSearch } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { useBoardList } from "@/entities/post/model/use-board-list";
-import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
 import PaginationButtons from "@/features/board/ui/pagination-buttons";
 import type { BoardListResponse } from "@/shared/api";
 import { useAuth } from "@/shared/model/use-auth";
@@ -15,23 +13,20 @@ export default function BoardTable({
 }) {
 	const { user, isAuthenticated } = useAuth();
 
-	const { gameMode, tier, position, mike } = useBoardFilterStore();
-
-	const { page: currentPage = 1 } = useSearch({
+	const {
+		page: currentPage = 1,
+		mode,
+		tier,
+		mike,
+		position,
+	} = useSearch({
 		from: "/_header-layout/board/",
 	});
-
-	useEffect(() => {
-		window.scrollTo({ top: 0, behavior: "instant" });
-	}, []);
-
-	/** TODO: isFetching 써도 되는지 확인하기 */
-	// const { data, isFetching } = useFetchMyBlockedUsers(currentPage || 1, !!user);
 
 	const { isLoading, data: boardData } = useBoardList({
 		isAuthenticated,
 		page: currentPage,
-		gameMode: gameMode,
+		gameMode: mode,
 		tier: tier,
 		mainP: position,
 		subP: undefined,

@@ -178,12 +178,14 @@ privateApiClient.interceptors.response.use(
 				// logout-alert-modal 열기
 				tokenManager.onRefreshFailed?.();
 
-				// React Query 에러 토스트 방지
-				return Promise.reject({
-					type: "AUTH_FAILED",
-					message: "Session expired",
-					silent: true, // React Query가 처리 안 하도록
-				});
+				return Promise.resolve({
+					data: null,
+					status: 401,
+					statusText: "Unauthorized",
+					headers: {},
+					config: originalRequest,
+					__isAuthError: true,
+				} as any);
 			}
 		}
 

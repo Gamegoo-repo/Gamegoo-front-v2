@@ -2,9 +2,7 @@ import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { z } from "zod";
 import PostList from "@/entities/post/ui/post-list";
-import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
 import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
-// import PostFormModalContainer from "@/features/board/ui/post-form-mo;
 import BoardToolbarMobile from "@/features/board/ui/toolbar/board-toolbar-mobile";
 import {
 	type BoardListResponse,
@@ -21,8 +19,7 @@ const searchSchema = z.object({
 	page: z.number().min(1).optional().catch(1),
 	mode: z.enum(GameMode).optional(),
 	tier: z.enum(Tier).optional(),
-	mainP: z.enum(Position).optional(),
-	subP: z.enum(Position).optional(),
+	position: z.enum(Position).optional(),
 	mike: z.enum(Mike).optional(),
 });
 
@@ -36,8 +33,6 @@ function BoardPage() {
 
 	const { openDetailModal, openCreateModal, closeModal } = useBoardModalStore();
 
-	const resetFilters = useBoardFilterStore((s) => s.resetFilters);
-
 	useSearch({
 		from: "/_header-layout/board/",
 	});
@@ -47,7 +42,7 @@ function BoardPage() {
 	};
 
 	useEffect(() => {
-		resetFilters();
+		// resetFilters();
 		return () => closeModal();
 	}, []);
 

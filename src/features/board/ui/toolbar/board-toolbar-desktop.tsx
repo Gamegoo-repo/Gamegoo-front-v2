@@ -33,7 +33,6 @@ export default function BoardToolbarDesktop({
 				<BoardFilter />
 				<div className="flex h-full items-center gap-6">
 					<BumpButton />
-					{/** TODO: 중복 로직 제거하기 */}
 					<CreatePostButton onClick={handleOpenModal} />
 				</div>
 			</div>

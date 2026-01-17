@@ -1,14 +1,16 @@
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { useBoardFilterStore } from "@/features/board/model/board-filter-store";
 import PostActionMenu from "@/features/board/ui/post-action-menu";
 import { useAuth } from "@/shared/model/use-auth";
 import { useFetchPostsWithCursorQuery } from "../model/use-mobile-post-list";
 import PostCard from "./post-card";
 import PostCardSkeletons from "./post-card-skeleton";
+import { useSearch } from "@tanstack/react-router";
 
 export default function PostList() {
-	const { gameMode, tier, position, mike } = useBoardFilterStore();
+	const search = useSearch({ from: "/_header-layout/board/" });
+	const { mode, tier, mike, position } = search;
+
 	const { isAuthenticated, user } = useAuth();
 
 	const {
@@ -20,7 +22,7 @@ export default function PostList() {
 		hasNextPage,
 	} = useFetchPostsWithCursorQuery({
 		isAuthenticated,
-		gameMode: gameMode,
+		gameMode: mode,
 		tier: tier,
 		mainP: position,
 		subP: undefined,
