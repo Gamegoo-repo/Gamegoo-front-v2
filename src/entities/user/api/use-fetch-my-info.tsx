@@ -1,11 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { userKeys } from "@/entities/user/config/query-keys";
 import { api, type MyProfileResponse } from "@/shared/api";
 
+let isRefreshing = false;
+
 export const useFetchMyInfo = () => {
 	const queryClient = useQueryClient();
-	const isRefreshingRef = useRef(false);
 
 	const query = useQuery({
 		queryKey: userKeys.me(),
@@ -16,8 +17,8 @@ export const useFetchMyInfo = () => {
 	});
 
 	useEffect(() => {
-		if (query.data?.canRefresh && !isRefreshingRef.current) {
-			isRefreshingRef.current = true;
+		if (query.data?.canRefresh && !isRefreshing) {
+			isRefreshing = true;
 
 			api.private.member
 				.refreshChampionStats()
@@ -34,7 +35,7 @@ export const useFetchMyInfo = () => {
 					console.error("Failed to refresh champion stats:", error);
 				})
 				.finally(() => {
-					isRefreshingRef.current = false;
+					isRefreshing = false;
 				});
 		}
 	}, [query.data?.canRefresh, queryClient]);

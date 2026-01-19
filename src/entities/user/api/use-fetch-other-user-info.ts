@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { userKeys } from "@/entities/user/config/query-keys";
 import {
 	api,
@@ -8,12 +8,13 @@ import {
 	type OtherProfileResponse,
 } from "@/shared/api";
 
+const refreshingUserIds = new Set<number>();
+
 export const useFetchOtherUserProfile = (
 	userId: number,
 	options?: UseFetchOtherUserOptions,
 ) => {
 	const queryClient = useQueryClient();
-	const isRefreshingRef = useRef(false);
 
 	const query = useQuery({
 		queryKey: userKeys.profile(userId),
@@ -25,8 +26,8 @@ export const useFetchOtherUserProfile = (
 	});
 
 	useEffect(() => {
-		if (query.data?.canRefresh && !isRefreshingRef.current) {
-			isRefreshingRef.current = true;
+		if (query.data?.canRefresh && !refreshingUserIds.has(userId)) {
+			refreshingUserIds.add(userId);
 
 			api.private.member
 				.refreshChampionStats(userId)
@@ -45,7 +46,7 @@ export const useFetchOtherUserProfile = (
 					console.error("Failed to refresh champion stats:", error);
 				})
 				.finally(() => {
-					isRefreshingRef.current = false;
+					refreshingUserIds.delete(userId);
 				});
 		}
 	}, [query.data, userId, queryClient]);
