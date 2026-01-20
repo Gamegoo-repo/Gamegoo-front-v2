@@ -32,10 +32,10 @@ export default function PostList() {
 	const { ref, inView } = useInView();
 
 	useEffect(() => {
-		if (inView) {
+		if (inView && hasNextPage && !isFetchingNextPage) {
 			fetchNextPage();
 		}
-	}, [inView, fetchNextPage]);
+	}, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
 	if (!pages || isLoading) {
 		return (
