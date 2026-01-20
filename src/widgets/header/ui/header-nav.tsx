@@ -30,7 +30,7 @@ export default function HeaderNav() {
 				<Link
 					key={menu.href}
 					to={menu.href}
-					activeOptions={{ exact: true }}
+					activeOptions={{ exact: false }}
 					className="py-2.5 font-semibold mobile:font-normal mobile:text-xl text-gray-800 text-sm [&.active]:border-gray-800 [&.active]:border-b-[3px] mobile:[&.active]:border-b-0 mobile:[&.active]:font-bold"
 				>
 					{menu.label}

@@ -1,15 +1,20 @@
 import { cn } from "@/shared/lib/utils";
 import { POSITION_BUTTON_ITEMS } from "../../config/position-button-items";
-import { useBoardFilterStore } from "../../model/board-filter-store";
 
-export default function PositionButtons() {
-	const { position, setFilter } = useBoardFilterStore();
+interface PositionButtonsProps {
+	selectedPosition?: string;
+	onSelectPosition: (position: string) => void;
+}
 
+export default function PositionButtons({
+	selectedPosition,
+	onSelectPosition,
+}: PositionButtonsProps) {
 	return (
 		<ul className="flex h-full w-full overflow-hidden rounded-lg bg-gray-100">
 			{POSITION_BUTTON_ITEMS.map((item) => {
 				const Icon = item.icon;
-				const isSelected = position === item.position;
+				const isSelected = selectedPosition === item.position;
 				return (
 					<li
 						key={item.position}
@@ -21,7 +26,7 @@ export default function PositionButtons() {
 								"flex h-full w-full cursor-pointer items-center justify-center",
 								isSelected && "bg-gray-700 hover:bg-gray-600",
 							)}
-							onClick={() => setFilter("position", item.position)}
+							onClick={() => onSelectPosition(item.position)}
 						>
 							<Icon
 								className={cn(
