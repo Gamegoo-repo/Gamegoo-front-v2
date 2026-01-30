@@ -49,6 +49,9 @@ class MatchFlow {
 	private pendingCancelTimer: ReturnType<typeof setTimeout> | null = null;
 	private pendingCancelSessionId: number | null = null;
 
+	private entAt = 0;
+	private uiTimerId: number | null = null;
+
 	static getInstance(): MatchFlow {
 		if (!MatchFlow.instance) {
 			MatchFlow.instance = new MatchFlow();
