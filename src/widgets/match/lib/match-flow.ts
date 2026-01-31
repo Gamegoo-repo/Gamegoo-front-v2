@@ -9,7 +9,7 @@ import { matchEventManager } from "./match-event-manager";
 import type { MatchingRequest } from "./matching-types";
 import { useMatchUiStore } from "../model/store/useMatchUiStore";
 
-const TIMER_DURATION_MS = 1000;
+const TICK_MS = 1000;
 const MAX_DURATION_SEC = 300;
 
 /**
@@ -72,37 +72,26 @@ class MatchFlow {
 
 	private startUiTimer(durationSec: number) {
 		this.clearUiTimer();
-		this.endAt = Date.now() + durationSec * TIMER_DURATION_MS;
+		this.endAt = Date.now() + durationSec * TICK_MS;
 
 		const { start, tick } = useMatchUiStore.getState();
 		start(this.currentSessionId, durationSec);
 
 		this.uiTimerId = window.setInterval(() => {
-			const left = Math.max(
-				0,
-				Math.ceil((this.endAt - Date.now()) / TIMER_DURATION_MS),
-			);
+			const left = Math.max(0, Math.ceil((this.endAt - Date.now()) / TICK_MS));
 			tick(left);
 
 			if (left <= 0) {
 				this.markNotFound();
 				this.stopUi();
 			}
-		}, TIMER_DURATION_MS);
+		}, TICK_MS);
 	}
 
 	private stopUi() {
 		this.clearUiTimer();
 		useMatchUiStore.getState().stop();
 		this.endAt = 0;
-	}
-
-	private getTimeLeft(): number {
-		if (!this.endAt) return 0;
-		return Math.max(
-			0,
-			Math.ceil((this.endAt - Date.now()) / TIMER_DURATION_MS),
-		);
 	}
 
 	// === Lifecycle / wiring ===

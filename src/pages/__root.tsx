@@ -26,6 +26,7 @@ import {
 	FloatingChatDialog,
 } from "@/widgets/floating-chat-dialog";
 import Page404Component from "@/widgets/page-404-component";
+import { FloatingMatchingCard } from "@/widgets/match/ui/floating-matching-card/floating-matching-card";
 
 function RootLayout() {
 	useChatroomUpdateHandler();
@@ -66,6 +67,7 @@ function RootLayout() {
 						<Outlet />
 						<FloatingChatButton onClick={handleChatButtonClick} />
 						<FloatingChatDialog />
+						<FloatingMatchingCard />
 						<LoginRequiredModal />
 						<LogoutAlertModal />
 						<PostDeletedAlertModal />
