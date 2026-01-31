@@ -10,7 +10,7 @@ import type { MatchingRequest } from "./matching-types";
 import { useMatchUiStore } from "../model/store/useMatchUiStore";
 
 const TIMER_DURATION_MS = 1000;
-const MAX_DURATIONS_SEC = 300;
+const MAX_DURATION_SEC = 300;
 
 /**
  * 매칭의 '동작'을 메서드 단위로 제공하는 상위 레벨 유즈케이스 모음
@@ -146,15 +146,7 @@ class MatchFlow {
 	}
 
 	private handleInternalStateByEvent(event: MatchEventName) {
-		// 서버 이벤트가 와도 UI/phas가 꼬이지 않게 최소 동기화
-		if (event === "matching-started") {
-			this.phase = "searching";
-			if (this.uiTimerId === null && this.endAt > Date.now()) {
-				this.startUiTimer(this.getTimeLeft());
-			}
-			return;
-		}
-
+		// 서버 이벤트가 와도 UI/phase가 꼬이지 않게 최소 동기화
 		if (
 			event === "matching-found-sender" ||
 			event === "matching-found-receiver"
@@ -359,7 +351,7 @@ class MatchFlow {
 		this.phase = "searching";
 
 		// UI 5분 시작(페이지 이동해도 유지)
-		this.startUiTimer(MAX_DURATIONS_SEC);
+		this.startUiTimer(MAX_DURATION_SEC);
 
 		// 연결돼 있으면 즉시 전송, 아니면 connect 때 전송되도록 플래그/큐잉
 		if (socketManager.connected) {
