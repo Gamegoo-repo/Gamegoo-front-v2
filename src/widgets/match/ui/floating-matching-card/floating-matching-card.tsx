@@ -1,12 +1,13 @@
-import { useRouter } from "@tanstack/react-router";
+import { useLocation, useRouter } from "@tanstack/react-router";
 import { useMatchUiStore } from "../../model/store/useMatchUiStore";
 
 export const FloatingMatchingCard = () => {
 	const router = useRouter();
 	const { isMatching, timeLeft, sessionId } = useMatchUiStore();
-
+	const location = useLocation();
+	const isMatchPage = location.pathname.startsWith("/match");
 	if (!isMatching) return null;
-
+	if (isMatchPage) return null;
 	return (
 		<div className="fixed left-6 bottom-6 z-50 animate-slide-in">
 			<div className="flex items-center gap-4 rounded-2xl bg-white px-5 py-4 shadow-xl">

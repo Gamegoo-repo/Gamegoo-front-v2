@@ -4,11 +4,12 @@ import type { ChatroomResponse, EnterChatroomResponse } from "@/shared/api";
 import { api } from "@/shared/api";
 import { toast } from "@/shared/lib/toast";
 import { Button } from "@/shared/ui";
-import type { UseMatchFunnelReturn } from "../../../hooks";
+import { useMatchFunnelStore, type UseMatchFunnelReturn } from "../../../hooks";
 import { matchFlow } from "../../../lib/match-flow";
 import type { OpponentProfilePayload } from "../../../lib/matching-types";
 import MatchHeader from "../../match-header";
 import MatchStartProfile from "../match-start-step/match-start-profile";
+import { useMatchUiStore } from "@/widgets/match/model/store/useMatchUiStore";
 
 const MATCHING_COMPLETE_TIME = 10;
 
@@ -151,6 +152,11 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				openDialog();
 				setIsMatched(true);
 				matchFlow.markSuccess();
+				matchFlow.reset();
+				useMatchUiStore.getState().stop();
+				useMatchFunnelStore.getState().setStep("profile", {
+					matchComplete: undefined,
+				});
 			} catch (e) {
 				console.error(e);
 			}

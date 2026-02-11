@@ -1,13 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { getAuthUserId } from "@/shared/lib/auth-user";
 import { toast } from "@/shared/lib/toast";
 import type { UseMatchFunnelReturn } from "@/widgets/match/hooks";
 import { matchFlow } from "@/widgets/match/lib/match-flow";
-import type {
-	MatchingCountData,
-	MatchingFoundReceiverEvent,
-	MatchingFoundSenderEvent,
-} from "@/widgets/match/lib/matching-types";
+import type { MatchingCountData } from "@/widgets/match/lib/matching-types";
 import MatchHeader from "../../match-header";
 import MatchLoadingCard from "./match-loading-card";
 import MatchStartProfile from "./match-start-profile";
@@ -24,7 +19,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 	const { timeLeft, isMatching } = useMatchUiStore();
 	const [tierCounts, setTierCounts] = useState<Record<string, number>>({});
 
-	const didSendFoundSuccessRef = useRef(false);
 	const sessionIdRef = useRef(0);
 	const authUser = funnel.user;
 
@@ -60,38 +54,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				setTierCounts(newTierCounts);
 			};
 
-			const handleMatchingFoundSender = (data: unknown) => {
-				const ev = data as MatchingFoundSenderEvent;
-				const opponentData = ev.data;
-				const matchingUuid = ev.data.matchingUuid;
-				matchFlow.beginCompletePhase();
-				funnel.toStep("match-complete", {
-					matchComplete: {
-						role: "sender",
-						opponent: opponentData,
-						matchingUuid,
-					},
-				});
-			};
-
-			const handleMatchingFoundReceiver = (data: unknown) => {
-				const ev = data as MatchingFoundReceiverEvent;
-				matchFlow.beginCompletePhase();
-				if (!didSendFoundSuccessRef.current) {
-					didSendFoundSuccessRef.current = true;
-					matchFlow.confirmFoundReceiver(
-						ev.data.senderMatchingInfo.matchingUuid,
-					);
-				}
-				funnel.toStep("match-complete", {
-					matchComplete: {
-						role: "receiver",
-						opponent: ev.data.senderMatchingInfo,
-						matchingUuid: ev.data.senderMatchingInfo.matchingUuid,
-					},
-				});
-			};
-
 			const handleMatchingNotFound = () => {
 				// 서버 이벤트로 매칭이 종료되면 matchFlow 내부 상태를 초기화해야
 				// 다음 매칭 시작 시 matching-request가 정상 전송됩니다.
@@ -107,8 +69,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 			// 이벤트 구독 (matchFlow 관리)
 			matchFlow.on("matching-count", handleMatchingCount);
-			matchFlow.on("matching-found-sender", handleMatchingFoundSender);
-			matchFlow.on("matching-found-receiver", handleMatchingFoundReceiver);
 			matchFlow.on("matching-not-found", handleMatchingNotFound);
 			matchFlow.on("matching-fail", handleMatchingFail);
 
@@ -116,8 +76,6 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 
 			return () => {
 				matchFlow.off("matching-count", handleMatchingCount);
-				matchFlow.off("matching-found-sender", handleMatchingFoundSender);
-				matchFlow.off("matching-found-receiver", handleMatchingFoundReceiver);
 				matchFlow.off("matching-not-found", handleMatchingNotFound);
 				matchFlow.off("matching-fail", handleMatchingFail);
 			};
