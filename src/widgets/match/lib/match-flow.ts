@@ -419,7 +419,9 @@ class MatchFlow {
 	}
 
 	markNotFound(): void {
+		if (this.phase !== "searching") return;
 		this.sendOrQueue("matching-not-found");
+		this.emit("matching-not-found", undefined as any);
 		this.phase = "idle";
 		this.stopUi();
 	}

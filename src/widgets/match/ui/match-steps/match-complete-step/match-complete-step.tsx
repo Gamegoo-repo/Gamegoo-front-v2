@@ -196,7 +196,7 @@ function MatchCompleteStep({ funnel }: MatchCompleteStepProps) {
 				<div className="w-full max-w-[1440px]">
 					<div className="mobile:mt-[70px] mt-[30px] mb-[150px] flex w-full flex-col items-center justify-center mobile:px-[0px] px-[10px]">
 						<div className="flex mobile:grid w-full mobile:grid-cols-2 flex-col mobile:items-start items-center mobile:justify-items-center gap-[40px] mobile:gap-[24px]">
-							<MatchStartProfile user={authUser} />
+							<MatchStartProfile user={{ ...authUser, ...funnel.profile }} />
 
 							<MatchStartProfile
 								user={

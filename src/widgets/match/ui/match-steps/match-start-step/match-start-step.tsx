@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { toast } from "@/shared/lib/toast";
 import type { UseMatchFunnelReturn } from "@/widgets/match/hooks";
 import { matchFlow } from "@/widgets/match/lib/match-flow";
 import type { MatchingCountData } from "@/widgets/match/lib/matching-types";
@@ -54,30 +53,12 @@ function MatchStartStep({ funnel }: MatchStartStepProps) {
 				setTierCounts(newTierCounts);
 			};
 
-			const handleMatchingNotFound = () => {
-				// 서버 이벤트로 매칭이 종료되면 matchFlow 내부 상태를 초기화해야
-				// 다음 매칭 시작 시 matching-request가 정상 전송됩니다.
-				matchFlow.reset();
-				funnel.toStep("profile");
-			};
-
-			const handleMatchingFail = () => {
-				matchFlow.reset();
-				toast.error("매칭에 실패했어요. 다시 시도해 주세요.");
-				funnel.toStep("profile");
-			};
-
 			// 이벤트 구독 (matchFlow 관리)
 			matchFlow.on("matching-count", handleMatchingCount);
-			matchFlow.on("matching-not-found", handleMatchingNotFound);
-			matchFlow.on("matching-fail", handleMatchingFail);
-
 			sessionIdRef.current = matchFlow.getSessionId();
 
 			return () => {
 				matchFlow.off("matching-count", handleMatchingCount);
-				matchFlow.off("matching-not-found", handleMatchingNotFound);
-				matchFlow.off("matching-fail", handleMatchingFail);
 			};
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
