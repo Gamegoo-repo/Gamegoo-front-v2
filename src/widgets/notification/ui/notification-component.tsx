@@ -5,9 +5,13 @@ import { api } from "@/shared/api";
 import type { NotificationSearch } from "../lib/types";
 import AlertItem from "./alert-item.tsx";
 import NotificationPagination from "./notification-pagination.tsx";
+import { Checkbox } from "@/shared/ui/checkbox/Checkbox.tsx";
+import { useCallback, useEffect, useState } from "react";
 
 export default function NotificationComponent() {
 	const queryClient = useQueryClient();
+
+	const [checked, setChecked] = useState<Set<number>>(new Set());
 
 	const { page = 1 } = useSearch({
 		from: "/_header-layout/mypage/notification",
@@ -38,21 +42,58 @@ export default function NotificationComponent() {
 		},
 	});
 
-	const handleItemClick = async (notificationId: number, pageUrl?: string) => {
-		// 읽음 처리
-		if (notificationId) {
-			await readMutation.mutateAsync(notificationId);
-		}
+	const handleItemClick = useCallback(
+		async (notificationId: number, pageUrl?: string) => {
+			// 읽음 처리
+			if (notificationId) {
+				await readMutation.mutateAsync(notificationId);
+			}
 
-		if (pageUrl) {
-			// 내부/외부 경로 모두 안전하게 이동
-			window.location.href = pageUrl;
-		}
-	};
+			if (pageUrl) {
+				// 내부/외부 경로 모두 안전하게 이동
+				window.location.href = pageUrl;
+			}
+		},
+		[readMutation],
+	);
+
+	const allIds = data?.notificationList.map((n) => n.notificationId) ?? [];
+
+	const isAllChecked =
+		allIds.length > 0 && allIds.every((id) => checked.has(id));
+
+	const handleCheckedAll = useCallback(() => {
+		setChecked((prev) => {
+			const isAllSelected = allIds.every((id) => prev.has(id));
+			if (isAllSelected) return new Set();
+			return new Set(allIds);
+		});
+	}, [allIds]);
+
+	const handleChangeCheckedValue = useCallback((id: number) => {
+		setChecked((prev) => {
+			const next = new Set(prev);
+			if (next.has(id)) {
+				next.delete(id);
+			} else next.add(id);
+			return next;
+		});
+	}, []);
+
+	useEffect(() => {
+		setChecked(new Set());
+	}, [page]);
 
 	return (
 		<div className="h-full w-full">
-			<h2 className="bold-25 mb-4 border-gray-200 border-b pb-4">알림</h2>
+			<span>asfsdhk</span>
+			<h2 className="bold-25 mb-8 border-gray-200 border-b pb-4">알림</h2>
+
+			<header className="flex items-center gap-5 pl-3">
+				<Checkbox isChecked={isAllChecked} onCheckedChange={handleCheckedAll} />
+				<span>faisdfjdalksj</span>
+				<span>fajlksdfj</span>
+			</header>
 
 			{isLoading && (
 				<div className="flex h-[300px] items-center justify-center text-gray-500">
@@ -71,7 +112,7 @@ export default function NotificationComponent() {
 				data &&
 				(data.notificationList.length > 0 ? (
 					<>
-						<ul className="mt-4 mb-8 flex w-full flex-col gap-3">
+						<ul className="mt-6 mb-8 flex w-full flex-col gap-3">
 							{data.notificationList.map((n) => (
 								<li key={n.notificationId}>
 									<AlertItem
@@ -81,6 +122,8 @@ export default function NotificationComponent() {
 										createdAt={n.createdAt}
 										read={n.read}
 										pageUrl={n.pageUrl}
+										isChecked={checked.has(n.notificationId)}
+										onChangeCheckedValue={handleChangeCheckedValue}
 										onClick={handleItemClick}
 									/>
 								</li>
