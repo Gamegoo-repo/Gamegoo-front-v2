@@ -101,6 +101,7 @@ export * from './my-board-list-response';
 export * from './my-board-response';
 export * from './my-profile-response';
 export * from './notification-cursor-list-response';
+export * from './notification-multi-request';
 export * from './notification-page-list-response';
 export * from './notification-response';
 export * from './other-profile-response';

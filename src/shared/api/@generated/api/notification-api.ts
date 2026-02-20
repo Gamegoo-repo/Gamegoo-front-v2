@@ -31,12 +31,56 @@ import type { ApiResponseNotificationCursorListResponse } from '../models';
 import type { ApiResponseNotificationPageListResponse } from '../models';
 // @ts-ignore
 import type { ApiResponseReadNotificationResponse } from '../models';
+// @ts-ignore
+import type { ApiResponseString } from '../models';
+// @ts-ignore
+import type { NotificationMultiRequest } from '../models';
 /**
  * NotificationApi - axios parameter creator
  * @export
  */
 export const NotificationApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 여러 알림을 한 번에 삭제 처리하는 API 입니다.
+         * @summary 여러 알림 삭제 처리 API
+         * @param {NotificationMultiRequest} notificationMultiRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteMultipleNotifications: async (notificationMultiRequest: NotificationMultiRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'notificationMultiRequest' is not null or undefined
+            assertParamExists('deleteMultipleNotifications', 'notificationMultiRequest', notificationMultiRequest)
+            const localVarPath = `/api/v2/notification`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWT TOKEN required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(notificationMultiRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 알림 팝업 화면에서 알림 목록을 조회하는 API 입니다.
          * @summary 알림 팝업 목록 조회 API
@@ -152,6 +196,46 @@ export const NotificationApiAxiosParamCreator = function (configuration?: Config
             };
         },
         /**
+         * 여러 알림을 한 번에 읽음 처리하는 API 입니다.
+         * @summary 여러 알림 읽음 처리 API
+         * @param {NotificationMultiRequest} notificationMultiRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        readMultipleNotifications: async (notificationMultiRequest: NotificationMultiRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'notificationMultiRequest' is not null or undefined
+            assertParamExists('readMultipleNotifications', 'notificationMultiRequest', notificationMultiRequest)
+            const localVarPath = `/api/v2/notification`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication JWT TOKEN required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(notificationMultiRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 특정 알림을 읽음 처리하는 API 입니다.
          * @summary 알림 읽음 처리 API
          * @param {number} notificationId 읽음 처리할 알림의 id 입니다.
@@ -200,6 +284,19 @@ export const NotificationApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = NotificationApiAxiosParamCreator(configuration)
     return {
         /**
+         * 여러 알림을 한 번에 삭제 처리하는 API 입니다.
+         * @summary 여러 알림 삭제 처리 API
+         * @param {NotificationMultiRequest} notificationMultiRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteMultipleNotifications(notificationMultiRequest: NotificationMultiRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseString>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteMultipleNotifications(notificationMultiRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['NotificationApi.deleteMultipleNotifications']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 알림 팝업 화면에서 알림 목록을 조회하는 API 입니다.
          * @summary 알림 팝업 목록 조회 API
          * @param {number} [cursor] 페이징을 위한 커서, Long 타입 notificationId를 보내주세요. 보내지 않으면 가장 최근 알림 10개를 조회합니다.
@@ -238,6 +335,19 @@ export const NotificationApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * 여러 알림을 한 번에 읽음 처리하는 API 입니다.
+         * @summary 여러 알림 읽음 처리 API
+         * @param {NotificationMultiRequest} notificationMultiRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async readMultipleNotifications(notificationMultiRequest: NotificationMultiRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponseString>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.readMultipleNotifications(notificationMultiRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['NotificationApi.readMultipleNotifications']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * 특정 알림을 읽음 처리하는 API 입니다.
          * @summary 알림 읽음 처리 API
          * @param {number} notificationId 읽음 처리할 알림의 id 입니다.
@@ -260,6 +370,16 @@ export const NotificationApiFp = function(configuration?: Configuration) {
 export const NotificationApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = NotificationApiFp(configuration)
     return {
+        /**
+         * 여러 알림을 한 번에 삭제 처리하는 API 입니다.
+         * @summary 여러 알림 삭제 처리 API
+         * @param {NotificationMultiRequest} notificationMultiRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteMultipleNotifications(notificationMultiRequest: NotificationMultiRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseString> {
+            return localVarFp.deleteMultipleNotifications(notificationMultiRequest, options).then((request) => request(axios, basePath));
+        },
         /**
          * 알림 팝업 화면에서 알림 목록을 조회하는 API 입니다.
          * @summary 알림 팝업 목록 조회 API
@@ -290,6 +410,16 @@ export const NotificationApiFactory = function (configuration?: Configuration, b
             return localVarFp.getUnreadNotificationCount(options).then((request) => request(axios, basePath));
         },
         /**
+         * 여러 알림을 한 번에 읽음 처리하는 API 입니다.
+         * @summary 여러 알림 읽음 처리 API
+         * @param {NotificationMultiRequest} notificationMultiRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        readMultipleNotifications(notificationMultiRequest: NotificationMultiRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponseString> {
+            return localVarFp.readMultipleNotifications(notificationMultiRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 특정 알림을 읽음 처리하는 API 입니다.
          * @summary 알림 읽음 처리 API
          * @param {number} notificationId 읽음 처리할 알림의 id 입니다.
@@ -309,6 +439,18 @@ export const NotificationApiFactory = function (configuration?: Configuration, b
  * @extends {BaseAPI}
  */
 export class NotificationApi extends BaseAPI {
+    /**
+     * 여러 알림을 한 번에 삭제 처리하는 API 입니다.
+     * @summary 여러 알림 삭제 처리 API
+     * @param {NotificationMultiRequest} notificationMultiRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationApi
+     */
+    public deleteMultipleNotifications(notificationMultiRequest: NotificationMultiRequest, options?: RawAxiosRequestConfig) {
+        return NotificationApiFp(this.configuration).deleteMultipleNotifications(notificationMultiRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 알림 팝업 화면에서 알림 목록을 조회하는 API 입니다.
      * @summary 알림 팝업 목록 조회 API
@@ -342,6 +484,18 @@ export class NotificationApi extends BaseAPI {
      */
     public getUnreadNotificationCount(options?: RawAxiosRequestConfig) {
         return NotificationApiFp(this.configuration).getUnreadNotificationCount(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 여러 알림을 한 번에 읽음 처리하는 API 입니다.
+     * @summary 여러 알림 읽음 처리 API
+     * @param {NotificationMultiRequest} notificationMultiRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationApi
+     */
+    public readMultipleNotifications(notificationMultiRequest: NotificationMultiRequest, options?: RawAxiosRequestConfig) {
+        return NotificationApiFp(this.configuration).readMultipleNotifications(notificationMultiRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

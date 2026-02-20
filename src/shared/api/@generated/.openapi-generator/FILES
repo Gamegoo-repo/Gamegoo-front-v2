@@ -136,6 +136,7 @@ docs/MyBoardResponse.md
 docs/MyProfileResponse.md
 docs/NotificationApi.md
 docs/NotificationCursorListResponse.md
+docs/NotificationMultiRequest.md
 docs/NotificationPageListResponse.md
 docs/NotificationResponse.md
 docs/OtherProfileResponse.md
@@ -281,6 +282,7 @@ models/my-board-list-response.ts
 models/my-board-response.ts
 models/my-profile-response.ts
 models/notification-cursor-list-response.ts
+models/notification-multi-request.ts
 models/notification-page-list-response.ts
 models/notification-response.ts
 models/other-profile-response.ts

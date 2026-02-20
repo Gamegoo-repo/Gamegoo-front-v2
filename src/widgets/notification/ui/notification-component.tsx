@@ -7,6 +7,7 @@ import AlertItem from "./alert-item.tsx";
 import NotificationPagination from "./notification-pagination.tsx";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox.tsx";
 import { useCallback, useEffect, useState } from "react";
+import { Button } from "@/shared/ui/index.ts";
 
 export default function NotificationComponent() {
 	const queryClient = useQueryClient();
@@ -41,6 +42,59 @@ export default function NotificationComponent() {
 			});
 		},
 	});
+
+	const readMultipleMutation = useMutation({
+		mutationFn: async (ids: number[]) => {
+			const { data } = await api.private.notification.readMultipleNotifications(
+				{
+					notificationIds: ids,
+				},
+			);
+			return data;
+		},
+		onSuccess: async () => {
+			setChecked(new Set());
+
+			await queryClient.invalidateQueries({
+				queryKey: ["notifications"],
+			});
+
+			await queryClient.invalidateQueries({
+				queryKey: notificationKeys.unreadCount(),
+			});
+		},
+	});
+
+	const deleteMutation = useMutation({
+		mutationFn: async (ids: number[]) => {
+			const { data } =
+				await api.private.notification.deleteMultipleNotifications({
+					notificationIds: ids,
+				});
+			return data;
+		},
+		onSuccess: async () => {
+			setChecked(new Set());
+
+			await queryClient.invalidateQueries({
+				queryKey: ["notifications"],
+			});
+
+			await queryClient.invalidateQueries({
+				queryKey: notificationKeys.unreadCount(),
+			});
+		},
+	});
+
+	const handleReadSelected = useCallback(() => {
+		if (!checked.size) return;
+		readMultipleMutation.mutate(Array.from(checked));
+	}, [checked, readMultipleMutation]);
+
+	const handleDeleteSelected = useCallback(() => {
+		if (!checked.size) return;
+		deleteMutation.mutate(Array.from(checked));
+	}, [checked, deleteMutation]);
 
 	const handleItemClick = useCallback(
 		async (notificationId: number, pageUrl?: string) => {
@@ -86,14 +140,7 @@ export default function NotificationComponent() {
 
 	return (
 		<div className="h-full w-full">
-			<span>asfsdhk</span>
 			<h2 className="bold-25 mb-8 border-gray-200 border-b pb-4">알림</h2>
-
-			<header className="flex items-center gap-5 pl-3">
-				<Checkbox isChecked={isAllChecked} onCheckedChange={handleCheckedAll} />
-				<span>faisdfjdalksj</span>
-				<span>fajlksdfj</span>
-			</header>
 
 			{isLoading && (
 				<div className="flex h-[300px] items-center justify-center text-gray-500">
@@ -112,6 +159,29 @@ export default function NotificationComponent() {
 				data &&
 				(data.notificationList.length > 0 ? (
 					<>
+						<header className="flex items-center gap-5 pl-3">
+							<Checkbox
+								isChecked={isAllChecked}
+								onCheckedChange={handleCheckedAll}
+							/>
+							<Button
+								className="p-0"
+								variant="ghost"
+								onClick={handleReadSelected}
+								disabled={!checked.size}
+							>
+								<span className="semibold-18">읽음</span>
+							</Button>
+
+							<Button
+								className="p-0"
+								variant="ghost"
+								onClick={handleDeleteSelected}
+								disabled={!checked.size}
+							>
+								<span className="semibold-18">삭제</span>
+							</Button>
+						</header>
 						<ul className="mt-6 mb-8 flex w-full flex-col gap-3">
 							{data.notificationList.map((n) => (
 								<li key={n.notificationId}>
