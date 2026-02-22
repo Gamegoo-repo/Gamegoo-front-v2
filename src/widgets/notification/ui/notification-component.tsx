@@ -102,7 +102,7 @@ export default function NotificationComponent() {
 
 	const handleReadSelected = useCallback(() => {
 		if (!checked.size) return;
-		if (checked.size > 1) {
+		if (checked.size >= 2) {
 			setActionState("read");
 			return setIsOpenModal(true);
 		}
@@ -112,7 +112,7 @@ export default function NotificationComponent() {
 
 	const handleDeleteSelected = useCallback(() => {
 		if (!checked.size) return;
-		if (checked.size > 1) {
+		if (checked.size >= 2) {
 			setActionState("delete");
 			return setIsOpenModal(true);
 		}
