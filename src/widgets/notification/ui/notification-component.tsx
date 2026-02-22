@@ -6,13 +6,27 @@ import type { NotificationSearch } from "../lib/types";
 import AlertItem from "./alert-item.tsx";
 import NotificationPagination from "./notification-pagination.tsx";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox.tsx";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button } from "@/shared/ui/index.ts";
+import Modal from "@/shared/ui/modal/modal.tsx";
+import { FlexBox } from "@/shared/ui/flexbox/flexbox.tsx";
+import {
+	mediaQueries,
+	useMediaQuery,
+} from "@/shared/model/use-media-query.tsx";
 
 export default function NotificationComponent() {
 	const queryClient = useQueryClient();
 
+	const isMobile = useMediaQuery(mediaQueries.isMobile);
+
+	const fontClass = isMobile ? "medium-14" : "regular-25";
+
 	const [checked, setChecked] = useState<Set<number>>(new Set());
+	const [isOpenModal, setIsOpenModal] = useState(false);
+	const [actionState, setActionState] = useState<"read" | "delete" | null>(
+		null,
+	);
 
 	const { page = 1 } = useSearch({
 		from: "/_header-layout/mypage/notification",
@@ -88,11 +102,20 @@ export default function NotificationComponent() {
 
 	const handleReadSelected = useCallback(() => {
 		if (!checked.size) return;
+		if (checked.size > 1) {
+			setActionState("read");
+			return setIsOpenModal(true);
+		}
+
 		readMultipleMutation.mutate(Array.from(checked));
 	}, [checked, readMultipleMutation]);
 
 	const handleDeleteSelected = useCallback(() => {
 		if (!checked.size) return;
+		if (checked.size > 1) {
+			setActionState("delete");
+			return setIsOpenModal(true);
+		}
 		deleteMutation.mutate(Array.from(checked));
 	}, [checked, deleteMutation]);
 
@@ -133,6 +156,51 @@ export default function NotificationComponent() {
 			return next;
 		});
 	}, []);
+
+	const renderModalDescription = () => {
+		if (!actionState) return;
+		const isAll = checked.size === allIds.length;
+
+		if (actionState === "read")
+			return isAll ? (
+				<span className={`text-gray-900 ${fontClass}`}>
+					모든 알림을 읽음 처리할까요?
+				</span>
+			) : (
+				<span className={`text-gray-900 ${fontClass}`}>
+					선택한 알림을 읽음 처리할까요?
+				</span>
+			);
+
+		if (actionState === "delete")
+			return (
+				<FlexBox direction="column" align="center" justify="center">
+					<span className={`text-gray-900 ${fontClass}`}>
+						{isAll ? "모든  알림을 삭제할까요?" : "선택한 알림을 삭제할까요?"}
+					</span>
+					<span className={`text-gray-900 ${fontClass}`}>
+						삭제된 알림은 복구할 수 없습니다.
+					</span>
+				</FlexBox>
+			);
+
+		return null;
+	};
+
+	const handleConfirmModal = useCallback(() => {
+		const ids = Array.from(checked);
+
+		if (actionState === "read") {
+			readMultipleMutation.mutate(ids);
+		}
+
+		if (actionState === "delete") {
+			deleteMutation.mutate(ids);
+		}
+
+		setIsOpenModal(false);
+		setActionState(null);
+	}, [checked, actionState, readMultipleMutation, deleteMutation]);
 
 	useEffect(() => {
 		setChecked(new Set());
@@ -207,6 +275,41 @@ export default function NotificationComponent() {
 						새로운 알림이 없습니다.
 					</div>
 				))}
+			<Modal
+				isOpen={isOpenModal}
+				onClose={() => {
+					setIsOpenModal(false);
+					setActionState(null);
+				}}
+				className="w-[320px] h-[177px] md:w-[540px] md:h-[268px] p-0 mobile:p-0"
+			>
+				<FlexBox direction="column" align="center" fullHeight>
+					<FlexBox align="center" fullHeight>
+						{renderModalDescription()}
+					</FlexBox>
+					<footer className="w-full border-t border-gray-400">
+						<FlexBox direction="row" align="center" justify="between" fullWidth>
+							<Button
+								variant="ghost"
+								className="flex-1 py-[26px] border-r border-gray-400 rounded-none"
+							>
+								취소
+							</Button>
+							<Button
+								variant="ghost"
+								className="flex-1 py-[26px]"
+								onClick={handleConfirmModal}
+							>
+								{actionState === "read" ? (
+									<span className="text-violet-600">확인</span>
+								) : (
+									<span className="text-red-600">삭제</span>
+								)}
+							</Button>
+						</FlexBox>
+					</footer>
+				</FlexBox>
+			</Modal>
 		</div>
 	);
 }
