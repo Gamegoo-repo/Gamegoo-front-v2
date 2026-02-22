@@ -6,7 +6,7 @@ import type { NotificationSearch } from "../lib/types";
 import AlertItem from "./alert-item.tsx";
 import NotificationPagination from "./notification-pagination.tsx";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox.tsx";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/shared/ui/index.ts";
 import Modal from "@/shared/ui/modal/modal.tsx";
 import { FlexBox } from "@/shared/ui/flexbox/flexbox.tsx";
@@ -200,7 +200,7 @@ export default function NotificationComponent() {
 
 		setIsOpenModal(false);
 		setActionState(null);
-	}, [checked, actionState, readMultipleMutation, deleteMutation]);
+	}, [checked, actionState]);
 
 	useEffect(() => {
 		setChecked(new Set());
