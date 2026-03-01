@@ -11,15 +11,35 @@ import MatchHeader from "../../match-header";
 import BasicProfileForm from "./basic-profile-form";
 import PreciseProfileForm from "./precise-profile-form";
 import ProfileStepMobile from "./profile-step-mobile";
+import { getAuthUserId } from "@/shared/lib/auth-user";
+import { matchFlow } from "@/widgets/match/lib/match-flow";
 
 interface ProfileStepProps {
 	funnel: UseMatchFunnelReturn;
 	user: MyProfileResponse | null;
 }
 
+const mapPreciseWantPositions = (wantP?: string[] | null) => {
+	const normalized = (wantP || []).filter((p): p is string => !!p);
+	if (normalized.length === 0) return ["ANY", "ANY"];
+	if (normalized.length === 1) {
+		const first = normalized[0];
+		return first === "ANY" ? ["ANY", "ANY"] : [first, "ANY"];
+	}
+	return [normalized[0], normalized[1]];
+};
+
+const GAME_MODE_THRESHOLD: Record<string, number> = {
+	FAST: 15, // 빠른 대전
+	SOLO: 50, // 개인 랭크
+	FREE: 50, // 자유 랭크
+	ARAM: 10, // 칼바람
+};
+
 function ProfileStep({ funnel, user }: ProfileStepProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const router = useRouter();
+	const authUser = funnel.user;
 	const { isMobile } = useResponsive();
 
 	const matchType = funnel.type;
@@ -56,6 +76,39 @@ function ProfileStep({ funnel, user }: ProfileStepProps) {
 			profile: normalizedProfile,
 			gameMode: funnel.gameMode || null,
 		} as const;
+
+		const gameMode = funnel.gameMode;
+		if (!gameMode) {
+			console.error("❌ [V2-Debug] gameMode가 설정되지 않았습니다:", {
+				type: funnel.type,
+				gameMode: funnel.gameMode,
+				profile: funnel.profile,
+			});
+			return;
+		}
+
+		const profile = funnel.profile || {};
+		const matchingData = {
+			matchingType: funnel.type ?? "BASIC",
+			gameMode: gameMode,
+			memberId: getAuthUserId(authUser) ?? undefined,
+			threshold: GAME_MODE_THRESHOLD[gameMode],
+			mike: profile.mike ?? "UNAVAILABLE",
+			mainP: profile.mainP ?? "ANY",
+			subP: profile.subP ?? "ANY",
+			wantP:
+				funnel.type === "PRECISE" ? mapPreciseWantPositions(profile.wantP) : [],
+			gameStyleIdList: (() => {
+				const ids =
+					profile.gameStyleResponseList?.map((s) => s.gameStyleId) || [];
+				return ids.length > 0 ? ids : null;
+			})(),
+		};
+
+		// 매칭 시작 (중복 전송 방지 내부 처리)
+		const started = matchFlow.start(matchingData);
+		if (!started) return;
+
 		funnel.toStep("match-start", payload);
 	};
 

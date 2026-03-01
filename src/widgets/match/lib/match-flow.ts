@@ -7,6 +7,10 @@ import type {
 } from "./match-event-manager";
 import { matchEventManager } from "./match-event-manager";
 import type { MatchingRequest } from "./matching-types";
+import { useMatchUiStore } from "../model/store/useMatchUiStore";
+
+const TICK_MS = 1000;
+const MAX_DURATION_SEC = 300;
 
 /**
  * 매칭의 '동작'을 메서드 단위로 제공하는 상위 레벨 유즈케이스 모음
@@ -49,11 +53,45 @@ class MatchFlow {
 	private pendingCancelTimer: ReturnType<typeof setTimeout> | null = null;
 	private pendingCancelSessionId: number | null = null;
 
+	private endAt = 0;
+	private uiTimerId: number | null = null;
+
 	static getInstance(): MatchFlow {
 		if (!MatchFlow.instance) {
 			MatchFlow.instance = new MatchFlow();
 		}
 		return MatchFlow.instance;
+	}
+
+	private clearUiTimer() {
+		if (this.uiTimerId !== null) {
+			window.clearInterval(this.uiTimerId);
+			this.uiTimerId = null;
+		}
+	}
+
+	private startUiTimer(durationSec: number) {
+		this.clearUiTimer();
+		this.endAt = Date.now() + durationSec * TICK_MS;
+
+		const { start, tick } = useMatchUiStore.getState();
+		start(this.currentSessionId, durationSec);
+
+		this.uiTimerId = window.setInterval(() => {
+			const left = Math.max(0, Math.ceil((this.endAt - Date.now()) / TICK_MS));
+			tick(left);
+
+			if (left <= 0) {
+				this.markNotFound();
+				this.stopUi();
+			}
+		}, TICK_MS);
+	}
+
+	private stopUi() {
+		this.clearUiTimer();
+		useMatchUiStore.getState().stop();
+		this.endAt = 0;
 	}
 
 	// === Lifecycle / wiring ===
@@ -64,6 +102,9 @@ class MatchFlow {
 		const forward =
 			<E extends MatchEventName>(event: E) =>
 			(...args: unknown[]) => {
+				// 내부 상태 갱신
+				this.handleInternalStateByEvent(event);
+
 				if (event === "connect") {
 					this.handleConnect();
 				} else if (event === "jwt-expired-error") {
@@ -91,6 +132,31 @@ class MatchFlow {
 			"matching-success-sender",
 			forward("matching-success-sender"),
 		);
+	}
+
+	private handleInternalStateByEvent(event: MatchEventName) {
+		// 서버 이벤트가 와도 UI/phase가 꼬이지 않게 최소 동기화
+		if (
+			event === "matching-found-sender" ||
+			event === "matching-found-receiver"
+		) {
+			// 상대를 찾은 상태(complete 화면으로 넘어가기 전)
+			if (this.phase === "searching") this.phase = "found";
+			return;
+		}
+
+		if (event === "matching-not-found" || event === "matching-fail") {
+			// 서버가 종료시킴 → UI도 즉시 꺼야 함
+			this.phase = "idle";
+			this.stopUi();
+			return;
+		}
+
+		if (event === "matching-success") {
+			this.phase = "completed";
+			this.stopUi();
+			return;
+		}
 	}
 
 	private emit<E extends MatchEventName>(
@@ -209,6 +275,8 @@ class MatchFlow {
 			this.pendingCancelTimer = null;
 		}
 		this.pendingCancelSessionId = null;
+
+		this.stopUi();
 	}
 
 	private sendOrQueue(event: string, data?: unknown): void {
@@ -271,6 +339,9 @@ class MatchFlow {
 		}
 		this.phase = "searching";
 
+		// UI 5분 시작(페이지 이동해도 유지)
+		this.startUiTimer(MAX_DURATION_SEC);
+
 		// 연결돼 있으면 즉시 전송, 아니면 connect 때 전송되도록 플래그/큐잉
 		if (socketManager.connected) {
 			this.didSendInitialRequest = true;
@@ -310,6 +381,8 @@ class MatchFlow {
 		}
 		// 검색/발견 단계에서만 cancel 스케줄
 		if (this.phase === "searching" || this.phase === "found") {
+			this.stopUi();
+
 			this.pendingCancelSessionId = this.currentSessionId;
 			this.pendingCancelTimer = setTimeout(() => {
 				// 스케줄 시점과 현재 세션이 같고, 여전히 검색/발견 단계인 경우에만 전송
@@ -346,8 +419,11 @@ class MatchFlow {
 	}
 
 	markNotFound(): void {
+		if (this.phase !== "searching") return;
 		this.sendOrQueue("matching-not-found");
+		this.emit("matching-not-found", undefined as any);
 		this.phase = "idle";
+		this.stopUi();
 	}
 
 	confirmFoundReceiver(senderMatchingUuid: string): void {
@@ -369,9 +445,12 @@ class MatchFlow {
 	fail(): void {
 		this.sendOrQueue("matching-fail");
 		this.phase = "idle";
+		this.stopUi();
 	}
 
 	beginCompletePhase(): void {
+		// complete 화면으로 넘어가면 플로팅은 꺼도 됨
+		this.stopUi();
 		this.phase = "completing";
 		this.successReceiverSent = false;
 		this.successFinalSent = false;
@@ -379,10 +458,15 @@ class MatchFlow {
 
 	markSuccess(): void {
 		this.phase = "completed";
+		this.stopUi();
 	}
 
 	getSessionId(): number {
 		return this.currentSessionId;
+	}
+
+	isMatching(): boolean {
+		return this.phase === "searching" || this.phase === "found";
 	}
 }
 

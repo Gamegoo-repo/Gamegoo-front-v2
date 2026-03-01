@@ -39,7 +39,7 @@ interface MatchFunnelStore {
 	) => void;
 }
 
-const useMatchFunnelStore = create<MatchFunnelStore>((set) => ({
+export const useMatchFunnelStore = create<MatchFunnelStore>((set) => ({
 	step: "profile",
 	type: "BASIC",
 	gameMode: "FAST",
