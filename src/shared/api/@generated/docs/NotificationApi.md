@@ -4,10 +4,66 @@ All URIs are relative to *https://api.gamegoo.co.kr*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**deleteMultipleNotifications**](#deletemultiplenotifications) | **DELETE** /api/v2/notification | 여러 알림 삭제 처리 API|
 |[**getNotificationListByCursor**](#getnotificationlistbycursor) | **GET** /api/v2/notification | 알림 팝업 목록 조회 API|
 |[**getNotificationListByPage**](#getnotificationlistbypage) | **GET** /api/v2/notification/total | 알림 전체 목록 조회 API|
 |[**getUnreadNotificationCount**](#getunreadnotificationcount) | **GET** /api/v2/notification/unread/count | 안읽은 알림 개수 조회 API|
+|[**readMultipleNotifications**](#readmultiplenotifications) | **PATCH** /api/v2/notification | 여러 알림 읽음 처리 API|
 |[**readNotification**](#readnotification) | **PATCH** /api/v2/notification/{notificationId} | 알림 읽음 처리 API|
+
+# **deleteMultipleNotifications**
+> ApiResponseString deleteMultipleNotifications(notificationMultiRequest)
+
+여러 알림을 한 번에 삭제 처리하는 API 입니다.
+
+### Example
+
+```typescript
+import {
+    NotificationApi,
+    Configuration,
+    NotificationMultiRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new NotificationApi(configuration);
+
+let notificationMultiRequest: NotificationMultiRequest; //
+
+const { status, data } = await apiInstance.deleteMultipleNotifications(
+    notificationMultiRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **notificationMultiRequest** | **NotificationMultiRequest**|  | |
+
+
+### Return type
+
+**ApiResponseString**
+
+### Authorization
+
+[JWT TOKEN](../README.md#JWT TOKEN)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*, application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+|**404** | [NOTI_403] 해당 알림 내역을 찾을 수 없습니다. [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getNotificationListByCursor**
 > ApiResponseNotificationCursorListResponse getNotificationListByCursor()
@@ -160,6 +216,60 @@ This endpoint does not have any parameters.
 |**200** | OK |  -  |
 |**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 |**404** | [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **readMultipleNotifications**
+> ApiResponseString readMultipleNotifications(notificationMultiRequest)
+
+여러 알림을 한 번에 읽음 처리하는 API 입니다.
+
+### Example
+
+```typescript
+import {
+    NotificationApi,
+    Configuration,
+    NotificationMultiRequest
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new NotificationApi(configuration);
+
+let notificationMultiRequest: NotificationMultiRequest; //
+
+const { status, data } = await apiInstance.readMultipleNotifications(
+    notificationMultiRequest
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **notificationMultiRequest** | **NotificationMultiRequest**|  | |
+
+
+### Return type
+
+**ApiResponseString**
+
+### Authorization
+
+[JWT TOKEN](../README.md#JWT TOKEN)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*, application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+|**404** | [NOTI_403] 해당 알림 내역을 찾을 수 없습니다. [MEMBER_401] 사용자를 찾을 수 없습니다. [AUTH_412] 탈퇴한 사용자 입니다. |  -  |
+|**401** | [AUTH_410] 로그인 후 이용가능합니다. 토큰을 입력해 주세요 |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
