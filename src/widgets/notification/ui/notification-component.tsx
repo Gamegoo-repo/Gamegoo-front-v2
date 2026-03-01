@@ -292,6 +292,10 @@ export default function NotificationComponent() {
 							<Button
 								variant="ghost"
 								className="flex-1 py-[26px] border-r border-gray-400 rounded-none"
+								onClick={() => {
+									setIsOpenModal(false);
+									setActionState(null);
+								}}
 							>
 								취소
 							</Button>
