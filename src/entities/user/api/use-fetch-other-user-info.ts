@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { userKeys } from "@/entities/user/config/query-keys";
 import {
 	api,
@@ -7,11 +8,15 @@ import {
 	type OtherProfileResponse,
 } from "@/shared/api";
 
+const refreshingUserIds = new Set<number>();
+
 export const useFetchOtherUserProfile = (
 	userId: number,
 	options?: UseFetchOtherUserOptions,
 ) => {
-	return useQuery({
+	const queryClient = useQueryClient();
+
+	const query = useQuery({
 		queryKey: userKeys.profile(userId),
 		queryFn: async () => {
 			const response = await api.private.member.getMember(userId);
@@ -19,6 +24,34 @@ export const useFetchOtherUserProfile = (
 		},
 		...options,
 	});
+
+	useEffect(() => {
+		if (query.data?.canRefresh && !refreshingUserIds.has(userId)) {
+			refreshingUserIds.add(userId);
+
+			api.private.member
+				.refreshChampionStats(userId)
+				.then((refreshResponse) => {
+					const refreshedData = refreshResponse.data?.data;
+					if (refreshedData && query.data) {
+						queryClient.setQueryData(userKeys.profile(userId), {
+							...query.data,
+							championStatsResponseList: refreshedData.championStatsResponseList,
+							memberRecentStats: refreshedData.memberRecentStats,
+							canRefresh: false,
+						});
+					}
+				})
+				.catch((error) => {
+					console.error("Failed to refresh champion stats:", error);
+				})
+				.finally(() => {
+					refreshingUserIds.delete(userId);
+				});
+		}
+	}, [query.data, userId, queryClient]);
+
+	return query;
 };
 
 export const useFetchOtherUserMannerKeywords = (
