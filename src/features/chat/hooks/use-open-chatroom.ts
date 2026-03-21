@@ -1,10 +1,13 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useChatStore } from "@/entities/chat";
-import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import { chatKeys } from "@/entities/chat/config/query-keys";
-import type { ApiResponseEnterChatroomResponse, ChatroomResponse } from "@/shared/api";
-import { api } from "@/shared/api";
 import type { AxiosResponse } from "axios";
+import { useChatStore } from "@/entities/chat";
+import { chatKeys } from "@/entities/chat/config/query-keys";
+import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
+import type {
+	ApiResponseEnterChatroomResponse,
+	ChatroomResponse,
+} from "@/shared/api";
+import { api } from "@/shared/api";
 
 /**
  * 채팅방 오픈 공통 로직을 처리하는 훅.

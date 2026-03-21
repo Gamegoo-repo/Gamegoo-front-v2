@@ -1,9 +1,9 @@
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
-	LolBtiResultSection,
 	convertPayloadToAxisPercentages,
+	LolBtiResultSection,
 } from "@/features/lol-bti";
 import { getLolBtiResultByResultId } from "@/features/lol-bti/test/api/lolbti-integration-api";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import LolBtiLoadingSection from "@/features/lol-bti/test/ui/lolbti-loading-section";
 
 export const Route = createFileRoute("/lolbti/results/$resultId")({

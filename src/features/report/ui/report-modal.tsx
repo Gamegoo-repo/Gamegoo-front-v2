@@ -1,18 +1,18 @@
-import { cn } from "@/shared/lib/utils";
-import CloseButton from "@/shared/ui/button/close-button";
-import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
-import Modal from "@/shared/ui/modal/modal";
+import axios from "axios";
 import { useState } from "react";
-import { useReportModalStore } from "../model/use-report-modal-store";
-import useSubmitReport from "../api/use-submit-report";
-import { toast } from "@/shared/lib/toast";
-import { reportPathToNumber } from "../lib/report-path-mapper";
+import type { ApiErrorResponse } from "@/shared/api";
 import {
 	isReportErrorCode,
 	REPORT_ERROR_MESSAGES,
 } from "@/shared/config/error-message/report-error";
-import axios from "axios";
-import type { ApiErrorResponse } from "@/shared/api";
+import { toast } from "@/shared/lib/toast";
+import { cn } from "@/shared/lib/utils";
+import CloseButton from "@/shared/ui/button/close-button";
+import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
+import Modal from "@/shared/ui/modal/modal";
+import useSubmitReport from "../api/use-submit-report";
+import { reportPathToNumber } from "../lib/report-path-mapper";
+import { useReportModalStore } from "../model/use-report-modal-store";
 
 const REPORT_REASONS = [
 	{

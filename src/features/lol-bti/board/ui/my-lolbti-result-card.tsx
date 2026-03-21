@@ -1,11 +1,11 @@
-import { LOL_BTI_TYPE_DATA } from "@/features/lol-bti/test/config";
-import type { GetMyLolBtiResultResponse } from "@/features/lol-bti/test/api";
 import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
+import type { GetMyLolBtiResultResponse } from "@/features/lol-bti/test/api";
+import { LOL_BTI_TYPE_DATA } from "@/features/lol-bti/test/config";
+import { toast } from "@/shared/lib/toast";
 import { useAuthStore } from "@/shared/model/use-auth-store";
 import { Button } from "@/shared/ui";
 import LolBtiCard from "./lolbti-card";
 import LolBtiChampionStats from "./lolbti-champion-stats";
-import { toast } from "@/shared/lib/toast";
 
 export default function MyLolBtiResultCard({
 	result,

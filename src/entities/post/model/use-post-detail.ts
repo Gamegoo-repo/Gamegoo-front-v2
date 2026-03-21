@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 import { boardKeys } from "@/features/board/api/query-keys";
 import {
-	api,
 	type ApiErrorResponse,
+	api,
 	type BoardByIdResponse,
 	type BoardByIdResponseForMember,
 } from "@/shared/api";
-import type { AxiosError } from "axios";
 
 /**
  * `PostDetail`:게시판 상세모달의 데이터 타입

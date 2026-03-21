@@ -1,18 +1,18 @@
-import { LOL_BTI_TYPE_DATA } from "@/features/lol-bti/test/config";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
+import { useChatDialogStore, useChatStore } from "@/entities/chat";
+import { chatKeys } from "@/entities/chat/config/query-keys";
 import type { LolBtiRecommendation } from "@/features/lol-bti/test/api";
+import { LOL_BTI_TYPE_DATA } from "@/features/lol-bti/test/config";
+import { useSendFriendRequest } from "@/features/user/hooks/use-send-friend-request";
+import { api, type ChatroomResponse } from "@/shared/api";
+import type { MyLolBtiRecommendation } from "@/shared/api/lolbti/types";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
+import { cn } from "@/shared/lib/utils";
+import { Button } from "@/shared/ui";
+import CompatibilityHeart from "./compatibility-heart";
 import LolBtiCard from "./lolbti-card";
 import LolBtiChampionStats from "./lolbti-champion-stats";
-import CompatibilityHeart from "./compatibility-heart";
-import { Button } from "@/shared/ui";
-import type { MyLolBtiRecommendation } from "@/shared/api/lolbti/types";
-import { cn } from "@/shared/lib/utils";
-import { useSendFriendRequest } from "@/features/user/hooks/use-send-friend-request";
-import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
-import { useChatDialogStore, useChatStore } from "@/entities/chat";
-import { api, type ChatroomResponse } from "@/shared/api";
-import { useQueryClient } from "@tanstack/react-query";
-import { chatKeys } from "@/entities/chat/config/query-keys";
-import { Link } from "@tanstack/react-router";
 
 type CompatibilityLevel = "full" | "half" | "empty";
 
@@ -110,7 +110,11 @@ export default function OtherLolBtiResultCard({
 	});
 
 	return (
-		<Link className="block w-full" to="/users/$userId" params={{ userId: result.memberId.toString() }}>
+		<Link
+			className="block w-full"
+			to="/users/$userId"
+			params={{ userId: result.memberId.toString() }}
+		>
 			<LolBtiCard
 				className="bg-gray-100"
 				header={

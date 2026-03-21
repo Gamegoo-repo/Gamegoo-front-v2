@@ -1,6 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
+import type {
+	SaveGuestLolBtiResultRequest,
+	SaveLolBtiResultResponse,
+} from "../api";
 import { createPublicLolBtiResult, saveLolBtiResult } from "../api";
-import type { SaveGuestLolBtiResultRequest, SaveLolBtiResultResponse } from "../api";
 import type { LolBtiResultType } from "../config";
 
 export interface SaveMemberLolBtiResultRequest

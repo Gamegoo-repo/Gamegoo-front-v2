@@ -1,6 +1,6 @@
+import EmptyHeartIcon from "@/shared/assets/icons/ic-empty-heart.svg?react";
 import FullHeartIcon from "@/shared/assets/icons/ic-full-heart.svg?react";
 import HalfHeartIcon from "@/shared/assets/icons/ic-half-heart.svg?react";
-import EmptyHeartIcon from "@/shared/assets/icons/ic-empty-heart.svg?react";
 
 export default function CompatibilityHeart({
 	compatibilityLevel,

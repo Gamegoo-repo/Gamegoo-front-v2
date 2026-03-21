@@ -3,7 +3,9 @@ export type CopyRiotIdParams = {
 	tag: string;
 };
 
-export async function copyTextToClipboard(text: string): Promise<{ ok: boolean; text: string }> {
+export async function copyTextToClipboard(
+	text: string,
+): Promise<{ ok: boolean; text: string }> {
 	try {
 		await navigator.clipboard.writeText(text);
 		return { ok: true, text };

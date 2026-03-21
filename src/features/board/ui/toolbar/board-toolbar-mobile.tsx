@@ -1,4 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import type { Position } from "@/shared/api";
 import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import { boardKeys } from "../../api/query-keys";
@@ -14,8 +16,6 @@ import BumpButton from "../bump-button";
 import CreatePostButton from "../create-post-button";
 import RefetchButton from "../refetch-button";
 import PositionButtons from "./position-buttons";
-import { useNavigate, useSearch } from "@tanstack/react-router";
-import type { Position } from "@/shared/api";
 
 export default function BoardToolbarMobile({
 	handleOpenCreateModal,

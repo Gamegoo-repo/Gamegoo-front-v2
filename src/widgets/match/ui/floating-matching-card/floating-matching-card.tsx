@@ -1,11 +1,11 @@
 import { useLocation, useRouter } from "@tanstack/react-router";
-import { useMatchUiStore } from "../../model/store/useMatchUiStore";
-import { Button } from "@/shared/ui";
-import { ExpandMatchingIcon } from "./icons/expand-matching-icon";
-import { CancelMatchingIcon } from "./icons/cancel-matching-icon";
 import HeartIcon from "@/shared/assets/icons/wait_heart.svg?react";
-import { matchFlow } from "../../lib/match-flow";
+import { Button } from "@/shared/ui";
 import { useMatchFunnelStore } from "../../hooks";
+import { matchFlow } from "../../lib/match-flow";
+import { useMatchUiStore } from "../../model/store/useMatchUiStore";
+import { CancelMatchingIcon } from "./icons/cancel-matching-icon";
+import { ExpandMatchingIcon } from "./icons/expand-matching-icon";
 
 export const FloatingMatchingCard = () => {
 	const router = useRouter();

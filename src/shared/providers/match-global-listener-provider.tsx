@@ -1,7 +1,7 @@
+import { useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useMatchFunnelStore } from "../../widgets/match/hooks";
 import { matchFlow } from "../../widgets/match/lib/match-flow";
-import { useRouter } from "@tanstack/react-router";
 
 export const MatchGlobalListenerProvider = () => {
 	const router = useRouter();

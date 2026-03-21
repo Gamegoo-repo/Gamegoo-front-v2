@@ -1,24 +1,23 @@
-import LolBtiLandingSection from "@/features/lol-bti/test/ui/landing/lolbti-landing-section";
-import LolBtiQuizSection from "@/features/lol-bti/test/ui/quiz/lolbti-quiz-section";
-import LolBtiResultSection from "@/features/lol-bti/test/ui/result/lolbti-result-section";
-import LolBtiLoadingSection from "@/features/lol-bti/test/ui/lolbti-loading-section";
-
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import LolBtiShareButton from "@/features/lol-bti/test/ui/result/lolbti-share-button";
 import {
 	calculateAllAxisPercentages,
 	calculateLolBtiResult,
-	trackRollBtiEvent,
 	type LolBtiAxisKey,
 	type LolBtiResultType,
+	trackRollBtiEvent,
 } from "@/features/lol-bti";
-import { useSaveGuestLolBtiResult } from "@/features/lol-bti/test/model/use-save-guest-lolbti-result";
 import { LOL_BTI_QUESTIONS } from "@/features/lol-bti/test/config";
-import { useAuth } from "@/shared/model/use-auth";
+import { useSaveGuestLolBtiResult } from "@/features/lol-bti/test/model/use-save-guest-lolbti-result";
 import { useSaveMemberLolBtiResult } from "@/features/lol-bti/test/model/use-save-member-lolbti-result";
+import LolBtiLandingSection from "@/features/lol-bti/test/ui/landing/lolbti-landing-section";
+import LolBtiLoadingSection from "@/features/lol-bti/test/ui/lolbti-loading-section";
+import LolBtiQuizSection from "@/features/lol-bti/test/ui/quiz/lolbti-quiz-section";
+import LolBtiResultSection from "@/features/lol-bti/test/ui/result/lolbti-result-section";
+import LolBtiShareButton from "@/features/lol-bti/test/ui/result/lolbti-share-button";
 import { getEventSource } from "@/shared/lib/get-device";
 import { SessionManager } from "@/shared/lib/session/session-manager";
+import { useAuth } from "@/shared/model/use-auth";
 
 export const Route = createFileRoute("/lolbti/test")({
 	component: RouteComponent,

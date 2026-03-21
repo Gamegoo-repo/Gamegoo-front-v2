@@ -1,7 +1,7 @@
-import type { LolBtiResultType } from "@/shared/lib/constants/lolbti-result-type";
 import type { Mike } from "@/shared/api/@generated/models/mike";
 import type { Position } from "@/shared/api/@generated/models/position";
 import type { Tier } from "@/shared/api/@generated/models/tier";
+import type { LolBtiResultType } from "@/shared/lib/constants/lolbti-result-type";
 import type { ChampionStatsResponse } from "../@generated";
 
 // ─────────────────────────────────────────────

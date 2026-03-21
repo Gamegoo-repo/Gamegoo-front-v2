@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import type { UseMatchFunnelReturn } from "@/widgets/match/hooks";
 import { matchFlow } from "@/widgets/match/lib/match-flow";
 import type { MatchingCountData } from "@/widgets/match/lib/matching-types";
+import { useMatchUiStore } from "@/widgets/match/model/store/useMatchUiStore";
 import MatchHeader from "../../match-header";
 import MatchLoadingCard from "./match-loading-card";
 import MatchStartProfile from "./match-start-profile";
-import { useMatchUiStore } from "@/widgets/match/model/store/useMatchUiStore";
 
 const MAX_MATCHING_TIME = 300; // 5분
 const RETRY_INTERVAL_SEC = 30; // 30초

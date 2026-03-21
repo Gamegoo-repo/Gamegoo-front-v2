@@ -16,11 +16,21 @@ declare global {
 	}
 }
 
-const useSNSShare = ({ title, url, option, imageUrl, description }: UseSNSShareParams) => {
+const useSNSShare = ({
+	title,
+	url,
+	option,
+	imageUrl,
+	description,
+}: UseSNSShareParams) => {
 	const JAVASCRIPT_KEY = import.meta.env.PUBLIC_APP_JAVASCRIPT_KEY;
 
 	const shareToX = () => {
-		const tweetText = [title, description ? `"${description}"` : undefined, "당신의 롤BTI는?"]
+		const tweetText = [
+			title,
+			description ? `"${description}"` : undefined,
+			"당신의 롤BTI는?",
+		]
 			.filter(Boolean)
 			.join("\n");
 
@@ -51,15 +61,16 @@ const useSNSShare = ({ title, url, option, imageUrl, description }: UseSNSShareP
 
 		kakao.Share.sendDefault({
 			objectType: "feed",
-			content: {title: title,
+			content: {
+				title: title,
 				description: description,
-			imageUrl: imageUrl,
-			link: {
-				mobileWebUrl: 'https://gamegoo.co.kr',
-				webUrl: 'https://gamegoo.co.kr',
+				imageUrl: imageUrl,
+				link: {
+					mobileWebUrl: "https://gamegoo.co.kr",
+					webUrl: "https://gamegoo.co.kr",
+				},
 			},
-			}
-		})
+		});
 	};
 
 	const shareToNavigator = ({ text, url }: { text: string; url: string }) => {

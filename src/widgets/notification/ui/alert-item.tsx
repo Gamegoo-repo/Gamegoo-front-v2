@@ -1,7 +1,7 @@
 import { formatDateSimple } from "@/shared/lib/format-date-simple";
 import { cn } from "@/shared/lib/utils";
-import NotificationIcon from "./notification-icon";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
+import NotificationIcon from "./notification-icon";
 
 interface AlertItemProps {
 	notificationId: number;

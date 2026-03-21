@@ -1,9 +1,9 @@
+import { Link } from "@tanstack/react-router";
+import { LogoImg } from "@/shared/assets/lolbti";
 import { FlexBox } from "@/shared/ui/flexbox";
 import { LogoButton } from "@/shared/ui/logo";
-import { LogoImg } from "@/shared/assets/lolbti";
-import { Link } from "@tanstack/react-router";
-import { LolBtiLayout } from "../lolbti-layout";
 import useFetchParticipants from "../../model/use-fetch-participants";
+import { LolBtiLayout } from "../lolbti-layout";
 import CountUp from "./count-up";
 
 interface LolBtiQuizSectionProps {

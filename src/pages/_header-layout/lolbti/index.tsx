@@ -1,26 +1,26 @@
+import { useQuery } from "@tanstack/react-query";
 import {
 	createFileRoute,
 	useNavigate,
 	useSearch,
 } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
 import { z } from "zod";
 import { TIER_ITEMS } from "@/features/board/config/dropdown-items";
 import { getTierTitle } from "@/features/board/lib/getTierTitle";
-import { getMyLolBtiResult } from "@/features/lol-bti/test/api";
-import Dropdown from "@/shared/ui/dropdown/dropdown";
-import { Tier } from "@/shared/api";
-import { useAuthStore } from "@/shared/model/use-auth-store";
+import {
+	useFetchPrivateLolbtiQuery,
+	useFetchPublicLolbtiQuery,
+} from "@/features/lol-bti/board/model/use-fetch-lolbti";
+import LolBtiCardSkeleton from "@/features/lol-bti/board/ui/lolbti-card-skeleton";
 import LolBtiTestCtaCard from "@/features/lol-bti/board/ui/lolbti-test-cta-card";
 import MyLolBtiResultCard from "@/features/lol-bti/board/ui/my-lolbti-result-card";
-import {
-	useFetchPublicLolbtiQuery,
-	useFetchPrivateLolbtiQuery,
-} from "@/features/lol-bti/board/model/use-fetch-lolbti";
 import OtherLolBtiResultCard from "@/features/lol-bti/board/ui/other-lolbti-card";
-import LolBtiCardSkeleton from "@/features/lol-bti/board/ui/lolbti-card-skeleton";
-import { useInView } from "react-intersection-observer";
+import { getMyLolBtiResult } from "@/features/lol-bti/test/api";
+import { Tier } from "@/shared/api";
+import { useAuthStore } from "@/shared/model/use-auth-store";
+import Dropdown from "@/shared/ui/dropdown/dropdown";
 
 type SortOption = "HIGH" | "LOW";
 

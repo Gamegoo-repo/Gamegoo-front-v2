@@ -1,7 +1,7 @@
 import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
+import type { ChampionStatsResponse } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
 import { FlexBox } from "@/shared/ui/flexbox";
-import type { ChampionStatsResponse } from "@/shared/api";
 
 interface Props {
 	champions: ChampionStatsResponse[];

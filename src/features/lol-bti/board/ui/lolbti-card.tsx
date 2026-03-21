@@ -1,5 +1,5 @@
-import { cn } from "@/shared/lib/utils";
 import type { ReactNode } from "react";
+import { cn } from "@/shared/lib/utils";
 
 interface Props {
 	/** 타입 뱃지, 궁합 표시 등 카드 상단 영역 */

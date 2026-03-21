@@ -1,4 +1,5 @@
-import { FlexBox } from "@/shared/ui/flexbox";
+import { useNavigate } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import {
 	LOL_BTI_COMPATIBILITY_MAP,
 	LOL_BTI_TYPE_DATA,
@@ -7,20 +8,19 @@ import {
 	type LolBtiResultType,
 	type LolPosition,
 } from "@/features/lol-bti/test/config";
+import { copyTextToClipboard } from "@/shared/lib/copy-riot-id";
+import { getEventSource } from "@/shared/lib/get-device";
+import { SessionManager } from "@/shared/lib/session/session-manager";
+import { FlexBox } from "@/shared/ui/flexbox";
+import { trackRollBtiEvent } from "../../api";
+import { LolBtiLayout } from "../lolbti-layout";
+import { LolBtiAxisResult } from "./lolbti-axis-result";
 import LolBtiCompatibleCard, {
 	LolBtiIncompatibleCard,
 } from "./lolbti-compatible-card";
-import { LolBtiLayout } from "../lolbti-layout";
+import { LolBtiPositionCard } from "./lolbti-position-card";
 import { LolBtiProfileCard } from "./lolbti-profile-card";
 import LolBtiStrengthWeakness from "./lolbti-strength-weakness";
-import { LolBtiAxisResult } from "./lolbti-axis-result";
-import { LolBtiPositionCard } from "./lolbti-position-card";
-import { useNavigate } from "@tanstack/react-router";
-import { trackRollBtiEvent } from "../../api";
-import { getEventSource } from "@/shared/lib/get-device";
-import { SessionManager } from "@/shared/lib/session/session-manager";
-import { copyTextToClipboard } from "@/shared/lib/copy-riot-id";
-import type { ReactNode } from "react";
 
 export default function LolBtiResultSection({
 	title = "나의 롤BTI는?",

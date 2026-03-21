@@ -21,13 +21,13 @@ import {
 	ConfirmDialogProvider,
 	GamegooSocketProvider,
 } from "@/shared/providers";
+import { MatchGlobalListenerProvider } from "@/shared/providers/match-global-listener-provider";
 import {
 	FloatingChatButton,
 	FloatingChatDialog,
 } from "@/widgets/floating-chat-dialog";
-import Page404Component from "@/widgets/page-404-component";
 import { FloatingMatchingCard } from "@/widgets/match/ui/floating-matching-card/floating-matching-card";
-import { MatchGlobalListenerProvider } from "@/shared/providers/match-global-listener-provider";
+import Page404Component from "@/widgets/page-404-component";
 
 function RootLayout() {
 	useChatroomUpdateHandler();

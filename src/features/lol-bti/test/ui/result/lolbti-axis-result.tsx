@@ -1,9 +1,9 @@
-import { FlexBox } from "@/shared/ui/flexbox";
 import {
 	LOL_BTI_AXIS_CONFIG,
 	type LolBtiAxisKey,
 } from "@/features/lol-bti/test/config";
 import { cn } from "@/shared/lib/utils";
+import { FlexBox } from "@/shared/ui/flexbox";
 
 interface LolBtiAxisResultProps {
 	axisKey: LolBtiAxisKey;

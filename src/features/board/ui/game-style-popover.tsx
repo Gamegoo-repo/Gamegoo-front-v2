@@ -42,9 +42,7 @@ export default function GameStylePopover({
 
 					<div className="flex w-full flex-wrap gap-2">
 						{GAME_STYLE.map((item) => {
-							const isSelected = selectedGameStyle.includes(
-								item.gameStyleId,
-							);
+							const isSelected = selectedGameStyle.includes(item.gameStyleId);
 
 							return (
 								<button

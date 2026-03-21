@@ -1,5 +1,6 @@
 import { socketManager } from "@/shared/api/socket";
 import { toast } from "@/shared/lib/toast";
+import { useMatchUiStore } from "../model/store/useMatchUiStore";
 import type {
 	JwtExpiredErrorPayload,
 	MatchEventName,
@@ -7,7 +8,6 @@ import type {
 } from "./match-event-manager";
 import { matchEventManager } from "./match-event-manager";
 import type { MatchingRequest } from "./matching-types";
-import { useMatchUiStore } from "../model/store/useMatchUiStore";
 
 const TICK_MS = 1000;
 const MAX_DURATION_SEC = 300;

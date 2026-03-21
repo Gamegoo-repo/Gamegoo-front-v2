@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
+import CopyLinkIcon from "@/shared/assets/icons/ic-copy-link.svg?react";
+import DownloadIcon from "@/shared/assets/icons/ic-download.svg?react";
+import XLogoIcon from "@/shared/assets/icons/ic-x-logo.svg?react";
+import KakaoShareImg from "@/shared/assets/images/kakao-share.png";
+import { copyTextToClipboard } from "@/shared/lib/copy-riot-id";
+import { getEventSource } from "@/shared/lib/get-device";
+import { trackRollBtiEvent } from "../../api";
+import { LOL_BTI_TYPE_DATA, type LolBtiResultType } from "../../config";
+import { downloadLolBtiResult } from "../../lib/download-lolbti-result";
 import useSNSShare from "../../model/use-sns-share";
 import LolBtiShareModal from "./lolbti-share-modal";
-import { LOL_BTI_TYPE_DATA, type LolBtiResultType } from "../../config";
-import DownloadIcon from "@/shared/assets/icons/ic-download.svg?react";
-import CopyLinkIcon from "@/shared/assets/icons/ic-copy-link.svg?react";
-import KakaoShareImg from "@/shared/assets/images/kakao-share.png";
-import { downloadLolBtiResult } from "../../lib/download-lolbti-result";
-import { copyTextToClipboard } from "@/shared/lib/copy-riot-id";
-import XLogoIcon from "@/shared/assets/icons/ic-x-logo.svg?react";
-import { trackRollBtiEvent } from "../../api";
-import { getEventSource } from "@/shared/lib/get-device";
 
 export default function LolBtiShareButton({
 	result,

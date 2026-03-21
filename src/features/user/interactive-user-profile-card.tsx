@@ -1,11 +1,11 @@
-import type { RefObject } from "react";
 import { Link } from "@tanstack/react-router";
+import type { RefObject } from "react";
 import { useFetchMannerKeywords } from "@/entities/user/api/use-fetch-manner-keywords";
 import MannerLevelPopover from "@/entities/user/ui/manner-level-popover";
 import UserProfile from "@/entities/user/ui/user-profile";
 import type { Mike } from "@/shared/api";
-import BubbleTooltip from "./bubble-tooltip";
 import MikeTag from "@/shared/ui/mike-tag";
+import BubbleTooltip from "./bubble-tooltip";
 
 export default function InteractiveUserProfileCard({
 	modalRef,
@@ -71,7 +71,7 @@ export default function InteractiveUserProfileCard({
 				</MannerLevelPopover>
 			</p>
 			<div className="grid grid-cols-2 grid-rows-2 gap-x-1.5 gap-y-[1px]">
-        <span className="inline-block font-bold mobile:text-xl text-base text-gray-800">
+				<span className="inline-block font-bold mobile:text-xl text-base text-gray-800">
 					{gameName}
 				</span>
 				<div className="inline-block self-center">

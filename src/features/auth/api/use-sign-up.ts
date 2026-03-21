@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import type { AxiosError } from "axios";
+import { trackRollBtiEvent } from "@/features/lol-bti/test/api";
+import type { LolBtiResultType } from "@/features/lol-bti/test/config";
 import {
 	type ApiErrorResponse,
 	api,
@@ -9,12 +11,10 @@ import {
 } from "@/shared/api";
 import type { RiotJoinResponse } from "@/shared/api/@generated/models/riot-join-response";
 import { isValidApiError } from "@/shared/api/guard";
+import { getEventSource } from "@/shared/lib/get-device";
+import { SessionManager } from "@/shared/lib/session/session-manager";
 import { toast } from "@/shared/lib/toast";
 import { useAuthStore } from "@/shared/model/use-auth-store";
-import { SessionManager } from "@/shared/lib/session/session-manager";
-import { trackRollBtiEvent } from "@/features/lol-bti/test/api";
-import { getEventSource } from "@/shared/lib/get-device";
-import type { LolBtiResultType } from "@/features/lol-bti/test/config";
 
 export const useSignUp = () => {
 	const auth = useAuthStore();

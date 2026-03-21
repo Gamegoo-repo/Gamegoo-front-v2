@@ -1,9 +1,9 @@
+import { Link } from "@tanstack/react-router";
 import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
 import { MOCK_USER_PROFILE } from "@/entities/user/config/user-mock-data";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui";
 import { FlexBox } from "@/shared/ui/flexbox";
-import { Link } from "@tanstack/react-router";
 
 export default function LolBtiTestCtaCard() {
 	return (

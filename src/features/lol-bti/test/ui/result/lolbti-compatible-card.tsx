@@ -1,6 +1,6 @@
 import UserProfile from "@/entities/user/ui/user-profile";
-import { LolBtiTypeInfo } from "./lolbti-type-info";
 import type { LolBtiResultType } from "../../config";
+import { LolBtiTypeInfo } from "./lolbti-type-info";
 
 const MOCK_USERS = [
 	{ profileImage: 5, name: "핸들이고장난8톤트럭", tag: "#1116" },
@@ -37,20 +37,18 @@ export default function LolBtiCompatibleCard({
 			<LolBtiTypeInfo type={type} title={title} quote={quote} size="sm" />
 			<div className="w-full overflow-hidden">
 				<ul className="flex w-max animate-[marquee_20s_linear_infinite] items-center gap-2 pl-4">
-					{[...MOCK_USERS, ...MOCK_USERS].map(
-						(user, index) => (
-							<li
-								key={`${index}-${user.name}`}
-								className="flex w-fit items-center gap-2 rounded-xl bg-gray-700 p-2 pr-4"
-							>
-								<UserProfile id={user.profileImage} sizeClass="size-10" />
-								<div className="flex flex-col flex-nowrap gap-0.5 font-medium text-white blur-[2px]">
-									<span className="text-sm">{user.name}</span>
-									<span className="text-gray-500 text-xs">{user.tag}</span>
-								</div>
-							</li>
-						),
-					)}
+					{[...MOCK_USERS, ...MOCK_USERS].map((user, index) => (
+						<li
+							key={`${index}-${user.name}`}
+							className="flex w-fit items-center gap-2 rounded-xl bg-gray-700 p-2 pr-4"
+						>
+							<UserProfile id={user.profileImage} sizeClass="size-10" />
+							<div className="flex flex-col flex-nowrap gap-0.5 font-medium text-white blur-[2px]">
+								<span className="text-sm">{user.name}</span>
+								<span className="text-gray-500 text-xs">{user.tag}</span>
+							</div>
+						</li>
+					))}
 				</ul>
 			</div>
 			<div className="w-full px-4">

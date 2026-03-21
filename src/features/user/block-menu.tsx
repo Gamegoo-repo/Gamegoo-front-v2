@@ -1,7 +1,7 @@
+import type { ReportPath } from "@/shared/api";
 import { toast } from "@/shared/lib/toast";
 import { PopoverMenu, ReportMenuItem } from "../popover-menu";
 import { BlockToggleMenu } from "../popover-menu/menu-items/block-toggle-menu-item";
-import type { ReportPath } from "@/shared/api";
 
 export default function BlockReportMenu({
 	userId,
