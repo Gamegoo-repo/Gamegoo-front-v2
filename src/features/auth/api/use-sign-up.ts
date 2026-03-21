@@ -11,6 +11,10 @@ import type { RiotJoinResponse } from "@/shared/api/@generated/models/riot-join-
 import { isValidApiError } from "@/shared/api/guard";
 import { toast } from "@/shared/lib/toast";
 import { useAuthStore } from "@/shared/model/use-auth-store";
+import { SessionManager } from "@/shared/lib/session/session-manager";
+import { trackRollBtiEvent } from "@/features/lol-bti/test/api";
+import { getEventSource } from "@/shared/lib/get-device";
+import type { LolBtiResultType } from "@/features/lol-bti/test/config";
 
 export const useSignUp = () => {
 	const auth = useAuthStore();
@@ -47,6 +51,25 @@ export const useSignUp = () => {
 				banExpireAt: "",
 				isBanned: false,
 			});
+
+			// 롤BTI 유입 사용자 회원가입 완료 이벤트 전송
+			// sessionId가 존재하면 롤BTI 테스트를 거쳐 가입한 것으로 판단
+			const sessionId = SessionManager.peek();
+			if (sessionId !== null) {
+				const rollBtiType =
+					SessionManager.getResultType() as LolBtiResultType | null;
+
+				if (rollBtiType !== null) {
+					trackRollBtiEvent({
+						eventType: "SIGNUP_COMPLETE",
+						sessionId,
+						rollBtiType,
+						eventSource: getEventSource(),
+					});
+				}
+
+				SessionManager.clearAll();
+			}
 
 			navigate({ to: "/" });
 		},

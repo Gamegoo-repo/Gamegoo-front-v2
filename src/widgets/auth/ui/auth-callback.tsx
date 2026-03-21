@@ -26,6 +26,7 @@ export default function AuthCallback() {
 			switch (response.error) {
 				case "member_isBlind":
 					toast.error("탈퇴한 사용자입니다.");
+					navigate({ to: "/riot/restore" });
 					break;
 				case "signup_disabled":
 					toast.error("롤과 연동되어 있지 않은 사용자입니다.");
