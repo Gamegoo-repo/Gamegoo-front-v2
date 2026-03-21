@@ -75,6 +75,15 @@ export default defineConfig({
                         },
                     ]
                 : []),
+            // kakao sdk
+            { 
+                tag: 'script', 
+                attrs: { 
+                src: 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.9/kakao.min.js', // 최신 버전 권장
+                integrity: 'sha384-JpLApTkB8lPskhVMhT+m5Ln8aHlnS0bsIexhaak0jOhAkMYedQoVghPfSpjNi9K1', // 필요 시 무결성 체크 값
+                crossorigin: 'anonymous' 
+                } 
+            },
             // Amplitude
             {
                 tag: 'script',
