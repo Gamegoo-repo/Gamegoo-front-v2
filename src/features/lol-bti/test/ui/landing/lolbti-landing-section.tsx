@@ -44,7 +44,7 @@ export default function LolBtiLandingSection({
 							<p className="mt-[52px] inline-block rounded-full border border-white/20 bg-white/10 px-6 py-2 text-[#9A9A9A] text-[15px]">
 								지금까지{" "}
 								<span className="font-bold text-white">
-									{data ? <CountUp end={data.totalParticipants + 7555} /> : 0}
+									{data ? <CountUp end={data.totalParticipants} /> : 0}
 								</span>
 								명이 참여했어요
 							</p>
