@@ -26,9 +26,9 @@ export default function LolBtiTestCtaCard() {
 					className="mb-4 w-full rounded-[10px] bg-gray-800 px-4 py-2"
 				>
 					{MOCK_USER_PROFILE.championStatsResponseList.map(
-						(champion, index) => (
+						(champion, _index) => (
 							<div
-								key={index}
+								key={champion.championId}
 								className="flex flex-col items-center justify-center"
 							>
 								<img
