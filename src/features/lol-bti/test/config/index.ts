@@ -4,6 +4,15 @@ export type { LolPosition } from "./positions";
 export { LOL_POSITION_LABEL, LOL_POSITIONS } from "./positions";
 
 export { LOL_BTI_QUESTIONS } from "./question";
+export {
+	KAKAO_SDK_URL,
+	X_SHARE_URL,
+	FACEBOOK_SHARE_URL,
+	GAMEGOO_SITE_URL,
+	X_SHARE_HASHTAGS,
+	X_SHARE_SUFFIX,
+	KAKAO_SHARE_OBJECT_TYPE,
+} from "./sns-share";
 export type { LolBtiResultType } from "./result-types";
 export {
 	LOL_BTI_COMPATIBILITY_MAP,

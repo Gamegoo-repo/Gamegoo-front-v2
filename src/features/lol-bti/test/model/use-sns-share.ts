@@ -1,4 +1,13 @@
 import { useEffect } from "react";
+import {
+	FACEBOOK_SHARE_URL,
+	GAMEGOO_SITE_URL,
+	KAKAO_SDK_URL,
+	KAKAO_SHARE_OBJECT_TYPE,
+	X_SHARE_HASHTAGS,
+	X_SHARE_SUFFIX,
+	X_SHARE_URL,
+} from "../config";
 
 interface UseSNSShareParams {
 	title?: string;
@@ -29,7 +38,7 @@ const useSNSShare = ({
 		const tweetText = [
 			title,
 			description ? `"${description}"` : undefined,
-			"당신의 롤BTI는?",
+			X_SHARE_SUFFIX,
 		]
 			.filter(Boolean)
 			.join("\n");
@@ -37,15 +46,15 @@ const useSNSShare = ({
 		const params = new URLSearchParams({
 			text: tweetText,
 			url,
-			hashtags: "롤BTI,롤,리그오브레전드",
+			hashtags: X_SHARE_HASHTAGS,
 		});
 
-		openWindow(`https://x.com/intent/tweet?${params.toString()}`);
+		openWindow(`${X_SHARE_URL}?${params.toString()}`);
 	};
 
 	const shareToFacebook = () => {
 		const sharedLink = encodeURIComponent(url);
-		openWindow(`http://www.facebook.com/sharer/sharer.php?u=${sharedLink}`);
+		openWindow(`${FACEBOOK_SHARE_URL}?u=${sharedLink}`);
 	};
 
 	const shareToKakaoTalk = () => {
@@ -60,14 +69,14 @@ const useSNSShare = ({
 		}
 
 		kakao.Share.sendDefault({
-			objectType: "feed",
+			objectType: KAKAO_SHARE_OBJECT_TYPE,
 			content: {
 				title: title,
 				description: description,
 				imageUrl: imageUrl,
 				link: {
-					mobileWebUrl: "https://gamegoo.co.kr",
-					webUrl: "https://gamegoo.co.kr",
+					mobileWebUrl: GAMEGOO_SITE_URL,
+					webUrl: GAMEGOO_SITE_URL,
 				},
 			},
 		});
@@ -101,7 +110,7 @@ const useSNSShare = ({
 
 	useEffect(() => {
 		const script = document.createElement("script");
-		script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+		script.src = KAKAO_SDK_URL;
 		script.async = true;
 
 		document.body.appendChild(script);
