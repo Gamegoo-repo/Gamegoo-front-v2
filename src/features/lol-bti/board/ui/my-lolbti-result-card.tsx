@@ -18,7 +18,7 @@ export default function MyLolBtiResultCard({
 
 	return (
 		<LolBtiCard
-			className="bg-gray-900"
+			className="w-full bg-gray-900"
 			header={
 				<>
 					<h3 className="mb-4 font-medium text-gray-500 text-sm leading-none">
