@@ -25,28 +25,26 @@ export default function LolBtiTestCtaCard() {
 					gap="md"
 					className="mb-4 w-full rounded-[10px] bg-gray-800 px-4 py-2"
 				>
-					{MOCK_USER_PROFILE.championStatsResponseList.map(
-						(champion, _index) => (
-							<div
-								key={champion.championId}
-								className="flex flex-col items-center justify-center"
+					{MOCK_USER_PROFILE.championStatsResponseList.map((champion) => (
+						<div
+							key={champion.championId}
+							className="flex flex-col items-center justify-center"
+						>
+							<img
+								src={`/champion/${champion.championId}.png`}
+								alt={champion.championName}
+								className={cn("size-11 shrink-0 rounded-full")}
+							/>
+							<span
+								className={cn(
+									"-mt-1 rounded-full px-1 text-center font-bold text-[11px] text-white leading-none",
+									getWinRateColors(champion.winRate).bg,
+								)}
 							>
-								<img
-									src={`/champion/${champion.championId}.png`}
-									alt={champion.championName}
-									className={cn("size-11 shrink-0 rounded-full")}
-								/>
-								<span
-									className={cn(
-										"-mt-1 rounded-full px-1 text-center font-bold text-[11px] text-white leading-none",
-										getWinRateColors(champion.winRate).bg,
-									)}
-								>
-									{Math.round(champion.winRate)}%
-								</span>
-							</div>
-						),
-					)}
+								{Math.round(champion.winRate)}%
+							</span>
+						</div>
+					))}
 				</FlexBox>
 			</FlexBox>
 			<Button asChild className="w-full rounded-xl py-5 text-sm">
