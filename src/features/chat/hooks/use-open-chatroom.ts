@@ -8,6 +8,7 @@ import type {
 	ChatroomResponse,
 } from "@/shared/api";
 import { api } from "@/shared/api";
+import { toast } from "@/shared/lib/toast";
 
 /**
  * 채팅방 오픈 공통 로직을 처리하는 훅.
@@ -76,6 +77,7 @@ export function useOpenChatroom(options?: { onSuccess?: () => void }) {
 			options?.onSuccess?.();
 		} catch (e) {
 			console.error("채팅방 시작 실패:", e);
+			toast.error("채팅방을 여는 데 실패했습니다. 잠시 후 다시 시도해주세요.");
 		}
 	};
 }
