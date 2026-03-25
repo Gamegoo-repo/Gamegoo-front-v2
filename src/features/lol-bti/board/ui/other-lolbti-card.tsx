@@ -1,18 +1,15 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { useChatDialogStore, useChatStore } from "@/entities/chat";
-import { chatKeys } from "@/entities/chat/config/query-keys";
-import type { LolBtiRecommendation } from "@/features/lol-bti/test/api";
 import { LOL_BTI_TYPE_DATA } from "@/features/lol-bti/test/config";
 import { useSendFriendRequest } from "@/features/user/hooks/use-send-friend-request";
-import { api, type ChatroomResponse } from "@/shared/api";
-import type { MyLolBtiRecommendation } from "@/shared/api/lolbti/types";
-import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
+import { api, type LolBtiRecommendation } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui";
 import CompatibilityHeart from "./compatibility-heart";
 import LolBtiCard from "./lolbti-card";
 import LolBtiChampionStats from "./lolbti-champion-stats";
+import { useOpenChatroom } from "@/features/chat/hooks/use-open-chatroom";
+import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
+import type { MyLolBtiRecommendation } from "@/shared/api/lolbti/types";
 
 type CompatibilityLevel = "full" | "half" | "empty";
 
@@ -46,67 +43,13 @@ export default function OtherLolBtiResultCard({
 			? getCompatibilityLevel(result.compatibilityScore)
 			: null;
 
-	const queryClient = useQueryClient();
-
-	const {
-		setChatroom,
-		setChatDialogType,
-		openDialog,
-		setSystemData,
-		clearSystemData,
-	} = useChatDialogStore();
-	const { updateChatroom } = useChatStore();
+	const openChatRoom = useOpenChatroom();
 
 	const handleStartChat = useAuthenticatedAction(async () => {
-		try {
-			const response = await api.private.chat.startChatroomByMemberId(
-				result.memberId,
-			);
-			const chatroomData = response.data?.data;
-
-			if (chatroomData?.uuid) {
-				if (chatroomData.system) {
-					setSystemData({
-						flag: chatroomData.system.flag,
-						boardId: chatroomData.system.boardId,
-					});
-				} else {
-					clearSystemData();
-				}
-				const chatroom: ChatroomResponse = {
-					chatroomId: 0,
-					uuid: chatroomData.uuid,
-					targetMemberId: chatroomData.memberId,
-					tag: chatroomData.tag,
-					targetMemberName: chatroomData.gameName,
-					targetMemberImg: chatroomData.memberProfileImg,
-					friend: chatroomData.friend,
-					blind: chatroomData.blind,
-					notReadMsgCnt: 0,
-					lastMsg: "",
-					lastMsgAt: "",
-					lastMsgTimestamp: 0,
-				};
-				await queryClient.prefetchQuery({
-					queryKey: chatKeys.enter(chatroom.uuid),
-					queryFn: async () => {
-						const enterRes = await api.private.chat.enterChatroom(
-							chatroom.uuid,
-						);
-						return enterRes.data;
-					},
-				});
-				updateChatroom(chatroom);
-				void queryClient.invalidateQueries({
-					queryKey: chatKeys.rooms(),
-				});
-				setChatroom(chatroom);
-				setChatDialogType("chatroom");
-				openDialog();
-			}
-		} catch (e) {
-			console.error("채팅방 시작 실패:", e);
-		}
+		openChatRoom(
+			async () =>
+				await api.private.chat.startChatroomByMemberId(result.memberId),
+		);
 	});
 
 	return (
