@@ -1,4 +1,25 @@
 import type { ChatMessage } from "@/entities/chat";
+import type {
+	ApiResponseEnterChatroomResponse,
+	ChatroomResponse,
+} from "@/shared/api";
+
+/**
+ * API에서 받은 채팅방 입장 응답 데이터를 ChatroomResponse 객체로 변환한다.
+ */
+export const createChatroom = (
+	chatroomData: NonNullable<ApiResponseEnterChatroomResponse["data"]>,
+): ChatroomResponse => ({
+	chatroomId: 0,
+	uuid: chatroomData.uuid,
+	targetMemberId: chatroomData.memberId,
+	tag: chatroomData.tag,
+	targetMemberName: chatroomData.gameName,
+	targetMemberImg: chatroomData.memberProfileImg,
+	friend: chatroomData.friend,
+	blind: chatroomData.blind,
+	notReadMsgCnt: 0,
+});
 
 /**
  * API에서 받은 메시지의 타입 (정규화 전)
