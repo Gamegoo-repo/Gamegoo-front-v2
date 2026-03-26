@@ -28,34 +28,33 @@ export interface SaveMemberLolBtiResultResponse {
  * 공개 스냅샷 생성 실패 시 resultId가 null이 되지만 결과 화면은 정상 표시된다.
  * 회원 프로필 저장 실패 시 onError가 호출된다.
  */
+
+const saveMemberLolBtiResult = async (
+	request: SaveMemberLolBtiResultRequest,
+) => {
+	const [memberSettled, publicSettled] = await Promise.allSettled([
+		saveLolBtiResult({ type: request.type }),
+		createPublicLolBtiResult({
+			type: request.type,
+			resultPayload: request.resultPayload,
+			sessionId: request.sessionId,
+		}),
+	]);
+
+	// 회원 저장에 실패한 경우
+	if (memberSettled.status === "rejected") throw memberSettled.reason;
+
+	return {
+		memberResult: memberSettled.value,
+		resultId:
+			publicSettled.status === "fulfilled"
+				? publicSettled.value.resultId
+				: null,
+	};
+};
+
 export const useSaveMemberLolBtiResult = () => {
 	return useMutation({
-		mutationFn: async (
-			request: SaveMemberLolBtiResultRequest,
-		): Promise<SaveMemberLolBtiResultResponse> => {
-			// 회원 프로필 저장과 공유 스냅샷 생성을 병렬로 실행한다
-			const [memberSettled, publicSettled] = await Promise.allSettled([
-				saveLolBtiResult({ type: request.type }),
-				createPublicLolBtiResult({
-					type: request.type,
-					resultPayload: request.resultPayload,
-					sessionId: request.sessionId,
-				}),
-			]);
-
-			// 회원 프로필 저장은 핵심 동작이므로 실패 시 에러를 throw한다
-			if (memberSettled.status === "rejected") {
-				throw memberSettled.reason;
-			}
-
-			return {
-				memberResult: memberSettled.value,
-				// 공유 스냅샷은 비핵심 동작이므로 실패해도 null로 처리한다
-				resultId:
-					publicSettled.status === "fulfilled"
-						? publicSettled.value.resultId
-						: null,
-			};
-		},
+		mutationFn: saveMemberLolBtiResult,
 	});
 };
