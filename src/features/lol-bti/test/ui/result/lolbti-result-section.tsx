@@ -79,11 +79,16 @@ export default function LolBtiResultSection({
 							weakness={typeData.weaknesses}
 						/>
 						<button
-							onClick={() => {
+							onClick={async () => {
 								if (resultId?.length) {
-									copyTextToClipboard(
+									const { ok } = await copyTextToClipboard(
 										`${GAMEGOO_SITE_URL}/lolbti/results/${resultId}`,
 									);
+									if (ok) {
+										toast.confirm("결과 링크가 복사되었습니다.");
+									} else {
+										toast.error("링크 복사에 실패했습니다.");
+									}
 								} else {
 									toast.error(
 										"공유 링크 생성에 실패했습니다. 잠시 후 다시 시도해주세요.",
