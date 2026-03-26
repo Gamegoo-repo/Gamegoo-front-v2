@@ -8,7 +8,6 @@ import {
 	type LolBtiResultType,
 	type LolPosition,
 } from "@/features/lol-bti/test/config";
-import { copyTextToClipboard } from "@/shared/lib/copy-riot-id";
 import { getEventSource } from "@/shared/lib/get-device";
 import { SessionManager } from "@/shared/lib/session/session-manager";
 import { FlexBox } from "@/shared/ui/flexbox";
@@ -21,6 +20,8 @@ import LolBtiCompatibleCard, {
 import { LolBtiPositionCard } from "./lolbti-position-card";
 import { LolBtiProfileCard } from "./lolbti-profile-card";
 import LolBtiStrengthWeakness from "./lolbti-strength-weakness";
+import { copyTextToClipboard } from "@/shared/lib/copy-riot-id";
+import { toast } from "@/shared/lib/toast";
 
 export default function LolBtiResultSection({
 	title = "나의 롤BTI는?",
@@ -77,11 +78,17 @@ export default function LolBtiResultSection({
 							weakness={typeData.weaknesses}
 						/>
 						<button
-							onClick={() =>
-								copyTextToClipboard(
-									`https://www.gamegoo.co.kr/lolbti/results/${resultId}`,
-								)
-							}
+							onClick={() => {
+								if (resultId?.length) {
+									copyTextToClipboard(
+										`https://www.gamegoo.co.kr/lolbti/results/${resultId}`,
+									);
+								} else {
+									toast.error(
+										"공유 링크 생성에 실패했습니다. 잠시 후 다시 시도해주세요.",
+									);
+								}
+							}}
 							type="button"
 							className="w-full cursor-pointer rounded-lg bg-linear-to-r from-violet-600 to-violet-500 py-4 font-bold text-base text-white transition-all duration-300 hover:text-gray-300 active:scale-95"
 						>
