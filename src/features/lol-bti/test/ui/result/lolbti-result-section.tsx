@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import {
+	GAMEGOO_SITE_URL,
 	LOL_BTI_COMPATIBILITY_MAP,
 	LOL_BTI_TYPE_DATA,
 	LOL_POSITION_LABEL,
@@ -81,7 +82,7 @@ export default function LolBtiResultSection({
 							onClick={() => {
 								if (resultId?.length) {
 									copyTextToClipboard(
-										`https://www.gamegoo.co.kr/lolbti/results/${resultId}`,
+										`${GAMEGOO_SITE_URL}/lolbti/results/${resultId}`,
 									);
 								} else {
 									toast.error(
