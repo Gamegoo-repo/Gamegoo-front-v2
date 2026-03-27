@@ -1,4 +1,4 @@
-import { usePostDetail } from "@/entities/post/model/use-post-detail";
+import { useBoardDetail } from "@/entities/post/model/use-board-detail";
 import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
 import { toast } from "@/shared/lib/toast";
 import PostFormModal, { type BoardFormData } from "./post-form/post-form-modal";
@@ -33,7 +33,7 @@ export default function PostFormModalContainer(
 		isPending: isPendingPostData,
 		data: postData,
 		isError: isPostError,
-	} = usePostDetail(true, postId ?? 0, mode === "edit" && !!postId);
+	} = useBoardDetail(true, postId ?? 0, mode === "edit" && !!postId);
 
 	if (!isOpen) return null;
 

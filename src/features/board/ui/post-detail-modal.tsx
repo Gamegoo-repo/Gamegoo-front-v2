@@ -10,9 +10,9 @@ import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 import RankInfo from "@/entities/game/ui/rank-info";
 import { getGameStyle } from "@/entities/post/lib/get-game-style";
 import {
-	isAuthenticatedPostDetail,
-	usePostDetail,
-} from "@/entities/post/model/use-post-detail";
+	isAuthenticatedBoardDetail,
+	useBoardDetail,
+} from "@/entities/post/model/use-board-detail";
 import WinRateTooltip from "@/entities/user/ui/win-rate-tooltip";
 import InteractiveUserProfileCard from "@/features/user/interactive-user-profile-card";
 import type { ApiErrorResponse, ChatroomResponse } from "@/shared/api";
@@ -36,7 +36,7 @@ export default function PostDetailModal({
 }) {
 	const { user, isAuthenticated } = useAuth();
 
-	const { isPending, data, isError, error } = usePostDetail(
+	const { isPending, data, isError, error } = useBoardDetail(
 		isAuthenticated,
 		postId,
 	);
@@ -136,7 +136,7 @@ export default function PostDetailModal({
 
 	const isOwner = user?.id === data.memberId;
 	// const canStartChat = isAuthenticated && !isOwner;
-	const isBlocked = isAuthenticatedPostDetail(data) ? data.isBlocked : false;
+	const isBlocked = isAuthenticatedBoardDetail(data) ? data.isBlocked : false;
 
 	const MainPositionIcon = getPositionIcon(data.mainP);
 	const SubPositionIcon = getPositionIcon(data.subP);
