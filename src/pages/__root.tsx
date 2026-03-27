@@ -21,6 +21,7 @@ import {
 	ConfirmDialogProvider,
 	GamegooSocketProvider,
 } from "@/shared/providers";
+import { DesignSystemProvider } from "@gamegoo-ui/design-system";
 import { MatchGlobalListenerProvider } from "@/shared/providers/match-global-listener-provider";
 import {
 	FloatingChatButton,
@@ -60,26 +61,28 @@ function RootLayout() {
 	};
 
 	return (
-		<GamegooSocketProvider>
-			<ChatSocketProvider>
-				<ConfirmDialogProvider>
-					<ResponsiveProvider>
-						<GoogleAnalyticsTracker />
-						<MatchGlobalListenerProvider />
-						<Outlet />
-						<FloatingChatButton onClick={handleChatButtonClick} />
-						<FloatingChatDialog />
-						<FloatingMatchingCard />
-						<LoginRequiredModal />
-						<LogoutAlertModal />
-						<PostDeletedAlertModal />
-						<ReportModal />
-						<GlobalBoardModals />
-						<TanStackRouterDevtools />
-					</ResponsiveProvider>
-				</ConfirmDialogProvider>
-			</ChatSocketProvider>
-		</GamegooSocketProvider>
+		<DesignSystemProvider>
+			<GamegooSocketProvider>
+				<ChatSocketProvider>
+					<ConfirmDialogProvider>
+						<ResponsiveProvider>
+							<GoogleAnalyticsTracker />
+							<MatchGlobalListenerProvider />
+							<Outlet />
+							<FloatingChatButton onClick={handleChatButtonClick} />
+							<FloatingChatDialog />
+							<FloatingMatchingCard />
+							<LoginRequiredModal />
+							<LogoutAlertModal />
+							<PostDeletedAlertModal />
+							<ReportModal />
+							<GlobalBoardModals />
+							<TanStackRouterDevtools />
+						</ResponsiveProvider>
+					</ConfirmDialogProvider>
+				</ChatSocketProvider>
+			</GamegooSocketProvider>
+		</DesignSystemProvider>
 	);
 }
 

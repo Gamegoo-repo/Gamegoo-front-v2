@@ -3,13 +3,13 @@ import { LOL_BTI_TYPE_DATA } from "@/features/lol-bti/test/config";
 import { useSendFriendRequest } from "@/features/user/hooks/use-send-friend-request";
 import { api, type LolBtiRecommendation } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
-import { Button } from "@/shared/ui";
 import CompatibilityHeart from "./compatibility-heart";
 import LolBtiCard from "./lolbti-card";
 import LolBtiChampionStats from "./lolbti-champion-stats";
 import { useOpenChatroom } from "@/features/chat/hooks/use-open-chatroom";
 import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import type { MyLolBtiRecommendation } from "@/shared/api/lolbti/types";
+import { Button } from "@gamegoo-ui/design-system";
 
 type CompatibilityLevel = "full" | "half" | "empty";
 
@@ -36,7 +36,7 @@ export default function OtherLolBtiResultCard({
 }) {
 	const typeData = LOL_BTI_TYPE_DATA[result.rollBtiType];
 	const { mutate: sendFriendRequest } = useSendFriendRequest(result.memberId);
-	const handleAddFriend = useAuthenticatedAction(() => sendFriendRequest());
+	// const _handleAddFriend = useAuthenticatedAction(() => sendFriendRequest());
 
 	const compatibilityLevel =
 		"compatibilityScore" in result
@@ -85,20 +85,22 @@ export default function OtherLolBtiResultCard({
 				footer={
 					<div className="flex w-full items-center gap-2">
 						{/** TODO: 디자인 나오면 현재 롤비티아이 카드의 유저와의 관계에 따라 렌더링해야함  */}
-						{false && (
+						{/* {false && (
 							<Button
 								className="w-full flex-1 rounded-xl py-5 text-sm"
 								onClick={handleAddFriend}
 							>
 								친구추가
 							</Button>
-						)}
+						)} */}
 						<Button
+							size="lg"
+							variant="black"
 							onClick={(e) => {
 								e.preventDefault();
 								handleStartChat();
 							}}
-							className="w-full flex-1 rounded-xl bg-gray-800 py-5 text-sm"
+							className="w-full! rounded-xl!"
 						>
 							말 걸어보기
 						</Button>
