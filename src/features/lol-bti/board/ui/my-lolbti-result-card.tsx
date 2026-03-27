@@ -2,8 +2,8 @@ import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
 import type { GetMyLolBtiResultResponse } from "@/features/lol-bti/test/api";
 import { LOL_BTI_TYPE_DATA } from "@/features/lol-bti/test/config";
 import { toast } from "@/shared/lib/toast";
+import { Button } from "@gamegoo-ui/design-system";
 import { useAuthStore } from "@/shared/model/use-auth-store";
-import { Button } from "@/shared/ui";
 import LolBtiCard from "./lolbti-card";
 import LolBtiChampionStats from "./lolbti-champion-stats";
 
@@ -35,12 +35,13 @@ export default function MyLolBtiResultCard({
 				</>
 			}
 			footer={
-				/** TODO: 이거 누르면 뭐가 돼야 하는지 모르겠음 */
 				<Button
-					onClick={() => {
+					size="lg"
+					onClick={(e) => {
+						e.preventDefault();
 						toast.confirm("내 롤BTI가 복사되었습니다.");
 					}}
-					className="w-full rounded-xl py-5 text-sm"
+					className="w-full! rounded-xl!"
 				>
 					내 롤BTI 공유하기
 				</Button>
