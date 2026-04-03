@@ -44,7 +44,9 @@ export const getMyLolBtiResult =
  * privateApiClient로 호출하여 JWT 기반 개인화 추천을 받는다.
  */
 export const getLolBtiRecommendations = async (
-	params: GetLolBtiRecommendationsParams,
+	params: GetLolBtiRecommendationsParams & {
+		compatibilityOrder?: "HIGH" | "LOW";
+	},
 ): Promise<GetMyLolBtiRecommendationsResponse> => {
 	const response = await privateApiClient.get<
 		ApiResponse<GetMyLolBtiRecommendationsResponse>
