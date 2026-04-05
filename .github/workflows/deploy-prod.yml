@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - main
+      - chore/#159
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS, ARM64]
 
     steps:
       - name: Checkout repository
@@ -52,33 +53,9 @@ jobs:
       - name: Build (Rsbuild)
         run: pnpm exec rsbuild build
 
-      # 6) AWS 인증
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      # 7) S3 업로드
-      - name: Upload to S3
+      # 6) 맥미니 배포
+      - name: Deploy to local server
         run: |
-          aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET }} \
-            --exclude "*" \
-            --include "*.html" \
-            --cache-control "public, max-age=0, must-revalidate" \
-            --delete \
-            --no-progress
-
-          aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET }} \
-            --exclude "*.html" \
-            --cache-control "public, max-age=31536000, immutable" \
-            --delete \
-            --no-progress
-
-      # 8) CloudFront 캐시 무효화 (조건식 완전 안정 버전)
-      - name: Invalidate CloudFront Cache (optional)
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-            --paths "/*"
+          mkdir -p ~/apps/gamegoo-front/dist
+          rm -rf ~/apps/gamegoo-front/dist/*
+          cp -R dist/* ~/apps/gamegoo-front/dist/
