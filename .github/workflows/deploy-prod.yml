@@ -53,18 +53,34 @@ jobs:
       - name: Build (Rsbuild)
         run: pnpm exec rsbuild build
 
-      # 6) Stop old container
+      # 6) Prepare Docker config for CI
+      - name: Prepare Docker config for CI
+        run: |
+          mkdir -p "$RUNNER_TEMP/docker-config"
+          cat > "$RUNNER_TEMP/docker-config/config.json" <<EOF
+          {
+            "auths": {}
+          }
+          EOF
+
+      # 7) Stop old container
       - name: Stop old container
+        env:
+          DOCKER_CONFIG: ${{ runner.temp }}/docker-config
         run: |
           docker rm -f gamegoo-front-prod || true
 
-      # 7) Build Docker image
+      # 8) Build Docker image
       - name: Build Docker image
+        env:
+          DOCKER_CONFIG: ${{ runner.temp }}/docker-config
         run: |
           docker build -t gamegoo-front:prod .
 
-      # 8) Run container
+      # 9) Run container
       - name: Run container
+        env:
+          DOCKER_CONFIG: ${{ runner.temp }}/docker-config
         run: |
           docker run -d \
             -p 80:80 \
@@ -72,8 +88,10 @@ jobs:
             --restart always \
             gamegoo-front:prod
 
-      # 9) Verify container is running
+      # 10) Verify container is running
       - name: Verify container is running
+        env:
+          DOCKER_CONFIG: ${{ runner.temp }}/docker-config
         run: |
           sleep 5
           docker ps
