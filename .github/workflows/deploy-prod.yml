@@ -1,4 +1,4 @@
-name: Deploy to S3 (Rsbuild + PNPM)
+name: Gamegoo Front Prod Deploy
 
 on:
   push:
@@ -53,9 +53,34 @@ jobs:
       - name: Build (Rsbuild)
         run: pnpm exec rsbuild build
 
-      # 6) 맥미니 배포
-      - name: Deploy to local server
+      # 6) Stop old container
+      - name: Stop old container
         run: |
-          mkdir -p ~/apps/gamegoo-front/dist
-          rm -rf ~/apps/gamegoo-front/dist/*
-          cp -R dist/* ~/apps/gamegoo-front/dist/
+          docker rm -f gamegoo-front-prod || true
+
+      # 7) Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t gamegoo-front:prod .
+
+      # 8) Run container
+      - name: Run container
+        run: |
+          docker run -d \
+            -p 80:80 \
+            --name gamegoo-front-prod \
+            --restart always \
+            gamegoo-front:prod
+
+      # 9) Verify container is running
+      - name: Verify container is running
+        run: |
+          sleep 5
+          docker ps
+          docker logs --tail=100 gamegoo-front-prod || true
+          docker inspect gamegoo-front-prod --format='{{.State.Status}} {{.State.ExitCode}} {{.State.Error}}'
+
+      # 10) Cleanup
+      - name: Cleanup
+        run: |
+          docker image prune -f
