@@ -18,6 +18,7 @@ export const useFetchOtherUserProfile = (
 			return response.data?.data as OtherProfileResponse | undefined;
 		},
 		...options,
+		enabled: !!userId && (options?.enabled ?? true),
 	});
 };
 
@@ -32,6 +33,7 @@ export const useFetchOtherUserMannerKeywords = (
 			return response.data?.data as MannerKeywordListResponse | undefined;
 		},
 		...options,
+		enabled: !!userId && (options?.enabled ?? true),
 	});
 };
 
@@ -46,6 +48,7 @@ export const useFetchOtherUserMannerLevel = (
 			return response.data?.data as MannerResponse | undefined;
 		},
 		...options,
+		enabled: !!userId && (options?.enabled ?? true),
 	});
 };
 
