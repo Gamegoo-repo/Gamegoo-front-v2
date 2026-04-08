@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { userKeys } from "@/entities/user/config/query-keys";
 import { api, type OtherProfileResponse } from "@/shared/api";
+import { updateLolBtiBoardRelation } from "@/features/user/lib/update-lolbti-board-relation";
 import { queryClient } from "@/shared/lib/query-client";
 import { toast } from "@/shared/lib/toast";
 import { Button } from "@/shared/ui";
@@ -39,10 +40,20 @@ export default function FriendRequestAcceptButton({
 		},
 		onSettled: () => {
 			// 프로필 쿼리 갱신
-			queryClient.invalidateQueries({ queryKey: userKeys.profile(userId) });
+			queryClient.invalidateQueries({
+				queryKey: userKeys.profile(userId),
+			});
 
 			// 유저의 친구 목록 갱신
 			queryClient.invalidateQueries({ queryKey: userKeys.friend() });
+
+			// 롤BTI 추천 목록 refetch 없이 해당 유저의 관계 필드만 업데이트
+			updateLolBtiBoardRelation(queryClient, userId, {
+				friend: true,
+				friendRequestReceived: false,
+				friendRequestSent: false,
+				nonFriend: false,
+			});
 		},
 	});
 
