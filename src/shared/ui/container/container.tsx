@@ -1,7 +1,7 @@
-import { forwardRef } from "react";
-import type { ContainerProps } from "./container.type";
 import { Slot } from "@radix-ui/react-slot";
+import { forwardRef } from "react";
 import { cn } from "@/shared/lib/utils";
+import type { ContainerProps } from "./container.type";
 import { containerVariants } from "./container-variants";
 
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(

@@ -3,6 +3,17 @@ export type CopyRiotIdParams = {
 	tag: string;
 };
 
+export async function copyTextToClipboard(
+	text: string,
+): Promise<{ ok: boolean; text: string }> {
+	try {
+		await navigator.clipboard.writeText(text);
+		return { ok: true, text };
+	} catch {
+		return { ok: false, text };
+	}
+}
+
 /**
  * Riot ID를 클립보드에 복사합니다. (예: "Hide on bush#KR1")
  * - gameName의 공백은 제거합니다.

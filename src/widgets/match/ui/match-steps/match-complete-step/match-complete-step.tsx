@@ -4,12 +4,12 @@ import type { ChatroomResponse, EnterChatroomResponse } from "@/shared/api";
 import { api } from "@/shared/api";
 import { toast } from "@/shared/lib/toast";
 import { Button } from "@/shared/ui";
-import { useMatchFunnelStore, type UseMatchFunnelReturn } from "../../../hooks";
+import { useMatchUiStore } from "@/widgets/match/model/store/useMatchUiStore";
+import { type UseMatchFunnelReturn, useMatchFunnelStore } from "../../../hooks";
 import { matchFlow } from "../../../lib/match-flow";
 import type { OpponentProfilePayload } from "../../../lib/matching-types";
 import MatchHeader from "../../match-header";
 import MatchStartProfile from "../match-start-step/match-start-profile";
-import { useMatchUiStore } from "@/widgets/match/model/store/useMatchUiStore";
 
 const MATCHING_COMPLETE_TIME = 10;
 

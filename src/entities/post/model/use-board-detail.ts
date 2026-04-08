@@ -1,44 +1,44 @@
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 import { boardKeys } from "@/features/board/api/query-keys";
 import {
-	api,
 	type ApiErrorResponse,
+	api,
 	type BoardByIdResponse,
 	type BoardByIdResponseForMember,
 } from "@/shared/api";
-import type { AxiosError } from "axios";
 
 /**
- * `PostDetail`:게시판 상세모달의 데이터 타입
+ * `BoardDetail`: 게시판 상세모달의 데이터 타입
  * - 회원: `ApiResponseBoardByIdResponseForMember`
  * - 비회원: `ApiResponseBoardByIdResponse`
  */
-export type PostDetail = BoardByIdResponseForMember | BoardByIdResponse;
+export type BoardDetail = BoardByIdResponseForMember | BoardByIdResponse;
 
-export function isAuthenticatedPostDetail(
-	data: PostDetail,
-): data is BoardByIdResponseForMember {
+export const isAuthenticatedBoardDetail = (
+	data: BoardDetail,
+): data is BoardByIdResponseForMember => {
 	return "isBlocked" in data;
-}
+};
 
-export const usePostDetail = (
+export const useBoardDetail = (
 	isAuthenticated: boolean,
-	postId: number,
+	boardId: number,
 	enabled = true,
 ) => {
 	return useQuery({
-		queryKey: boardKeys.detail(postId, isAuthenticated),
+		queryKey: boardKeys.detail(boardId, isAuthenticated),
 		queryFn: async () => {
 			if (isAuthenticated) {
-				const response = await api.private.board.getBoardByIdForMember(postId);
+				const response =
+					await api.private.board.getBoardByIdForMember(boardId);
 				return response.data.data;
 			}
-			const response = await api.public.board.getBoardById(postId);
+			const response = await api.public.board.getBoardById(boardId);
 			return response.data.data;
 		},
 		throwOnError: (error: AxiosError<ApiErrorResponse>) => {
 			const errorCode = error?.response?.data?.code;
-
 			const handledErrors = ["BOARD_401", "MEMBER_401", "AUTH_412"];
 
 			if (handledErrors.includes(errorCode || "")) {

@@ -1,5 +1,5 @@
 import { cn } from "@/shared/lib/utils";
-import { useSignUp } from "../api/use-sign-up";
+import { useSignUpMutation } from "../api/sign-up-mutation";
 
 function SignUpButton({
 	isDisabled,
@@ -10,7 +10,7 @@ function SignUpButton({
 	isAgreed: boolean;
 	puuid: string;
 }) {
-	const { mutate: signUp, isPending } = useSignUp();
+	const { mutate: signUp, isPending } = useSignUpMutation();
 	const handleSignUp = async () => {
 		signUp({ puuid, isAgree: isAgreed });
 	};

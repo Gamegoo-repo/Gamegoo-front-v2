@@ -1,6 +1,6 @@
+import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 import PostDetailModal from "@/features/board/ui/post-detail-modal";
 import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
-import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 
 /**
  * 게시글 관련 모달들을 전역에서 관리하는 컴포넌트

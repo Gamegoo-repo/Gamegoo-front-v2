@@ -8,18 +8,17 @@ import {
 import TierBadge from "@/entities/game/ui/tier-badge";
 import UserProfile from "@/entities/user/ui/user-profile";
 import { boardKeys } from "@/features/board/api/query-keys";
+import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 import PostActionMenu from "@/features/board/ui/post-action-menu";
+import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
 import { api, type MyBoardListResponse } from "@/shared/api";
+import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
+import ArrowRightIcon from "@/shared/assets/icons/arrow-right.svg?react";
 import { formatDateSimple } from "@/shared/lib/format-date-simple";
 import { cn } from "@/shared/lib/utils";
 import { useAuth } from "@/shared/model/use-auth";
 import type { Column } from "@/shared/ui/table/table";
 import Table from "@/shared/ui/table/table";
-import PostFormModalContainer from "@/features/board/ui/post-form-modal-container";
-import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
-
-import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
-import ArrowRightIcon from "@/shared/assets/icons/arrow-right.svg?react";
 
 export const Route = createFileRoute("/_header-layout/mypage/post")({
 	component: RouteComponent,

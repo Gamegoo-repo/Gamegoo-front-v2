@@ -1,3 +1,5 @@
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import type { Position } from "@/shared/api";
 import { cn } from "@/shared/lib/utils";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
 import {
@@ -9,8 +11,6 @@ import { POSITION_BUTTON_ITEMS } from "../config/position-button-items";
 import { getGameModeTitle } from "../lib/getGameModeTitle";
 import { getMike } from "../lib/getMike";
 import { getTierTitle } from "../lib/getTierTitle";
-import { useNavigate, useSearch } from "@tanstack/react-router";
-import type { Position } from "@/shared/api";
 
 export default function BoardFilter() {
 	const navigate = useNavigate({ from: "/board" });

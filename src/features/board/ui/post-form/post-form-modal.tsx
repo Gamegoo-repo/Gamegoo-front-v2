@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
+/** biome-ignore-all lint/correctness/useUniqueElementIds: 폼 내부 id는 단일 인스턴스로 사용되므로 중복 없음 */
 import type { AxiosError } from "axios";
 import { isEqual } from "lodash-es";
 import { useRef, useState } from "react";

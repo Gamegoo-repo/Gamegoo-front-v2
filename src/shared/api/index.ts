@@ -12,6 +12,7 @@ import {
 	publicApiConfiguration,
 	tokenManager,
 } from "./config";
+import { lolbtiPrivateApi, lolbtiPublicApi } from "./lolbti";
 
 export const api = {
 	private: {
@@ -32,16 +33,23 @@ export const api = {
 		block: new BlockApi(privateApiConfiguration, undefined, privateApiClient),
 		report: new ReportApi(privateApiConfiguration, undefined, privateApiClient),
 		manner: new MannerApi(privateApiConfiguration, undefined, privateApiClient),
+		// OpenAPI 자동 생성 실패로 직접 구현한 롤BTI 회원 API
+		lolbti: lolbtiPrivateApi,
 	},
 	public: {
 		home: new HomeApi(publicApiConfiguration, undefined, publicApiClient),
 		board: new BoardApi(publicApiConfiguration, undefined, publicApiClient),
 		riot: new RiotApi(publicApiConfiguration, undefined, publicApiClient),
+		// OpenAPI 자동 생성 실패로 직접 구현한 롤BTI 공개 API
+		lolbti: lolbtiPublicApi,
 	},
 } as const;
 
 // 토큰 유틸리티 export
 export { tokenManager };
 
-// 타입들 export
+// OpenAPI 자동 생성 타입 export
 export * from "./@generated/models";
+
+// 롤BTI 수동 정의 타입 export
+export * from "./lolbti";

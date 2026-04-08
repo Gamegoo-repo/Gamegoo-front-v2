@@ -78,7 +78,7 @@ export default function MannerLevelPopover({
                         text-sm mobile:text-base
                         text-gray-500
                       `,
-												mannerKeyword.count > 0 && "text-red-400",
+											mannerKeyword.count > 0 && "text-red-400",
 										)}
 									>
 										{getMannerText(mannerKeyword.mannerKeywordId)}

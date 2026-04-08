@@ -1,8 +1,8 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { createPortal } from "react-dom";
 import TrashIcon from "@/shared/assets/icons/trash.svg?react";
-import { usePostDeletedAlertModalState } from "../model/post-deleted-alert-modal-store";
-import { useQueryClient } from "@tanstack/react-query";
 import { boardKeys } from "../api/query-keys";
+import { usePostDeletedAlertModalState } from "../model/post-deleted-alert-modal-store";
 
 function PostDeletedAlertModal() {
 	const { isOpen, closeModal } = usePostDeletedAlertModalState();

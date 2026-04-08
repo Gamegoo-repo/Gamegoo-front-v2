@@ -1,9 +1,9 @@
+import { useReportModalStore } from "@/features/report/model/use-report-modal-store";
 import type { ReportPath } from "@/shared/api/@generated";
 import {
 	PopoverMenuItem,
 	type PopoverMenuItemProps,
 } from "../popover-menu-item";
-import { useReportModalStore } from "@/features/report/model/use-report-modal-store";
 
 interface ReportMenuItemProps {
 	userId: number;

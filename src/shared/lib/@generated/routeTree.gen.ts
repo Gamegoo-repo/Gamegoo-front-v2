@@ -16,11 +16,14 @@ import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
 import { Route as HeaderLayoutIndexRouteImport } from './../../../pages/_header-layout/index'
 import { Route as SignUpTermsRouteImport } from './../../../pages/sign-up/terms'
 import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
+import { Route as LolbtiTestRouteImport } from './../../../pages/lolbti.test'
 import { Route as HeaderLayoutMypageRouteRouteImport } from './../../../pages/_header-layout/mypage/route'
 import { Route as HeaderLayoutPolicyIndexRouteImport } from './../../../pages/_header-layout/policy/index'
 import { Route as HeaderLayoutMypageIndexRouteImport } from './../../../pages/_header-layout/mypage/index'
 import { Route as HeaderLayoutMatchIndexRouteImport } from './../../../pages/_header-layout/match/index'
+import { Route as HeaderLayoutLolbtiIndexRouteImport } from './../../../pages/_header-layout/lolbti/index'
 import { Route as HeaderLayoutBoardIndexRouteImport } from './../../../pages/_header-layout/board/index'
+import { Route as LolbtiResultsResultIdRouteImport } from './../../../pages/lolbti.results.$resultId'
 import { Route as HeaderLayoutUsersUserIdRouteImport } from './../../../pages/_header-layout/users/$userId'
 import { Route as HeaderLayoutMypageServiceRouteImport } from './../../../pages/_header-layout/mypage/service'
 import { Route as HeaderLayoutMypageReviewRouteImport } from './../../../pages/_header-layout/mypage/review'
@@ -63,6 +66,11 @@ const RiotCallbackRoute = RiotCallbackRouteImport.update({
   path: '/riot/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LolbtiTestRoute = LolbtiTestRouteImport.update({
+  id: '/lolbti/test',
+  path: '/lolbti/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HeaderLayoutMypageRouteRoute = HeaderLayoutMypageRouteRouteImport.update({
   id: '/mypage',
   path: '/mypage',
@@ -83,10 +91,20 @@ const HeaderLayoutMatchIndexRoute = HeaderLayoutMatchIndexRouteImport.update({
   path: '/match/',
   getParentRoute: () => HeaderLayoutRouteRoute,
 } as any)
+const HeaderLayoutLolbtiIndexRoute = HeaderLayoutLolbtiIndexRouteImport.update({
+  id: '/lolbti/',
+  path: '/lolbti/',
+  getParentRoute: () => HeaderLayoutRouteRoute,
+} as any)
 const HeaderLayoutBoardIndexRoute = HeaderLayoutBoardIndexRouteImport.update({
   id: '/board/',
   path: '/board/',
   getParentRoute: () => HeaderLayoutRouteRoute,
+} as any)
+const LolbtiResultsResultIdRoute = LolbtiResultsResultIdRouteImport.update({
+  id: '/lolbti/results/$resultId',
+  path: '/lolbti/results/$resultId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const HeaderLayoutUsersUserIdRoute = HeaderLayoutUsersUserIdRouteImport.update({
   id: '/users/$userId',
@@ -133,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/test-login': typeof TestLoginRoute
   '/mypage': typeof HeaderLayoutMypageRouteRouteWithChildren
+  '/lolbti/test': typeof LolbtiTestRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/': typeof HeaderLayoutIndexRoute
@@ -144,7 +163,9 @@ export interface FileRoutesByFullPath {
   '/mypage/review': typeof HeaderLayoutMypageReviewRoute
   '/mypage/service': typeof HeaderLayoutMypageServiceRoute
   '/users/$userId': typeof HeaderLayoutUsersUserIdRoute
+  '/lolbti/results/$resultId': typeof LolbtiResultsResultIdRoute
   '/board': typeof HeaderLayoutBoardIndexRoute
+  '/lolbti': typeof HeaderLayoutLolbtiIndexRoute
   '/match': typeof HeaderLayoutMatchIndexRoute
   '/mypage/': typeof HeaderLayoutMypageIndexRoute
   '/policy': typeof HeaderLayoutPolicyIndexRoute
@@ -152,6 +173,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/test-login': typeof TestLoginRoute
+  '/lolbti/test': typeof LolbtiTestRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/': typeof HeaderLayoutIndexRoute
@@ -163,7 +185,9 @@ export interface FileRoutesByTo {
   '/mypage/review': typeof HeaderLayoutMypageReviewRoute
   '/mypage/service': typeof HeaderLayoutMypageServiceRoute
   '/users/$userId': typeof HeaderLayoutUsersUserIdRoute
+  '/lolbti/results/$resultId': typeof LolbtiResultsResultIdRoute
   '/board': typeof HeaderLayoutBoardIndexRoute
+  '/lolbti': typeof HeaderLayoutLolbtiIndexRoute
   '/match': typeof HeaderLayoutMatchIndexRoute
   '/mypage': typeof HeaderLayoutMypageIndexRoute
   '/policy': typeof HeaderLayoutPolicyIndexRoute
@@ -174,6 +198,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/test-login': typeof TestLoginRoute
   '/_header-layout/mypage': typeof HeaderLayoutMypageRouteRouteWithChildren
+  '/lolbti/test': typeof LolbtiTestRoute
   '/riot/callback': typeof RiotCallbackRoute
   '/sign-up/terms': typeof SignUpTermsRoute
   '/_header-layout/': typeof HeaderLayoutIndexRoute
@@ -185,7 +210,9 @@ export interface FileRoutesById {
   '/_header-layout/mypage/review': typeof HeaderLayoutMypageReviewRoute
   '/_header-layout/mypage/service': typeof HeaderLayoutMypageServiceRoute
   '/_header-layout/users/$userId': typeof HeaderLayoutUsersUserIdRoute
+  '/lolbti/results/$resultId': typeof LolbtiResultsResultIdRoute
   '/_header-layout/board/': typeof HeaderLayoutBoardIndexRoute
+  '/_header-layout/lolbti/': typeof HeaderLayoutLolbtiIndexRoute
   '/_header-layout/match/': typeof HeaderLayoutMatchIndexRoute
   '/_header-layout/mypage/': typeof HeaderLayoutMypageIndexRoute
   '/_header-layout/policy/': typeof HeaderLayoutPolicyIndexRoute
@@ -196,6 +223,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/test-login'
     | '/mypage'
+    | '/lolbti/test'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/'
@@ -207,7 +235,9 @@ export interface FileRouteTypes {
     | '/mypage/review'
     | '/mypage/service'
     | '/users/$userId'
+    | '/lolbti/results/$resultId'
     | '/board'
+    | '/lolbti'
     | '/match'
     | '/mypage/'
     | '/policy'
@@ -215,6 +245,7 @@ export interface FileRouteTypes {
   to:
     | '/about'
     | '/test-login'
+    | '/lolbti/test'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/'
@@ -226,7 +257,9 @@ export interface FileRouteTypes {
     | '/mypage/review'
     | '/mypage/service'
     | '/users/$userId'
+    | '/lolbti/results/$resultId'
     | '/board'
+    | '/lolbti'
     | '/match'
     | '/mypage'
     | '/policy'
@@ -236,6 +269,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/test-login'
     | '/_header-layout/mypage'
+    | '/lolbti/test'
     | '/riot/callback'
     | '/sign-up/terms'
     | '/_header-layout/'
@@ -247,7 +281,9 @@ export interface FileRouteTypes {
     | '/_header-layout/mypage/review'
     | '/_header-layout/mypage/service'
     | '/_header-layout/users/$userId'
+    | '/lolbti/results/$resultId'
     | '/_header-layout/board/'
+    | '/_header-layout/lolbti/'
     | '/_header-layout/match/'
     | '/_header-layout/mypage/'
     | '/_header-layout/policy/'
@@ -257,9 +293,11 @@ export interface RootRouteChildren {
   HeaderLayoutRouteRoute: typeof HeaderLayoutRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   TestLoginRoute: typeof TestLoginRoute
+  LolbtiTestRoute: typeof LolbtiTestRoute
   RiotCallbackRoute: typeof RiotCallbackRoute
   SignUpTermsRoute: typeof SignUpTermsRoute
   RiotIndexRoute: typeof RiotIndexRoute
+  LolbtiResultsResultIdRoute: typeof LolbtiResultsResultIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -313,6 +351,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RiotCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lolbti/test': {
+      id: '/lolbti/test'
+      path: '/lolbti/test'
+      fullPath: '/lolbti/test'
+      preLoaderRoute: typeof LolbtiTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_header-layout/mypage': {
       id: '/_header-layout/mypage'
       path: '/mypage'
@@ -341,12 +386,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HeaderLayoutMatchIndexRouteImport
       parentRoute: typeof HeaderLayoutRouteRoute
     }
+    '/_header-layout/lolbti/': {
+      id: '/_header-layout/lolbti/'
+      path: '/lolbti'
+      fullPath: '/lolbti'
+      preLoaderRoute: typeof HeaderLayoutLolbtiIndexRouteImport
+      parentRoute: typeof HeaderLayoutRouteRoute
+    }
     '/_header-layout/board/': {
       id: '/_header-layout/board/'
       path: '/board'
       fullPath: '/board'
       preLoaderRoute: typeof HeaderLayoutBoardIndexRouteImport
       parentRoute: typeof HeaderLayoutRouteRoute
+    }
+    '/lolbti/results/$resultId': {
+      id: '/lolbti/results/$resultId'
+      path: '/lolbti/results/$resultId'
+      fullPath: '/lolbti/results/$resultId'
+      preLoaderRoute: typeof LolbtiResultsResultIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_header-layout/users/$userId': {
       id: '/_header-layout/users/$userId'
@@ -431,6 +490,7 @@ interface HeaderLayoutRouteRouteChildren {
   HeaderLayoutIndexRoute: typeof HeaderLayoutIndexRoute
   HeaderLayoutUsersUserIdRoute: typeof HeaderLayoutUsersUserIdRoute
   HeaderLayoutBoardIndexRoute: typeof HeaderLayoutBoardIndexRoute
+  HeaderLayoutLolbtiIndexRoute: typeof HeaderLayoutLolbtiIndexRoute
   HeaderLayoutMatchIndexRoute: typeof HeaderLayoutMatchIndexRoute
   HeaderLayoutPolicyIndexRoute: typeof HeaderLayoutPolicyIndexRoute
 }
@@ -440,6 +500,7 @@ const HeaderLayoutRouteRouteChildren: HeaderLayoutRouteRouteChildren = {
   HeaderLayoutIndexRoute: HeaderLayoutIndexRoute,
   HeaderLayoutUsersUserIdRoute: HeaderLayoutUsersUserIdRoute,
   HeaderLayoutBoardIndexRoute: HeaderLayoutBoardIndexRoute,
+  HeaderLayoutLolbtiIndexRoute: HeaderLayoutLolbtiIndexRoute,
   HeaderLayoutMatchIndexRoute: HeaderLayoutMatchIndexRoute,
   HeaderLayoutPolicyIndexRoute: HeaderLayoutPolicyIndexRoute,
 }
@@ -451,9 +512,11 @@ const rootRouteChildren: RootRouteChildren = {
   HeaderLayoutRouteRoute: HeaderLayoutRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   TestLoginRoute: TestLoginRoute,
+  LolbtiTestRoute: LolbtiTestRoute,
   RiotCallbackRoute: RiotCallbackRoute,
   SignUpTermsRoute: SignUpTermsRoute,
   RiotIndexRoute: RiotIndexRoute,
+  LolbtiResultsResultIdRoute: LolbtiResultsResultIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

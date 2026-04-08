@@ -1,4 +1,5 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { useFetchOtherUserInfo } from "@/entities/user/api/use-fetch-other-user-info";
 import {
 	MOCK_MANNER_KEYWORDS,
@@ -10,7 +11,6 @@ import DeletedUserView from "@/widgets/user-info/deleted-user-view";
 import type { UserRelationshipStatus } from "@/widgets/user-info/model/user-info.types";
 import UserInfoSkeleton from "@/widgets/user-info/user-info-skeleton";
 import UserInfoWidget from "@/widgets/user-info/user-info-widget";
-import { useEffect } from "react";
 
 export const Route = createFileRoute("/_header-layout/users/$userId")({
 	component: RouteComponent,

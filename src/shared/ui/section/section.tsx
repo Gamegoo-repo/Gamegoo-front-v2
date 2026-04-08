@@ -1,8 +1,8 @@
 import * as React from "react";
 import { cn } from "@/shared/lib/utils";
-import { sectionVariants } from "./sectionVariants";
-import type { SectionProps } from "./section.type";
 import { Container } from "../container";
+import type { SectionProps } from "./section.type";
+import { sectionVariants } from "./sectionVariants";
 
 export const Section = React.forwardRef<HTMLElement, SectionProps>(
 	(

@@ -12,6 +12,7 @@ const menus: MenuItem[] = [
 	{ label: "홈", href: "/", showOnDesktop: false },
 	{ label: "바로 매칭", href: "/match" },
 	{ label: "게시판", href: "/board" },
+	{ label: "롤BTI", href: "/lolbti" },
 ];
 
 export default function HeaderNav() {

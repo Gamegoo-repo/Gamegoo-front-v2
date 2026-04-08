@@ -1,5 +1,5 @@
-import type { ReportPath } from "@/shared/api";
 import { create } from "zustand";
+import type { ReportPath } from "@/shared/api";
 
 interface ReportModalStore {
 	path: ReportPath | undefined;

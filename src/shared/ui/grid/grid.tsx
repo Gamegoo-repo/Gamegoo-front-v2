@@ -1,9 +1,9 @@
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
+import * as React from "react";
 import { cn } from "@/shared/lib/utils";
+import type { GridProps } from "./grid.type";
 import { gridVariants } from "./gridVariants";
 import { responsiveGridVariants } from "./responsiveGridVariants";
-import type { GridProps } from "./grid.type";
 
 export const Grid = React.forwardRef<HTMLDivElement, GridProps>(
 	(
