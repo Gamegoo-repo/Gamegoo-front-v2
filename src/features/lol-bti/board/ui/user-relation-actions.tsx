@@ -52,10 +52,7 @@ export default function UserRelationActions({
 
 	return (
 		// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-		<div
-			className="flex w-full items-center gap-2"
-			onClick={(e) => e.stopPropagation()}
-		>
+		<div className="flex w-full items-center gap-2">
 			{leftButton}
 			<OpenChatRoomButton memberId={result.memberId} className="flex-1" />
 		</div>

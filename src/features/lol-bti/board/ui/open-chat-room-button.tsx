@@ -23,11 +23,7 @@ export default function OpenChatRoomButton({
 			type="button"
 			size="lg"
 			variant="black"
-			onClick={(e) => {
-				e.stopPropagation();
-				e.preventDefault();
-				handleStartChat();
-			}}
+			onClick={handleStartChat}
 			className={cn("w-full! rounded-xl!", className)}
 		>
 			말 걸어보기
