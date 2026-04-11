@@ -1,15 +1,25 @@
 import { useFetchOtherUserInfo } from "@/entities/user/api/use-fetch-other-user-info";
+import type { MemberRecentStatsResponse } from "@/shared/api";
 import { useAuth } from "@/shared/model/use-auth";
+import type { UserRelationshipStatus } from "@/widgets/user-info/model/user-info.types";
 import { calculateRelationshipStatus } from "../lib/calculate-relationship-status";
 
-export function useUserProfileData(memberId: number) {
+type UseUserProfileDataReturn = {
+	data: ReturnType<typeof useFetchOtherUserInfo>["data"];
+	isPending: boolean;
+	isError: boolean;
+	relationshipStatus: UserRelationshipStatus | null;
+	recentStats: MemberRecentStatsResponse | null;
+};
+
+export function useUserProfileData(memberId: number): UseUserProfileDataReturn {
 	const { isAuthenticated, user } = useAuth();
 
 	const { data, isPending, isError } = useFetchOtherUserInfo(memberId, {
 		enabled: isAuthenticated,
 	});
 
-	const relationshipStatus = () => {
+	const getRelationshipStatus = () => {
 		if (!isAuthenticated || !user?.id) return "guest"; // 로그인하지 않은 유저
 		if (!data?.profile) return null; // 데이터 패칭 중인 경우
 		return calculateRelationshipStatus(data.profile, user.id); // 이 외의 경우
@@ -19,11 +29,10 @@ export function useUserProfileData(memberId: number) {
 	const recentStats = data?.profile?.memberRecentStats ?? null;
 
 	return {
-		// isAuthenticated,
 		data,
 		isPending,
 		isError,
-		relationshipStatus,
+		relationshipStatus: getRelationshipStatus(),
 		recentStats,
 	};
 }
