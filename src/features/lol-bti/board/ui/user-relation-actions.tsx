@@ -39,7 +39,9 @@ export default function UserRelationActions({
 		leftButton = (
 			<Button
 				size="lg"
-				onClick={() => {
+				onClick={(e) => {
+					e.stopPropagation();
+
 					sendFriendRequest();
 				}}
 				style={{ flex: 1 }}
