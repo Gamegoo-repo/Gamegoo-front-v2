@@ -62,23 +62,21 @@ function UserProfileContent({
 
 	return (
 		<FlexBox direction="column" className="h-full w-full" gap={24}>
-			{data.profile && (
-				<UserProfileCardMobile
-					data={data.profile}
-					button={
-						<UserActionButtons
-							userId={data.profile.id}
-							relationshipStatus={relationshipStatus}
-						/>
-					}
-					menu={
-						<UserActionMenu
-							userId={data.profile.id}
-							relationshipStatus={relationshipStatus}
-						/>
-					}
-				/>
-			)}
+			<UserProfileCardMobile
+				data={data.profile}
+				button={
+					<UserActionButtons
+						userId={data.profile.id}
+						relationshipStatus={relationshipStatus}
+					/>
+				}
+				menu={
+					<UserActionMenu
+						userId={data.profile.id}
+						relationshipStatus={relationshipStatus}
+					/>
+				}
+			/>
 			<div className="grid w-full grid-cols-1 mobile:grid-cols-[1fr_auto_auto] grid-rows-[auto_auto_auto] mobile:grid-rows-[minmax(264px,auto)_auto] mobile:gap-x-3 gap-y-9 pb-20">
 				<MannerLevelCard
 					userProfile={{ gameName: data.profile.gameName }}
@@ -114,8 +112,12 @@ export default function UserProfileBottomSheet({
 
 	return (
 		<BottomSheet
-			title={profileData.data.profile ? `${profileData.data.profile.gameName}님의 프로필` : undefined}
-			isOpen={!!memberId}
+			title={
+				profileData.data.profile
+					? `${profileData.data.profile.gameName}님의 프로필`
+					: undefined
+			}
+			isOpen={Boolean(memberId)}
 			onClose={onClose}
 		>
 			{() => <UserProfileContent {...profileData} />}
