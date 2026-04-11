@@ -1,5 +1,4 @@
 import type { MyLolBtiRecommendation } from "@/shared/api/lolbti/types";
-import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import { useSendFriendRequest } from "@/features/user/hooks/use-send-friend-request";
 import { Button } from "@gamegoo-ui/design-system";
 import OpenChatRoomButton from "./open-chat-room-button";
@@ -40,8 +39,7 @@ export default function UserRelationActions({
 		leftButton = (
 			<Button
 				size="lg"
-				onClick={(e) => {
-					e.preventDefault();
+				onClick={() => {
 					sendFriendRequest();
 				}}
 				style={{ flex: 1 }}
