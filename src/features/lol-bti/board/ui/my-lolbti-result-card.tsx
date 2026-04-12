@@ -6,6 +6,7 @@ import { Button } from "@gamegoo-ui/design-system";
 import { useAuthStore } from "@/shared/model/use-auth-store";
 import LolBtiCard from "./lolbti-card";
 import LolBtiChampionStats from "./lolbti-champion-stats";
+import { Skeleton } from "@/shared/ui/skeleton/skeleton-ui";
 
 export default function MyLolBtiResultCard({
 	result,
@@ -14,7 +15,7 @@ export default function MyLolBtiResultCard({
 }) {
 	const typeData = LOL_BTI_TYPE_DATA[result.type];
 	const { user } = useAuthStore();
-	const { data: myInfo } = useFetchMyInfo();
+	const { data: myInfo, isPending } = useFetchMyInfo();
 
 	return (
 		<LolBtiCard
@@ -56,6 +57,14 @@ export default function MyLolBtiResultCard({
 				<span className="mb-7 inline-block text-center font-bold text-white text-xl">
 					{user.name}
 				</span>
+			)}
+			{isPending && (
+				<Skeleton
+					width={"100%"}
+					height={73}
+					variant={"rounded"}
+					className="mb-4 w-full min-w-[244px] bg-gray-800"
+				/>
 			)}
 			{myInfo?.championStatsResponseList && (
 				<LolBtiChampionStats champions={myInfo.championStatsResponseList} />
