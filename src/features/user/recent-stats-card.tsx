@@ -42,6 +42,7 @@ export default function RecentStatsCard({
 				<div className="flex w-fit mobile:flex-col items-center gap-2">
 					<p className="flex items-center gap-1">
 						{kdaStats.map((text, idx) => (
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							<React.Fragment key={idx}>
 								<span
 									className={cn(
@@ -51,7 +52,7 @@ export default function RecentStatsCard({
 								>
 									{text}
 								</span>
-								{idx !== 2 && (
+								{idx < Number(kdaStats.length) - 1 && (
 									<span className="mobile:text-xl text-base text-gray-400">
 										/
 									</span>
