@@ -61,6 +61,8 @@ export function useBottomSheet({
 	const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
 		undefined,
 	);
+	// backdrop 엘리먼트를 ref로 캐싱
+	const backdropRef = useRef<HTMLElement | null>(null);
 
 	/**
 	 * `getContainerH`
@@ -109,8 +111,7 @@ export function useBottomSheet({
 				: "none";
 			el.style.top = `${top}px`;
 
-			const backdrop =
-				el.parentElement?.querySelector<HTMLElement>("[data-backdrop]");
+			const backdrop = backdropRef.current;
 			if (backdrop) {
 				const containerH = getContainerH();
 				const pct = 1 - top / containerH;
@@ -157,6 +158,10 @@ export function useBottomSheet({
 		const el = sheetRef.current;
 		if (!el) return;
 
+		// BottomSheet는 isOpen=true 일 때만 DOM에 존재하므로 열리는 시점에 backdrop을 캐싱
+		backdropRef.current =
+			el.parentElement?.querySelector<HTMLElement>("[data-backdrop]") ?? null;
+
 		const containerH = getContainerH();
 
 		// 시트를 맨 아래로 즉시 이동 - 사용자 눈에는 시트가 안보이는 상태
@@ -179,20 +184,17 @@ export function useBottomSheet({
 	}, [isOpen]);
 
 	/** `onDragStart` : 드래그를 시작할 때 호출되는 함수 */
-	const onDragStart = useCallback(
-		(clientY: number) => {
-			isDragging.current = true;
-			startY.current = clientY;
-			startTop.current = currentTop.current;
-			lastY.current = clientY;
-			lastTime.current = Date.now();
-			velocity.current = 0;
+	const onDragStart = useCallback((clientY: number) => {
+		isDragging.current = true;
+		startY.current = clientY;
+		startTop.current = currentTop.current;
+		lastY.current = clientY;
+		lastTime.current = Date.now();
+		velocity.current = 0;
 
-			const el = sheetRef.current;
-			if (el) el.style.transition = "none";
-		},
-		[currentSnap],
-	);
+		const el = sheetRef.current;
+		if (el) el.style.transition = "none";
+	}, []);
 
 	/** `onDragMove` : 드래그 중에 호출되는 함수 */
 	const onDragMove = useCallback(
