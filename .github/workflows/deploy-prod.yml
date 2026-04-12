@@ -48,7 +48,7 @@ jobs:
           echo "PUBLIC_EMAILJS_PUBLIC_KEY=${{ secrets.PUBLIC_EMAILJS_PUBLIC_KEY }}" >> .env
           echo "PUBLIC_GOOGLE_ANALYTICS=${{ secrets.PUBLIC_GOOGLE_ANALYTICS }}" >> .env
           echo "PUBLIC_GOOGLE_TAG_MANAGER=${{ secrets.PUBLIC_GOOGLE_TAG_MANAGER }}" >> .env
-          echo "PUBLIC_APP_JAVASCRIPT_KEY=${{ secrets.PUBLIC_APP_JAVASCRIPT_KEY }}" >>
+          echo "PUBLIC_APP_JAVASCRIPT_KEY=${{ secrets.PUBLIC_APP_JAVASCRIPT_KEY }}" >> .env
 
       # 5) Rsbuild 빌드
       - name: Build (Rsbuild)
