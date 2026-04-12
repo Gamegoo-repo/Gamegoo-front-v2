@@ -58,6 +58,9 @@ export function useBottomSheet({
 	const lastY = useRef(0);
 	const lastTime = useRef(0);
 	const velocity = useRef(0);
+	const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+		undefined,
+	);
 
 	/**
 	 * `getContainerH`
@@ -126,17 +129,26 @@ export function useBottomSheet({
 	 */
 	const snapTo = useCallback(
 		(snap: SnapPoint, animate = true) => {
+			clearTimeout(closeTimeoutRef.current);
+			closeTimeoutRef.current = undefined;
+
 			const top = topForSnap(snap);
 			currentTop.current = top;
 			setSheetTop(top, animate);
 			setCurrentSnap(snap);
 
 			if (snap === "closed") {
-				setTimeout(onClose, SNAP_DURATION_MS);
+				closeTimeoutRef.current = setTimeout(onClose, SNAP_DURATION_MS);
 			}
 		},
 		[topForSnap, setSheetTop, onClose],
 	);
+
+	useEffect(() => {
+		return () => {
+			clearTimeout(closeTimeoutRef.current);
+		};
+	}, []);
 
 	// isOpen 변화 감지 → 열기 애니메이션
 	useEffect(() => {
