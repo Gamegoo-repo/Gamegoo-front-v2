@@ -5,6 +5,8 @@ import { LogoButton } from "@/shared/ui/logo";
 import useFetchParticipants from "../../model/use-fetch-participants";
 import { LolBtiLayout } from "../lolbti-layout";
 import CountUp from "./count-up";
+import { toast } from "@/shared/lib/toast";
+import { copyTextToClipboard } from "@/shared/lib/copy-riot-id";
 
 interface LolBtiQuizSectionProps {
 	onStart: () => void;
@@ -14,6 +16,16 @@ export default function LolBtiLandingSection({
 	onStart,
 }: LolBtiQuizSectionProps) {
 	const { data, isPending } = useFetchParticipants();
+
+	const handleCopyLolBtiTestUrl = async () => {
+		const url = `${window.location.origin}/lolbti/test`;
+		const { ok } = await copyTextToClipboard(url);		
+		if (!ok) {
+			toast.error("복사에 실패했습니다. 직접 링크를 복사해주세요.");
+		} else {
+			toast.confirm("링크가 복사되었습니다.");
+		}
+	};
 
 	return (
 		<LolBtiLayout>
@@ -43,7 +55,7 @@ export default function LolBtiLandingSection({
 						{
 							<p className="mt-[52px] inline-block rounded-full border border-white/20 bg-white/10 px-6 py-2 text-[#9A9A9A] text-[15px]">
 								지금까지{" "}
-								<span className="font-bold text-white">
+								<span className="font-bold text-white tabular-nums inline-block text-center">
 									{data ? <CountUp end={data.totalParticipants} /> : 0}
 								</span>
 								명이 참여했어요
@@ -67,6 +79,7 @@ export default function LolBtiLandingSection({
 							<button
 								type="button"
 								className="cursor-pointer rounded-lg font-bold text-[#BFBFBF] text-base leading-normal transition-all duration-300 hover:underline hover:underline-offset-4"
+								onClick={handleCopyLolBtiTestUrl}
 							>
 								공유하기
 							</button>

@@ -49,45 +49,11 @@ function Index() {
 					<RightArrowIcon className="size-4.5" />
 				</Link>
 				<div className="absolute top-0 right-0 bottom-0 left-1/2 mobile:block hidden h-full">
-					<FlexBox
-						align="center"
-						justify="center"
-						className="absolute top-7 left-0 mobile:size-44"
-					>
-						<img alt="adci" src={"/assets/images/results/1.png"} />
-					</FlexBox>
-
-					<FlexBox
-						align="center"
-						justify="center"
-						className="absolute top-1/2 left-1/2 size-30"
-					>
-						<img alt="adci" src={"/assets/images/results/4.png"} />
-					</FlexBox>
-
-					<FlexBox
-						align="center"
-						justify="center"
-						className="absolute top-2 left-1/3 size-[90px] rounded-full bg-white"
-					>
-						<img alt="mystery-2" src={"/assets/images/mystery-2.png"} />
-					</FlexBox>
-
-					<FlexBox
-						align="center"
-						justify="center"
-						className="-right-3 absolute top-1/2 size-18"
-					>
-						<img alt="fdtb" src={"/assets/images/results/12.png"} />
-					</FlexBox>
-
-					<FlexBox
-						align="center"
-						justify="center"
-						className="-top-[12%] absolute left-2/3 size-[150px] rounded-full bg-white"
-					>
-						<img alt="mystery-1" src={"/assets/images/mystery-1.png"} />
-					</FlexBox>
+					<img 
+						alt="banner-bg" 
+						src={"/assets/images/banner-bg.png"} 
+						className="h-full w-full object-cover object-left"
+					/>
 				</div>
 			</article>
 
