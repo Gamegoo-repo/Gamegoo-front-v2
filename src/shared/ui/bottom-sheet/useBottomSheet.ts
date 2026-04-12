@@ -158,8 +158,13 @@ export function useBottomSheet({
 			setCurrentSnap("half");
 			snapTo("half", true);
 		});
-	}, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
-	// snapTo는 의도적으로 deps 제외한다. — isOpen 변화 시에만 실행해야 하므로
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// snapTo는 deps에서 의도적으로 제외한다.
+		// snapTo는 useCallback으로 관리되며, onClose 등 상위 의존성이 바뀔 때마다 새 참조가 생성된다.
+		// deps에 포함하면 isOpen=true 상태에서도 snapTo가 바뀔 때마다 이 effect가 재실행되어
+		// 시트가 강제로 half 위치로 되돌아가는 버그가 발생한다.
+		// 이 effect는 오직 isOpen이 false→true 로 바뀌는 순간에만 실행되는 '열기 애니메이션' 용이다.
+	}, [isOpen]);
 
 	/** `onDragStart` : 드래그를 시작할 때 호출되는 함수 */
 	const onDragStart = useCallback(
