@@ -29,7 +29,7 @@ export function BottomSheet({
 	if (!isOpen) return null;
 
 	return createPortal(
-		<div className="fixed inset-0" style={{ zIndex: 100, touchAction: "none" }}>
+		<div className="fixed inset-0 touch-none" style={{ zIndex: 100 }}>
 			{/* backdrop */}
 			{/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 			<div
@@ -37,7 +37,6 @@ export function BottomSheet({
 				className="absolute inset-0 bg-black/50"
 				onClick={() => {
 					snapTo("closed");
-					onClose();
 				}}
 			/>
 			<div
