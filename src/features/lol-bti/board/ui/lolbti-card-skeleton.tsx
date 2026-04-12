@@ -2,7 +2,7 @@ import { Skeleton } from "@/shared/ui/skeleton/skeleton-ui";
 
 export default function LolBtiCardSkeleton() {
 	return (
-		<div className="flex flex-col items-center rounded-[20px] bg-gray-100 p-4 pt-6 shadow-[0px_4px_20px_0_rgba(0,0,0,0.25)]">
+		<div className="flex w-full flex-col items-center rounded-[20px] bg-gray-100 p-4 pt-6 shadow-[0px_4px_20px_0_rgba(0,0,0,0.25)]">
 			<Skeleton variant="text" width={80} height={12} className="mb-4" />
 			<div className="mb-6 flex flex-col items-center gap-1.5">
 				<Skeleton variant="circular" width={52} height={40} />

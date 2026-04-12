@@ -51,25 +51,23 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
 		useEffect(() => {
 			if (isOpen) {
+				const scrollY = window.scrollY;
+
 				document.body.style.cssText = `
-					position: fixed; 
-					top: -${window.scrollY}px;
-					overflow-y: scroll;	
-					width: 100%;
-				`;
+      position: fixed; 
+      top: -${scrollY}px;
+      overflow-y: scroll;	
+      width: 100%;
+    `;
 
 				window.addEventListener("keydown", handleEscKeyPress);
-			} else {
-				const scrollY = document.body.style.top;
-				document.body.style.cssText = "";
-				window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+
+				return () => {
+					document.body.style.cssText = "";
+					window.scrollTo(0, scrollY);
+					window.removeEventListener("keydown", handleEscKeyPress);
+				};
 			}
-			return () => {
-				const scrollY = document.body.style.top;
-				document.body.style.cssText = "";
-				window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
-				window.removeEventListener("keydown", handleEscKeyPress);
-			};
 		}, [isOpen, handleEscKeyPress]);
 
 		if (!isOpen) {

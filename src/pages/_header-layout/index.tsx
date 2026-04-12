@@ -7,6 +7,7 @@ import Character8Icon from "@/shared/assets/characters/character8.svg?react";
 import RightArrowIcon from "@/shared/assets/icons/right_arrow.svg?react";
 import useResponsive from "@/shared/model/use-responsive";
 import { LogoButton } from "@/shared/ui/logo";
+import { FlexBox } from "@gamegoo-ui/design-system";
 
 export const Route = createFileRoute("/_header-layout/")({
 	component: Index,
@@ -32,6 +33,64 @@ function Index() {
 					<LogoButton className="-translate-y-1/2 absolute top-1/2 right-[41px] w-[254px] text-violet-300 opacity-40" />
 				)}
 			</article>
+			<article
+				className={
+					"relative mb-6 tablet:mb-11 flex flex-col mobile:items-start items-center gap-3 mobile:gap-4 overflow-hidden mobile:rounded-[20px] rounded-[15px] bg-violet-400 p-5 mobile:px-15 mobile:py-7"
+				}
+			>
+				<h2 className="font-extrabold mobile:text-[32px] text-base text-white">
+					나는 어떤 유형일까?
+				</h2>
+				<Link
+					to="/lolbti/test"
+					className="flex items-center gap-2 rounded-[14px] bg-violet-500 mobile:px-7 px-6 mobile:py-3 py-2 font-bold mobile:text-base text-sm text-white"
+				>
+					롤BTI 검사하러 가기
+					<RightArrowIcon className="size-4.5" />
+				</Link>
+				<div className="absolute top-0 right-0 bottom-0 left-1/2 mobile:block hidden h-full">
+					<FlexBox
+						align="center"
+						justify="center"
+						className="absolute top-7 left-0 mobile:size-44"
+					>
+						<img alt="adci" src={"/assets/images/results/1.png"} />
+					</FlexBox>
+
+					<FlexBox
+						align="center"
+						justify="center"
+						className="absolute top-1/2 left-1/2 size-30"
+					>
+						<img alt="adci" src={"/assets/images/results/4.png"} />
+					</FlexBox>
+
+					<FlexBox
+						align="center"
+						justify="center"
+						className="absolute top-2 left-1/3 size-[90px] rounded-full bg-white"
+					>
+						<img alt="mystery-2" src={"/assets/images/mystery-2.png"} />
+					</FlexBox>
+
+					<FlexBox
+						align="center"
+						justify="center"
+						className="-right-3 absolute top-1/2 size-18"
+					>
+						<img alt="fdtb" src={"/assets/images/results/12.png"} />
+					</FlexBox>
+
+					<FlexBox
+						align="center"
+						justify="center"
+						className="-top-[12%] absolute left-2/3 size-[150px] rounded-full bg-white"
+					>
+						<img alt="mystery-1" src={"/assets/images/mystery-1.png"} />
+					</FlexBox>
+				</div>
+			</article>
+
 			<section className="flex w-full tablet:flex-row flex-col items-center gap-4 tablet:gap-11 mobile:pb-50 pb-20 tablet:pb-[200px]">
 				<HomeCard to="/match" title="바로 매칭하기">
 					<Character8Icon className="absolute bottom-0 left-[10%] w-[20%] translate-y-[25%]" />

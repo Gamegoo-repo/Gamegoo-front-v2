@@ -141,6 +141,10 @@ export interface LolBtiRecommendation {
 
 export type MyLolBtiRecommendation = LolBtiRecommendation & {
 	compatibilityScore: number;
+	friend: boolean;
+	friendRequestReceived: boolean;
+	friendRequestSent: boolean;
+	nonFriend: boolean;
 };
 
 /** 롤BTI 기반 추천 목록 쿼리 파라미터 */

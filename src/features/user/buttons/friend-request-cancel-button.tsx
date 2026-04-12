@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { userKeys } from "@/entities/user/config/query-keys";
 import { api, type OtherProfileResponse } from "@/shared/api";
+import { updateLolBtiBoardRelation } from "@/features/user/lib/update-lolbti-board-relation";
 import { queryClient } from "@/shared/lib/query-client";
 import { toast } from "@/shared/lib/toast";
 import { Button } from "@/shared/ui";
@@ -35,6 +36,12 @@ export default function FriendRequestCancelButton({
 		},
 		onSuccess: () => {
 			toast.confirm("친구 요청을 취소했습니다.");
+			updateLolBtiBoardRelation(queryClient, userId, {
+				friend: false,
+				friendRequestReceived: false,
+				friendRequestSent: false,
+				nonFriend: true,
+			});
 		},
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: userKeys.profile(userId) });

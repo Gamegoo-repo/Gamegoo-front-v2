@@ -1,26 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
 import {
 	createFileRoute,
 	useNavigate,
 	useSearch,
 } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { z } from "zod";
 import { TIER_ITEMS } from "@/features/board/config/dropdown-items";
 import { getTierTitle } from "@/features/board/lib/getTierTitle";
-import {
-	useFetchPrivateLolbtiQuery,
-	useFetchPublicLolbtiQuery,
-} from "@/features/lol-bti/board/model/use-fetch-lolbti";
 import LolBtiCardSkeleton from "@/features/lol-bti/board/ui/lolbti-card-skeleton";
 import LolBtiTestCtaCard from "@/features/lol-bti/board/ui/lolbti-test-cta-card";
 import MyLolBtiResultCard from "@/features/lol-bti/board/ui/my-lolbti-result-card";
 import OtherLolBtiResultCard from "@/features/lol-bti/board/ui/other-lolbti-card";
-import { getMyLolBtiResult } from "@/features/lol-bti/test/api";
 import { Tier } from "@/shared/api";
-import { useAuthStore } from "@/shared/model/use-auth-store";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
+import UserRelationActions from "@/features/lol-bti/board/ui/user-relation-actions";
+import OpenChatRoomButton from "@/features/lol-bti/board/ui/open-chat-room-button";
+import UserProfileBottomSheet from "@/features/lol-bti/board/ui/user-profile-bottom-sheet";
+import useResponsive from "@/shared/model/use-responsive";
+import { useLolBtiBoardData } from "@/features/lol-bti/board/model/use-lolbti-board-data";
+import UserProfileModal from "@/widgets/user-info/user-profile-modal";
 
 type SortOption = "HIGH" | "LOW";
 
@@ -52,63 +51,30 @@ export const Route = createFileRoute("/_header-layout/lolbti/")({
 function RouteComponent() {
 	const search = useSearch({ from: "/_header-layout/lolbti/" });
 	const navigate = useNavigate({ from: "/lolbti" });
-	const { isAuthenticated } = useAuthStore();
+	const { isMobile } = useResponsive();
 	const { ref, inView } = useInView();
+	const [selectedMemberId, setSelectedMemberId] = useState<number | undefined>(
+		undefined,
+	);
 
-	const { data: myBtiResult, isPending: isBtiPending } = useQuery({
-		queryKey: ["lolbti", "me"],
-		queryFn: getMyLolBtiResult,
-		enabled: isAuthenticated,
-		throwOnError: false,
-		retry: false,
-		meta: { skipErrorCatcher: true },
-	});
-
-	const hasLolBti = isAuthenticated && !!myBtiResult;
-
-	// 로그인 & 롤비티아이 검사를 마친 유저만 호출
 	const {
-		pages: privatePages,
-		isLoading: isPrivateLoading,
-		isFetchingNextPage: isPrivateFetchingNextPage,
-		fetchNextPage: fetchNextPrivatePage,
-		hasNextPage: hasNextPrivatePage,
-	} = useFetchPrivateLolbtiQuery({
-		enabled: hasLolBti,
-		tier: search.tier,
-		compatibilityOrder: search.sort || "HIGH",
-	});
-	// !로그인 || !롤비티아이 검사인 유저만 호출
-	const {
-		pages: publicPages,
-		isLoading: isPublicLoading,
-		isFetchingNextPage: isPublicFetchingNextPage,
-		fetchNextPage: fetchNextPublicPage,
-		hasNextPage: hasNextPublicPage,
-	} = useFetchPublicLolbtiQuery({
-		enabled: !hasLolBti,
-		tier: search.tier,
-	});
-
-	const pages = hasLolBti ? privatePages : publicPages;
-	const isLoading = hasLolBti ? isPrivateLoading : isPublicLoading;
-
-	const isFetchingNextPage = hasLolBti
-		? isPrivateFetchingNextPage
-		: isPublicFetchingNextPage;
-
-	const hasNextPage = hasLolBti ? hasNextPrivatePage : hasNextPublicPage;
-
-	const fetchNextPage = hasLolBti ? fetchNextPrivatePage : fetchNextPublicPage;
+		myBtiResult,
+		hasLolBti,
+		isLoading,
+		pages,
+		isFetchingNextPage,
+		hasNextPage,
+		fetchNextPage,
+	} = useLolBtiBoardData({ tier: search.tier, sort: search.sort });
 
 	useEffect(() => {
-		if (!hasLolBti && search.sort !== undefined) {
+		if (!isLoading && !hasLolBti && search.sort !== undefined) {
 			navigate({
 				search: (prev) => ({ ...prev, sort: undefined }),
 				replace: true,
 			});
 		}
-	}, [hasLolBti, search.sort, navigate]);
+	}, [isLoading, hasLolBti, search.sort, navigate]);
 
 	useEffect(() => {
 		if (inView && hasNextPage && !isFetchingNextPage) {
@@ -116,7 +82,6 @@ function RouteComponent() {
 		}
 	}, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-	/** 필터 업데이트 함수 */
 	const updateFilter = <K extends keyof typeof search>(
 		key: K,
 		value: (typeof search)[K],
@@ -127,7 +92,8 @@ function RouteComponent() {
 	};
 
 	return (
-		<div className="flex w-full flex-col gap-10 mobile:px-0 px-8 pb-32">
+		<div className="flex h-full w-full flex-col gap-10 mobile:px-0 px-8 pb-32">
+			{/* --- 1. 상단 필터 영역 --- */}
 			<div className="flex gap-2">
 				{hasLolBti && (
 					<Dropdown
@@ -144,28 +110,69 @@ function RouteComponent() {
 					items={TIER_ITEMS}
 				/>
 			</div>
-			<section className="flex mobile:grid w-full mobile:grid-cols-2 flex-col items-center gap-x-5 gap-y-7 lg:grid-cols-3 xl:grid-cols-4">
-				{isAuthenticated && !isBtiPending && myBtiResult ? (
-					<MyLolBtiResultCard result={myBtiResult} />
-				) : (
-					<LolBtiTestCtaCard />
-				)}
-				{isLoading
-					? Array.from({ length: 12 }).map((_, index) => (
-							<LolBtiCardSkeleton key={index} />
-						))
-					: pages?.map((page) =>
-							page.recommendations.map((recommendation) => (
+
+			{/* --- 2. 카드 리스트 영역 --- */}
+			<section className="flex mobile:grid w-full flex-1 mobile:grid-cols-2 flex-col items-center gap-x-5 gap-y-7 lg:grid-cols-3 xl:grid-cols-4">
+				{/* 2-1. 로딩 중일 때 스켈레톤 노출 */}
+				{isLoading &&
+					Array.from({ length: 12 }).map((_, index) => (
+						<LolBtiCardSkeleton
+							key={`skeleton-${
+								// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+								index
+							}`}
+						/>
+					))}
+
+				{/* 2-2. 로딩 완료 후 내 결과 or CTA 노출 */}
+				{!isLoading &&
+					(hasLolBti ? (
+						<MyLolBtiResultCard result={myBtiResult} />
+					) : (
+						<LolBtiTestCtaCard />
+					))}
+
+				{/* 2-3. 롤BTI가 있는 유저의 추천 유저 리스트 노출 */}
+				{!isLoading && hasLolBti
+					? pages?.map((page) => {
+							return page.recommendations.map((rec) => (
 								<OtherLolBtiResultCard
-									key={recommendation.memberId}
-									result={recommendation}
+									key={rec.memberId}
+									result={rec}
+									onClick={() => setSelectedMemberId(rec.memberId)}
+									actions={<UserRelationActions result={rec} />}
+								/>
+							));
+						})
+					: pages?.map((page) =>
+							page.recommendations.map((rec) => (
+								<OtherLolBtiResultCard
+									key={rec.memberId}
+									result={rec}
+									onClick={() => setSelectedMemberId(rec.memberId)}
+									actions={<OpenChatRoomButton memberId={rec.memberId} />}
 								/>
 							)),
 						)}
 
-				{pages && !isFetchingNextPage && hasNextPage && <div ref={ref} />}
+				{/* 2-4. 인피니트 스크롤 트리거 & 다음 페이지 로딩 스켈레톤 */}
+				{!isLoading && hasNextPage && !isFetchingNextPage && <div ref={ref} />}
 				{isFetchingNextPage && <LolBtiCardSkeleton />}
 			</section>
+
+			{selectedMemberId &&
+				(isMobile ? (
+					<UserProfileBottomSheet
+						memberId={selectedMemberId}
+						onClose={() => setSelectedMemberId(undefined)}
+					/>
+				) : (
+					<UserProfileModal
+						isOpen
+						memberId={selectedMemberId}
+						onClose={() => setSelectedMemberId(undefined)}
+					/>
+				))}
 		</div>
 	);
 }
