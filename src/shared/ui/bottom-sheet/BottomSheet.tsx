@@ -7,6 +7,8 @@ import type { BottomSheetProps } from "./types";
 import { cn } from "@/shared/lib/utils";
 import { FlexBox } from "@gamegoo-ui/design-system";
 
+const portalTarget = document.body;
+
 export function BottomSheet({
 	isOpen,
 	onClose,
@@ -25,8 +27,6 @@ export function BottomSheet({
 	const isFull = currentSnap === "full";
 
 	if (!isOpen) return null;
-
-	const portalTarget = document.body;
 
 	return createPortal(
 		<div className="fixed inset-0" style={{ zIndex: 100, touchAction: "none" }}>
