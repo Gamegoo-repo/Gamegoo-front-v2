@@ -5,7 +5,7 @@ export const KAKAO_SDK_URL = "https://developers.kakao.com/sdk/js/kakao.js";
 export const X_SHARE_URL = "https://x.com/intent/tweet";
 
 /** 페이스북 공유 URL */
-export const FACEBOOK_SHARE_URL = "http://www.facebook.com/sharer/sharer.php";
+export const FACEBOOK_SHARE_URL = "https://www.facebook.com/sharer/sharer.php";
 
 /** 카카오 공유 시 mobileWebUrl */
 export const GAMEGOO_SITE_URL = "https://gamegoo.co.kr";

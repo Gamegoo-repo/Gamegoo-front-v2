@@ -56,10 +56,11 @@ export default function LolBtiShareModal({
 
 	useEffect(() => {
 		if (!isOpen) return;
-		const prevOverflow = document.body.style.overflow;
-		document.body.style.overflow = "hidden";
+		const scrollY = window.scrollY;
+		document.body.style.cssText = `position:fixed;top:-${scrollY}px;width:100%;overflow-y:scroll;`;
 		return () => {
-			document.body.style.overflow = prevOverflow;
+			document.body.style.cssText = "";
+			window.scrollTo(0, scrollY);
 		};
 	}, [isOpen]);
 
@@ -74,6 +75,7 @@ export default function LolBtiShareModal({
 	};
 
 	return createPortal(
+		// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 		<div
 			role="dialog"
 			aria-modal="true"
@@ -88,21 +90,21 @@ export default function LolBtiShareModal({
 		>
 			<div
 				className={cn(
-					"relative bg-gray-800 flex flex-col rounded-t-3xl pb-10",
-					"w-full h-full",
+					"relative flex flex-col rounded-t-3xl bg-gray-800 pb-10",
+					"h-full w-full",
 					// 'md:h-auto md:max-h-[85vh] md:rounded-2xl md:shadow-2xl',
-					"mobile:w-[440px] h-fit",
+					"h-fit mobile:w-[440px]",
 					"transition-all duration-300 ease-out",
 					visible
 						? "translate-y-0 opacity-100 md:scale-100"
-						: "translate-y-full md:translate-y-0 md:opacity-0 md:scale-95",
+						: "translate-y-full md:translate-y-0 md:scale-95 md:opacity-0",
 				)}
 			>
-				<div className="w-full py-2 flex items-center justify-center">
-					<div className="h-[3px] w-9 bg-white rounded-full" />
+				<div className="flex w-full items-center justify-center py-2">
+					<div className="h-[3px] w-9 rounded-full bg-white" />
 				</div>
 
-				<div className="w-full flex items-center justify-center pt-4 pb-6">
+				<div className="flex w-full items-center justify-center pt-4 pb-6">
 					<img
 						className="w-[170px]"
 						src={`/assets/images/result-cards/${result}.png`}
@@ -110,7 +112,7 @@ export default function LolBtiShareModal({
 					/>
 				</div>
 
-				<div className="w-full border-t-[1px] border-t-gray-700 py-4 flex items-center px-5 gap-4">
+				<div className="flex w-full items-center gap-4 border-t-[1px] border-t-gray-700 px-5 py-4">
 					{children}
 				</div>
 			</div>
