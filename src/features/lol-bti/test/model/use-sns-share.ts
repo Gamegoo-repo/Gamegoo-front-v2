@@ -109,15 +109,12 @@ const useSNSShare = ({
 	};
 
 	useEffect(() => {
+		if (document.querySelector(`script[src="${KAKAO_SDK_URL}"]`)) return;
+
 		const script = document.createElement("script");
 		script.src = KAKAO_SDK_URL;
 		script.async = true;
-
 		document.body.appendChild(script);
-
-		return () => {
-			document.body.removeChild(script);
-		};
 	}, []);
 
 	return {
