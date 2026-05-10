@@ -70,14 +70,25 @@ pages(4) → widgets(3) → features(2) → entities(1) → shared(0)
 
 `PreToolUse` 훅(`.claude/hooks/fsd-layer-check.sh`)이 Edit/Write 시 import 방향과 cross-slice 위반을 차단한다.
 
-## 두 가지 작업 모드
+## 두 진입점, 같은 시스템
 
-본 레포의 일부 코드는 정통 FSD에서 벗어나 있다. `ai-plan` 스킬은 작업을 두 모드로 분리해 처리한다:
+요청의 무게에 따라 진입점을 분리한다. 룰(`.claude/rules/`)과 PreToolUse 훅(`fsd-layer-check.sh`)은 두 경로 모두에서 동일하게 작동하므로 **시스템(품질 가드)은 한 벌**이고, ceremony(산출물 파일·검증 깊이)만 다르다.
 
-- **구현 모드 (feature)** — 새 기능 구현. 신규 코드는 정통 FSD 규칙을 그대로 따른다. 기존 비표준 위치(`entities/*/config/`, `entities/chat/store/`, `shared/hooks/`, `shared/providers/`, `shared/model/`, default-export 컴포넌트, kebab-case 컴포넌트 파일명 등)에 새 코드를 추가하지 않는다.
-- **리팩토링 모드 (refactor)** — 기존 코드를 정통 FSD 위치로 이전. plan에서 이전 매핑(현 위치 → 목표 위치)을 명시하고, 이동·rename·import 갱신을 의존 순서(shared → entities → features → widgets → pages)대로 진행한다.
+| 진입점 | source | 입력 | 산출물 파일 | 검증 |
+|--------|--------|------|-----------|------|
+| `ai-quick` | quick | 즉석 자유 텍스트 ("이거 좀 고쳐줘") | 없음 | 변경 파일 한정 lite (tsc + biome + FSD grep) |
+| `ai-pipeline` / `ai-plan` | spec | `requirements/specs/`의 REQ 문서 | `requirements/reports/{checklists,retrospects}/REQ-{번호}.md` | 전체 (tsc + biome + build + FSD + 체크리스트) |
 
-자세한 모드별 절차는 `.claude/skills/ai-plan/SKILL.md` 참조.
+승격 규칙: `ai-quick`로 시작했더라도 변경 파일이 5개를 초과하거나 cross-layer 영향이 다수 슬라이스에 전파되면 즉시 spec 모드(`ai-pipeline`)로 승격을 권유한다.
+
+## 두 가지 작업 모드 (intent)
+
+진입점과 직교하는 축으로, **무엇을** 하는지에 대한 모드:
+
+- **구현 모드 (`feature`)** — 새 기능 구현. 신규 코드는 정통 FSD 규칙을 그대로 따른다. 기존 비표준 위치(`entities/*/config/`, `entities/chat/store/`, `shared/hooks/`, `shared/providers/`, `shared/model/`, default-export 컴포넌트, kebab-case 컴포넌트 파일명 등)에 새 코드를 추가하지 않는다.
+- **리팩토링 모드 (`refactor`)** — 기존 코드를 정통 FSD 위치로 이전. plan에서 이전 매핑(현 위치 → 목표 위치)을 명시하고, 이동·rename·import 갱신을 의존 순서(shared → entities → features → widgets → pages)대로 진행한다.
+
+자세한 모드별 절차는 `.claude/skills/ai-plan/SKILL.md` 참조. 리팩토링 모드의 6대 점검 항목은 `.claude/rules/refactor-checklist.md`.
 
 ## Path Alias
 
@@ -115,11 +126,12 @@ import { httpClient } from "../../../shared/api";
 
 `.claude/skills/`에 5단계 파이프라인:
 
-| Skill | 용도 |
-|-------|------|
-| `ai-plan` | 요구사항 분석 + 구현/리팩토링 모드 결정 + FSD 구현 계획 작성 |
-| `ai-orchestrate` | shared → entities → features → widgets → pages 순으로 코드 작성/이전 |
-| `ai-validate` | tsc / biome / build / FSD import 규칙 검증 + 체크리스트 |
-| `ai-deliver` | barrel export 정리 + 커밋 메시지 제안 (직접 커밋 ✗) |
-| `ai-retrospect` | 코드 리뷰 + 회고 보고서 |
-| `ai-pipeline` | 위 5단계 순차 실행 |
+| Skill | 진입점 | 용도 |
+|-------|--------|------|
+| `ai-quick` | quick | 즉석 요청 단축 경로. 계획 ceremony 없이 룰·훅만 적용, 변경 파일 한정 lite 검증 |
+| `ai-plan` | spec | 요구사항 분석 + 구현/리팩토링 모드 결정 + FSD 구현 계획 작성 |
+| `ai-orchestrate` | spec | shared → entities → features → widgets → pages 순으로 코드 작성/이전 |
+| `ai-validate` | spec | tsc / biome / build / FSD import 규칙 검증 + 체크리스트 |
+| `ai-deliver` | spec | barrel export 정리 + 커밋 메시지 제안 (직접 커밋 ✗) |
+| `ai-retrospect` | spec | 코드 리뷰 + 회고 보고서 |
+| `ai-pipeline` | spec | 위 5단계 순차 실행 |
