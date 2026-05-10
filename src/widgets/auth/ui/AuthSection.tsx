@@ -4,7 +4,7 @@ import RightArrowIcon from "@/shared/assets/icons/arrow_right.svg?react";
 import { Checkbox } from "@/shared/ui/checkbox/Checkbox";
 import { LogoButton } from "@/shared/ui/logo";
 
-export default function AuthSection() {
+export const AuthSection = () => {
 	const checkboxId = useId();
 	const [isKeepAuthChecked, setIsKeepAuthChecked] = useState(false);
 
@@ -55,4 +55,4 @@ export default function AuthSection() {
 			</footer>
 		</div>
 	);
-}
+};
