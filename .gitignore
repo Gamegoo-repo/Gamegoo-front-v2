@@ -23,4 +23,7 @@ dist/
 
 # pem
 certificates
-.claude/*
+
+# Claude Code — track shared rules/skills/hooks/settings, ignore local-only overrides
+.claude/settings.local.json
+.claude/.cache/
