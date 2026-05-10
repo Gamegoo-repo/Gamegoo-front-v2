@@ -68,7 +68,9 @@ pages(4) → widgets(3) → features(2) → entities(1) → shared(0)
 | `refactor-checklist.md` | 리팩토링 모드 전용 6대 점검 항목 (FSD / 가독성 / 함수 / 모듈화 / 성능 + 사전 결정 기준) |
 | `requirements-management.md` | requirements/ 디렉토리 + Changelog + mode |
 
-`PreToolUse` 훅(`.claude/hooks/fsd-layer-check.sh`)이 Edit/Write 시 import 방향과 cross-slice 위반을 차단한다.
+훅 (`.claude/hooks/`):
+- `fsd-layer-check.sh` (PreToolUse on Edit|Write) — import 방향·cross-slice 위반 차단
+- `req-detect.sh` (PostToolUse on Write) — `requirements/specs/{to-do,in-progress}/REQ-*.md` 작성 감지 시 `ai-plan` 실행 권유 메시지 자동 출력
 
 ## 두 진입점, 같은 시스템
 
