@@ -59,18 +59,6 @@
           }
         ]
       }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/req-detect.sh",
-            "timeout": 5
-          }
-        ]
-      }
     ]
   }
 }

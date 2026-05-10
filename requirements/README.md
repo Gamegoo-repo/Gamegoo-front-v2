@@ -37,13 +37,13 @@ cp requirements/TEMPLATE.md requirements/specs/to-do/REQ-001.md
 
 frontmatter의 `mode` 필드는 필수 — `feature`(새 기능) / `refactor`(구조 이전).
 
-### 2. 자동 ai-plan 권유
+### 2. ai-plan 호출
 
-`requirements/specs/{to-do,in-progress}/REQ-*.md`에 Write가 발생하면 `.claude/hooks/req-detect.sh`가 PostToolUse 훅으로 system-reminder를 출력 → Claude가 `ai-plan` 또는 `ai-pipeline`을 자동 invoke한다.
+REQ 작성 후 다음 중 하나로 분석·계획 단계 시작:
 
-수동 호출:
 - 단계별: `/ai-plan REQ-001.md`
 - 파이프라인: `/ai-pipeline REQ-001.md`
+- 자연어로 "REQ-001 plan 짜줘" — description 매칭으로 ai-plan 자동 invoke
 
 ### 3. 5단계 산출물 위치
 
