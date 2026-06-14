@@ -1,3 +1,1 @@
-import AuthPage from "./ui/AuthSection";
-
-export { AuthPage };
+export { AuthSection } from "./ui/AuthSection";
