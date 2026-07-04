@@ -1,0 +1,27 @@
+#!/bin/bash
+
+BRANCH_NAME=$(git -c safe.directory="$(pwd)" branch --show-current)
+ISSUE_NUMBER=$(echo "$BRANCH_NAME" | grep -oE '#[0-9]+' | sed 's/#//')
+
+if [ -z "$ISSUE_NUMBER" ]; then
+  exit 0
+fi
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+
+if [ "$COMMIT_SOURCE" = "merge" ] || [ "$COMMIT_SOURCE" = "squash" ]; then
+  exit 0
+fi
+
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+if [[ "$COMMIT_MSG" =~ \(#[0-9]+\) ]]; then
+  exit 0
+fi
+
+COMMIT_PATTERN='^[a-zA-Z]+(\([^)]*\))?!?:[[:space:]].+'
+
+if [[ "$COMMIT_MSG" =~ $COMMIT_PATTERN ]]; then
+  echo "${COMMIT_MSG} (#${ISSUE_NUMBER})" > "$COMMIT_MSG_FILE"
+fi
