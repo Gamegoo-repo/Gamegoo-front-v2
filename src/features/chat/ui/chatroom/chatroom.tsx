@@ -7,6 +7,7 @@ import {
 	useRef,
 	useState,
 } from "react";
+import { useAuthStore } from "@/entities/auth";
 import {
 	type ChatMessage,
 	useChatDialogStore,
@@ -29,7 +30,6 @@ import MannerEvaluationModal from "@/features/manner/ui/manner-evaluation-modal"
 import MannerSelectModal from "@/features/manner/ui/manner-select-modal";
 import type { ApiResponseEnterChatroomResponse } from "@/shared/api";
 import { useInfiniteScroll } from "@/shared/hooks/use-infinite-scroll";
-import { useAuthStore } from "@/shared/model/use-auth-store";
 import {
 	ChatroomDateDivider,
 	ChatroomFeedbackMessage,

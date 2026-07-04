@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ChatMessage } from "@/entities/chat";
 import { useSocketMessage } from "@/shared/api/socket";
-import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
+import { useGamegooSocket } from "@/shared/api/socket/gamegoo-socket-context";
 import type {
 	ChatMessageEventData,
 	SystemMessageEventData,

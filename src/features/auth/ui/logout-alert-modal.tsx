@@ -1,7 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
+import { useAuth } from "@/entities/auth";
 import PrecautionIcon from "@/shared/assets/icons/precaution.svg?react";
-import { useAuth } from "@/shared/model/use-auth";
 import { useLogoutAlertModalState } from "../model/logout-alert-modal-store";
 
 function LogoutAlertModal() {

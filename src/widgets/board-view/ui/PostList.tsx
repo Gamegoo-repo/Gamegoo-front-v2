@@ -1,13 +1,13 @@
 import { useSearch } from "@tanstack/react-router";
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { useAuth } from "@/entities/auth";
+import { useFetchPostsWithCursorQuery } from "@/entities/post/model/use-mobile-post-list";
+import PostCard from "@/entities/post/ui/post-card";
+import PostCardSkeletons from "@/entities/post/ui/post-card-skeleton";
 import PostActionMenu from "@/features/board/ui/post-action-menu";
-import { useAuth } from "@/shared/model/use-auth";
-import { useFetchPostsWithCursorQuery } from "../model/use-mobile-post-list";
-import PostCard from "./post-card";
-import PostCardSkeletons from "./post-card-skeleton";
 
-export default function PostList() {
+export const PostList = () => {
 	const search = useSearch({ from: "/_header-layout/board/" });
 	const { mode, tier, mike, position } = search;
 
@@ -91,4 +91,4 @@ export default function PostList() {
 			{isFetchingNextPage && <PostCardSkeletons />}
 		</div>
 	);
-}
+};

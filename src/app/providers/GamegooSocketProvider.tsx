@@ -1,23 +1,8 @@
-import {
-	createContext,
-	type ReactNode,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
+import { useAuth } from "@/entities/auth";
 import { tokenManager } from "@/shared/api";
+import { GamegooSocketContext } from "@/shared/api/socket/gamegoo-socket-context";
 import { socketManager } from "@/shared/api/socket/socket-manager";
-import { useAuth } from "@/shared/model/use-auth";
-
-interface GamegooSocketContextType {
-	isAuthenticated: boolean;
-	isConnected: boolean;
-}
-
-const GamegooSocketContext = createContext<GamegooSocketContextType | null>(
-	null,
-);
 
 interface GamegooSocketProviderProps {
 	children: ReactNode;
@@ -159,13 +144,3 @@ export function GamegooSocketProvider({
 		</GamegooSocketContext.Provider>
 	);
 }
-
-export const useGamegooSocket = () => {
-	const context = useContext(GamegooSocketContext);
-	if (!context) {
-		throw new Error(
-			"useGamegooSocket must be used within GamegooSocketProvider",
-		);
-	}
-	return context;
-};

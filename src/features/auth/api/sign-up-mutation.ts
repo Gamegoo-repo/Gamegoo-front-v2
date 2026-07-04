@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import type { AxiosError } from "axios";
+import { useAuthStore } from "@/entities/auth";
 import { trackRollBtiEvent } from "@/features/lol-bti/test/api";
 import type { LolBtiResultType } from "@/features/lol-bti/test/config";
 import {
@@ -14,7 +15,6 @@ import { isValidApiError } from "@/shared/api/guard";
 import { getEventSource } from "@/shared/lib/get-device";
 import { SessionManager } from "@/shared/lib/session/session-manager";
 import { toast } from "@/shared/lib/toast";
-import { useAuthStore } from "@/shared/model/use-auth-store";
 
 /** 롤BTI 세션이 존재하면 가입 완료 이벤트를 전송하고 세션을 초기화 */
 const trackLolBtiSignupIfNeeded = () => {

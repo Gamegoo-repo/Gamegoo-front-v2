@@ -1,13 +1,13 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { parseAuthCallbackParams } from "@/entities/auth/lib/parse-callback";
 import {
 	isError,
 	isLoginSuccess,
 	isNeedSignup,
-} from "@/entities/auth/model/guards";
+	parseAuthCallbackParams,
+	useAuthStore,
+} from "@/entities/auth";
 import { toast } from "@/shared/lib/toast";
-import { useAuthStore } from "@/shared/model/use-auth-store";
 import LoadingSpinner from "@/shared/ui/loading-spinner/loading-spinner";
 
 export default function AuthCallback() {

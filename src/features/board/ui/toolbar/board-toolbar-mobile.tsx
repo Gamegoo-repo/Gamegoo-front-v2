@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useAuth, useLoginRequiredModalStore } from "@/entities/auth";
 import type { Position } from "@/shared/api";
 import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import Dropdown from "@/shared/ui/dropdown/dropdown";
@@ -49,7 +50,12 @@ export default function BoardToolbarMobile({
 		});
 	};
 
-	const handleOpenModal = useAuthenticatedAction(handleOpenCreateModal);
+	const { isAuthenticated } = useAuth();
+	const openLoginRequiredModal = useLoginRequiredModalStore((s) => s.openModal);
+	const handleOpenModal = useAuthenticatedAction(handleOpenCreateModal, {
+		isAuthenticated,
+		onUnauthenticated: openLoginRequiredModal,
+	});
 
 	return (
 		<div className="mt-3 flex w-full flex-col">

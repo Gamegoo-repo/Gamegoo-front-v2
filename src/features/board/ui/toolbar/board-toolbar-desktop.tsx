@@ -1,4 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuth, useLoginRequiredModalStore } from "@/entities/auth";
 import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import { boardKeys } from "../../api/query-keys";
 import BoardFilter from "../board-filter";
@@ -12,7 +13,12 @@ export default function BoardToolbarDesktop({
 	handleOpenCreateModal: () => void;
 }) {
 	const queryClient = useQueryClient();
-	const handleOpenModal = useAuthenticatedAction(handleOpenCreateModal);
+	const { isAuthenticated } = useAuth();
+	const openLoginRequiredModal = useLoginRequiredModalStore((s) => s.openModal);
+	const handleOpenModal = useAuthenticatedAction(handleOpenCreateModal, {
+		isAuthenticated,
+		onUnauthenticated: openLoginRequiredModal,
+	});
 
 	const refetchPost = async () => {
 		await queryClient.refetchQueries({

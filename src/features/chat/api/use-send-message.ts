@@ -3,7 +3,7 @@ import { useChatStore } from "@/entities/chat";
 import { chatKeys } from "@/entities/chat/config/query-keys";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import { socketManager } from "@/shared/api/socket";
-import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
+import { useGamegooSocket } from "@/shared/api/socket/gamegoo-socket-context";
 import type { SendMessageParams } from "../lib/types";
 
 export const useSendMessage = () => {

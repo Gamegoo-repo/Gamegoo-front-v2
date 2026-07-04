@@ -1,10 +1,10 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
+import { useAuth, useLoginRequiredModalStore } from "@/entities/auth";
 import { useChatStore } from "@/entities/chat";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
 import UserProfile from "@/entities/user/ui/user-profile";
-import { useLoginRequiredModalStore } from "@/features/auth";
 import { notificationKeys } from "@/features/notification/api/query-keys";
 import { api, tokenManager } from "@/shared/api";
 import { useSocketMessage } from "@/shared/api/socket";
@@ -20,7 +20,6 @@ import NotiOnIcon from "@/shared/assets/icons/noti_on.svg?react";
 import SettingIcon from "@/shared/assets/icons/setting.svg?react";
 import { cn } from "@/shared/lib/utils";
 import { useResponsive } from "@/shared/model/responsive-context";
-import { useAuth } from "@/shared/model/use-auth";
 import { Badge } from "@/shared/ui/badge";
 import Modal from "@/shared/ui/modal/modal";
 

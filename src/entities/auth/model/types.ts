@@ -1,5 +1,13 @@
 import type { BanType } from "@/shared/api";
 
+/** TODO: BAN 정보도 저장할지 isBanned 정도만? */
+export interface UserStore {
+	id: number;
+	name: string;
+	tag: string;
+	profileImage: number;
+}
+
 export const OAuthStatus = {
 	LOGIN_SUCCESS: "LOGIN_SUCCESS",
 	NEED_SIGNUP: "NEED_SIGNUP",

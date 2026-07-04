@@ -9,7 +9,7 @@ import type {
 } from "@/features/chat/lib/types";
 import { api } from "@/shared/api";
 import { useSocketMessage } from "@/shared/api/socket";
-import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
+import { useGamegooSocket } from "@/shared/api/socket/gamegoo-socket-context";
 
 export const useChatMessageSocket = () => {
 	const { isAuthenticated } = useGamegooSocket();

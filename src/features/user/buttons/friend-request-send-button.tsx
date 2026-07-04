@@ -1,5 +1,5 @@
+import { useAuth } from "@/entities/auth";
 import { useSendFriendRequest } from "@/features/user/hooks/use-send-friend-request";
-import { useAuth } from "@/shared/model/use-auth";
 import { Button } from "@/shared/ui";
 
 export default function FriendRequestSendButton({

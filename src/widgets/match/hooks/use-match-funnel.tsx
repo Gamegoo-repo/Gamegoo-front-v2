@@ -1,6 +1,6 @@
 import { create } from "zustand";
+import { useLoginRequiredModalStore } from "@/entities/auth";
 import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
-import { useLoginRequiredModalStore } from "@/features/auth";
 import type { MyProfileResponse } from "@/shared/api";
 import type { OpponentProfilePayload } from "@/widgets/match/lib/matching-types";
 import type { FunnelStep } from "../lib/types";

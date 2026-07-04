@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useAuth } from "@/shared/model/use-auth";
+import { useAuth } from "@/entities/auth";
 import { AuthSection } from "@/widgets/auth";
 
 function AuthPage() {

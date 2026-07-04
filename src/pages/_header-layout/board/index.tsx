@@ -1,7 +1,6 @@
 import { createFileRoute, useSearch } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { z } from "zod";
-import PostList from "@/entities/post/ui/post-list";
 import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
 import BoardToolbarDesktop from "@/features/board/ui/toolbar/board-toolbar-desktop";
 import BoardToolbarMobile from "@/features/board/ui/toolbar/board-toolbar-mobile";
@@ -14,6 +13,7 @@ import {
 } from "@/shared/api";
 import { useResponsive } from "@/shared/model/responsive-context";
 import BoardTable from "@/widgets/board-view/ui/board-table";
+import { PostList } from "@/widgets/board-view/ui/PostList";
 
 const searchSchema = z.object({
 	page: z.number().min(1).optional().catch(1),

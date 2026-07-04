@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes } from "react";
+import { useAuth, useLoginRequiredModalStore } from "@/entities/auth";
 import HoistingIcon from "@/shared/assets/icons/ic-hoisting.svg?react";
 import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import { cn } from "@/shared/lib/utils";
@@ -8,8 +9,13 @@ interface BumpButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export default function BumpButton({ className, ...props }: BumpButtonProps) {
 	const { mutate, isPending } = useBumpPost();
+	const { isAuthenticated } = useAuth();
+	const openLoginRequiredModal = useLoginRequiredModalStore((s) => s.openModal);
 
-	const handleBumpPost = useAuthenticatedAction(mutate);
+	const handleBumpPost = useAuthenticatedAction(mutate, {
+		isAuthenticated,
+		onUnauthenticated: openLoginRequiredModal,
+	});
 
 	return (
 		<button

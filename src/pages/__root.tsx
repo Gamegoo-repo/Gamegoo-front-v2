@@ -1,13 +1,13 @@
+import { DesignSystemProvider } from "@gamegoo-ui/design-system";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
+import { GamegooSocketProvider } from "@/app/providers/GamegooSocketProvider";
 import { GlobalBoardModals } from "@/app/providers/global-board-modals";
 import { GoogleAnalyticsTracker } from "@/app/providers/google-analytics-tracker";
+import { useAuth, useLoginRequiredModalStore } from "@/entities/auth";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
-import {
-	LoginRequiredModal,
-	useLoginRequiredModalStore,
-} from "@/features/auth";
+import { LoginRequiredModal } from "@/features/auth";
 import { useLogoutAlertModalState } from "@/features/auth/model/logout-alert-modal-store";
 import LogoutAlertModal from "@/features/auth/ui/logout-alert-modal";
 import PostDeletedAlertModal from "@/features/board/ui/post-deleted-alert-modal";
@@ -15,13 +15,7 @@ import { useChatroomUpdateHandler } from "@/features/chat/api/use-chatroom-updat
 import ReportModal from "@/features/report/ui/report-modal";
 import { tokenManager } from "@/shared/api";
 import { ResponsiveProvider } from "@/shared/model/responsive-context";
-import { useAuth } from "@/shared/model/use-auth";
-import {
-	ChatSocketProvider,
-	ConfirmDialogProvider,
-	GamegooSocketProvider,
-} from "@/shared/providers";
-import { DesignSystemProvider } from "@gamegoo-ui/design-system";
+import { ChatSocketProvider, ConfirmDialogProvider } from "@/shared/providers";
 import { MatchGlobalListenerProvider } from "@/shared/providers/match-global-listener-provider";
 import {
 	FloatingChatButton,

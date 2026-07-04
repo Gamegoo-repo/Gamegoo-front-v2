@@ -1,4 +1,4 @@
-import { useAuthStore } from "./use-auth-store";
+import { useAuthStore } from "./authStore";
 
 export function useAuth() {
 	const isAuthenticated = useAuthStore((s) => s.isAuthenticated);

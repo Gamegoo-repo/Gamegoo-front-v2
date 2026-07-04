@@ -3,7 +3,7 @@ import {
 	useSocketMessage,
 	useSocketStatus,
 } from "@/shared/api/socket";
-import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
+import { useGamegooSocket } from "@/shared/api/socket/gamegoo-socket-context";
 
 function SocketTestInner() {
 	const { isAuthenticated } = useGamegooSocket();

@@ -3,7 +3,7 @@ import { useChatDialogStore } from "@/entities/chat";
 import type { SystemData } from "@/features/chat";
 import { useSendMessage } from "@/features/chat";
 import type { ApiResponseEnterChatroomResponse } from "@/shared/api";
-import { useGamegooSocket } from "@/shared/providers/gamegoo-socket-provider";
+import { useGamegooSocket } from "@/shared/api/socket/gamegoo-socket-context";
 
 interface ChatroomMessageInputProps {
 	enterData?: ApiResponseEnterChatroomResponse;

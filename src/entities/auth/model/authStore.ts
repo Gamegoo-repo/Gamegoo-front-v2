@@ -1,14 +1,6 @@
 import { create } from "zustand";
-import type { LoginSuccessParams } from "@/entities/auth/model/types";
-import { api, tokenManager } from "../api";
-
-/** TODO: BAN 정보도 저장할지 isBanned 정도만? */
-export interface UserStore {
-	id: number;
-	name: string;
-	tag: string;
-	profileImage: number;
-}
+import { api, tokenManager } from "@/shared/api";
+import type { LoginSuccessParams, UserStore } from "./types";
 
 interface AuthStore {
 	isAuthenticated: boolean;

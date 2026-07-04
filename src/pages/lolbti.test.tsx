@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/entities/auth";
 import {
 	calculateAllAxisPercentages,
 	calculateLolBtiResult,
@@ -17,7 +18,6 @@ import LolBtiResultSection from "@/features/lol-bti/test/ui/result/lolbti-result
 import LolBtiShareButton from "@/features/lol-bti/test/ui/result/lolbti-share-button";
 import { getEventSource } from "@/shared/lib/get-device";
 import { SessionManager } from "@/shared/lib/session/session-manager";
-import { useAuth } from "@/shared/model/use-auth";
 
 export const Route = createFileRoute("/lolbti/test")({
 	component: RouteComponent,

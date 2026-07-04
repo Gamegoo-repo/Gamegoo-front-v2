@@ -5,6 +5,7 @@ import {
 	useNavigate,
 	useSearch,
 } from "@tanstack/react-router";
+import { useAuth } from "@/entities/auth";
 import TierBadge from "@/entities/game/ui/tier-badge";
 import UserProfile from "@/entities/user/ui/user-profile";
 import { boardKeys } from "@/features/board/api/query-keys";
@@ -16,7 +17,6 @@ import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
 import ArrowRightIcon from "@/shared/assets/icons/arrow-right.svg?react";
 import { formatDateSimple } from "@/shared/lib/format-date-simple";
 import { cn } from "@/shared/lib/utils";
-import { useAuth } from "@/shared/model/use-auth";
 import type { Column } from "@/shared/ui/table/table";
 import Table from "@/shared/ui/table/table";
 
