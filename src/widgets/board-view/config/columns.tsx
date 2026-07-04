@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import type { UserStore } from "@/entities/auth";
 import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
 import TierBadge from "@/entities/game/ui/tier-badge";
 import MannerLevelBadge from "@/entities/user/ui/manner-level-badge";
@@ -8,7 +9,6 @@ import PostActionMenu from "@/features/board/ui/post-action-menu";
 import type { BoardListResponse } from "@/shared/api";
 import { formatDateSimple } from "@/shared/lib/format-date-simple";
 import { cn } from "@/shared/lib/utils";
-import type { UserStore } from "@/shared/model/use-auth-store";
 import type { Column } from "@/shared/ui/table/table";
 import SearchingPosition from "../ui/searching-positions";
 import UserPositions from "../ui/user-positions";

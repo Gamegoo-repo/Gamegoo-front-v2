@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useRef } from "react";
+import { useAuth, useLoginRequiredModalStore } from "@/entities/auth";
 import { useChatStore } from "@/entities/chat";
 import { chatKeys } from "@/entities/chat/config/query-keys";
 import { useChatDialogStore } from "@/entities/chat/store/use-chat-dialog-store";
@@ -22,7 +23,6 @@ import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action"
 import { formatDateTime } from "@/shared/lib/format-date-time";
 import { toast } from "@/shared/lib/toast";
 import { cn } from "@/shared/lib/utils";
-import { useAuth } from "@/shared/model/use-auth";
 import Modal from "@/shared/ui/modal/modal";
 import { getGameModeTitle } from "../lib/getGameModeTitle";
 import { usePostDeletedAlertModalState } from "../model/post-deleted-alert-modal-store";
@@ -35,6 +35,7 @@ export default function PostDetailModal({
 	onClose: () => void;
 }) {
 	const { user, isAuthenticated } = useAuth();
+	const openLoginRequiredModal = useLoginRequiredModalStore((s) => s.openModal);
 
 	const { isPending, data, isError, error } = useBoardDetail(
 		isAuthenticated,
@@ -42,58 +43,61 @@ export default function PostDetailModal({
 	);
 	const modalRef = useRef<HTMLDivElement>(null);
 
-	const handleStartChat = useAuthenticatedAction(async () => {
-		try {
-			const response = await api.private.chat.startChatroomByBoardId(postId);
-			const chatroomData = response.data?.data;
+	const handleStartChat = useAuthenticatedAction(
+		async () => {
+			try {
+				const response = await api.private.chat.startChatroomByBoardId(postId);
+				const chatroomData = response.data?.data;
 
-			if (chatroomData?.uuid) {
-				if (chatroomData.system) {
-					setSystemData({
-						flag: chatroomData.system.flag,
-						boardId: chatroomData.system.boardId,
+				if (chatroomData?.uuid) {
+					if (chatroomData.system) {
+						setSystemData({
+							flag: chatroomData.system.flag,
+							boardId: chatroomData.system.boardId,
+						});
+					} else {
+						clearSystemData();
+					}
+					const chatroom: ChatroomResponse = {
+						chatroomId: 0,
+						uuid: chatroomData.uuid,
+						targetMemberId: chatroomData.memberId,
+						tag: chatroomData.tag,
+						targetMemberName: chatroomData.gameName,
+						targetMemberImg: chatroomData.memberProfileImg,
+						friend: chatroomData.friend,
+						blind: chatroomData.blind,
+						notReadMsgCnt: 0,
+						lastMsg: "",
+						lastMsgAt: "",
+						lastMsgTimestamp: 0,
+					};
+					// Preload enter data to ensure system flag is available before first send
+					await queryClient.prefetchQuery({
+						queryKey: chatKeys.enter(chatroom.uuid),
+						queryFn: async () => {
+							const enterRes = await api.private.chat.enterChatroom(
+								chatroom.uuid,
+							);
+							return enterRes.data;
+						},
 					});
-				} else {
-					clearSystemData();
+					// Optimistically update chatroom list and trigger server refetch
+					updateChatroom(chatroom);
+					void queryClient.invalidateQueries({
+						queryKey: chatKeys.rooms(),
+					});
+					setChatroom(chatroom);
+					setChatDialogType("chatroom");
+					openDialog();
+					onClose();
 				}
-				const chatroom: ChatroomResponse = {
-					chatroomId: 0,
-					uuid: chatroomData.uuid,
-					targetMemberId: chatroomData.memberId,
-					tag: chatroomData.tag,
-					targetMemberName: chatroomData.gameName,
-					targetMemberImg: chatroomData.memberProfileImg,
-					friend: chatroomData.friend,
-					blind: chatroomData.blind,
-					notReadMsgCnt: 0,
-					lastMsg: "",
-					lastMsgAt: "",
-					lastMsgTimestamp: 0,
-				};
-				// Preload enter data to ensure system flag is available before first send
-				await queryClient.prefetchQuery({
-					queryKey: chatKeys.enter(chatroom.uuid),
-					queryFn: async () => {
-						const enterRes = await api.private.chat.enterChatroom(
-							chatroom.uuid,
-						);
-						return enterRes.data;
-					},
-				});
-				// Optimistically update chatroom list and trigger server refetch
-				updateChatroom(chatroom);
-				void queryClient.invalidateQueries({
-					queryKey: chatKeys.rooms(),
-				});
-				setChatroom(chatroom);
-				setChatDialogType("chatroom");
-				openDialog();
-				onClose();
+			} catch (e) {
+				console.error("채팅방 시작 실패:", e);
 			}
-		} catch (e) {
-			console.error("채팅방 시작 실패:", e);
-		}
-	});
+		},
+		{ isAuthenticated, onUnauthenticated: openLoginRequiredModal },
+	);
 
 	const {
 		setChatroom,

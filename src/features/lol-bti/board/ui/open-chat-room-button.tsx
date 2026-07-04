@@ -1,8 +1,9 @@
+import { Button } from "@gamegoo-ui/design-system";
+import { useAuth, useLoginRequiredModalStore } from "@/entities/auth";
 import { useOpenChatroom } from "@/features/chat/hooks/use-open-chatroom";
 import { api } from "@/shared/api";
 import { useAuthenticatedAction } from "@/shared/hooks/use-authenticated-action";
 import { cn } from "@/shared/lib/utils";
-import { Button } from "@gamegoo-ui/design-system";
 
 export default function OpenChatRoomButton({
 	memberId,
@@ -12,12 +13,17 @@ export default function OpenChatRoomButton({
 	className?: string;
 }) {
 	const openChatRoom = useOpenChatroom();
+	const { isAuthenticated } = useAuth();
+	const openLoginRequiredModal = useLoginRequiredModalStore((s) => s.openModal);
 
-	const handleStartChat = useAuthenticatedAction(async () => {
-		openChatRoom(
-			async () => await api.private.chat.startChatroomByMemberId(memberId),
-		);
-	});
+	const handleStartChat = useAuthenticatedAction(
+		async () => {
+			openChatRoom(
+				async () => await api.private.chat.startChatroomByMemberId(memberId),
+			);
+		},
+		{ isAuthenticated, onUnauthenticated: openLoginRequiredModal },
+	);
 	return (
 		<Button
 			type="button"

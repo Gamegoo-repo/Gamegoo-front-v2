@@ -1,12 +1,12 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { useAuth } from "@/entities/auth";
 import { useFetchOtherUserInfo } from "@/entities/user/api/use-fetch-other-user-info";
 import {
 	MOCK_MANNER_KEYWORDS,
 	MOCK_MANNER_LEVEL,
 	MOCK_USER_PROFILE,
 } from "@/entities/user/config/user-mock-data";
-import { useAuth } from "@/shared/model/use-auth";
 import DeletedUserView from "@/widgets/user-info/deleted-user-view";
 import type { UserRelationshipStatus } from "@/widgets/user-info/model/user-info.types";
 import UserInfoSkeleton from "@/widgets/user-info/user-info-skeleton";

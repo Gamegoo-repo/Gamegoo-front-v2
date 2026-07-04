@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
+import { useLoginRequiredModalStore } from "@/entities/auth";
 import PrecautionIcon from "@/shared/assets/icons/precaution.svg?react";
-import { useLoginRequiredModalStore } from "../model/login-required-modal-store";
 
 function LoginRequiredModal() {
 	const { isOpen, closeModal } = useLoginRequiredModalStore();

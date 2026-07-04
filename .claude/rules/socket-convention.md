@@ -60,7 +60,7 @@ if (socketManager.connected) {
 
 ## 4. 인증 / 연결 트리거
 
-- 토큰 부착·재연결 로직은 앱 부트스트랩 Provider에서 처리: `app/providers/GamegooSocketProvider.tsx` (현재 `shared/providers/`에 있는 파일들은 `app/providers/`로 이전 대상)
+- 토큰 부착·재연결 로직은 앱 부트스트랩 Provider에서 처리: `app/providers/GamegooSocketProvider.tsx`. Context·`useGamegooSocket` 훅은 하위 레이어(features)가 소비하므로 `shared/api/socket/gamegoo-socket-context.ts`에 두고, Provider 컴포넌트만 `app`에 둔다 (Provider를 app에 두고 훅까지 app에 두면 features→app 상향이 발생하므로 분리).
 - 채팅 전용 socket은 `ChatSocketProvider` (room 단위 격리)
 - `__root.tsx`에서 Provider tree로 마운트
 

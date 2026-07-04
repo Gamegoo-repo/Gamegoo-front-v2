@@ -3,4 +3,3 @@ export {
 	ConfirmDialogProvider,
 	useConfirmDialog,
 } from "./confirm-dialog-provider";
-export * from "./gamegoo-socket-provider";

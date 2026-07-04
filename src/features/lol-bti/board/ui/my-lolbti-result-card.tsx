@@ -1,12 +1,12 @@
+import { Button } from "@gamegoo-ui/design-system";
+import { useAuthStore } from "@/entities/auth";
 import { useFetchMyInfo } from "@/entities/user/api/use-fetch-my-info";
 import type { GetMyLolBtiResultResponse } from "@/features/lol-bti/test/api";
 import { LOL_BTI_TYPE_DATA } from "@/features/lol-bti/test/config";
 import { toast } from "@/shared/lib/toast";
-import { Button } from "@gamegoo-ui/design-system";
-import { useAuthStore } from "@/shared/model/use-auth-store";
+import { Skeleton } from "@/shared/ui/skeleton/skeleton-ui";
 import LolBtiCard from "./lolbti-card";
 import LolBtiChampionStats from "./lolbti-champion-stats";
-import { Skeleton } from "@/shared/ui/skeleton/skeleton-ui";
 
 export default function MyLolBtiResultCard({
 	result,

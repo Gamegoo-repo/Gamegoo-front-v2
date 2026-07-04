@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useAuth } from "@/entities/auth";
 import { useChatDialogStore, useChatStore } from "@/entities/chat";
 import {
 	BadMannerEvaluateMenuItem,
@@ -19,7 +20,6 @@ import type { ApiResponseEnterChatroomResponse } from "@/shared/api";
 import LeftArrowIcon from "@/shared/assets/icons/left_arrow.svg?react";
 import { copyRiotIdToClipboard } from "@/shared/lib/copy-riot-id";
 import { toast } from "@/shared/lib/toast";
-import { useAuth } from "@/shared/model/use-auth";
 
 interface ChatroomHeaderProps {
 	enterData?: ApiResponseEnterChatroomResponse;
