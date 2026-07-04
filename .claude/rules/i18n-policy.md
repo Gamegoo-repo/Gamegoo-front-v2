@@ -10,8 +10,8 @@
 
 - 신규 사용자 노출 문구는 **한글**로 작성한다 (영문 노출 문구 신규 도입 금지 — 디자인 일관성).
 - 사용자 노출 문구를 상수로 추출할 때도 키는 영문으로 의미 있게 짓고 값은 한글 그대로 둔다.
-    - ✅ `LOGIN_REQUIRED_MESSAGE = "로그인이 필요합니다"`
-    - ❌ `i18n.t("auth.loginRequired")`, `LOCALE_KEYS.LOGIN_REQUIRED` 등 키 추상화 도입 금지
+  - ✅ `LOGIN_REQUIRED_MESSAGE = "로그인이 필요합니다"`
+  - ❌ `i18n.t("auth.loginRequired")`, `LOCALE_KEYS.LOGIN_REQUIRED` 등 키 추상화 도입 금지
 - 한글 하드코딩은 그 자체로 코드 스멜이 아니다. 회고/리뷰에서 "한글 하드코딩 → i18n 이전 필요"를 개선 항목으로 잡지 않는다.
 
 ## 회고/스펙 작성 시

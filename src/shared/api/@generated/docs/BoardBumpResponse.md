@@ -1,12 +1,11 @@
 # BoardBumpResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**boardId** | **number** |  | [default to undefined]
-**bumpTime** | **string** |  | [default to undefined]
+| Name         | Type       | Description | Notes                  |
+| ------------ | ---------- | ----------- | ---------------------- |
+| **boardId**  | **number** |             | [default to undefined] |
+| **bumpTime** | **string** |             | [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { BoardBumpResponse } from './api';
 
 const instance: BoardBumpResponse = {
-    boardId,
-    bumpTime,
+  boardId,
+  bumpTime,
 };
 ```
 

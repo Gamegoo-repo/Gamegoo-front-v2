@@ -1,14 +1,13 @@
 # ReportRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**reportCodeList** | **Array&lt;number&gt;** |  | [default to undefined]
-**contents** | **string** |  | [optional] [default to undefined]
-**pathCode** | **number** |  | [default to undefined]
-**boardId** | **number** |  | [optional] [default to undefined]
+| Name               | Type                    | Description | Notes                             |
+| ------------------ | ----------------------- | ----------- | --------------------------------- |
+| **reportCodeList** | **Array&lt;number&gt;** |             | [default to undefined]            |
+| **contents**       | **string**              |             | [optional] [default to undefined] |
+| **pathCode**       | **number**              |             | [default to undefined]            |
+| **boardId**        | **number**              |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { ReportRequest } from './api';
 
 const instance: ReportRequest = {
-    reportCodeList,
-    contents,
-    pathCode,
-    boardId,
+  reportCodeList,
+  contents,
+  pathCode,
+  boardId,
 };
 ```
 

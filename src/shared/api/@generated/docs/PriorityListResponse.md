@@ -1,13 +1,12 @@
 # PriorityListResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**myPriorityList** | [**Array&lt;PriorityValue&gt;**](PriorityValue.md) |  | [default to undefined]
-**otherPriorityList** | [**Array&lt;PriorityValue&gt;**](PriorityValue.md) |  | [default to undefined]
-**myMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |  | [default to undefined]
+| Name                  | Type                                                            | Description | Notes                  |
+| --------------------- | --------------------------------------------------------------- | ----------- | ---------------------- |
+| **myPriorityList**    | [**Array&lt;PriorityValue&gt;**](PriorityValue.md)              |             | [default to undefined] |
+| **otherPriorityList** | [**Array&lt;PriorityValue&gt;**](PriorityValue.md)              |             | [default to undefined] |
+| **myMatchingInfo**    | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |             | [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { PriorityListResponse } from './api';
 
 const instance: PriorityListResponse = {
-    myPriorityList,
-    otherPriorityList,
-    myMatchingInfo,
+  myPriorityList,
+  otherPriorityList,
+  myMatchingInfo,
 };
 ```
 

@@ -7,12 +7,13 @@ validated: YYYY-MM-DD
 
 ## Checklist
 
-| # | 요구사항 | 구현 위치 | 상태 |
-|---|----------|-----------|------|
-| 1 | 요구사항 설명 | `src/{layer}/{slice}/{file}.tsx` — 함수명/Tailwind 클래스 등 특정 가능한 정보 | ✅/❌ |
-| 2 |  |  |  |
+| #   | 요구사항      | 구현 위치                                                                     | 상태  |
+| --- | ------------- | ----------------------------------------------------------------------------- | ----- |
+| 1   | 요구사항 설명 | `src/{layer}/{slice}/{file}.tsx` — 함수명/Tailwind 클래스 등 특정 가능한 정보 | ✅/❌ |
+| 2   |               |                                                                               |       |
 
 > `구현 위치` 작성 가이드:
+>
 > - 컴포넌트: `path/Component.tsx — <Element prop=... />`
 > - 훅: `path/useXxx.ts — useXxx`
 > - 상수: `path/constants.ts — CONSTANT_NAME`

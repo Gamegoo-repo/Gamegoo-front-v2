@@ -1,13 +1,12 @@
 # PasswordResetWithVerifyRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**email** | **string** |  | [default to undefined]
-**verifyCode** | **string** |  | [default to undefined]
-**newPassword** | **string** |  | [default to undefined]
+| Name            | Type       | Description | Notes                  |
+| --------------- | ---------- | ----------- | ---------------------- |
+| **email**       | **string** |             | [default to undefined] |
+| **verifyCode**  | **string** |             | [default to undefined] |
+| **newPassword** | **string** |             | [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { PasswordResetWithVerifyRequest } from './api';
 
 const instance: PasswordResetWithVerifyRequest = {
-    email,
-    verifyCode,
-    newPassword,
+  email,
+  verifyCode,
+  newPassword,
 };
 ```
 

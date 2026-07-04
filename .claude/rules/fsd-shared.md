@@ -12,6 +12,7 @@ globs: src/shared/**
 ## 구조
 
 shared는 slice가 아닌 flat segment 구조:
+
 ```
 shared/
 ├── api/      # HTTP 클라이언트, 요청 헬퍼, 인터셉터

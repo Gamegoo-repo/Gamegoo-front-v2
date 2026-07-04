@@ -22,8 +22,8 @@ mv src/components/ui/button.tsx src/shared/ui/button/
 
 ```tsx
 // ✅ Good
-import { Button } from "@/shared/ui/button";
-import { Badge } from "@/shared/ui/badge";
+import { Button } from '@/shared/ui/button';
+import { Badge } from '@/shared/ui/badge';
 
 // ❌ Bad — 동일 의미의 커스텀 컴포넌트를 새로 만들기
 const CustomButton = () => <button className="...">...</button>;
@@ -37,13 +37,14 @@ const CustomButton = () => <button className="...">...</button>;
   ```ts
   interface ChatMessageProps {
     message: string;
-    sender: "user" | "ai";
+    sender: 'user' | 'ai';
   }
   ```
 
 ## 3. Export
 
 - **named export만 사용** — `export default` 금지
+
   ```ts
   // ✅ Good
   export const ChatMessage = ({ message, sender }: ChatMessageProps) => { ... };
@@ -70,9 +71,9 @@ const CustomButton = () => <button className="...">...</button>;
 - Biome `useSortedClasses: on` — 클래스 순서 자동 정렬
 
 ```tsx
-import { cn } from "@/shared/lib/utils";
+import { cn } from '@/shared/lib/utils';
 
-<div className={cn("flex items-center gap-2 p-4", isActive && "bg-blue-50")}>
+<div className={cn('flex items-center gap-2 p-4', isActive && 'bg-blue-50')}>
   <span className="text-sm text-gray-600">{label}</span>
 </div>;
 ```

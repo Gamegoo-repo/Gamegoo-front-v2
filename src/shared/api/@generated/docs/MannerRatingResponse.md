@@ -1,12 +1,11 @@
 # MannerRatingResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**mannerRatingId** | **number** |  | [optional] [default to undefined]
-**mannerKeywordIdList** | **Array&lt;number&gt;** |  | [default to undefined]
+| Name                    | Type                    | Description | Notes                             |
+| ----------------------- | ----------------------- | ----------- | --------------------------------- |
+| **mannerRatingId**      | **number**              |             | [optional] [default to undefined] |
+| **mannerKeywordIdList** | **Array&lt;number&gt;** |             | [default to undefined]            |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { MannerRatingResponse } from './api';
 
 const instance: MannerRatingResponse = {
-    mannerRatingId,
-    mannerKeywordIdList,
+  mannerRatingId,
+  mannerKeywordIdList,
 };
 ```
 

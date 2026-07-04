@@ -1,6 +1,6 @@
 ---
 name: ai-validate
-description: "Phase 3: 타입 체크, 린트, 빌드, FSD 레이어 검증을 실행한다"
+description: 'Phase 3: 타입 체크, 린트, 빌드, FSD 레이어 검증을 실행한다'
 ---
 
 # Phase 3: Validate
@@ -92,16 +92,16 @@ grep -rn "from '@/shared/api/@generated" src/ 2>/dev/null | grep -v "src/shared/
 ```markdown
 ---
 id: REQ-{번호}
-title: {요구사항 제목}
+title: { 요구사항 제목 }
 mode: feature|refactor
-validated: {YYYY-MM-DD}
+validated: { YYYY-MM-DD }
 ---
 
 ## Checklist
 
-| # | 요구사항 | 구현 위치 | 상태 |
-|---|----------|-----------|------|
-| 1 | 요구사항 설명 | 파일 또는 코드 위치 | ✅/❌ |
+| #   | 요구사항      | 구현 위치           | 상태  |
+| --- | ------------- | ------------------- | ----- |
+| 1   | 요구사항 설명 | 파일 또는 코드 위치 | ✅/❌ |
 ```
 
 - `구현 위치`: 컴포넌트명, 함수명, Tailwind 클래스 등 구현을 특정할 수 있는 정보

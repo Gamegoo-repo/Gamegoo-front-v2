@@ -1,11 +1,10 @@
 # MannerUpdateRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**mannerKeywordIdList** | **Array&lt;number&gt;** |  | [default to undefined]
+| Name                    | Type                    | Description | Notes                  |
+| ----------------------- | ----------------------- | ----------- | ---------------------- |
+| **mannerKeywordIdList** | **Array&lt;number&gt;** |             | [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { MannerUpdateRequest } from './api';
 
 const instance: MannerUpdateRequest = {
-    mannerKeywordIdList,
+  mannerKeywordIdList,
 };
 ```
 

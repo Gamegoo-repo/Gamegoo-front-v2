@@ -1,15 +1,14 @@
 # ReportProcessResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**reportId** | **number** |  | [default to undefined]
-**targetMemberId** | **number** |  | [default to undefined]
-**appliedBanType** | [**BanType**](BanType.md) |  | [default to undefined]
-**banExpireAt** | **string** |  | [optional] [default to undefined]
-**message** | **string** |  | [default to undefined]
+| Name               | Type                      | Description | Notes                             |
+| ------------------ | ------------------------- | ----------- | --------------------------------- |
+| **reportId**       | **number**                |             | [default to undefined]            |
+| **targetMemberId** | **number**                |             | [default to undefined]            |
+| **appliedBanType** | [**BanType**](BanType.md) |             | [default to undefined]            |
+| **banExpireAt**    | **string**                |             | [optional] [default to undefined] |
+| **message**        | **string**                |             | [default to undefined]            |
 
 ## Example
 
@@ -17,11 +16,11 @@ Name | Type | Description | Notes
 import { ReportProcessResponse } from './api';
 
 const instance: ReportProcessResponse = {
-    reportId,
-    targetMemberId,
-    appliedBanType,
-    banExpireAt,
-    message,
+  reportId,
+  targetMemberId,
+  appliedBanType,
+  banExpireAt,
+  message,
 };
 ```
 

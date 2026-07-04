@@ -4,14 +4,14 @@
 
 ## Enum
 
-* `FAIL` (value: `'FAIL'`)
+- `FAIL` (value: `'FAIL'`)
 
-* `SUCCESS` (value: `'SUCCESS'`)
+- `SUCCESS` (value: `'SUCCESS'`)
 
-* `PENDING` (value: `'PENDING'`)
+- `PENDING` (value: `'PENDING'`)
 
-* `FOUND` (value: `'FOUND'`)
+- `FOUND` (value: `'FOUND'`)
 
-* `QUIT` (value: `'QUIT'`)
+- `QUIT` (value: `'QUIT'`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

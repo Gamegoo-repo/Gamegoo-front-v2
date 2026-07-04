@@ -1,14 +1,13 @@
 # ApiResponseListString
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**status** | **number** |  | [default to undefined]
-**message** | **string** |  | [default to undefined]
-**code** | **string** |  | [optional] [default to undefined]
-**data** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+| Name        | Type                    | Description | Notes                             |
+| ----------- | ----------------------- | ----------- | --------------------------------- |
+| **status**  | **number**              |             | [default to undefined]            |
+| **message** | **string**              |             | [default to undefined]            |
+| **code**    | **string**              |             | [optional] [default to undefined] |
+| **data**    | **Array&lt;string&gt;** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { ApiResponseListString } from './api';
 
 const instance: ApiResponseListString = {
-    status,
-    message,
-    code,
-    data,
+  status,
+  message,
+  code,
+  data,
 };
 ```
 

@@ -1,5 +1,5 @@
 export interface KDAStats {
-	kills: number;
-	deaths: number;
-	assists: number;
+  kills: number;
+  deaths: number;
+  assists: number;
 }

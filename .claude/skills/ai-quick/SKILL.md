@@ -1,6 +1,6 @@
 ---
 name: ai-quick
-description: "즉석 요청 단축 경로 — 계획 ceremony 없이 룰·훅만 적용하여 산출하고 변경 파일 한정 lite 검증을 수행한다"
+description: '즉석 요청 단축 경로 — 계획 ceremony 없이 룰·훅만 적용하여 산출하고 변경 파일 한정 lite 검증을 수행한다'
 argument-hint: <자유 텍스트 요청>
 ---
 
@@ -25,9 +25,11 @@ argument-hint: <자유 텍스트 요청>
 ## 프로젝트 컨텍스트
 
 ### FSD 규칙
+
 !`cat CLAUDE.md`
 
 ### 변경 시작 시점 git status
+
 !`git status --porcelain`
 
 ## 인자

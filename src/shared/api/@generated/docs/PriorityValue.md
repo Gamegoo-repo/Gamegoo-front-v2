@@ -1,13 +1,12 @@
 # PriorityValue
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**memberId** | **number** |  | [optional] [default to undefined]
-**matchingUuid** | **string** |  | [optional] [default to undefined]
-**priorityValue** | **number** |  | [optional] [default to undefined]
+| Name              | Type       | Description | Notes                             |
+| ----------------- | ---------- | ----------- | --------------------------------- |
+| **memberId**      | **number** |             | [optional] [default to undefined] |
+| **matchingUuid**  | **string** |             | [optional] [default to undefined] |
+| **priorityValue** | **number** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { PriorityValue } from './api';
 
 const instance: PriorityValue = {
-    memberId,
-    matchingUuid,
-    priorityValue,
+  memberId,
+  matchingUuid,
+  priorityValue,
 };
 ```
 

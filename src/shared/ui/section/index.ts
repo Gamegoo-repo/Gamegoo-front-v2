@@ -1,2 +1,2 @@
-export * from "./section";
-export type { SectionProps } from "./section.type";
+export * from './section';
+export type { SectionProps } from './section.type';

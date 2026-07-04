@@ -1,20 +1,19 @@
 # GuestBoardInsertRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**gameMode** | [**GameMode**](GameMode.md) |  | [default to undefined]
-**mainP** | [**Position**](Position.md) |  | [default to undefined]
-**subP** | [**Position**](Position.md) |  | [default to undefined]
-**wantP** | **Array&lt;string&gt;** |  | [default to undefined]
-**mike** | [**Mike**](Mike.md) |  | [optional] [default to undefined]
-**gameStyles** | **Array&lt;number&gt;** | 게임 스타일 리스트 (선택, 최대 3개) | [optional] [default to undefined]
-**contents** | **string** | 게시글 내용 (선택) | [optional] [default to undefined]
-**gameName** | **string** | 게임 내 닉네임 | [default to undefined]
-**tag** | **string** | 게임 태그 | [default to undefined]
-**password** | **string** | 4-16자의 비밀번호를 입력해주세요 | [default to undefined]
+| Name           | Type                        | Description                         | Notes                             |
+| -------------- | --------------------------- | ----------------------------------- | --------------------------------- |
+| **gameMode**   | [**GameMode**](GameMode.md) |                                     | [default to undefined]            |
+| **mainP**      | [**Position**](Position.md) |                                     | [default to undefined]            |
+| **subP**       | [**Position**](Position.md) |                                     | [default to undefined]            |
+| **wantP**      | **Array&lt;string&gt;**     |                                     | [default to undefined]            |
+| **mike**       | [**Mike**](Mike.md)         |                                     | [optional] [default to undefined] |
+| **gameStyles** | **Array&lt;number&gt;**     | 게임 스타일 리스트 (선택, 최대 3개) | [optional] [default to undefined] |
+| **contents**   | **string**                  | 게시글 내용 (선택)                  | [optional] [default to undefined] |
+| **gameName**   | **string**                  | 게임 내 닉네임                      | [default to undefined]            |
+| **tag**        | **string**                  | 게임 태그                           | [default to undefined]            |
+| **password**   | **string**                  | 4-16자의 비밀번호를 입력해주세요    | [default to undefined]            |
 
 ## Example
 
@@ -22,16 +21,16 @@ Name | Type | Description | Notes
 import { GuestBoardInsertRequest } from './api';
 
 const instance: GuestBoardInsertRequest = {
-    gameMode,
-    mainP,
-    subP,
-    wantP,
-    mike,
-    gameStyles,
-    contents,
-    gameName,
-    tag,
-    password,
+  gameMode,
+  mainP,
+  subP,
+  wantP,
+  mike,
+  gameStyles,
+  contents,
+  gameName,
+  tag,
+  password,
 };
 ```
 

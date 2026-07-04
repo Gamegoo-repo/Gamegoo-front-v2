@@ -13,6 +13,7 @@ globs: src/entities/**
 ## 구조
 
 slice 단위로 조직:
+
 ```
 entities/{entity-name}/
 ├── model/    # 타입 정의, Zod 스키마, Zustand store

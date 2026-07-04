@@ -1,12 +1,11 @@
 # ReportInsertResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**reportId** | **number** |  | [default to undefined]
-**message** | **string** |  | [default to undefined]
+| Name         | Type       | Description | Notes                  |
+| ------------ | ---------- | ----------- | ---------------------- |
+| **reportId** | **number** |             | [default to undefined] |
+| **message**  | **string** |             | [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { ReportInsertResponse } from './api';
 
 const instance: ReportInsertResponse = {
-    reportId,
-    message,
+  reportId,
+  message,
 };
 ```
 

@@ -1,14 +1,13 @@
 # ApiResponseMannerResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**status** | **number** |  | [default to undefined]
-**message** | **string** |  | [default to undefined]
-**code** | **string** |  | [optional] [default to undefined]
-**data** | [**MannerResponse**](MannerResponse.md) |  | [optional] [default to undefined]
+| Name        | Type                                    | Description | Notes                             |
+| ----------- | --------------------------------------- | ----------- | --------------------------------- |
+| **status**  | **number**                              |             | [default to undefined]            |
+| **message** | **string**                              |             | [default to undefined]            |
+| **code**    | **string**                              |             | [optional] [default to undefined] |
+| **data**    | [**MannerResponse**](MannerResponse.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { ApiResponseMannerResponse } from './api';
 
 const instance: ApiResponseMannerResponse = {
-    status,
-    message,
-    code,
-    data,
+  status,
+  message,
+  code,
+  data,
 };
 ```
 

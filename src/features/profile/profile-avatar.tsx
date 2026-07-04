@@ -1,53 +1,53 @@
 interface ProfileAvatarProps {
-	size: "sm" | "md" | "lg" | "xl";
-	profileIndex?: number;
+  size: 'sm' | 'md' | 'lg' | 'xl';
+  profileIndex?: number;
 }
 
 const WRAPPER_SIZE = {
-	sm: "w-[45px] h-[45px]",
-	md: "w-16 h-16",
-	lg: "w-20 h-20",
-	xl: "w-[144px] h-[144px]",
+  sm: 'w-[45px] h-[45px]',
+  md: 'w-16 h-16',
+  lg: 'w-20 h-20',
+  xl: 'w-[144px] h-[144px]',
 } as const;
 
 const IMAGE_SIZE = {
-	sm: "w-[33px] h-[33px]",
-	md: "w-12 h-12",
-	lg: "w-16 h-16",
-	xl: "w-[100px] h-[100px]",
+  sm: 'w-[33px] h-[33px]',
+  md: 'w-12 h-12',
+  lg: 'w-16 h-16',
+  xl: 'w-[100px] h-[100px]',
 } as const;
 
 const BACKGROUND_COLOR = [
-	"#DFDEFF",
-	"#FAF9FF",
-	"#9F90F9",
-	"#FAF9FF",
-	"#FAF9FF",
-	"#9F90F9",
-	"#FAF9FF",
-	"#DFDEFF",
+  '#DFDEFF',
+  '#FAF9FF',
+  '#9F90F9',
+  '#FAF9FF',
+  '#FAF9FF',
+  '#9F90F9',
+  '#FAF9FF',
+  '#DFDEFF',
 ] as const;
 
 const ProfileAvatar = ({ size, profileIndex = 0 }: ProfileAvatarProps) => {
-	// TODO: icon 파일로 src/shared/assets 안의 svg 사용하도록 수정
-	return (
-		<div
-			className={`${WRAPPER_SIZE[size]} relative shrink-0 rounded-full`}
-			style={{
-				backgroundColor: BACKGROUND_COLOR[profileIndex ? profileIndex - 1 : 0],
-			}}
-		>
-			<img
-				src={
-					profileIndex === 0
-						? "/profile/profile_default.svg"
-						: `/profile/profile${profileIndex}.svg`
-				}
-				alt={`Profile ${profileIndex}`}
-				className={`${IMAGE_SIZE[size]} -translate-x-1/2 -translate-y-1/2 pointer-events-none absolute top-1/2 left-1/2 transform`}
-			/>
-		</div>
-	);
+  // TODO: icon 파일로 src/shared/assets 안의 svg 사용하도록 수정
+  return (
+    <div
+      className={`${WRAPPER_SIZE[size]} relative shrink-0 rounded-full`}
+      style={{
+        backgroundColor: BACKGROUND_COLOR[profileIndex ? profileIndex - 1 : 0],
+      }}
+    >
+      <img
+        src={
+          profileIndex === 0
+            ? '/profile/profile_default.svg'
+            : `/profile/profile${profileIndex}.svg`
+        }
+        alt={`Profile ${profileIndex}`}
+        className={`${IMAGE_SIZE[size]} pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform`}
+      />
+    </div>
+  );
 };
 
 export default ProfileAvatar;

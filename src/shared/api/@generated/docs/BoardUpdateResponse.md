@@ -1,24 +1,23 @@
 # BoardUpdateResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**boardId** | **number** |  | [default to undefined]
-**memberId** | **number** |  | [default to undefined]
-**profileImage** | **number** |  | [default to undefined]
-**gameName** | **string** |  | [default to undefined]
-**tag** | **string** |  | [default to undefined]
-**tier** | [**Tier**](Tier.md) |  | [default to undefined]
-**rank** | **number** |  | [default to undefined]
-**gameMode** | [**GameMode**](GameMode.md) |  | [default to undefined]
-**mainP** | [**Position**](Position.md) |  | [default to undefined]
-**subP** | [**Position**](Position.md) |  | [default to undefined]
-**wantP** | **Array&lt;string&gt;** |  | [default to undefined]
-**mike** | [**Mike**](Mike.md) |  | [default to undefined]
-**gameStyles** | **Array&lt;number&gt;** |  | [default to undefined]
-**contents** | **string** |  | [optional] [default to undefined]
+| Name             | Type                        | Description | Notes                             |
+| ---------------- | --------------------------- | ----------- | --------------------------------- |
+| **boardId**      | **number**                  |             | [default to undefined]            |
+| **memberId**     | **number**                  |             | [default to undefined]            |
+| **profileImage** | **number**                  |             | [default to undefined]            |
+| **gameName**     | **string**                  |             | [default to undefined]            |
+| **tag**          | **string**                  |             | [default to undefined]            |
+| **tier**         | [**Tier**](Tier.md)         |             | [default to undefined]            |
+| **rank**         | **number**                  |             | [default to undefined]            |
+| **gameMode**     | [**GameMode**](GameMode.md) |             | [default to undefined]            |
+| **mainP**        | [**Position**](Position.md) |             | [default to undefined]            |
+| **subP**         | [**Position**](Position.md) |             | [default to undefined]            |
+| **wantP**        | **Array&lt;string&gt;**     |             | [default to undefined]            |
+| **mike**         | [**Mike**](Mike.md)         |             | [default to undefined]            |
+| **gameStyles**   | **Array&lt;number&gt;**     |             | [default to undefined]            |
+| **contents**     | **string**                  |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -26,20 +25,20 @@ Name | Type | Description | Notes
 import { BoardUpdateResponse } from './api';
 
 const instance: BoardUpdateResponse = {
-    boardId,
-    memberId,
-    profileImage,
-    gameName,
-    tag,
-    tier,
-    rank,
-    gameMode,
-    mainP,
-    subP,
-    wantP,
-    mike,
-    gameStyles,
-    contents,
+  boardId,
+  memberId,
+  profileImage,
+  gameName,
+  tag,
+  tier,
+  rank,
+  gameMode,
+  mainP,
+  subP,
+  wantP,
+  mike,
+  gameStyles,
+  contents,
 };
 ```
 

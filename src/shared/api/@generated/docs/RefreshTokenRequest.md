@@ -1,11 +1,10 @@
 # RefreshTokenRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**refreshToken** | **string** |  | [default to undefined]
+| Name             | Type       | Description | Notes                  |
+| ---------------- | ---------- | ----------- | ---------------------- |
+| **refreshToken** | **string** |             | [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { RefreshTokenRequest } from './api';
 
 const instance: RefreshTokenRequest = {
-    refreshToken,
+  refreshToken,
 };
 ```
 

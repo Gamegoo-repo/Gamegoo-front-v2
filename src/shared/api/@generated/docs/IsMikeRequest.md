@@ -1,11 +1,10 @@
 # IsMikeRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**mike** | [**Mike**](Mike.md) |  | [default to undefined]
+| Name     | Type                | Description | Notes                  |
+| -------- | ------------------- | ----------- | ---------------------- |
+| **mike** | [**Mike**](Mike.md) |             | [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { IsMikeRequest } from './api';
 
 const instance: IsMikeRequest = {
-    mike,
+  mike,
 };
 ```
 

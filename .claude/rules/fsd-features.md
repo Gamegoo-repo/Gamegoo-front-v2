@@ -14,6 +14,7 @@ globs: src/features/**
 ## 구조
 
 slice 단위로 조직:
+
 ```
 features/{feature-name}/
 ├── model/    # 기능 상태, 액션 로직

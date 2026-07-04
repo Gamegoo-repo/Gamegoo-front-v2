@@ -1,13 +1,12 @@
 # MannerUpdateResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**mannerRatingId** | **number** |  | [default to undefined]
-**targetMemberId** | **number** |  | [default to undefined]
-**mannerKeywordIdList** | **Array&lt;number&gt;** |  | [default to undefined]
+| Name                    | Type                    | Description | Notes                  |
+| ----------------------- | ----------------------- | ----------- | ---------------------- |
+| **mannerRatingId**      | **number**              |             | [default to undefined] |
+| **targetMemberId**      | **number**              |             | [default to undefined] |
+| **mannerKeywordIdList** | **Array&lt;number&gt;** |             | [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { MannerUpdateResponse } from './api';
 
 const instance: MannerUpdateResponse = {
-    mannerRatingId,
-    targetMemberId,
-    mannerKeywordIdList,
+  mannerRatingId,
+  targetMemberId,
+  mannerKeywordIdList,
 };
 ```
 

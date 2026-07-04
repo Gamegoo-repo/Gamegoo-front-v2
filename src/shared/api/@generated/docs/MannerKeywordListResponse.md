@@ -1,11 +1,10 @@
 # MannerKeywordListResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**mannerKeywords** | [**Array&lt;MannerKeywordResponse&gt;**](MannerKeywordResponse.md) |  | [default to undefined]
+| Name               | Type                                                               | Description | Notes                  |
+| ------------------ | ------------------------------------------------------------------ | ----------- | ---------------------- |
+| **mannerKeywords** | [**Array&lt;MannerKeywordResponse&gt;**](MannerKeywordResponse.md) |             | [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { MannerKeywordListResponse } from './api';
 
 const instance: MannerKeywordListResponse = {
-    mannerKeywords,
+  mannerKeywords,
 };
 ```
 

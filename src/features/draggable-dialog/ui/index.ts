@@ -1,1 +1,1 @@
-export { default as DraggableDialog } from "./draggable-dialog";
+export { default as DraggableDialog } from './draggable-dialog';

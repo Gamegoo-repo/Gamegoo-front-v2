@@ -1,2 +1,2 @@
-import { LogoButton } from "./logo-button";
+import { LogoButton } from './logo-button';
 export { LogoButton };

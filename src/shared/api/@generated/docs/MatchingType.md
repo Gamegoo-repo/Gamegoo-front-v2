@@ -4,8 +4,8 @@
 
 ## Enum
 
-* `BASIC` (value: `'BASIC'`)
+- `BASIC` (value: `'BASIC'`)
 
-* `PRECISE` (value: `'PRECISE'`)
+- `PRECISE` (value: `'PRECISE'`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

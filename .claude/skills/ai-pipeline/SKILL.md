@@ -1,6 +1,6 @@
 ---
 name: ai-pipeline
-description: "전체 AI 개발 파이프라인: plan → orchestrate → validate → deliver → retrospect 5단계 순차 실행"
+description: '전체 AI 개발 파이프라인: plan → orchestrate → validate → deliver → retrospect 5단계 순차 실행'
 argument-hint: <요구사항 파일명 또는 자유 텍스트>
 ---
 
@@ -11,18 +11,23 @@ argument-hint: <요구사항 파일명 또는 자유 텍스트>
 ## 프로젝트 컨텍스트
 
 ### FSD 규칙
+
 !`cat CLAUDE.md`
 
 ### 현재 파일 구조
+
 !`find src -type f \( -name '*.ts' -o -name '*.tsx' \) -not -path '*/@generated/*' | sort`
 
 ### package.json
+
 !`cat package.json`
 
 ### tsconfig.json
+
 !`cat tsconfig.json`
 
 ### rsbuild.config.ts
+
 !`cat rsbuild.config.ts`
 
 ---
@@ -30,9 +35,11 @@ argument-hint: <요구사항 파일명 또는 자유 텍스트>
 ## 요구사항 소스
 
 ### in-progress 디렉토리 (현재 작업 대상)
+
 !`ls requirements/specs/in-progress/ 2>/dev/null | grep -v .gitkeep || echo "(비어 있음)"`
 
 ### to-do 디렉토리 (대기 중)
+
 !`ls requirements/specs/to-do/ 2>/dev/null | grep -v .gitkeep || echo "(비어 있음)"`
 
 ## 요구사항 입력
@@ -63,19 +70,20 @@ argument-hint: <요구사항 파일명 또는 자유 텍스트>
 
 #### 빈번한 이전 매핑 참고 (refactor 모드에서 사용)
 
-| 현재 위치 (수정 대상) | 정통 위치 (목표) |
-|---------------------|----------------|
-| `entities/{slice}/config/types.ts` | `entities/{slice}/model/types.ts` |
-| `entities/{slice}/config/query-keys.ts` | `entities/{slice}/api/queryKeys.ts` |
+| 현재 위치 (수정 대상)                                  | 정통 위치 (목표)                                  |
+| ------------------------------------------------------ | ------------------------------------------------- |
+| `entities/{slice}/config/types.ts`                     | `entities/{slice}/model/types.ts`                 |
+| `entities/{slice}/config/query-keys.ts`                | `entities/{slice}/api/queryKeys.ts`               |
 | `entities/{slice}/config/{*-mock,stepper-colors,*}.ts` | `entities/{slice}/model/constants.ts` 또는 `lib/` |
-| `entities/chat/store/` | `entities/chat/model/chatStore.ts` |
-| `shared/hooks/` | `shared/lib/hooks/` |
-| `shared/providers/` | `app/providers/` |
-| `shared/model/use-auth.ts` | `entities/auth/model/useAuth.ts` |
-| `shared/lib/constants/` | `shared/config/` |
-| 컴포넌트 default export, kebab-case 파일명 | named export, PascalCase 파일명 |
+| `entities/chat/store/`                                 | `entities/chat/model/chatStore.ts`                |
+| `shared/hooks/`                                        | `shared/lib/hooks/`                               |
+| `shared/providers/`                                    | `app/providers/`                                  |
+| `shared/model/use-auth.ts`                             | `entities/auth/model/useAuth.ts`                  |
+| `shared/lib/constants/`                                | `shared/config/`                                  |
+| 컴포넌트 default export, kebab-case 파일명             | named export, PascalCase 파일명                   |
 
 출력:
+
 ```
 ## Mode
 
@@ -289,16 +297,16 @@ grep -rn "from '@/shared/api/@generated" src/ 2>/dev/null | grep -v "src/shared/
 ```markdown
 ---
 id: REQ-{번호}
-title: {요구사항 제목}
+title: { 요구사항 제목 }
 mode: feature|refactor
-validated: {YYYY-MM-DD}
+validated: { YYYY-MM-DD }
 ---
 
 ## Checklist
 
-| # | 요구사항 | 구현 위치 | 상태 |
-|---|----------|-----------|------|
-| 1 | 요구사항 설명 | 파일 또는 코드 위치 | ✅/❌ |
+| #   | 요구사항      | 구현 위치           | 상태  |
+| --- | ------------- | ------------------- | ----- |
+| 1   | 요구사항 설명 | 파일 또는 코드 위치 | ✅/❌ |
 ```
 
 리팩토링 모드: 항목에 "이전 매핑 적용" + "동작 동일성"을 포함.

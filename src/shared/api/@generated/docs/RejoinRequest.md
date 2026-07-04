@@ -1,11 +1,10 @@
 # RejoinRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**puuid** | **string** |  | [default to undefined]
+| Name      | Type       | Description | Notes                  |
+| --------- | ---------- | ----------- | ---------------------- |
+| **puuid** | **string** |             | [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { RejoinRequest } from './api';
 
 const instance: RejoinRequest = {
-    puuid,
+  puuid,
 };
 ```
 

@@ -4,12 +4,12 @@
 
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**status** | **number** | HTTP 상태 코드 | [optional] [default to undefined]
-**message** | **string** | 에러 메시지 | [optional] [default to undefined]
-**code** | **string** | 비즈니스 에러 코드 | [optional] [default to undefined]
-**data** | **object** | 응답 데이터 (에러 시 null) | [optional] [default to undefined]
+| Name        | Type       | Description                | Notes                             |
+| ----------- | ---------- | -------------------------- | --------------------------------- |
+| **status**  | **number** | HTTP 상태 코드             | [optional] [default to undefined] |
+| **message** | **string** | 에러 메시지                | [optional] [default to undefined] |
+| **code**    | **string** | 비즈니스 에러 코드         | [optional] [default to undefined] |
+| **data**    | **object** | 응답 데이터 (에러 시 null) | [optional] [default to undefined] |
 
 ## Example
 
@@ -17,10 +17,10 @@ Name | Type | Description | Notes
 import { ApiErrorResponse } from './api';
 
 const instance: ApiErrorResponse = {
-    status,
-    message,
-    code,
-    data,
+  status,
+  message,
+  code,
+  data,
 };
 ```
 

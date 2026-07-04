@@ -1,11 +1,10 @@
 # NotificationMultiRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**notificationIds** | **Array&lt;number&gt;** |  | [default to undefined]
+| Name                | Type                    | Description | Notes                  |
+| ------------------- | ----------------------- | ----------- | ---------------------- |
+| **notificationIds** | **Array&lt;number&gt;** |             | [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { NotificationMultiRequest } from './api';
 
 const instance: NotificationMultiRequest = {
-    notificationIds,
+  notificationIds,
 };
 ```
 

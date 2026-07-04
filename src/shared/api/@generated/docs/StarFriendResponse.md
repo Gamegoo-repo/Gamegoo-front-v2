@@ -1,12 +1,11 @@
 # StarFriendResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**friendMemberId** | **number** |  | [default to undefined]
-**message** | **string** |  | [default to undefined]
+| Name               | Type       | Description | Notes                  |
+| ------------------ | ---------- | ----------- | ---------------------- |
+| **friendMemberId** | **number** |             | [default to undefined] |
+| **message**        | **string** |             | [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { StarFriendResponse } from './api';
 
 const instance: StarFriendResponse = {
-    friendMemberId,
-    message,
+  friendMemberId,
+  message,
 };
 ```
 

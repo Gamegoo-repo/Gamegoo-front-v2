@@ -1,14 +1,13 @@
 # ApiResponseBoardByIdResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**status** | **number** |  | [default to undefined]
-**message** | **string** |  | [default to undefined]
-**code** | **string** |  | [optional] [default to undefined]
-**data** | [**BoardByIdResponse**](BoardByIdResponse.md) |  | [optional] [default to undefined]
+| Name        | Type                                          | Description | Notes                             |
+| ----------- | --------------------------------------------- | ----------- | --------------------------------- |
+| **status**  | **number**                                    |             | [default to undefined]            |
+| **message** | **string**                                    |             | [default to undefined]            |
+| **code**    | **string**                                    |             | [optional] [default to undefined] |
+| **data**    | [**BoardByIdResponse**](BoardByIdResponse.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { ApiResponseBoardByIdResponse } from './api';
 
 const instance: ApiResponseBoardByIdResponse = {
-    status,
-    message,
-    code,
-    data,
+  status,
+  message,
+  code,
+  data,
 };
 ```
 

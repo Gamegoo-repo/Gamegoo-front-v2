@@ -1,15 +1,14 @@
 # JoinRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**email** | **string** |  | [default to undefined]
-**password** | **string** |  | [default to undefined]
-**gameName** | **string** |  | [default to undefined]
-**tag** | **string** |  | [default to undefined]
-**isAgree** | **boolean** |  | [default to undefined]
+| Name         | Type        | Description | Notes                  |
+| ------------ | ----------- | ----------- | ---------------------- |
+| **email**    | **string**  |             | [default to undefined] |
+| **password** | **string**  |             | [default to undefined] |
+| **gameName** | **string**  |             | [default to undefined] |
+| **tag**      | **string**  |             | [default to undefined] |
+| **isAgree**  | **boolean** |             | [default to undefined] |
 
 ## Example
 
@@ -17,11 +16,11 @@ Name | Type | Description | Notes
 import { JoinRequest } from './api';
 
 const instance: JoinRequest = {
-    email,
-    password,
-    gameName,
-    tag,
-    isAgree,
+  email,
+  password,
+  gameName,
+  tag,
+  isAgree,
 };
 ```
 

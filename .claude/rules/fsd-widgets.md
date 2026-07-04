@@ -14,6 +14,7 @@ globs: src/widgets/**
 ## 구조
 
 slice 단위로 조직:
+
 ```
 widgets/{widget-name}/
 ├── ui/       # 복합 컴포넌트 (entities + features 조합)

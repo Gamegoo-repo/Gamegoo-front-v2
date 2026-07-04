@@ -1,13 +1,12 @@
 # Pageable
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**page** | **number** |  | [optional] [default to undefined]
-**size** | **number** |  | [optional] [default to undefined]
-**sort** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+| Name     | Type                    | Description | Notes                             |
+| -------- | ----------------------- | ----------- | --------------------------------- |
+| **page** | **number**              |             | [optional] [default to undefined] |
+| **size** | **number**              |             | [optional] [default to undefined] |
+| **sort** | **Array&lt;string&gt;** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { Pageable } from './api';
 
 const instance: Pageable = {
-    page,
-    size,
-    sort,
+  page,
+  size,
+  sort,
 };
 ```
 

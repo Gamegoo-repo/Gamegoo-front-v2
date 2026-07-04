@@ -1,11 +1,10 @@
 # PasswordCheckResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**_true** | **boolean** |  | [optional] [default to undefined]
+| Name       | Type        | Description | Notes                             |
+| ---------- | ----------- | ----------- | --------------------------------- |
+| **\_true** | **boolean** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { PasswordCheckResponse } from './api';
 
 const instance: PasswordCheckResponse = {
-    _true,
+  _true,
 };
 ```
 

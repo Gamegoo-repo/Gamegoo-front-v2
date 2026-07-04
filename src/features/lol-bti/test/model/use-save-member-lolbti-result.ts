@@ -1,21 +1,17 @@
-import { useMutation } from "@tanstack/react-query";
-import type {
-	SaveGuestLolBtiResultRequest,
-	SaveLolBtiResultResponse,
-} from "../api";
-import { createPublicLolBtiResult, saveLolBtiResult } from "../api";
-import type { LolBtiResultType } from "../config";
+import { useMutation } from '@tanstack/react-query';
+import type { SaveGuestLolBtiResultRequest, SaveLolBtiResultResponse } from '../api';
+import { createPublicLolBtiResult, saveLolBtiResult } from '../api';
+import type { LolBtiResultType } from '../config';
 
-export interface SaveMemberLolBtiResultRequest
-	extends SaveGuestLolBtiResultRequest {
-	type: LolBtiResultType;
+export interface SaveMemberLolBtiResultRequest extends SaveGuestLolBtiResultRequest {
+  type: LolBtiResultType;
 }
 
 export interface SaveMemberLolBtiResultResponse {
-	/** 회원 API 저장 결과 */
-	memberResult: SaveLolBtiResultResponse;
-	/** 공유 링크용 resultId. 공개 스냅샷 생성 실패 시 null */
-	resultId: string | null;
+  /** 회원 API 저장 결과 */
+  memberResult: SaveLolBtiResultResponse;
+  /** 공유 링크용 resultId. 공개 스냅샷 생성 실패 시 null */
+  resultId: string | null;
 }
 
 /**
@@ -29,32 +25,27 @@ export interface SaveMemberLolBtiResultResponse {
  * 회원 프로필 저장 실패 시 onError가 호출된다.
  */
 
-const saveMemberLolBtiResult = async (
-	request: SaveMemberLolBtiResultRequest,
-) => {
-	const [memberSettled, publicSettled] = await Promise.allSettled([
-		saveLolBtiResult({ type: request.type }),
-		createPublicLolBtiResult({
-			type: request.type,
-			resultPayload: request.resultPayload,
-			sessionId: request.sessionId,
-		}),
-	]);
+const saveMemberLolBtiResult = async (request: SaveMemberLolBtiResultRequest) => {
+  const [memberSettled, publicSettled] = await Promise.allSettled([
+    saveLolBtiResult({ type: request.type }),
+    createPublicLolBtiResult({
+      type: request.type,
+      resultPayload: request.resultPayload,
+      sessionId: request.sessionId,
+    }),
+  ]);
 
-	// 회원 저장에 실패한 경우
-	if (memberSettled.status === "rejected") throw memberSettled.reason;
+  // 회원 저장에 실패한 경우
+  if (memberSettled.status === 'rejected') throw memberSettled.reason;
 
-	return {
-		memberResult: memberSettled.value,
-		resultId:
-			publicSettled.status === "fulfilled"
-				? publicSettled.value.resultId
-				: null,
-	};
+  return {
+    memberResult: memberSettled.value,
+    resultId: publicSettled.status === 'fulfilled' ? publicSettled.value.resultId : null,
+  };
 };
 
 export const useSaveMemberLolBtiResult = () => {
-	return useMutation({
-		mutationFn: saveMemberLolBtiResult,
-	});
+  return useMutation({
+    mutationFn: saveMemberLolBtiResult,
+  });
 };

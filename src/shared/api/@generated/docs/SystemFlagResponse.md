@@ -1,12 +1,11 @@
 # SystemFlagResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**flag** | **number** |  | [default to undefined]
-**boardId** | **number** |  | [optional] [default to undefined]
+| Name        | Type       | Description | Notes                             |
+| ----------- | ---------- | ----------- | --------------------------------- |
+| **flag**    | **number** |             | [default to undefined]            |
+| **boardId** | **number** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { SystemFlagResponse } from './api';
 
 const instance: SystemFlagResponse = {
-    flag,
-    boardId,
+  flag,
+  boardId,
 };
 ```
 

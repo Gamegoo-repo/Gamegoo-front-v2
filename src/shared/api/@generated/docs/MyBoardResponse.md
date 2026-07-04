@@ -1,13 +1,12 @@
 # MyBoardResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**totalPage** | **number** |  | [default to undefined]
-**totalCount** | **number** |  | [default to undefined]
-**myBoards** | [**Array&lt;MyBoardListResponse&gt;**](MyBoardListResponse.md) |  | [default to undefined]
+| Name           | Type                                                           | Description | Notes                  |
+| -------------- | -------------------------------------------------------------- | ----------- | ---------------------- |
+| **totalPage**  | **number**                                                     |             | [default to undefined] |
+| **totalCount** | **number**                                                     |             | [default to undefined] |
+| **myBoards**   | [**Array&lt;MyBoardListResponse&gt;**](MyBoardListResponse.md) |             | [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { MyBoardResponse } from './api';
 
 const instance: MyBoardResponse = {
-    totalPage,
-    totalCount,
-    myBoards,
+  totalPage,
+  totalCount,
+  myBoards,
 };
 ```
 

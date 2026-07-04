@@ -1,11 +1,10 @@
 # GuestBoardDeleteRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**password** | **string** | 4-16자의 비밀번호를 입력해주세요 | [default to undefined]
+| Name         | Type       | Description                      | Notes                  |
+| ------------ | ---------- | -------------------------------- | ---------------------- |
+| **password** | **string** | 4-16자의 비밀번호를 입력해주세요 | [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { GuestBoardDeleteRequest } from './api';
 
 const instance: GuestBoardDeleteRequest = {
-    password,
+  password,
 };
 ```
 

@@ -1,9 +1,9 @@
-import type { ReportPath } from "@/shared/api";
+import type { ReportPath } from '@/shared/api';
 
 export const ReportPathToNumber: Record<ReportPath, number> = {
-	BOARD: 1,
-	CHAT: 2,
-	PROFILE: 3,
+  BOARD: 1,
+  CHAT: 2,
+  PROFILE: 3,
 } as const;
 
 /**
@@ -12,5 +12,5 @@ export const ReportPathToNumber: Record<ReportPath, number> = {
  * @returns API에 전송할 숫자 (1, 2, 3)
  */
 export const reportPathToNumber = (path: ReportPath): number => {
-	return ReportPathToNumber[path];
+  return ReportPathToNumber[path];
 };

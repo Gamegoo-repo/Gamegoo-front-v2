@@ -1,14 +1,13 @@
 # ApiResponseLoginResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**status** | **number** |  | [optional] [default to undefined]
-**message** | **string** |  | [optional] [default to undefined]
-**code** | **string** |  | [optional] [default to undefined]
-**data** | [**LoginResponse**](LoginResponse.md) |  | [optional] [default to undefined]
+| Name        | Type                                  | Description | Notes                             |
+| ----------- | ------------------------------------- | ----------- | --------------------------------- |
+| **status**  | **number**                            |             | [optional] [default to undefined] |
+| **message** | **string**                            |             | [optional] [default to undefined] |
+| **code**    | **string**                            |             | [optional] [default to undefined] |
+| **data**    | [**LoginResponse**](LoginResponse.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { ApiResponseLoginResponse } from './api';
 
 const instance: ApiResponseLoginResponse = {
-    status,
-    message,
-    code,
-    data,
+  status,
+  message,
+  code,
+  data,
 };
 ```
 

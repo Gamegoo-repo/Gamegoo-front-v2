@@ -65,10 +65,8 @@
 
   /*말풍선 애니메이션*/
   --animate-bubble-float: bubble-float 3s ease-in-out infinite;
-  
+
   --animate-appear: result-appear 0.8s ease-out;
-
-
 
   @keyframes skeletonPulse {
     0%,
@@ -81,7 +79,8 @@
   }
 
   @keyframes emojiFloat {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0px);
     }
     50% {
@@ -99,7 +98,6 @@
       transform: translateY(0) scale(1);
     }
   }
-
 
   @keyframes skeletonWave {
     0% {
@@ -136,8 +134,13 @@
   }
 
   @keyframes bubble-float {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-6px); }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
   }
 }
 
@@ -158,7 +161,6 @@
     outline: none;
     box-shadow: none;
   }
-
 }
 
 @layer utilities {
@@ -409,8 +411,12 @@
   }
 
   @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   .emoji {
@@ -460,7 +466,7 @@
 
   .modal-scrollbar-custom {
     scrollbar-width: thin;
-    scrollbar-color: #9099A5 transparent; /* thumb track */
+    scrollbar-color: #9099a5 transparent; /* thumb track */
   }
   .modal-scrollbar-custom::-webkit-scrollbar {
     width: 6px;
@@ -468,7 +474,7 @@
   }
 
   .modal-scrollbar-custom::-webkit-scrollbar-thumb {
-    background: #9099A5;
+    background: #9099a5;
     border-radius: 3px;
   }
 
@@ -486,7 +492,6 @@
     background-color: transparent;
   }
 
-
   .modal-backdrop {
     position: fixed;
     inset: 0;
@@ -502,7 +507,7 @@
     display: flex;
     align-items: safe center;
     justify-content: center;
-    background: rgba(0,0,0,0.62);
+    background: rgba(0, 0, 0, 0.62);
   }
 
   /* 스크롤바 숨기기 */
@@ -537,15 +542,15 @@
   }
 
   .modal-overlay {
-    @apply bg-black/60 w-screen h-screen z-0 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+    @apply fixed top-1/2 left-1/2 z-0 h-screen w-screen -translate-x-1/2 -translate-y-1/2 bg-black/60;
   }
 
   .primary-btn {
-    @apply bg-violet-600 rounded-[10px] text-sm font-bold text-white cursor-pointer transition-all duration-250;
+    @apply cursor-pointer rounded-[10px] bg-violet-600 text-sm font-bold text-white transition-all duration-250;
   }
 
   .label {
-    @apply font-medium mobile:font-semibold mobile:text-sm text-[11px] text-gray-800;
+    @apply text-[11px] font-medium text-gray-800 mobile:text-sm mobile:font-semibold;
   }
 
   .popover {
@@ -557,10 +562,10 @@
   }
 
   .progress-bar {
-    @apply absolute h-[4px] w-[0%] top-1/2 left-0 -translate-y-1/2;
+    @apply absolute top-1/2 left-0 h-[4px] w-[0%] -translate-y-1/2;
   }
 
   .progress-items {
-    @apply m-0 p-0 flex justify-between z-10;
+    @apply z-10 m-0 flex justify-between p-0;
   }
 }

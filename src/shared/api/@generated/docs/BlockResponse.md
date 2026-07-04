@@ -1,12 +1,11 @@
 # BlockResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**targetMemberId** | **number** |  | [default to undefined]
-**message** | **string** |  | [default to undefined]
+| Name               | Type       | Description | Notes                  |
+| ------------------ | ---------- | ----------- | ---------------------- |
+| **targetMemberId** | **number** |             | [default to undefined] |
+| **message**        | **string** |             | [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { BlockResponse } from './api';
 
 const instance: BlockResponse = {
-    targetMemberId,
-    message,
+  targetMemberId,
+  message,
 };
 ```
 

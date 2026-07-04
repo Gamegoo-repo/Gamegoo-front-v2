@@ -1,144 +1,137 @@
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef } from 'react';
 
-import { SocketContext } from "./context";
-import { socketManager } from "./socket-manager";
-import { getSocketStateLabel, SocketReadyState } from "./types";
+import { SocketContext } from './context';
+import { socketManager } from './socket-manager';
+import { getSocketStateLabel, SocketReadyState } from './types';
 
 export const useSocket = () => {
-	const context = useContext(SocketContext);
+  const context = useContext(SocketContext);
 
-	if (!context) {
-		throw new Error("useSocket must be used within a SocketProvider");
-	}
+  if (!context) {
+    throw new Error('useSocket must be used within a SocketProvider');
+  }
 
-	return context;
+  return context;
 };
 
 export const useSocketConnection = () => {
-	const { socket, isConnected, socketReadyState, reconnectAttempts } =
-		useSocket();
+  const { socket, isConnected, socketReadyState, reconnectAttempts } = useSocket();
 
-	return {
-		socket,
-		isConnected,
-		socketReadyState,
-		reconnectAttempts,
-	};
+  return {
+    socket,
+    isConnected,
+    socketReadyState,
+    reconnectAttempts,
+  };
 };
 
 export const useSocketControls = () => {
-	const { reconnect, disconnect, send } = useSocket();
+  const { reconnect, disconnect, send } = useSocket();
 
-	return {
-		reconnect,
-		disconnect,
-		send,
-	};
+  return {
+    reconnect,
+    disconnect,
+    send,
+  };
 };
 
-export const useSocketEvent = <T = unknown>(
-	event: string,
-	handler: (data: T) => void,
-) => {
-	const { socket } = useSocket();
-	const handlerRef = useRef(handler);
+export const useSocketEvent = <T = unknown>(event: string, handler: (data: T) => void) => {
+  const { socket } = useSocket();
+  const handlerRef = useRef(handler);
 
-	useEffect(() => {
-		handlerRef.current = handler;
-	}, [handler]);
+  useEffect(() => {
+    handlerRef.current = handler;
+  }, [handler]);
 
-	useEffect(() => {
-		if (!socket) return;
+  useEffect(() => {
+    if (!socket) return;
 
-		const eventHandler = (...args: unknown[]) => {
-			handlerRef.current(args[0] as T);
-		};
+    const eventHandler = (...args: unknown[]) => {
+      handlerRef.current(args[0] as T);
+    };
 
-		socket.on(event, eventHandler);
+    socket.on(event, eventHandler);
 
-		return () => {
-			socket.off(event, eventHandler);
-		};
-	}, [socket, event]);
+    return () => {
+      socket.off(event, eventHandler);
+    };
+  }, [socket, event]);
 };
 
-export const useSocketMessage = <T = unknown>(
-	event: string,
-	handler: (data: T) => void,
-) => {
-	const handlerRef = useRef(handler);
+export const useSocketMessage = <T = unknown>(event: string, handler: (data: T) => void) => {
+  const handlerRef = useRef(handler);
 
-	useEffect(() => {
-		handlerRef.current = handler;
-	}, [handler]);
+  useEffect(() => {
+    handlerRef.current = handler;
+  }, [handler]);
 
-	useEffect(() => {
-		const eventHandler = (...args: unknown[]) => {
-			handlerRef.current(args[0] as T);
-		};
+  useEffect(() => {
+    const eventHandler = (...args: unknown[]) => {
+      handlerRef.current(args[0] as T);
+    };
 
-		socketManager.on(event, eventHandler);
+    socketManager.on(event, eventHandler);
 
-		return () => {
-			socketManager.off(event, eventHandler);
-		};
-	}, [event]);
+    return () => {
+      socketManager.off(event, eventHandler);
+    };
+  }, [event]);
 };
 
 export const useSocketConnectionEvents = (callbacks: {
-	onConnect?: () => void;
-	onDisconnect?: (reason: string) => void;
-	onError?: (error: Error) => void;
-	onReconnect?: (attempt: number) => void;
-	onReconnectFailed?: () => void;
+  onConnect?: () => void;
+  onDisconnect?: (reason: string) => void;
+  onError?: (error: Error) => void;
+  onReconnect?: (attempt: number) => void;
+  onReconnectFailed?: () => void;
 }) => {
-	const noop = useCallback(() => {}, []);
+  const noop = useCallback(() => {}, []);
 
-	useSocketEvent("connect", callbacks.onConnect || noop);
-	useSocketEvent("disconnect", callbacks.onDisconnect || noop);
-	useSocketEvent("error", callbacks.onError || noop);
-	useSocketEvent("reconnect", callbacks.onReconnect || noop);
-	useSocketEvent("reconnect_failed", callbacks.onReconnectFailed || noop);
+  useSocketEvent('connect', callbacks.onConnect || noop);
+  useSocketEvent('disconnect', callbacks.onDisconnect || noop);
+  useSocketEvent('error', callbacks.onError || noop);
+  useSocketEvent('reconnect', callbacks.onReconnect || noop);
+  useSocketEvent('reconnect_failed', callbacks.onReconnectFailed || noop);
 };
 
 export const useSocketSend = () => {
-	const { send, isConnected } = useSocket();
+  const { send, isConnected } = useSocket();
 
-	const safeSend = useCallback(
-		(event: string, data?: unknown) => {
-			if (!isConnected) {
-				console.warn(`Cannot send ${event}: socket not connected`);
-				return false;
-			}
+  const safeSend = useCallback(
+    (event: string, data?: unknown) => {
+      if (!isConnected) {
+        console.warn(`Cannot send ${event}: socket not connected`);
+        return false;
+      }
 
-			try {
-				send(event, data);
-				return true;
-			} catch (error) {
-				console.error(`Failed to send ${event}:`, error);
-				return false;
-			}
-		},
-		[send, isConnected],
-	);
+      try {
+        send(event, data);
+        return true;
+      } catch (error) {
+        console.error(`Failed to send ${event}:`, error);
+        return false;
+      }
+    },
+    [send, isConnected]
+  );
 
-	return {
-		send: safeSend,
-		isConnected,
-	};
+  return {
+    send: safeSend,
+    isConnected,
+  };
 };
 
 export const useSocketStatus = () => {
-	const { socketReadyState, isConnected, reconnectAttempts } = useSocket();
+  const { socketReadyState, isConnected, reconnectAttempts } = useSocket();
 
-	return {
-		readyState: socketReadyState,
-		stateLabel: getSocketStateLabel(socketReadyState),
-		isConnecting: socketReadyState === SocketReadyState.CONNECTING,
-		isOpen: socketReadyState === SocketReadyState.OPEN,
-		isClosing: socketReadyState === SocketReadyState.CLOSING,
-		isClosed: socketReadyState === SocketReadyState.CLOSED,
-		isConnected,
-		reconnectAttempts,
-	};
+  return {
+    readyState: socketReadyState,
+    stateLabel: getSocketStateLabel(socketReadyState),
+    isConnecting: socketReadyState === SocketReadyState.CONNECTING,
+    isOpen: socketReadyState === SocketReadyState.OPEN,
+    isClosing: socketReadyState === SocketReadyState.CLOSING,
+    isClosed: socketReadyState === SocketReadyState.CLOSED,
+    isConnected,
+    reconnectAttempts,
+  };
 };

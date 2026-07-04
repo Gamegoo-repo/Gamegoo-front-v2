@@ -1,9 +1,9 @@
 import type { SnapPoint } from './types';
 
 export const SNAP: Record<string, SnapPoint> = {
-    CLOSED: 'closed',
-    HALF: 'half',
-    FULL: 'full',
+  CLOSED: 'closed',
+  HALF: 'half',
+  FULL: 'full',
 } as const;
 
 export const DEFAULT_HALF_RATIO = 0.52;
