@@ -1,4 +1,5 @@
 import axios, { type AxiosError, type AxiosInstance } from 'axios';
+
 import { STORAGE_KEYS } from '../config/storage';
 import { Configuration } from './@generated/configuration';
 

@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
-import { type ApiErrorResponse, api, type BoardUpdateRequest } from '@/shared/api';
+
+import { api, type ApiErrorResponse, type BoardUpdateRequest } from '@/shared/api';
+
 import { boardKeys } from './query-keys';
 
 export const useUpdatePost = () => {

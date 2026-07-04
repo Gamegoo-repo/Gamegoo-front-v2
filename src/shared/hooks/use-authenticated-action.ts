@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+
 import { useLoginRequiredModalStore } from '@/features/auth';
 import { useAuth } from '@/shared/model/use-auth';
 

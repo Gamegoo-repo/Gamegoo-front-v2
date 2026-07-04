@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router';
+
 import { getWinRateColors } from '@/entities/game/lib/getWinRateColor';
 import { MOCK_USER_PROFILE } from '@/entities/user/config/user-mock-data';
 import { cn } from '@/shared/lib/utils';

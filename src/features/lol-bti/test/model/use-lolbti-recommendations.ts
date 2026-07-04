@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { api } from '@/shared/api';
 import type { GetLolBtiRecommendationsParams } from '@/shared/api/lolbti';
 

@@ -1,20 +1,22 @@
 import { Modal } from '@gamegoo-ui/design-system';
-import UserProfileCard from './user-profile-card';
-import UserActionButtons from '@/features/user/buttons/user-action-buttons';
-import { UserActionMenu } from '@/features/user/action-menu';
-import { useUserProfileData } from '@/features/user/hooks/use-user-profile-data';
-import UserInfoWidget from './user-info-widget';
+
 import {
   MOCK_MANNER_KEYWORDS,
   MOCK_MANNER_LEVEL,
   MOCK_USER_PROFILE,
 } from '@/entities/user/config/user-mock-data';
-import UserInfoSkeleton from './user-info-skeleton';
-import DeletedUserView from './deleted-user-view';
 import UserProfileHeader from '@/features/profile/user-profile-header';
-import MannerLevelCard from './manner-level-card';
-import MannerKeywordsCard from './manner-keywords-card';
+import { UserActionMenu } from '@/features/user/action-menu';
+import UserActionButtons from '@/features/user/buttons/user-action-buttons';
+import { useUserProfileData } from '@/features/user/hooks/use-user-profile-data';
 import RecentStatsCard from '@/features/user/recent-stats-card';
+
+import DeletedUserView from './deleted-user-view';
+import MannerKeywordsCard from './manner-keywords-card';
+import MannerLevelCard from './manner-level-card';
+import UserInfoSkeleton from './user-info-skeleton';
+import UserInfoWidget from './user-info-widget';
+import UserProfileCard from './user-profile-card';
 
 interface UserProfileModalProps {
   memberId: number;

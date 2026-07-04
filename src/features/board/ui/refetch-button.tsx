@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes } from 'react';
 import { useState } from 'react';
+
 import RefreshIcon from '@/shared/assets/icons/ic-refresh.svg?react';
 
 interface RefreshButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}

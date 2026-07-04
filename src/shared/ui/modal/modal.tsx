@@ -7,7 +7,9 @@ import {
   useRef,
 } from 'react';
 import { createPortal } from 'react-dom';
+
 import { cn } from '@/shared/lib/utils';
+
 import CloseButton from '../button/close-button';
 
 export interface ModalProps {

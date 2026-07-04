@@ -1,5 +1,6 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useEffect } from 'react';
+
 import { useFetchOtherUserInfo } from '@/entities/user/api/use-fetch-other-user-info';
 import {
   MOCK_MANNER_KEYWORDS,

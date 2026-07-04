@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { useChatStore } from '@/entities/chat';
 import { chatKeys } from '@/entities/chat/config/query-keys';
 import { useChatDialogStore } from '@/entities/chat/store/use-chat-dialog-store';
 import { socketManager } from '@/shared/api/socket';
 import { useGamegooSocket } from '@/shared/providers/gamegoo-socket-provider';
+
 import type { SendMessageParams } from '../lib/types';
 
 export const useSendMessage = () => {

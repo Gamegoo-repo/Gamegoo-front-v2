@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { userKeys } from '@/entities/user/config/query-keys';
 import { boardKeys } from '@/features/board/api/query-keys';
 import { api } from '@/shared/api';
 import { useConfirmDialog } from '@/shared/providers';
 import type { UserRelationshipStatus } from '@/widgets/user-info/model/user-info.types';
+
 import { PopoverMenuItem, type PopoverMenuItemProps } from '../popover-menu-item';
 
 interface BlockMenuItemProps {

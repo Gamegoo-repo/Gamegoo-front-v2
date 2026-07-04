@@ -1,4 +1,5 @@
 import type { UserRelationshipStatus } from '@/widgets/user-info/model/user-info.types';
+
 import FriendDeleteButton from './friend-delete-button';
 import FriendRequestAcceptButton from './friend-request-accept-button';
 import FriendRequestCancelButton from './friend-request-cancel-button';

@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
+
 import { boardKeys } from '@/features/board/api/query-keys';
 import {
-  type ApiErrorResponse,
   api,
+  type ApiErrorResponse,
   type BoardByIdResponse,
   type BoardByIdResponseForMember,
 } from '@/shared/api';

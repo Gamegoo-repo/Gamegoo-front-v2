@@ -1,6 +1,7 @@
 import type { ChampionStatsResponse } from '@/shared/api';
 import { cn } from '@/shared/lib/utils';
 import Tooltip from '@/shared/ui/tooltip/tooltip';
+
 import { getWinRateString } from '../lib/get-win-rate-string';
 import { getWinRateColors } from '../lib/getWinRateColor';
 import { formatKDA, formatKDAStats } from '../lib/kda';

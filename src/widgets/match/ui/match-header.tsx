@@ -1,4 +1,5 @@
 import BackIcon from '@/shared/assets/icons/back.svg?react';
+
 import type { UseMatchFunnelReturn } from '../hooks';
 import MatchTypeToggle from './match-type-toggle';
 

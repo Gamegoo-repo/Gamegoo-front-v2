@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+
 import { useChatStore } from '@/entities/chat';
 import MessageIcon from '@/shared/assets/icons/message.svg?react';
 import useResponsive from '@/shared/model/use-responsive';

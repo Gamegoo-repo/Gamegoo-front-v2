@@ -1,6 +1,7 @@
 import { createFileRoute, useSearch } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { z } from 'zod';
+
 import PostList from '@/entities/post/ui/post-list';
 import { useBoardModalStore } from '@/features/board/model/use-board-modal-store';
 import BoardToolbarDesktop from '@/features/board/ui/toolbar/board-toolbar-desktop';

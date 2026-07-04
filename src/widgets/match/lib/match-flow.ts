@@ -1,5 +1,6 @@
 import { socketManager } from '@/shared/api/socket';
 import { toast } from '@/shared/lib/toast';
+
 import { useMatchUiStore } from '../model/store/useMatchUiStore';
 import type {
   JwtExpiredErrorPayload,

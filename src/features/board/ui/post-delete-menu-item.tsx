@@ -1,8 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
+
 import { PopoverMenuItem, type PopoverMenuItemProps } from '@/features/popover-menu';
 import { api } from '@/shared/api';
 import { queryClient } from '@/shared/lib/query-client';
 import { toast } from '@/shared/lib/toast';
+
 import { boardKeys } from '../api/query-keys';
 
 interface PostDeleteMenuItemProps {

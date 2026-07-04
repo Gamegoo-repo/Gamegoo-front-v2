@@ -1,4 +1,5 @@
 import { memo } from 'react';
+
 import type { Column } from './table';
 
 function TableHeader<T>({ columns }: { columns: Column<T>[] }) {

@@ -1,4 +1,5 @@
 import { cn } from '@/shared/lib/utils';
+
 import { useSignUpMutation } from '../api/sign-up-mutation';
 
 function SignUpButton({

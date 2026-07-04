@@ -1,7 +1,9 @@
 import type { ButtonHTMLAttributes } from 'react';
+
 import HoistingIcon from '@/shared/assets/icons/ic-hoisting.svg?react';
 import { useAuthenticatedAction } from '@/shared/hooks/use-authenticated-action';
 import { cn } from '@/shared/lib/utils';
+
 import { useBumpPost } from '../api/use-bump-post';
 
 interface BumpButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}

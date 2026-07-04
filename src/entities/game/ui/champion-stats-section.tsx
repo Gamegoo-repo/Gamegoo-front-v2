@@ -1,5 +1,7 @@
 import { cva } from 'class-variance-authority';
+
 import type { ChampionStatsResponse } from '@/shared/api';
+
 import ChampionInfo from './champion-info';
 
 const containerVariants = cva('flex flex-row w-full h-full', {

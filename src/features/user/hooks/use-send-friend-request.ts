@@ -1,9 +1,10 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { userKeys } from '@/entities/user/config/query-keys';
-import { api, type OtherProfileResponse } from '@/shared/api';
 import { updateLolBtiBoardRelation } from '@/features/user/lib/update-lolbti-board-relation';
+import { api, type OtherProfileResponse } from '@/shared/api';
 import { toast } from '@/shared/lib/toast';
 import { useAuth } from '@/shared/model/use-auth';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export function useSendFriendRequest(userId: number) {
   const queryClient = useQueryClient();

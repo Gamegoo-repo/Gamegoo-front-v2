@@ -1,4 +1,5 @@
 import { io, type Socket } from 'socket.io-client';
+
 import { SocketReadyState } from './types';
 
 export interface SocketOptions {

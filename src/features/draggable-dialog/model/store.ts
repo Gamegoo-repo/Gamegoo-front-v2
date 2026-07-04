@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import type { DraggableDialogState, Position } from './types';
 
 const DEFAULT_POSITION: Position = {

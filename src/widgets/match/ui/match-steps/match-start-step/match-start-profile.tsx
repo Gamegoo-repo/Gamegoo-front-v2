@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useRef } from 'react';
+
 import { getPositionIcon } from '@/entities/game/lib/getPositionIcon';
 import { userKeys } from '@/entities/user/config/query-keys';
 import { ProfileAvatar } from '@/features/profile';

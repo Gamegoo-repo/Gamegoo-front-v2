@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
+
 import { useFetchMyInfo } from '@/entities/user/api/use-fetch-my-info';
 import { userKeys } from '@/entities/user/config/query-keys';
 import { api } from '@/shared/api';

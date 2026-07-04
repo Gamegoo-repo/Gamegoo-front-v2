@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { api, type BoardInsertRequest } from '@/shared/api';
+
 import { boardKeys } from './query-keys';
 
 export const useCreatePost = () => {

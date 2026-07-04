@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+
 import { GAME_MODE_ITEMS } from '@/features/board/config/dropdown-items';
 import { GAME_STYLE } from '@/features/board/config/game-styles';
 import { getGameModeTitle } from '@/features/board/lib/getGameModeTitle';
@@ -8,6 +9,7 @@ import type { GameMode, MyProfileResponse, Position } from '@/shared/api';
 import CloseButton from '@/shared/ui/button/close-button';
 import Dropdown from '@/shared/ui/dropdown/dropdown';
 import { Switch } from '@/shared/ui/toggle-switch/switch';
+
 import type { UseMatchFunnelReturn } from '../../../hooks';
 
 interface PreciseProfileFormProps {

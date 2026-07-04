@@ -1,10 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+
 import { useChatDialogStore, useChatStore } from '@/entities/chat';
 import { chatKeys } from '@/entities/chat/config/query-keys';
-import type { ChatroomResponse } from '@/shared/api';
-import { api, type FriendInfoResponse } from '@/shared/api';
+import type { api, ChatroomResponse , type FriendInfoResponse } from '@/shared/api';
 import SearchIcon from '@/shared/assets/icons/search.svg?react';
+
 import FriendListContent from './friend-list-content';
 
 function FriendList() {

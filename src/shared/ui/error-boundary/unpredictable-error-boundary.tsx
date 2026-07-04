@@ -1,6 +1,7 @@
 // src/shared/ui/error-boundary/unpredictable-error-boundary.tsx
 
 import ErrorPage from '@/widgets/fallback/error-page';
+
 import ErrorBoundary from './error-boundary';
 
 export type StrictPropsWithChildren<P = unknown> = P & {

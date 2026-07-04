@@ -1,5 +1,6 @@
 import { useRouter } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+
 import BackIcon from '@/shared/assets/icons/ic-arrow-back.svg?react';
 import type { UserRelationshipStatus } from '@/widgets/user-info/model/user-info.types';
 

@@ -1,4 +1,5 @@
 import { FlexBox } from '@/shared/ui/flexbox';
+
 import { LOL_BTI_QUESTIONS } from '../../config';
 import { LolBtiLayout } from '../lolbti-layout';
 import { LolBtiOptionButton } from './lolbti-option-button';

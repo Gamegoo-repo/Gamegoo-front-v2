@@ -1,9 +1,12 @@
+import './draggable-dialog.css';
+
 import { useEffect } from 'react';
+
 import { cn } from '@/shared/lib/utils';
+
 import { useDrag } from '../hooks/use-drag';
 import { useDraggableDialogStore } from '../model/store';
 import type { AdjustPositionCallback } from '../model/types';
-import './draggable-dialog.css';
 
 interface DraggableDialogProps {
   isOpen: boolean;

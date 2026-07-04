@@ -1,4 +1,5 @@
 import { cn } from '@/shared/lib/utils';
+
 import type { PositionIconFn } from '../lib/getPositionIcon';
 
 interface PositionCardProps {

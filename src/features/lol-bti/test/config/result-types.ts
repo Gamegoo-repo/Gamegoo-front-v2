@@ -2,6 +2,7 @@ import {
   LOL_BTI_RESULT_TYPE_LIST,
   type LolBtiResultType,
 } from '@/shared/lib/constants/lolbti-result-type';
+
 import type { LolPosition } from './positions';
 
 // shared에서 import한 상수·타입 re-export

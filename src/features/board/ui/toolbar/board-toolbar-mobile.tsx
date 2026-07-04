@@ -1,8 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useSearch } from '@tanstack/react-router';
+
 import type { Position } from '@/shared/api';
 import { useAuthenticatedAction } from '@/shared/hooks/use-authenticated-action';
 import Dropdown from '@/shared/ui/dropdown/dropdown';
+
 import { boardKeys } from '../../api/query-keys';
 import { GAME_MODE_ITEMS, MIKE_ITEMS, TIER_ITEMS } from '../../config/dropdown-items';
 import { getGameModeTitle } from '../../lib/getGameModeTitle';

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import type { ReportPath } from '@/shared/api';
 
 interface ReportModalStore {

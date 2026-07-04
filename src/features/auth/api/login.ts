@@ -1,4 +1,5 @@
 import { encode } from 'js-base64';
+
 import { STORAGE_KEYS } from '@/shared/config/storage';
 
 export const login = () => {

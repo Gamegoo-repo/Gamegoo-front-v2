@@ -1,5 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
+
 import { useAuthenticatedAction } from '@/shared/hooks/use-authenticated-action';
+
 import { boardKeys } from '../../api/query-keys';
 import BoardFilter from '../board-filter';
 import BumpButton from '../bump-button';

@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+
 import HeartIcon from '@/shared/assets/icons/wait_heart.svg?react';
 
 const MESSAGE_CHANGE_INTERVAL = 5000; // 5초

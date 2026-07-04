@@ -1,4 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+
 import type { ChatMessage } from '@/entities/chat';
 import { chatKeys } from '@/entities/chat/config/query-keys';
 import { api, type ChatMessageListResponse } from '@/shared/api';

@@ -1,4 +1,5 @@
 import type { ReactNode, RefObject } from 'react';
+
 import TierBadge from '@/entities/game/ui/tier-badge';
 import EditableProfileAvatar from '@/features/profile/editable-profile-avatar';
 import { Switch } from '@/shared/ui/toggle-switch/switch';

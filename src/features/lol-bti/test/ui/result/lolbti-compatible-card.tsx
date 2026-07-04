@@ -1,4 +1,5 @@
 import UserProfile from '@/entities/user/ui/user-profile';
+
 import type { LolBtiResultType } from '../../config';
 import { LolBtiTypeInfo } from './lolbti-type-info';
 

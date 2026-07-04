@@ -1,4 +1,5 @@
 import type { MouseEvent } from 'react';
+
 import { copyRiotIdToClipboard } from '@/shared/lib/copy-riot-id';
 import { toast } from '@/shared/lib/toast';
 

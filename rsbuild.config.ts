@@ -1,7 +1,7 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 import { pluginSvgr } from '@rsbuild/plugin-svgr';
+import { tanstackRouter } from '@tanstack/router-plugin/rspack';
 
 const GA_ID = process.env.PUBLIC_GOOGLE_ANALYTICS;
 const GTM_ID = process.env.PUBLIC_GOOGLE_TAG_MANAGER;

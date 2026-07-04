@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
+
 import type { Position } from '@/shared/api';
+
 import AdcIcon from '../ui/game-icon/adc-icon';
 import AnyIcon from '../ui/game-icon/any-icon';
 import JungleIcon from '../ui/game-icon/jungle-icon';

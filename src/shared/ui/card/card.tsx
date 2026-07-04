@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
+
 import { cn } from '@/shared/lib/utils';
 
 interface CardProps<T extends ElementType = 'div'> {

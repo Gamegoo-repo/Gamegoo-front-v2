@@ -1,5 +1,6 @@
 import { useRouter } from '@tanstack/react-router';
 import { useRef } from 'react';
+
 import TierBadge from '@/entities/game/ui/tier-badge';
 import EditableProfileAvatar from '@/features/profile/editable-profile-avatar';
 import type { MyProfileResponse } from '@/shared/api';
@@ -8,6 +9,7 @@ import { cn } from '@/shared/lib/utils';
 import { useResponsive } from '@/shared/model/responsive-context';
 import { Button } from '@/shared/ui';
 import { matchFlow } from '@/widgets/match/lib/match-flow';
+
 import type { UseMatchFunnelReturn } from '../../../hooks';
 import MatchHeader from '../../match-header';
 import BasicProfileForm from './basic-profile-form';

@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+
 import { isApiError } from '@/shared/lib/error-type-fn';
 
 interface Props {

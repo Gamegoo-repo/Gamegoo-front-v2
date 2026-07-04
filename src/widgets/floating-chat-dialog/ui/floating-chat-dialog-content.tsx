@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+
 import { useChatDialogStore } from '@/entities/chat';
 import { Chatroom, ChatroomList } from '@/features/chat';
 import FriendList from '@/features/friend/ui/friend-list';

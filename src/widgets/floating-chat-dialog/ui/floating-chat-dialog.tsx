@@ -1,6 +1,7 @@
 import { useChatDialogStore } from '@/entities/chat';
 import { ChatroomHeader, useEnterChatroom } from '@/features/chat';
 import { type AdjustPositionCallback, DraggableDialog } from '@/features/draggable-dialog';
+
 import FloatingChatDialogContent from './floating-chat-dialog-content';
 import FloatingChatDialogTabs from './floating-chat-dialog-tabs';
 

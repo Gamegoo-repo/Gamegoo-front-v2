@@ -1,6 +1,7 @@
 import { useBoardDetail } from '@/entities/post/model/use-board-detail';
 import { useFetchMyInfo } from '@/entities/user/api/use-fetch-my-info';
 import { toast } from '@/shared/lib/toast';
+
 import PostFormModal, { type BoardFormData } from './post-form/post-form-modal';
 
 type PostFormModalContainerProps =

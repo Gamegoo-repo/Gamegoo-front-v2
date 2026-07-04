@@ -1,7 +1,7 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import type * as React from 'react';
-import CheckIcon from '@/shared/assets/icons/check_icon.svg?react';
 
+import CheckIcon from '@/shared/assets/icons/check_icon.svg?react';
 import { cn } from '@/shared/lib/utils';
 
 function Checkbox({

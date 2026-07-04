@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react';
+
 import type { ContainerSize } from '../container/container.type';
 
 export type SectionPadding = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';

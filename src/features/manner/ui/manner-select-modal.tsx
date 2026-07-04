@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
+
 import SmileIcon from '@/shared/assets/icons/smile.svg?react';
 import Modal from '@/shared/ui/modal/modal';
 

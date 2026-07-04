@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+
 import type { SocketConnection } from './context';
 import { SocketContext } from './context';
 import type { SocketAuthData, SocketOptions } from './socket';

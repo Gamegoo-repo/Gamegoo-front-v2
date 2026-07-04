@@ -1,5 +1,6 @@
 import MannerLevelPopover from '@/entities/user/ui/manner-level-popover';
 import type { MannerKeywordListResponse } from '@/shared/api';
+
 import BubbleTooltip from '../user/bubble-tooltip';
 import ProfileAvatar from './profile-avatar';
 

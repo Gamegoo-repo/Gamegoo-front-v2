@@ -1,6 +1,7 @@
 import UserProfileMenu from '@/features/user/user-profile-menu';
 import { useAuth } from '@/shared/model/use-auth';
 import { LogoButton } from '@/shared/ui/logo';
+
 import HeaderNav from './header-nav';
 import LoginButton from './login-button';
 

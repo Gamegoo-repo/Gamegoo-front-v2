@@ -2,19 +2,20 @@ import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router'
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { z } from 'zod';
+
 import { TIER_ITEMS } from '@/features/board/config/dropdown-items';
 import { getTierTitle } from '@/features/board/lib/getTierTitle';
+import { useLolBtiBoardData } from '@/features/lol-bti/board/model/use-lolbti-board-data';
 import LolBtiCardSkeleton from '@/features/lol-bti/board/ui/lolbti-card-skeleton';
 import LolBtiTestCtaCard from '@/features/lol-bti/board/ui/lolbti-test-cta-card';
 import MyLolBtiResultCard from '@/features/lol-bti/board/ui/my-lolbti-result-card';
-import OtherLolBtiResultCard from '@/features/lol-bti/board/ui/other-lolbti-card';
-import { Tier } from '@/shared/api';
-import Dropdown from '@/shared/ui/dropdown/dropdown';
-import UserRelationActions from '@/features/lol-bti/board/ui/user-relation-actions';
 import OpenChatRoomButton from '@/features/lol-bti/board/ui/open-chat-room-button';
+import OtherLolBtiResultCard from '@/features/lol-bti/board/ui/other-lolbti-card';
 import UserProfileBottomSheet from '@/features/lol-bti/board/ui/user-profile-bottom-sheet';
+import UserRelationActions from '@/features/lol-bti/board/ui/user-relation-actions';
+import { Tier } from '@/shared/api';
 import useResponsive from '@/shared/model/use-responsive';
-import { useLolBtiBoardData } from '@/features/lol-bti/board/model/use-lolbti-board-data';
+import Dropdown from '@/shared/ui/dropdown/dropdown';
 import UserProfileModal from '@/widgets/user-info/user-profile-modal';
 
 type SortOption = 'HIGH' | 'LOW';

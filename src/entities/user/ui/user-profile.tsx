@@ -1,4 +1,5 @@
 import { cn } from '@/shared/lib/utils';
+
 import { getUserProfileBg } from '../lib/get-user-profile-bg';
 import { getUserProfileSvg } from '../lib/get-user-profile-svg';
 

@@ -1,3 +1,5 @@
+import { FlexBox } from '@gamegoo-ui/design-system';
+
 import {
   MOCK_MANNER_KEYWORDS,
   MOCK_MANNER_LEVEL,
@@ -14,7 +16,6 @@ import MannerLevelCard from '@/widgets/user-info/manner-level-card';
 import UserInfoSkeleton from '@/widgets/user-info/user-info-skeleton';
 import UserInfoWidget from '@/widgets/user-info/user-info-widget';
 import UserProfileCardMobile from '@/widgets/user-info/user-profile-card-mobile';
-import { FlexBox } from '@gamegoo-ui/design-system';
 
 type UserProfileContentProps = ReturnType<typeof useUserProfileData>;
 

@@ -1,7 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
+
+import { lolbtiKeys } from '@/entities/lol-bti/config/query-keys';
 import { api } from '@/shared/api';
 import type { GetLolBtiRecommendationsParams } from '@/shared/api/lolbti';
-import { lolbtiKeys } from '@/entities/lol-bti/config/query-keys';
 import type {
   GetLolBtiRecommendationsResponse,
   GetMyLolBtiRecommendationsResponse,

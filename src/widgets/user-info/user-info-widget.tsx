@@ -6,6 +6,7 @@ import UserActionButtons from '@/features/user/buttons/user-action-buttons';
 import type { MannerKeywordListResponse, MannerResponse, OtherProfileResponse } from '@/shared/api';
 import { cn } from '@/shared/lib/utils';
 import { useResponsive } from '@/shared/model/responsive-context';
+
 import MannerKeywordsCard from './manner-keywords-card';
 import MannerLevelCard from './manner-level-card';
 import type { UserRelationshipStatus } from './model/user-info.types';

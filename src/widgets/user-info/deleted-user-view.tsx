@@ -1,4 +1,5 @@
 import UserProfileHeader from '@/features/profile/user-profile-header';
+
 import MannerKeywordsCard from './manner-keywords-card';
 import MannerLevelCard from './manner-level-card';
 

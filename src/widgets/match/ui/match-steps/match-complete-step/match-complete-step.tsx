@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { useChatDialogStore } from '@/entities/chat';
 import type { ChatroomResponse, EnterChatroomResponse } from '@/shared/api';
 import { api } from '@/shared/api';
 import { toast } from '@/shared/lib/toast';
 import { Button } from '@/shared/ui';
 import { useMatchUiStore } from '@/widgets/match/model/store/useMatchUiStore';
+
 import { type UseMatchFunnelReturn, useMatchFunnelStore } from '../../../hooks';
 import { matchFlow } from '../../../lib/match-flow';
 import type { OpponentProfilePayload } from '../../../lib/matching-types';

@@ -1,6 +1,8 @@
 import { Slot } from '@radix-ui/react-slot';
 import { forwardRef } from 'react';
+
 import { cn } from '@/shared/lib/utils';
+
 import type { FlexBoxProps } from './flexbox.type';
 import { flexBoxVariants } from './flexbox-variants';
 

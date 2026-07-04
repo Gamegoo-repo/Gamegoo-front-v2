@@ -1,7 +1,9 @@
 import { useNavigate, useSearch } from '@tanstack/react-router';
+
 import type { Position } from '@/shared/api';
 import { cn } from '@/shared/lib/utils';
 import Dropdown from '@/shared/ui/dropdown/dropdown';
+
 import { GAME_MODE_ITEMS, MIKE_ITEMS, TIER_ITEMS } from '../config/dropdown-items';
 import { POSITION_BUTTON_ITEMS } from '../config/position-button-items';
 import { getGameModeTitle } from '../lib/getGameModeTitle';

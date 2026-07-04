@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { useRef, useState } from 'react';
+
 import ArrowIcon from '@/shared/assets/icons/dropdown-arrow.svg?react';
 import { cn } from '@/shared/lib/utils';
 import { useClickOutside } from '@/shared/model/useClickOutside';

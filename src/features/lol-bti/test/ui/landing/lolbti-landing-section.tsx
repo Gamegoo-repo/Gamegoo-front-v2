@@ -1,12 +1,14 @@
 import { Link } from '@tanstack/react-router';
+
 import { LogoImg } from '@/shared/assets/lolbti';
+import { copyTextToClipboard } from '@/shared/lib/copy-riot-id';
+import { toast } from '@/shared/lib/toast';
 import { FlexBox } from '@/shared/ui/flexbox';
 import { LogoButton } from '@/shared/ui/logo';
+
 import useFetchParticipants from '../../model/use-fetch-participants';
 import { LolBtiLayout } from '../lolbti-layout';
 import CountUp from './count-up';
-import { toast } from '@/shared/lib/toast';
-import { copyTextToClipboard } from '@/shared/lib/copy-riot-id';
 
 interface LolBtiQuizSectionProps {
   onStart: () => void;

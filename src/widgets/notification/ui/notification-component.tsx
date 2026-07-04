@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSearch } from '@tanstack/react-router';
 import { useCallback, useEffect, useState } from 'react';
+
 import { notificationKeys } from '@/features/notification/api/query-keys';
 import { api } from '@/shared/api';
 import { mediaQueries, useMediaQuery } from '@/shared/model/use-media-query.tsx';
@@ -8,6 +9,7 @@ import { Checkbox } from '@/shared/ui/checkbox/Checkbox.tsx';
 import { FlexBox } from '@/shared/ui/flexbox/flexbox.tsx';
 import { Button } from '@/shared/ui/index.ts';
 import Modal from '@/shared/ui/modal/modal.tsx';
+
 import type { NotificationSearch } from '../lib/types';
 import AlertItem from './alert-item.tsx';
 import NotificationPagination from './notification-pagination.tsx';

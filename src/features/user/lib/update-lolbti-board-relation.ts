@@ -1,4 +1,5 @@
 import type { InfiniteData, QueryClient } from '@tanstack/react-query';
+
 import { lolbtiKeys } from '@/entities/lol-bti/config/query-keys';
 import type {
   GetMyLolBtiRecommendationsResponse,

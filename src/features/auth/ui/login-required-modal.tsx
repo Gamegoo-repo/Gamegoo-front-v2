@@ -1,5 +1,7 @@
 import { createPortal } from 'react-dom';
+
 import PrecautionIcon from '@/shared/assets/icons/precaution.svg?react';
+
 import { useLoginRequiredModalStore } from '../model/login-required-modal-store';
 
 function LoginRequiredModal() {

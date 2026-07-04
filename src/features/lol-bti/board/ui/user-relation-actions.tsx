@@ -1,8 +1,10 @@
-import type { MyLolBtiRecommendation } from '@/shared/api/lolbti/types';
-import { useSendFriendRequest } from '@/features/user/hooks/use-send-friend-request';
 import { Button } from '@gamegoo-ui/design-system';
-import OpenChatRoomButton from './open-chat-room-button';
 import type { ReactNode } from 'react';
+
+import { useSendFriendRequest } from '@/features/user/hooks/use-send-friend-request';
+import type { MyLolBtiRecommendation } from '@/shared/api/lolbti/types';
+
+import OpenChatRoomButton from './open-chat-room-button';
 
 interface UserRelationActionsProps {
   result: MyLolBtiRecommendation;

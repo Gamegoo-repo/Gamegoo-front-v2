@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
+
 import { useFetchMyInfo } from '@/entities/user/api/use-fetch-my-info';
 import { userKeys } from '@/entities/user/config/query-keys';
 import UserProfile from '@/entities/user/ui/user-profile';

@@ -2,6 +2,7 @@ import { useFetchOtherUserInfo } from '@/entities/user/api/use-fetch-other-user-
 import type { MemberRecentStatsResponse } from '@/shared/api';
 import { useAuth } from '@/shared/model/use-auth';
 import type { UserRelationshipStatus } from '@/widgets/user-info/model/user-info.types';
+
 import { calculateRelationshipStatus } from '../lib/calculate-relationship-status';
 
 type UseUserProfileDataReturn = {

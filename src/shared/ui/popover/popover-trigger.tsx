@@ -1,4 +1,5 @@
 import React, { type ReactElement, type ReactNode, useContext } from 'react';
+
 import { PopoverContext } from './popover';
 
 interface PopoverTriggerProps {

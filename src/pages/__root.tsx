@@ -1,6 +1,8 @@
+import { DesignSystemProvider } from '@gamegoo-ui/design-system';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { useEffect } from 'react';
+
 import { GlobalBoardModals } from '@/app/providers/global-board-modals';
 import { GoogleAnalyticsTracker } from '@/app/providers/google-analytics-tracker';
 import { useChatDialogStore } from '@/entities/chat/store/use-chat-dialog-store';
@@ -18,7 +20,6 @@ import {
   ConfirmDialogProvider,
   GamegooSocketProvider,
 } from '@/shared/providers';
-import { DesignSystemProvider } from '@gamegoo-ui/design-system';
 import { MatchGlobalListenerProvider } from '@/shared/providers/match-global-listener-provider';
 import { FloatingChatButton, FloatingChatDialog } from '@/widgets/floating-chat-dialog';
 import { FloatingMatchingCard } from '@/widgets/match/ui/floating-matching-card/floating-matching-card';

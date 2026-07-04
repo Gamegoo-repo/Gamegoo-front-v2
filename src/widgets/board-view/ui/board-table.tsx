@@ -1,9 +1,11 @@
 import { useSearch } from '@tanstack/react-router';
+
 import { useBoardList } from '@/entities/post/model/use-board-list';
 import PaginationButtons from '@/features/board/ui/pagination-buttons';
 import type { BoardListResponse } from '@/shared/api';
 import { useAuth } from '@/shared/model/use-auth';
 import Table from '@/shared/ui/table/table';
+
 import { getColumns } from '../config/columns';
 
 export default function BoardTable({

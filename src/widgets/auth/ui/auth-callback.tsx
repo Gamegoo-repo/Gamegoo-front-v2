@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import { useEffect } from 'react';
+
 import { parseAuthCallbackParams } from '@/entities/auth/lib/parse-callback';
 import { isError, isLoginSuccess, isNeedSignup } from '@/entities/auth/model/guards';
 import { toast } from '@/shared/lib/toast';

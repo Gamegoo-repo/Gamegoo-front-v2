@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { boardKeys } from '@/features/board/api/query-keys';
 import { api, type GameMode, type Mike, type Position, type Tier } from '@/shared/api';
 

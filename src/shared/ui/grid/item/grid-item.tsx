@@ -1,6 +1,8 @@
 import { Slot } from '@radix-ui/react-slot';
 import * as React from 'react';
+
 import { cn } from '@/shared/lib/utils';
+
 import type { GridItemProps } from './grid-item.type';
 
 export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(

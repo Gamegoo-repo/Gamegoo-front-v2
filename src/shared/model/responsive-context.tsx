@@ -1,4 +1,5 @@
 import { createContext, type ReactNode, useContext } from 'react';
+
 import { mediaQueries, useMediaQuery } from './use-media-query';
 
 type ResponsiveContextType = {

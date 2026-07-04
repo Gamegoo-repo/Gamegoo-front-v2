@@ -2,6 +2,7 @@
 import type { AxiosError } from 'axios';
 import { isEqual } from 'lodash-es';
 import { useRef, useState } from 'react';
+
 import UserProfileCard from '@/entities/user/ui/user-profile-card';
 import { GAME_MODE_ITEMS } from '@/features/board/config/dropdown-items';
 import { getGameModeTitle } from '@/features/board/lib/getGameModeTitle';
@@ -20,6 +21,7 @@ import { Card } from '@/shared/ui/card/card';
 import Dropdown from '@/shared/ui/dropdown/dropdown';
 import Modal from '@/shared/ui/modal/modal';
 import { Switch } from '@/shared/ui/toggle-switch/switch';
+
 import { useCreatePost } from '../../api/use-create-post';
 import { useUpdatePost } from '../../api/use-update-post';
 import { GAME_STYLE } from '../../config/game-styles';

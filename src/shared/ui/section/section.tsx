@@ -1,5 +1,7 @@
 import * as React from 'react';
+
 import { cn } from '@/shared/lib/utils';
+
 import { Container } from '../container';
 import type { SectionProps } from './section.type';
 import { sectionVariants } from './sectionVariants';

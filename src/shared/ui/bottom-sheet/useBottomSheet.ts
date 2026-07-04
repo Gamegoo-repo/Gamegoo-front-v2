@@ -1,6 +1,7 @@
-import { useRef, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { DEFAULT_HALF_RATIO, SNAP_DURATION_MS,SNAP_EASING, VELOCITY_THRESHOLD } from './constants';
 import type { SnapPoint } from './types';
-import { DEFAULT_HALF_RATIO, VELOCITY_THRESHOLD, SNAP_EASING, SNAP_DURATION_MS } from './constants';
 
 /** `UseBottomSheetOptions`
  * - 훅의 사용처에서 전달하는 옵션
@@ -165,7 +166,7 @@ export function useBottomSheet({
       setCurrentSnap('half');
       snapTo('half', true);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
     // snapTo는 deps에서 의도적으로 제외한다.
     // snapTo는 useCallback으로 관리되며, onClose 등 상위 의존성이 바뀔 때마다 새 참조가 생성된다.
     // deps에 포함하면 isOpen=true 상태에서도 snapTo가 바뀔 때마다 이 effect가 재실행되어

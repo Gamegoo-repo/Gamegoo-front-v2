@@ -9,7 +9,6 @@ export {
   lolbtiPublicApi,
   trackRollBtiEvent,
 } from './lolbti-public-api';
-
 export type {
   ApiResponse,
   AxisPercentages,

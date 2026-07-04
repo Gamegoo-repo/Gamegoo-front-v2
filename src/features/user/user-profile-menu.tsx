@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { useRef, useState } from 'react';
+
 import { useChatStore } from '@/entities/chat';
 import { useChatDialogStore } from '@/entities/chat/store/use-chat-dialog-store';
 import UserProfile from '@/entities/user/ui/user-profile';

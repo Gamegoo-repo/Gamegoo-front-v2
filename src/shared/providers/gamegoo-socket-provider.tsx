@@ -1,4 +1,5 @@
 import { createContext, type ReactNode, useContext, useEffect, useRef, useState } from 'react';
+
 import { tokenManager } from '@/shared/api';
 import { socketManager } from '@/shared/api/socket/socket-manager';
 import { useAuth } from '@/shared/model/use-auth';

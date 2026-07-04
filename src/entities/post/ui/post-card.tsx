@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import type React from 'react';
 import { useMemo } from 'react';
+
 import { getPositionIcon } from '@/entities/game/lib/getPositionIcon';
 import { getWinRateColors } from '@/entities/game/lib/getWinRateColor';
 import ChampionStatsSection from '@/entities/game/ui/champion-stats-section';

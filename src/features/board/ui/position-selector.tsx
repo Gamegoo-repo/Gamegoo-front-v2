@@ -1,8 +1,10 @@
 import type { ComponentPropsWithoutRef, RefObject } from 'react';
+
 import type { Position } from '@/shared/api';
 import PlusIcon from '@/shared/assets/icons/ic-plus.svg?react';
 import { cn } from '@/shared/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
+
 import { POSITION_BUTTON_ITEMS } from '../config/position-button-items';
 import PositionSelectorContent from './position-selector-content';
 

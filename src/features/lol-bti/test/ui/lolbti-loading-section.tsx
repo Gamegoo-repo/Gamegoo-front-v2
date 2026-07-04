@@ -1,4 +1,5 @@
 import { FlexBox } from '@/shared/ui/flexbox';
+
 import { LolBtiLayout } from './lolbti-layout';
 
 export default function LolBtiLoadingSection() {

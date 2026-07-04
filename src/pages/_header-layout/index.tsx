@@ -1,4 +1,6 @@
+import { FlexBox } from '@gamegoo-ui/design-system';
 import { createFileRoute, Link } from '@tanstack/react-router';
+
 import Book from '@/shared/assets/characters/book.svg?react';
 import Character4Icon from '@/shared/assets/characters/character4.svg?react';
 import Character6Icon from '@/shared/assets/characters/character6.svg?react';
@@ -7,7 +9,6 @@ import Character8Icon from '@/shared/assets/characters/character8.svg?react';
 import RightArrowIcon from '@/shared/assets/icons/right_arrow.svg?react';
 import useResponsive from '@/shared/model/use-responsive';
 import { LogoButton } from '@/shared/ui/logo';
-import { FlexBox } from '@gamegoo-ui/design-system';
 
 export const Route = createFileRoute('/_header-layout/')({
   component: Index,

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+
 import { isApiError, isServerError } from '@/shared/lib/error-type-fn.ts';
 import toast from '@/shared/lib/toast/api.ts';
+
 import { SERVER_ERROR_MESSAGES } from '../../config/error-message/index.ts';
 import { useAppErrorStore } from './app-error-store';
 

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+
 import { cn } from '@/shared/lib/utils';
+
 import type { LolBtiResultType } from '../../config';
 
 export interface ModalProps {

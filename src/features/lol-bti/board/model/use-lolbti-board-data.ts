@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+
+import { lolbtiKeys } from '@/entities/lol-bti/config/query-keys';
 import { useLolBtiRecommendations } from '@/features/lol-bti/board/model/use-lolbti-recommendations';
 import { getMyLolBtiResult } from '@/features/lol-bti/test/api';
-import { lolbtiKeys } from '@/entities/lol-bti/config/query-keys';
-import { useAuthStore } from '@/shared/model/use-auth-store';
 import type { Tier } from '@/shared/api';
+import { useAuthStore } from '@/shared/model/use-auth-store';
 
 interface UseLolBtiBoardDataParams {
   tier?: Tier;

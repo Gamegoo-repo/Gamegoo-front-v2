@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useRef, useState } from 'react';
+
 import { BAD_MANNER_TYPES, MANNER_TYPES } from '@/entities/user/config/manner.types';
 import { api, type MannerInsertRequest, type MannerUpdateRequest } from '@/shared/api';
 import CloseButton from '@/shared/ui/button/close-button';

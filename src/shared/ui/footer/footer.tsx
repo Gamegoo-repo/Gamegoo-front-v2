@@ -1,10 +1,12 @@
 import emailjs from '@emailjs/browser';
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
+
 import PaperPlaneIcon from '@/shared/assets/icons/ic-paper-plane.svg?react';
 import { toast } from '@/shared/lib/toast';
 import { cn } from '@/shared/lib/utils';
 import useResponsive from '@/shared/model/use-responsive';
+
 import { LogoButton } from '../logo';
 
 const SERVICE_ID = process.env.PUBLIC_EMAILJS_SERVICE_ID!;

@@ -1,4 +1,5 @@
 import type { UserRelationshipStatus } from '@/widgets/user-info/model/user-info.types';
+
 import BlockReportMenu from './block-menu';
 
 export function UserActionMenu({

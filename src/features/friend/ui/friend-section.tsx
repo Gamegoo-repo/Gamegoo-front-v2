@@ -1,4 +1,5 @@
 import type { FriendInfoResponse } from '@/shared/api';
+
 import FriendItem from './friend-item';
 
 interface FriendSectionProps {

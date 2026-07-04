@@ -1,5 +1,7 @@
 import { Link, useNavigate, useSearch } from '@tanstack/react-router';
+
 import { cn } from '@/shared/lib/utils';
+
 import ArrowLeftIcon from './assets/arrow-left.svg?react';
 import ArrowRightIcon from './assets/arrow-right.svg?react';
 

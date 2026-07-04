@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Link, useNavigate, useSearch } from '@tanstack/react-router';
+
 import TierBadge from '@/entities/game/ui/tier-badge';
 import UserProfile from '@/entities/user/ui/user-profile';
 import { boardKeys } from '@/features/board/api/query-keys';

@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router';
+
 import LogoIcon from '@/shared/assets/icons/logo.svg?react';
 import { cn } from '@/shared/lib/utils';
 

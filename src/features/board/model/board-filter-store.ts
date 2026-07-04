@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import type { FilterState } from '@/features/board/model/type';
 
 interface BoardFilterStore extends FilterState {

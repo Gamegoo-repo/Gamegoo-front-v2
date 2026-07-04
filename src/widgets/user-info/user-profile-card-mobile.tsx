@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+
 import { getPositionIcon } from '@/entities/game/lib/getPositionIcon';
 import ChampionStatsSection from '@/entities/game/ui/champion-stats-section';
 import PositionCard from '@/entities/game/ui/position-card';

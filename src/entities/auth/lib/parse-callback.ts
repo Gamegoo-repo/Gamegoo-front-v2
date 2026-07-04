@@ -1,5 +1,6 @@
 import { BanType } from '@/shared/api';
 import { STORAGE_KEYS } from '@/shared/config/storage';
+
 import { type AuthCallbackParams, OAuthStatus } from '../model/types';
 
 export const parseAuthCallbackParams = (): AuthCallbackParams => {

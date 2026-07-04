@@ -1,5 +1,7 @@
 import { create } from 'zustand';
+
 import type { LoginSuccessParams } from '@/entities/auth/model/types';
+
 import { api, tokenManager } from '../api';
 
 /** TODO: BAN 정보도 저장할지 isBanned 정도만? */

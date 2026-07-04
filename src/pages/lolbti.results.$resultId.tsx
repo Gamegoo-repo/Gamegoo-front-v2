@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+
 import { convertPayloadToAxisPercentages, LolBtiResultSection } from '@/features/lol-bti';
 import { getLolBtiResultByResultId } from '@/features/lol-bti/test/api/lolbti-integration-api';
 import LolBtiLoadingSection from '@/features/lol-bti/test/ui/lolbti-loading-section';

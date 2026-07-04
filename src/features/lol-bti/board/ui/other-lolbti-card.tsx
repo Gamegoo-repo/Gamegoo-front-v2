@@ -1,11 +1,13 @@
+import type { ReactNode } from 'react';
+
 import { LOL_BTI_TYPE_DATA } from '@/features/lol-bti/test/config';
 import type { LolBtiRecommendation } from '@/shared/api';
+import type { MyLolBtiRecommendation } from '@/shared/api/lolbti/types';
 import { cn } from '@/shared/lib/utils';
+
 import CompatibilityHeart from './compatibility-heart';
 import LolBtiCard from './lolbti-card';
 import LolBtiChampionStats from './lolbti-champion-stats';
-import type { MyLolBtiRecommendation } from '@/shared/api/lolbti/types';
-import type { ReactNode } from 'react';
 
 type CompatibilityLevel = 'full' | 'half' | 'empty';
 

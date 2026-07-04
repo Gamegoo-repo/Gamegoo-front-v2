@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
+
 import CheckIcon from '@/shared/assets/icons/ic-manner-check.svg?react';
+
 import { STEPPER_COLORS } from '../config/stepper-colors';
 
 interface StepperStepProps {

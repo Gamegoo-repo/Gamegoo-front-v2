@@ -1,9 +1,11 @@
 // components/ui/rank-info.tsx
 
 import { cva, type VariantProps } from 'class-variance-authority';
+
 import type { Tier } from '@/shared/api';
 import { capitalize } from '@/shared/lib/capitalize';
 import { cn } from '@/shared/lib/utils';
+
 import { getTierIcon } from '../lib/getTierIcon';
 
 /**

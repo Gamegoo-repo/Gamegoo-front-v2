@@ -1,9 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import type { AxiosError } from 'axios';
+
 import { trackRollBtiEvent } from '@/features/lol-bti/test/api';
 import type { LolBtiResultType } from '@/features/lol-bti/test/config';
-import { type ApiErrorResponse, api, type BanType, type RiotJoinRequest } from '@/shared/api';
+import { api, type ApiErrorResponse, type BanType, type RiotJoinRequest } from '@/shared/api';
 import type { RiotJoinResponse } from '@/shared/api/@generated/models/riot-join-response';
 import { isValidApiError } from '@/shared/api/guard';
 import { getEventSource } from '@/shared/lib/get-device';

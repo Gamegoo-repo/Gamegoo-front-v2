@@ -1,8 +1,9 @@
+import { Button } from '@gamegoo-ui/design-system';
+
 import { useOpenChatroom } from '@/features/chat/hooks/use-open-chatroom';
 import { api } from '@/shared/api';
 import { useAuthenticatedAction } from '@/shared/hooks/use-authenticated-action';
 import { cn } from '@/shared/lib/utils';
-import { Button } from '@gamegoo-ui/design-system';
 
 export default function OpenChatRoomButton({
   memberId,

@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+
 import { ResponsiveContext } from './responsive-context';
 
 export default function useResponsive() {

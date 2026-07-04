@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+
 import type { ChatMessage } from '@/entities/chat';
 import { useSocketMessage } from '@/shared/api/socket';
 import { useGamegooSocket } from '@/shared/providers/gamegoo-socket-provider';
+
 import type { ChatMessageEventData, SystemMessageEventData } from '../lib/types';
 
 const parseSystemData = (data: unknown): Partial<ChatMessage> => {

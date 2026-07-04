@@ -1,8 +1,9 @@
+import React from 'react';
+
 import { formatKDA, formatKDAStats } from '@/entities/game/lib/kda';
 import ChampionStatsSection from '@/entities/game/ui/champion-stats-section';
 import type { ChampionStatsResponse, MemberRecentStatsResponse } from '@/shared/api';
 import { cn } from '@/shared/lib/utils';
-import React from 'react';
 
 interface RecentStatsCardProps {
   recentStats: MemberRecentStatsResponse;

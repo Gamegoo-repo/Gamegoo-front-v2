@@ -1,11 +1,13 @@
-import { createPortal } from 'react-dom';
-import { usePreventScroll } from './usePreventScroll';
-import { BottomSheetHeader } from './BottomSheetHeader';
-import { BottomSheetHandle } from './BottomSheetHandle';
-import { useBottomSheet } from './useBottomSheet';
-import type { BottomSheetProps } from './types';
-import { cn } from '@/shared/lib/utils';
 import { FlexBox } from '@gamegoo-ui/design-system';
+import { createPortal } from 'react-dom';
+
+import { cn } from '@/shared/lib/utils';
+
+import { BottomSheetHandle } from './BottomSheetHandle';
+import { BottomSheetHeader } from './BottomSheetHeader';
+import type { BottomSheetProps } from './types';
+import { useBottomSheet } from './useBottomSheet';
+import { usePreventScroll } from './usePreventScroll';
 
 const portalTarget = document.body;
 

@@ -1,4 +1,5 @@
 import { api } from '@/shared/api';
+
 import type { FetchPostsWithCursorParams, PageParam } from './api.types';
 
 export const fetchPostsWithCursor = async (

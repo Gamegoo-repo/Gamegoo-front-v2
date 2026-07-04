@@ -1,4 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
+
 import { useLoginRequiredModalStore } from '@/features/auth';
 import { tokenManager } from '@/shared/api';
 import { MatchComponent } from '@/widgets/match';

@@ -1,8 +1,11 @@
+import '@/shared/lib/globals.css';
+
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
+
 import { routeTree } from '@/shared/lib/@generated/routeTree.gen';
-import '@/shared/lib/globals.css';
+
 import { ErrorCatcher } from './shared/ui/error-boundary/error-catcher';
 import QueryClientBoundary from './shared/ui/error-boundary/query-client-boundary';
 import UnPredictableErrorBoundary from './shared/ui/error-boundary/unpredictable-error-boundary';

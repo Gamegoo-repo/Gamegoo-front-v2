@@ -1,4 +1,5 @@
 import type { GameMode, Mike, Tier } from '@/shared/api';
+
 import { GAME_MODE_LABELS, MIKE_LABELS, TIER_LABELS } from './dropdown-labels';
 
 export const GAME_MODE_ITEMS = [

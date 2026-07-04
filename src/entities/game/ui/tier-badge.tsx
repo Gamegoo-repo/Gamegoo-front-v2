@@ -1,4 +1,5 @@
 import type { Tier } from '@/shared/api';
+
 import { getTierIcon } from '../lib/getTierIcon';
 
 export default function TierBadge({ tier, rank }: { tier: Tier; rank: number }) {

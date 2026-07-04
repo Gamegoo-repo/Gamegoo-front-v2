@@ -1,4 +1,5 @@
 import { cn } from '@/shared/lib/utils';
+
 import type { UseMatchFunnelReturn } from '../hooks';
 
 interface MatchTypeToggleProps {

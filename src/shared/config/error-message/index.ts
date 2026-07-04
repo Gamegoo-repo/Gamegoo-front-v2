@@ -1,5 +1,3 @@
-type ErrorMessage = Record<string, string>;
-
 import { AUTH_ERROR_MESSAGES } from './auth-error';
 import { BAN_ERROR_MESSAGES } from './ban-error';
 import { BLOCK_ERROR_MESSAGES } from './block-error';
@@ -16,6 +14,8 @@ import { MEMBER_ERROR_MESSAGES } from './member-error';
 import { NOTI_ERROR_MESSAGES } from './noti-error';
 import { REPORT_ERROR_MESSAGES } from './report-error';
 import { RIOT_ERROR_MESSAGES } from './riot-error';
+
+type ErrorMessage = Record<string, string>;
 
 export const SERVER_ERROR_MESSAGES: ErrorMessage = {
   ...AUTH_ERROR_MESSAGES,

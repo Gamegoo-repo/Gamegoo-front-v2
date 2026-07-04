@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { TERMS, type TermKey } from '@/entities/term/model';
+
+import { type TermKey,TERMS } from '@/entities/term/model';
 import SignUpButton from '@/features/auth/ui/sign-up-button';
 import { useTermsDetailModalStore } from '@/features/auth/ui/use-terms-detail-modal-store';
 import { cn } from '@/shared/lib/utils';

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Link, useNavigate, useSearch } from '@tanstack/react-router';
+
 import { userKeys } from '@/entities/user/config/query-keys';
 import UserProfile from '@/entities/user/ui/user-profile';
 import { PopoverMenu } from '@/features/popover-menu';

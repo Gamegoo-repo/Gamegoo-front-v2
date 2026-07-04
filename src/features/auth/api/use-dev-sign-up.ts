@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { api, tokenManager } from '@/shared/api';
 
 export const useDevSignUp = () => {

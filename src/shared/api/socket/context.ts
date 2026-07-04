@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+
 import type { GamegooSocket } from './socket';
 import { SocketReadyState } from './types';
 

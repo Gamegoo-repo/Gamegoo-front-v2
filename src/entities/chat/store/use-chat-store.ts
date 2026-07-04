@@ -1,5 +1,7 @@
 import { create } from 'zustand';
+
 import type { ChatroomResponse } from '@/shared/api';
+
 import type { ChatState } from '../types';
 
 interface ChatActions {

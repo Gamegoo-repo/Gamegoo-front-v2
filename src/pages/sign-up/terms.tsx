@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import * as z from 'zod';
+
 import TermsDetailModal from '@/features/auth/ui/terms-detail-modal';
 import SignUpSection from '@/widgets/auth/ui/sign-up-section';
 

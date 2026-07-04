@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+
 import type { ApiErrorResponse } from '@/shared/api';
 import {
   isReportErrorCode,
@@ -10,6 +11,7 @@ import { cn } from '@/shared/lib/utils';
 import CloseButton from '@/shared/ui/button/close-button';
 import { Checkbox } from '@/shared/ui/checkbox/Checkbox';
 import Modal from '@/shared/ui/modal/modal';
+
 import useSubmitReport from '../api/use-submit-report';
 import { reportPathToNumber } from '../lib/report-path-mapper';
 import { useReportModalStore } from '../model/use-report-modal-store';

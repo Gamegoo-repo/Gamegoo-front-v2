@@ -1,5 +1,7 @@
 import { Link, useNavigate, useSearch } from '@tanstack/react-router';
+
 import { cn } from '@/shared/lib/utils';
+
 import type { NotificationSearch } from '../lib/types';
 
 interface NotificationPaginationProps {

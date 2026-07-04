@@ -1,4 +1,5 @@
 import { cn } from '@/shared/lib/utils';
+
 import { STEPPER_COLORS } from '../config/stepper-colors';
 import StepperStep from './stepper-step';
 

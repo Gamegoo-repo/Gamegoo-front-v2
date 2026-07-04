@@ -2,6 +2,7 @@ import PlusIcon from '@/shared/assets/icons/ic-plus.svg?react';
 import { cn } from '@/shared/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import PopoverHeader from '@/shared/ui/popover/popover-header';
+
 import { GAME_STYLE } from '../config/game-styles';
 
 export default function GameStylePopover({

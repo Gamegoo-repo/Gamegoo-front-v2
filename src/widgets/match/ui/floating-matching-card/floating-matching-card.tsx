@@ -1,6 +1,8 @@
 import { useLocation, useRouter } from '@tanstack/react-router';
+
 import HeartIcon from '@/shared/assets/icons/wait_heart.svg?react';
 import { Button } from '@/shared/ui';
+
 import { useMatchFunnelStore } from '../../hooks';
 import { matchFlow } from '../../lib/match-flow';
 import { useMatchUiStore } from '../../model/store/useMatchUiStore';

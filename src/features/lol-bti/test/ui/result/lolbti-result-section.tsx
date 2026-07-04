@@ -1,5 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+
 import {
   GAMEGOO_SITE_URL,
   LOL_BTI_COMPATIBILITY_MAP,
@@ -9,9 +10,12 @@ import {
   type LolBtiResultType,
   type LolPosition,
 } from '@/features/lol-bti/test/config';
+import { copyTextToClipboard } from '@/shared/lib/copy-riot-id';
 import { getEventSource } from '@/shared/lib/get-device';
 import { SessionManager } from '@/shared/lib/session/session-manager';
+import { toast } from '@/shared/lib/toast';
 import { FlexBox } from '@/shared/ui/flexbox';
+
 import { trackRollBtiEvent } from '../../api';
 import { LolBtiLayout } from '../lolbti-layout';
 import { LolBtiAxisResult } from './lolbti-axis-result';
@@ -19,8 +23,6 @@ import LolBtiCompatibleCard, { LolBtiIncompatibleCard } from './lolbti-compatibl
 import { LolBtiPositionCard } from './lolbti-position-card';
 import { LolBtiProfileCard } from './lolbti-profile-card';
 import LolBtiStrengthWeakness from './lolbti-strength-weakness';
-import { copyTextToClipboard } from '@/shared/lib/copy-riot-id';
-import { toast } from '@/shared/lib/toast';
 
 export default function LolBtiResultSection({
   title = '나의 롤BTI는?',

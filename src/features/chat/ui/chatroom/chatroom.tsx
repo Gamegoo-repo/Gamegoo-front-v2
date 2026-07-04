@@ -1,15 +1,16 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+
 import { type ChatMessage, useChatDialogStore, useChatStore } from '@/entities/chat';
 import { chatKeys } from '@/entities/chat/config/query-keys';
 import { useBoardModalStore } from '@/features/board/model/use-board-modal-store';
 import {
   deduplicateMessages,
   formatMessageDate,
-  SYSTEM_MESSAGE_TYPE,
   shouldShowDate,
   shouldShowProfileImage,
   shouldShowTime,
+  SYSTEM_MESSAGE_TYPE,
   useChatMessage,
   useChatroomSocket,
   useReadChatMessage,
@@ -19,6 +20,7 @@ import MannerSelectModal from '@/features/manner/ui/manner-select-modal';
 import type { ApiResponseEnterChatroomResponse } from '@/shared/api';
 import { useInfiniteScroll } from '@/shared/hooks/use-infinite-scroll';
 import { useAuthStore } from '@/shared/model/use-auth-store';
+
 import {
   ChatroomDateDivider,
   ChatroomFeedbackMessage,

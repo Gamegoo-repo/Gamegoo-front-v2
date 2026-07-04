@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+
 import { useChatDialogStore } from '@/entities/chat';
 import type { SystemData } from '@/features/chat';
 import { useSendMessage } from '@/features/chat';

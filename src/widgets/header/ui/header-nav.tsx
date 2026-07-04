@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router';
+
 import useResponsive from '@/shared/model/use-responsive';
 
 type MenuItem = {

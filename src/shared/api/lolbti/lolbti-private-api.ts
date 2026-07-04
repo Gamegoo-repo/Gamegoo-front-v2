@@ -1,4 +1,5 @@
 import { privateApiClient } from '@/shared/api/config';
+
 import type {
   ApiResponse,
   GetLolBtiRecommendationsParams,

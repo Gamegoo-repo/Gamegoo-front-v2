@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import type { TermKey } from '@/entities/term/model';
 
 interface TermsDetailModalState {

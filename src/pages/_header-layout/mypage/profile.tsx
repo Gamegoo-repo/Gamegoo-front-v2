@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
+
 import TierBadge from '@/entities/game/ui/tier-badge';
 import { useFetchMyInfo } from '@/entities/user/api/use-fetch-my-info';
 import { userKeys } from '@/entities/user/config/query-keys';

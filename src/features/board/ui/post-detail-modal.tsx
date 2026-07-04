@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import { useRef } from 'react';
+
 import { useChatStore } from '@/entities/chat';
 import { chatKeys } from '@/entities/chat/config/query-keys';
 import { useChatDialogStore } from '@/entities/chat/store/use-chat-dialog-store';
@@ -21,6 +22,7 @@ import { toast } from '@/shared/lib/toast';
 import { cn } from '@/shared/lib/utils';
 import { useAuth } from '@/shared/model/use-auth';
 import Modal from '@/shared/ui/modal/modal';
+
 import { getGameModeTitle } from '../lib/getGameModeTitle';
 import { usePostDeletedAlertModalState } from '../model/post-deleted-alert-modal-store';
 

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import type { SystemData } from '@/features/chat';
 import type { ChatroomResponse } from '@/shared/api';
 
