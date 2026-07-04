@@ -77,7 +77,6 @@ export default function LolBtiShareModal({
   };
 
   return createPortal(
-    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
       role="dialog"
       aria-modal="true"

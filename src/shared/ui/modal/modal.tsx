@@ -72,9 +72,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
     };
 
     return createPortal(
-      // biome-ignore lint/a11y/useKeyWithClickEvents: Backdrop click is handled with ESC key listener
       <div onClick={handleBackdropClick} className="modal-backdrop z-[1000]">
-        {/* biome-ignore lint/a11y/useKeyWithClickEvents: Click propagation stop is intentional for modal content */}
         <div
           className={cn(
             'relative rounded-[20px] bg-gray-100 px-5 py-6 mobile:px-8 mobile:py-8',

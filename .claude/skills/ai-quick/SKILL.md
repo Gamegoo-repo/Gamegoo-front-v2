@@ -70,9 +70,9 @@ CHANGED=$(git diff --name-only --diff-filter=ACMR HEAD | grep -E '\.(ts|tsx)$' |
 # tsc는 프로젝트 전체로 돌려야 정확하지만, 빠른 피드백을 위해 noEmit
 npx tsc --noEmit
 
-# biome는 변경 파일만
+# eslint는 변경 파일만
 if [ -n "$CHANGED" ]; then
-  echo "$CHANGED" | xargs npx biome check
+  echo "$CHANGED" | xargs pnpm exec eslint
 fi
 
 # FSD grep — 변경 파일이 위반을 도입하지 않았는지
@@ -96,7 +96,7 @@ fi
 | Check | Status | Detail |
 |-------|--------|--------|
 | TypeScript | ✅/❌ | |
-| Biome (changed files) | ✅/❌ | |
+| ESLint (changed files) | ✅/❌ | |
 | FSD (changed files) | ✅/❌ | |
 
 ### Changed Files

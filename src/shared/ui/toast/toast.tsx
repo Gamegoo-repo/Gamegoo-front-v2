@@ -63,7 +63,6 @@ export function Toast({
   };
 
   return createPortal(
-    // biome-ignore lint/a11y/useKeyWithClickEvents: 추후에 구현 예정
     <div
       {...htmlProps}
       onClick={handleClickToClose}

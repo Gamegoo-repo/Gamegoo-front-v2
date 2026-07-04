@@ -25,7 +25,6 @@ const ChatroomSystemMessage = ({ message, href, onClickMessage }: SystemMessageP
           <span className="cursor-pointer underline">{`${parts[0]} ${highlightedText}`}</span>
         </Link>
       ) : (
-        // biome-ignore lint/a11y/useKeyWithClickEvents: span에 onClick 추가
         <span
           className="cursor-pointer underline"
           onClick={onClickMessage ? onClickMessage : () => {}}

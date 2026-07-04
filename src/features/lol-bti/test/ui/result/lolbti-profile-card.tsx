@@ -14,7 +14,6 @@ export function LolBtiProfileCard({
   imageIndex,
 }: LolBtiProfileCardProps) {
   return (
-    // biome-ignore lint/correctness/useUniqueElementIds: <explanation>
     <article id="result-card" className="flex w-full flex-col items-center">
       <span className="mb-0 bg-gradient-to-br from-[#5A42EE] to-[#7A66FF] bg-clip-text text-[56px] font-black text-transparent [text-shadow:0_0_30px_rgba(90,66,238,0.5)]">
         {type}

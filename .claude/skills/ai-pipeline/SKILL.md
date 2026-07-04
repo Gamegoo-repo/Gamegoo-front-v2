@@ -236,7 +236,7 @@ Phase 1 계획을 실행하여 코드를 작성/이전한다.
 npx tsc --noEmit
 ```
 
-### Step 2: Biome 린트 + 포맷 검사
+### Step 2: Prettier 포맷 + ESLint 검사
 
 ```bash
 pnpm ci
@@ -281,7 +281,7 @@ grep -rn "from '@/shared/api/@generated" src/ 2>/dev/null | grep -v "src/shared/
 | Check | Status | Details |
 |-------|--------|---------|
 | TypeScript | ✅/❌ | 에러 수 또는 "Clean" |
-| Biome (lint+format) | ✅/❌ | 경고/에러 수 또는 "Clean" |
+| Prettier + ESLint | ✅/❌ | 경고/에러 수 또는 "Clean" |
 | Build | ✅/❌ | 빌드 시간 또는 에러 |
 | FSD Rules | ✅/❌ | 위반 수 또는 "No violations" |
 ```

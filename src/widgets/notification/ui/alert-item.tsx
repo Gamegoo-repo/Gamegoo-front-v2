@@ -39,7 +39,6 @@ export default function AlertItem({
         read ? 'opacity-50' : 'hover:bg-gray-50'
       )}
     >
-      {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <div onClick={(e) => e.stopPropagation()}>
         <Checkbox
           isChecked={isChecked}

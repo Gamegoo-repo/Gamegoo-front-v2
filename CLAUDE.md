@@ -12,12 +12,12 @@ pnpm dev          # Dev server on http://localhost:3000
 pnpm build        # Production build
 pnpm preview      # Serve production build
 
-# Code Quality (Biome — formatter + linter)
-pnpm format       # biome check --write .
-pnpm format:check # biome check .
-pnpm lint         # biome lint .
-pnpm lint:fix     # biome lint --write .
-pnpm ci           # biome ci .
+# Code Quality (Prettier + ESLint)
+pnpm format       # prettier --write . --ignore-unknown
+pnpm format:check # prettier --check .
+pnpm lint         # eslint .
+pnpm lint:fix     # eslint . --fix
+pnpm ci           # pnpm format:check && pnpm lint
 
 # API client
 pnpm openapi      # OpenAPI → src/shared/api/@generated (NEVER edit by hand)
@@ -39,7 +39,7 @@ npx shadcn add <component>   # style: new-york, base: neutral
 - **Forms/validation**: Zod, `@use-funnel/react-router`
 - **Toast**: `sonner` (custom container)
 - **Icons**: lucide-react + SVGR (`?react` import suffix)
-- **Lint/Format**: Biome 2.2 (tabs, double quotes, LF, sortedClasses on)
+- **Lint/Format**: ESLint 9 + Prettier 3 (Tailwind class sorting enabled)
 - **Package manager**: pnpm 10+ (preinstall에서 `only-allow pnpm`로 강제)
 
 ## FSD 아키텍처
@@ -76,8 +76,8 @@ pages(4) → widgets(3) → features(2) → entities(1) → shared(0)
 
 | 진입점                    | source | 입력                                | 산출물 파일                                                   | 검증                                          |
 | ------------------------- | ------ | ----------------------------------- | ------------------------------------------------------------- | --------------------------------------------- |
-| `ai-quick`                | quick  | 즉석 자유 텍스트 ("이거 좀 고쳐줘") | 없음                                                          | 변경 파일 한정 lite (tsc + biome + FSD grep)  |
-| `ai-pipeline` / `ai-plan` | spec   | `requirements/specs/`의 REQ 문서    | `requirements/reports/{checklists,retrospects}/REQ-{번호}.md` | 전체 (tsc + biome + build + FSD + 체크리스트) |
+| `ai-quick`                | quick  | 즉석 자유 텍스트 ("이거 좀 고쳐줘") | 없음                                                          | 변경 파일 한정 lite (tsc + eslint + FSD grep) |
+| `ai-pipeline` / `ai-plan` | spec   | `requirements/specs/`의 REQ 문서    | `requirements/reports/{checklists,retrospects}/REQ-{번호}.md` | 전체 (tsc + prettier + eslint + build + FSD + 체크리스트) |
 
 승격 규칙: `ai-quick`로 시작했더라도 변경 파일이 5개를 초과하거나 cross-layer 영향이 다수 슬라이스에 전파되면 즉시 spec 모드(`ai-pipeline`)로 승격을 권유한다.
 
@@ -105,7 +105,8 @@ import { httpClient } from '../../../shared/api';
 
 ## Code Style
 
-- **Biome**: tabs / double quotes / LF / `useSortedClasses: on`
+- **Prettier**: 2 spaces / single quotes / semicolons / LF / Tailwind class sorting
+- **ESLint**: TypeScript, React, React Hooks, import ordering, Prettier conflict prevention
 - **컴포넌트**: PascalCase 파일명 (`LoginButton.tsx`), `interface {Component}Props`, **named export만** (default export 금지)
 - **그 외 함수/유틸**: kebab-case 파일명, 화살표 함수, named export
 - **Boolean**: `is*` / `has*` 접두사
@@ -131,7 +132,7 @@ import { httpClient } from '../../../shared/api';
 | `ai-quick`       | quick  | 즉석 요청 단축 경로. 계획 ceremony 없이 룰·훅만 적용, 변경 파일 한정 lite 검증 |
 | `ai-plan`        | spec   | 요구사항 분석 + 구현/리팩토링 모드 결정 + FSD 구현 계획 작성                   |
 | `ai-orchestrate` | spec   | shared → entities → features → widgets → pages 순으로 코드 작성/이전           |
-| `ai-validate`    | spec   | tsc / biome / build / FSD import 규칙 검증 + 체크리스트                        |
+| `ai-validate`    | spec   | tsc / prettier / eslint / build / FSD import 규칙 검증 + 체크리스트            |
 | `ai-deliver`     | spec   | barrel export 정리 + 커밋 메시지 제안 (직접 커밋 ✗)                            |
 | `ai-retrospect`  | spec   | 코드 리뷰 + 회고 보고서                                                        |
 | `ai-pipeline`    | spec   | 위 5단계 순차 실행                                                             |

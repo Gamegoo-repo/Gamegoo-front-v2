@@ -42,7 +42,6 @@ export default function OtherLolBtiResultCard({
     'compatibilityScore' in result ? getCompatibilityLevel(result.compatibilityScore) : null;
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div className="w-full cursor-pointer" onClick={() => onClick()}>
       {/** TODO: 제거할 것*/}
       <LolBtiCard

@@ -110,7 +110,6 @@ function RouteComponent() {
           Array.from({ length: 12 }).map((_, index) => (
             <LolBtiCardSkeleton
               key={`skeleton-${
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                 index
               }`}
             />

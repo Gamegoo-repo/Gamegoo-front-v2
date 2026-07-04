@@ -27,7 +27,6 @@ export function BottomSheet({ isOpen, onClose, title, children, halfRatio }: Bot
   return createPortal(
     <div className="fixed inset-0 touch-none" style={{ zIndex: 100 }}>
       {/* backdrop */}
-      {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <div
         data-backdrop
         className="absolute inset-0 bg-black/50"

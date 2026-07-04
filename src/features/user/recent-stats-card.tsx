@@ -37,7 +37,6 @@ export default function RecentStatsCard({ recentStats, championList }: RecentSta
         <div className="flex w-fit items-center gap-2 mobile:flex-col">
           <p className="flex items-center gap-1">
             {kdaStats.map((text, idx) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               <React.Fragment key={idx}>
                 <span
                   className={cn(
