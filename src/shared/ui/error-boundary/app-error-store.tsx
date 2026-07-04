@@ -1,15 +1,15 @@
-import type { AxiosError } from "axios";
-import { create } from "zustand";
+import type { AxiosError } from 'axios';
+import { create } from 'zustand';
 
 type State = {
-	appError: AxiosError | null;
+  appError: AxiosError | null;
 };
 
 type Action = {
-	updateAppError: (appError: State["appError"]) => void;
+  updateAppError: (appError: State['appError']) => void;
 };
 
 export const useAppErrorStore = create<State & Action>((set) => ({
-	appError: null,
-	updateAppError: (appError) => set(() => ({ appError })),
+  appError: null,
+  updateAppError: (appError) => set(() => ({ appError })),
 }));

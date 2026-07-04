@@ -1,16 +1,15 @@
 # FriendInfoResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**memberId** | **number** |  | [default to undefined]
-**name** | **string** |  | [default to undefined]
-**tag** | **string** |  | [default to undefined]
-**profileImg** | **number** |  | [default to undefined]
-**blind** | **boolean** |  | [optional] [default to undefined]
-**liked** | **boolean** |  | [optional] [default to undefined]
+| Name           | Type        | Description | Notes                             |
+| -------------- | ----------- | ----------- | --------------------------------- |
+| **memberId**   | **number**  |             | [default to undefined]            |
+| **name**       | **string**  |             | [default to undefined]            |
+| **tag**        | **string**  |             | [default to undefined]            |
+| **profileImg** | **number**  |             | [default to undefined]            |
+| **blind**      | **boolean** |             | [optional] [default to undefined] |
+| **liked**      | **boolean** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -18,12 +17,12 @@ Name | Type | Description | Notes
 import { FriendInfoResponse } from './api';
 
 const instance: FriendInfoResponse = {
-    memberId,
-    name,
-    tag,
-    profileImg,
-    blind,
-    liked,
+  memberId,
+  name,
+  tag,
+  profileImg,
+  blind,
+  liked,
 };
 ```
 

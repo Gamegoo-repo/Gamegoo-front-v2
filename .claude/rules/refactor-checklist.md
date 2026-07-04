@@ -29,14 +29,14 @@
 
 ## 1. FSD 준수 (Architecture)
 
-| 점검 항목 | 합격 기준 |
-|----------|-----------|
-| 레이어 의존 방향 | shared(0) → entities(1) → features(2) → widgets(3) → pages(4), 상향 import 0건 |
-| Cross-slice import | 같은 레이어 내 다른 슬라이스 import 0건. 공통화는 entities/shared로 강하 |
-| Segment 표준 | `model/`, `api/`, `ui/`, `lib/` 외 segment 신설 금지. 비표준 segment(`config/`, `store/`, `hooks/`, `providers/`)는 정통 위치로 이전 |
-| Barrel export | 슬라이스 외부 노출 항목은 `index.ts`를 통해서만. private 헬퍼는 export 금지 |
-| Generated 격리 | `@/shared/api/@generated/...` 직접 참조 0건. `@/shared/api`의 `api` 싱글톤만 사용 |
-| Path alias | 다른 레이어 참조는 `@/...`만. 상대 경로로 레이어 경계를 넘지 않는다 |
+| 점검 항목          | 합격 기준                                                                                                                            |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| 레이어 의존 방향   | shared(0) → entities(1) → features(2) → widgets(3) → pages(4), 상향 import 0건                                                       |
+| Cross-slice import | 같은 레이어 내 다른 슬라이스 import 0건. 공통화는 entities/shared로 강하                                                             |
+| Segment 표준       | `model/`, `api/`, `ui/`, `lib/` 외 segment 신설 금지. 비표준 segment(`config/`, `store/`, `hooks/`, `providers/`)는 정통 위치로 이전 |
+| Barrel export      | 슬라이스 외부 노출 항목은 `index.ts`를 통해서만. private 헬퍼는 export 금지                                                          |
+| Generated 격리     | `@/shared/api/@generated/...` 직접 참조 0건. `@/shared/api`의 `api` 싱글톤만 사용                                                    |
+| Path alias         | 다른 레이어 참조는 `@/...`만. 상대 경로로 레이어 경계를 넘지 않는다                                                                  |
 
 검증은 `ai-validate`의 Step 4 grep + PreToolUse 훅이 자동 수행한다.
 
@@ -71,14 +71,14 @@
 
 ## 3. 명확한 함수 (Single Responsibility)
 
-| 점검 항목 | 합격 기준 |
-|----------|-----------|
-| 단일 책임 | 함수가 두 가지 일을 동시에 하면 분리 (예: 데이터 변환 + 사이드이펙트 → 두 함수) |
-| 길이 | 50줄 초과 시 분해 검토. 100줄 초과 시 거의 항상 분해 |
-| 인자 수 | 3개 초과 시 옵션 객체 `{ a, b, c }` 패턴 |
-| 반환 타입 | 명시 — 추론에만 의존하지 않음 (서비스 함수, query 훅, 유틸 모두) |
+| 점검 항목        | 합격 기준                                                                               |
+| ---------------- | --------------------------------------------------------------------------------------- |
+| 단일 책임        | 함수가 두 가지 일을 동시에 하면 분리 (예: 데이터 변환 + 사이드이펙트 → 두 함수)         |
+| 길이             | 50줄 초과 시 분해 검토. 100줄 초과 시 거의 항상 분해                                    |
+| 인자 수          | 3개 초과 시 옵션 객체 `{ a, b, c }` 패턴                                                |
+| 반환 타입        | 명시 — 추론에만 의존하지 않음 (서비스 함수, query 훅, 유틸 모두)                        |
 | Side effect 격리 | useEffect / mutation / 로깅은 호출자에서 또는 명시적 hook에 격리. 순수 함수와 섞지 않음 |
-| 예외 흐름 | 에러를 무시하지 않음. catch 블록이 있다면 처리 또는 명시적 re-throw |
+| 예외 흐름        | 에러를 무시하지 않음. catch 블록이 있다면 처리 또는 명시적 re-throw                     |
 
 ### React 컴포넌트 함수
 
@@ -90,14 +90,14 @@
 
 ## 4. 모듈화 (Module Boundaries)
 
-| 점검 항목 | 합격 기준 |
-|----------|-----------|
-| 슬라이스 경계 | 외부 노출 표면은 `index.ts` barrel만. private 모듈은 슬라이스 내부에서만 import |
-| 도메인 응집 | 한 슬라이스가 다른 슬라이스의 내부 구현(types/lib)을 알 필요 없음 |
-| 중복 → 승격 | 두 슬라이스에서 반복되면 entities/shared로 승격. 세 번째 등장 전에 결정 |
+| 점검 항목             | 합격 기준                                                                             |
+| --------------------- | ------------------------------------------------------------------------------------- |
+| 슬라이스 경계         | 외부 노출 표면은 `index.ts` barrel만. private 모듈은 슬라이스 내부에서만 import       |
+| 도메인 응집           | 한 슬라이스가 다른 슬라이스의 내부 구현(types/lib)을 알 필요 없음                     |
+| 중복 → 승격           | 두 슬라이스에서 반복되면 entities/shared로 승격. 세 번째 등장 전에 결정               |
 | 레이어별 segment 표준 | `entities`/`features`/`widgets`/`pages`는 `{model,api,ui,lib}` 4 segment 외 추가 금지 |
-| public API 제어 | barrel에서 의도적으로 노출하지 않은 모듈은 외부에서 import 불가 (deep import 금지) |
-| 컴포넌트-로직 분리 | 비즈니스 로직은 `model/` 또는 `lib/`. UI 컴포넌트(`ui/`)는 표시·이벤트 핸들 위임만 |
+| public API 제어       | barrel에서 의도적으로 노출하지 않은 모듈은 외부에서 import 불가 (deep import 금지)    |
+| 컴포넌트-로직 분리    | 비즈니스 로직은 `model/` 또는 `lib/`. UI 컴포넌트(`ui/`)는 표시·이벤트 핸들 위임만    |
 
 ### "지금 추출할까 미룰까" 결정
 
@@ -150,5 +150,6 @@
 `ai-validate`가 green이고 위 6개 항목이 모두 합격이면 `ai-deliver`로 진행. retrospect에서 점수표(FSD 준수 / 타입 안전성 / 코드 완성도 / 에러 핸들링)에 가독성·모듈화·성능 항목을 추가하고 1~5점으로 평가한다.
 
 미달 항목은:
+
 - 같은 PR에서 고칠 수 있으면 즉시 수정
 - 범위를 넘으면 메모 → 별도 REQ 후보로 retrospect의 Action Items에 기록

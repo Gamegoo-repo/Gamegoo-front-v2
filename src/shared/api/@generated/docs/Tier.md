@@ -4,26 +4,26 @@
 
 ## Enum
 
-* `UNRANKED` (value: `'UNRANKED'`)
+- `UNRANKED` (value: `'UNRANKED'`)
 
-* `IRON` (value: `'IRON'`)
+- `IRON` (value: `'IRON'`)
 
-* `BRONZE` (value: `'BRONZE'`)
+- `BRONZE` (value: `'BRONZE'`)
 
-* `SILVER` (value: `'SILVER'`)
+- `SILVER` (value: `'SILVER'`)
 
-* `GOLD` (value: `'GOLD'`)
+- `GOLD` (value: `'GOLD'`)
 
-* `PLATINUM` (value: `'PLATINUM'`)
+- `PLATINUM` (value: `'PLATINUM'`)
 
-* `EMERALD` (value: `'EMERALD'`)
+- `EMERALD` (value: `'EMERALD'`)
 
-* `DIAMOND` (value: `'DIAMOND'`)
+- `DIAMOND` (value: `'DIAMOND'`)
 
-* `MASTER` (value: `'MASTER'`)
+- `MASTER` (value: `'MASTER'`)
 
-* `GRANDMASTER` (value: `'GRANDMASTER'`)
+- `GRANDMASTER` (value: `'GRANDMASTER'`)
 
-* `CHALLENGER` (value: `'CHALLENGER'`)
+- `CHALLENGER` (value: `'CHALLENGER'`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

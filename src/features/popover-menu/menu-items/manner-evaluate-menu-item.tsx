@@ -1,28 +1,26 @@
-import { useChatDialogStore } from "@/entities/chat";
-import type { PopoverMenuItemProps } from "../popover-menu-item";
-import { PopoverMenuItem } from "../popover-menu-item";
+import { useChatDialogStore } from '@/entities/chat';
+
+import type { PopoverMenuItemProps } from '../popover-menu-item';
+import { PopoverMenuItem } from '../popover-menu-item';
 
 interface MannerEvaluateMenuItemProps {
-	className?: string;
-	onClosePopover?: () => void;
+  className?: string;
+  onClosePopover?: () => void;
 }
 
-export function MannerEvaluateMenuItem({
-	className,
-	onClosePopover,
-}: MannerEvaluateMenuItemProps) {
-	const { openMannerModal } = useChatDialogStore();
+export function MannerEvaluateMenuItem({ className, onClosePopover }: MannerEvaluateMenuItemProps) {
+  const { openMannerModal } = useChatDialogStore();
 
-	const handleOpen = () => {
-		onClosePopover?.();
-		openMannerModal("manner");
-	};
+  const handleOpen = () => {
+    onClosePopover?.();
+    openMannerModal('manner');
+  };
 
-	const menuItemProps: PopoverMenuItemProps = {
-		text: "매너 평가",
-		onClick: handleOpen,
-		className,
-	};
+  const menuItemProps: PopoverMenuItemProps = {
+    text: '매너 평가',
+    onClick: handleOpen,
+    className,
+  };
 
-	return <PopoverMenuItem {...menuItemProps} />;
+  return <PopoverMenuItem {...menuItemProps} />;
 }

@@ -1,24 +1,23 @@
-import { Slot } from "@radix-ui/react-slot";
-import { forwardRef } from "react";
-import { cn } from "@/shared/lib/utils";
-import type { ContainerProps } from "./container.type";
-import { containerVariants } from "./container-variants";
+import { Slot } from '@radix-ui/react-slot';
+import { forwardRef } from 'react';
+
+import { cn } from '@/shared/lib/utils';
+
+import type { ContainerProps } from './container.type';
+import { containerVariants } from './container-variants';
 
 export const Container = forwardRef<HTMLDivElement, ContainerProps>(
-	({ className, size, padding, centered, asChild = false, ...props }, ref) => {
-		const Component = asChild ? Slot : "div";
+  ({ className, size, padding, centered, asChild = false, ...props }, ref) => {
+    const Component = asChild ? Slot : 'div';
 
-		return (
-			<Component
-				ref={ref}
-				className={cn(
-					containerVariants({ size, padding, centered }),
-					className,
-				)}
-				{...props}
-			/>
-		);
-	},
+    return (
+      <Component
+        ref={ref}
+        className={cn(containerVariants({ size, padding, centered }), className)}
+        {...props}
+      />
+    );
+  }
 );
 
-Container.displayName = "Container";
+Container.displayName = 'Container';

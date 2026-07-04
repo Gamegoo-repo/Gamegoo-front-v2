@@ -1,76 +1,56 @@
-import PlusIcon from "@/shared/assets/icons/ic-plus.svg?react";
-import { cn } from "@/shared/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
-import PopoverHeader from "@/shared/ui/popover/popover-header";
-import { GAME_STYLE } from "../config/game-styles";
+import PlusIcon from '@/shared/assets/icons/ic-plus.svg?react';
+import { cn } from '@/shared/lib/utils';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
+import PopoverHeader from '@/shared/ui/popover/popover-header';
+
+import { GAME_STYLE } from '../config/game-styles';
 
 export default function GameStylePopover({
-	selectedGameStyle,
-	onChangeGameStyle,
-	containerRef,
+  selectedGameStyle,
+  onChangeGameStyle,
+  containerRef,
 }: {
-	selectedGameStyle: number[];
-	onChangeGameStyle: (selectedId: number) => void;
-	containerRef?: React.RefObject<HTMLElement | null>;
+  selectedGameStyle: number[];
+  onChangeGameStyle: (selectedId: number) => void;
+  containerRef?: React.RefObject<HTMLElement | null>;
 }) {
-	return (
-		<Popover containerRef={containerRef}>
-			<PopoverTrigger asChild>
-				<button
-					type="button"
-					className="
-            flex cursor-pointer items-center justify-center rounded-full bg-white
-            h-7 w-10
-            mobile:h-8 mobile:w-12
-          "
-				>
-					<PlusIcon />
-				</button>
-			</PopoverTrigger>
+  return (
+    <Popover containerRef={containerRef}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          className="flex h-7 w-10 cursor-pointer items-center justify-center rounded-full bg-white mobile:h-8 mobile:w-12"
+        >
+          <PlusIcon />
+        </button>
+      </PopoverTrigger>
 
-			<PopoverContent
-				className="
-          popover
-          w-[calc(100vw-32px)]
-          mobile:w-[500px]
-          p-4
-          mobile:p-8
-        "
-			>
-				<div className="flex w-full flex-col gap-4 mobile:gap-7">
-					<PopoverHeader title="게임 스타일 선택 *최대 3개" />
+      <PopoverContent className="popover w-[calc(100vw-32px)] p-4 mobile:w-[500px] mobile:p-8">
+        <div className="flex w-full flex-col gap-4 mobile:gap-7">
+          <PopoverHeader title="게임 스타일 선택 *최대 3개" />
 
-					<div className="flex w-full flex-wrap gap-2">
-						{GAME_STYLE.map((item) => {
-							const isSelected = selectedGameStyle.includes(item.gameStyleId);
+          <div className="flex w-full flex-wrap gap-2">
+            {GAME_STYLE.map((item) => {
+              const isSelected = selectedGameStyle.includes(item.gameStyleId);
 
-							return (
-								<button
-									type="button"
-									key={item.gameStyleId}
-									onClick={() => onChangeGameStyle(item.gameStyleId)}
-									className={cn(
-										`
-                    cursor-pointer rounded-full border-1 border-gray-500
-                    medium-14 px-5 py-1.5
-                    mobile:text-xs mobile:px-3 mobile:py-1
-                    text-white
-                    hover:border-violet-400 hover:text-violet-300
-                  `,
-										isSelected &&
-											`
-                    border-violet-600 bg-violet-600
-                    hover:border-violet-600 hover:text-white
-                  `,
-									)}
-								>
-									{item.gameStyleName}
-								</button>
-							);
-						})}
-					</div>
-				</div>
-			</PopoverContent>
-		</Popover>
-	);
+              return (
+                <button
+                  type="button"
+                  key={item.gameStyleId}
+                  onClick={() => onChangeGameStyle(item.gameStyleId)}
+                  className={cn(
+                    `medium-14 cursor-pointer rounded-full border-1 border-gray-500 px-5 py-1.5 text-white hover:border-violet-400 hover:text-violet-300 mobile:px-3 mobile:py-1 mobile:text-xs`,
+                    isSelected &&
+                      `border-violet-600 bg-violet-600 hover:border-violet-600 hover:text-white`
+                  )}
+                >
+                  {item.gameStyleName}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
 }

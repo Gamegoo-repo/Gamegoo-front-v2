@@ -15,6 +15,7 @@ globs: src/pages/**
 ## 구조
 
 slice 단위로 조직:
+
 ```
 pages/{page-name}/
 ├── ui/       # 페이지 컴포넌트 (widgets + features + entities 조합)
@@ -47,10 +48,10 @@ pages/{page-name}/
 
 ```tsx
 // pages/board/ui/BoardPage.tsx
-import { createFileRoute } from "@tanstack/react-router";
-import { BoardView } from "@/widgets/board-view";
+import { createFileRoute } from '@tanstack/react-router';
+import { BoardView } from '@/widgets/board-view';
 
-export const Route = createFileRoute("/_header-layout/board/")({
+export const Route = createFileRoute('/_header-layout/board/')({
   component: BoardPage,
 });
 
@@ -74,8 +75,8 @@ export const BoardPage = () => {
 
 ```tsx
 // app/providers/AuthBootstrap.tsx — 부트스트랩 시점
-import { useEffect } from "react";
-import { useAuthStore } from "@/entities/auth";
+import { useEffect } from 'react';
+import { useAuthStore } from '@/entities/auth';
 
 export const AuthBootstrap = ({ children }: { children: React.ReactNode }) => {
   const setUser = useAuthStore((s) => s.setUser);
@@ -88,7 +89,7 @@ export const AuthBootstrap = ({ children }: { children: React.ReactNode }) => {
 
 ```tsx
 // pages/mypage/ui/MyPage.tsx — store에서 읽기만
-import { useAuthStore } from "@/entities/auth";
+import { useAuthStore } from '@/entities/auth';
 
 export const MyPage = () => {
   const user = useAuthStore((s) => s.user);

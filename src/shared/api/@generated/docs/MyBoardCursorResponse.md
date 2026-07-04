@@ -1,14 +1,13 @@
 # MyBoardCursorResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**myBoards** | [**Array&lt;MyBoardListResponse&gt;**](MyBoardListResponse.md) |  | [default to undefined]
-**size** | **number** |  | [default to undefined]
-**hasNext** | **boolean** |  | [default to undefined]
-**nextCursor** | **string** |  | [optional] [default to undefined]
+| Name           | Type                                                           | Description | Notes                             |
+| -------------- | -------------------------------------------------------------- | ----------- | --------------------------------- |
+| **myBoards**   | [**Array&lt;MyBoardListResponse&gt;**](MyBoardListResponse.md) |             | [default to undefined]            |
+| **size**       | **number**                                                     |             | [default to undefined]            |
+| **hasNext**    | **boolean**                                                    |             | [default to undefined]            |
+| **nextCursor** | **string**                                                     |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { MyBoardCursorResponse } from './api';
 
 const instance: MyBoardCursorResponse = {
-    myBoards,
-    size,
-    hasNext,
-    nextCursor,
+  myBoards,
+  size,
+  hasNext,
+  nextCursor,
 };
 ```
 

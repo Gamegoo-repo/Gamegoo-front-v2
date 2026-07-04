@@ -4,16 +4,16 @@
 
 ## Enum
 
-* `ANY` (value: `'ANY'`)
+- `ANY` (value: `'ANY'`)
 
-* `TOP` (value: `'TOP'`)
+- `TOP` (value: `'TOP'`)
 
-* `JUNGLE` (value: `'JUNGLE'`)
+- `JUNGLE` (value: `'JUNGLE'`)
 
-* `MID` (value: `'MID'`)
+- `MID` (value: `'MID'`)
 
-* `ADC` (value: `'ADC'`)
+- `ADC` (value: `'ADC'`)
 
-* `SUP` (value: `'SUP'`)
+- `SUP` (value: `'SUP'`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

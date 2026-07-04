@@ -1,1 +1,1 @@
-export * from "./use-match-funnel";
+export * from './use-match-funnel';

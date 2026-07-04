@@ -1,13 +1,12 @@
 # PositionRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**mainP** | [**Position**](Position.md) |  | [default to undefined]
-**subP** | [**Position**](Position.md) |  | [default to undefined]
-**wantP** | **Array&lt;string&gt;** |  | [default to undefined]
+| Name      | Type                        | Description | Notes                  |
+| --------- | --------------------------- | ----------- | ---------------------- |
+| **mainP** | [**Position**](Position.md) |             | [default to undefined] |
+| **subP**  | [**Position**](Position.md) |             | [default to undefined] |
+| **wantP** | **Array&lt;string&gt;**     |             | [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { PositionRequest } from './api';
 
 const instance: PositionRequest = {
-    mainP,
-    subP,
-    wantP,
+  mainP,
+  subP,
+  wantP,
 };
 ```
 

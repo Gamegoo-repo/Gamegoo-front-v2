@@ -1,6 +1,6 @@
 ---
 name: ai-orchestrate
-description: "Phase 2: 계획을 실행하여 정통 FSD 규칙에 맞게 코드를 작성/이전한다"
+description: 'Phase 2: 계획을 실행하여 정통 FSD 규칙에 맞게 코드를 작성/이전한다'
 ---
 
 # Phase 2: Orchestrate
@@ -8,15 +8,19 @@ description: "Phase 2: 계획을 실행하여 정통 FSD 규칙에 맞게 코드
 ## 프로젝트 컨텍스트
 
 ### FSD 규칙
+
 !`cat CLAUDE.md`
 
 ### 현재 파일 구조
+
 !`find src -type f \( -name '*.ts' -o -name '*.tsx' \) -not -path '*/@generated/*' | sort`
 
 ### TypeScript 설정
+
 !`cat tsconfig.json`
 
 ### 빌드 설정
+
 !`cat rsbuild.config.ts`
 
 ## 지시사항

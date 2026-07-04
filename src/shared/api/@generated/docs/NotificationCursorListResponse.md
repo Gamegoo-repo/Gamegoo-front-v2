@@ -1,14 +1,13 @@
 # NotificationCursorListResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**notificationList** | [**Array&lt;NotificationResponse&gt;**](NotificationResponse.md) |  | [default to undefined]
-**listSize** | **number** |  | [default to undefined]
-**hasNext** | **boolean** |  | [default to undefined]
-**nextCursor** | **number** |  | [optional] [default to undefined]
+| Name                 | Type                                                             | Description | Notes                             |
+| -------------------- | ---------------------------------------------------------------- | ----------- | --------------------------------- |
+| **notificationList** | [**Array&lt;NotificationResponse&gt;**](NotificationResponse.md) |             | [default to undefined]            |
+| **listSize**         | **number**                                                       |             | [default to undefined]            |
+| **hasNext**          | **boolean**                                                      |             | [default to undefined]            |
+| **nextCursor**       | **number**                                                       |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { NotificationCursorListResponse } from './api';
 
 const instance: NotificationCursorListResponse = {
-    notificationList,
-    listSize,
-    hasNext,
-    nextCursor,
+  notificationList,
+  listSize,
+  hasNext,
+  nextCursor,
 };
 ```
 

@@ -1,13 +1,12 @@
 # RefreshTokenResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **number** |  | [default to undefined]
-**accessToken** | **string** |  | [default to undefined]
-**refreshToken** | **string** |  | [default to undefined]
+| Name             | Type       | Description | Notes                  |
+| ---------------- | ---------- | ----------- | ---------------------- |
+| **id**           | **number** |             | [default to undefined] |
+| **accessToken**  | **string** |             | [default to undefined] |
+| **refreshToken** | **string** |             | [default to undefined] |
 
 ## Example
 
@@ -15,9 +14,9 @@ Name | Type | Description | Notes
 import { RefreshTokenResponse } from './api';
 
 const instance: RefreshTokenResponse = {
-    id,
-    accessToken,
-    refreshToken,
+  id,
+  accessToken,
+  refreshToken,
 };
 ```
 

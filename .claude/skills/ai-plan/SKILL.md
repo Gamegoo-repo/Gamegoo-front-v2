@@ -1,6 +1,6 @@
 ---
 name: ai-plan
-description: "Phase 1: 요구사항을 분석하고 Gamegoo 프로젝트의 FSD 구현 계획을 수립한다 (구현 모드 / 리팩토링 모드 분기)"
+description: 'Phase 1: 요구사항을 분석하고 Gamegoo 프로젝트의 FSD 구현 계획을 수립한다 (구현 모드 / 리팩토링 모드 분기)'
 argument-hint: <요구사항 파일명 또는 자유 텍스트>
 ---
 
@@ -9,20 +9,25 @@ argument-hint: <요구사항 파일명 또는 자유 텍스트>
 ## 현재 프로젝트 상태
 
 ### FSD 규칙
+
 !`cat CLAUDE.md`
 
 ### 현재 파일 구조
+
 !`find src -type f \( -name '*.ts' -o -name '*.tsx' \) -not -path '*/@generated/*' | sort`
 
 ### 현재 의존성
+
 !`cat package.json`
 
 ## 요구사항 소스
 
 ### in-progress 디렉토리 (현재 작업 대상)
+
 !`ls requirements/specs/in-progress/ 2>/dev/null | grep -v .gitkeep || echo "(비어 있음)"`
 
 ### to-do 디렉토리 (대기 중)
+
 !`ls requirements/specs/to-do/ 2>/dev/null | grep -v .gitkeep || echo "(비어 있음)"`
 
 ## 요구사항 입력
@@ -47,6 +52,7 @@ argument-hint: <요구사항 파일명 또는 자유 텍스트>
 **적용 조건**: 새 기능 / 새 컴포넌트 / 새 도메인 추가가 주된 목표.
 
 **원칙**:
+
 - 신규 코드는 정통 FSD 규칙(`.claude/rules/fsd-*.md`)을 그대로 따른다.
 - 기존 비표준 위치에 새 코드를 추가하지 않는다 (예: `entities/*/config/`, `entities/chat/store/`, `shared/hooks/`, `shared/providers/`, `shared/model/`).
 - 새 컴포넌트 파일은 PascalCase + named export로 작성한다 (default export 컴포넌트를 새로 만들지 않는다).
@@ -57,6 +63,7 @@ argument-hint: <요구사항 파일명 또는 자유 텍스트>
 **적용 조건**: 기존 코드를 정통 FSD 위치로 이전이 주된 목표 (도메인 변경 없음).
 
 **원칙**:
+
 - 이전 매핑(현 위치 → 목표 위치)을 plan에서 명시적으로 표 형태로 작성한다.
 - 의존 순서대로 진행: shared → entities → features → widgets → pages.
 - import 갱신은 같은 PR 안에서 모두 마친다 (lint/build green 유지).
@@ -75,20 +82,20 @@ argument-hint: <요구사항 파일명 또는 자유 텍스트>
 
 ### 빈번한 이전 매핑 참고 (refactor 모드에서 사용)
 
-| 현재 위치 (수정 대상) | 정통 위치 (목표) |
-|---------------------|----------------|
-| `entities/{slice}/config/types.ts` | `entities/{slice}/model/types.ts` |
-| `entities/{slice}/config/query-keys.ts` | `entities/{slice}/api/queryKeys.ts` |
+| 현재 위치 (수정 대상)                                       | 정통 위치 (목표)                                                   |
+| ----------------------------------------------------------- | ------------------------------------------------------------------ |
+| `entities/{slice}/config/types.ts`                          | `entities/{slice}/model/types.ts`                                  |
+| `entities/{slice}/config/query-keys.ts`                     | `entities/{slice}/api/queryKeys.ts`                                |
 | `entities/{slice}/config/{*-mock-data,stepper-colors,*}.ts` | `entities/{slice}/model/constants.ts` 또는 `entities/{slice}/lib/` |
-| `entities/chat/store/` | `entities/chat/model/chatStore.ts` |
-| `shared/hooks/` | `shared/lib/hooks/` |
-| `shared/providers/` | `app/providers/` |
-| `shared/model/use-auth.ts` | `entities/auth/model/useAuth.ts` |
-| `shared/model/responsive-context.tsx` | `shared/lib/responsive-context.tsx` |
-| `shared/lib/constants/` | `shared/config/` |
-| `shared/assets/` | `shared/ui/icons/` (또는 `shared/lib/assets/`) |
-| `src/test/` | 격리된 dev-only 디렉토리 (또는 제거) |
-| 컴포넌트 default export, kebab-case 파일명 | named export, PascalCase 파일명 |
+| `entities/chat/store/`                                      | `entities/chat/model/chatStore.ts`                                 |
+| `shared/hooks/`                                             | `shared/lib/hooks/`                                                |
+| `shared/providers/`                                         | `app/providers/`                                                   |
+| `shared/model/use-auth.ts`                                  | `entities/auth/model/useAuth.ts`                                   |
+| `shared/model/responsive-context.tsx`                       | `shared/lib/responsive-context.tsx`                                |
+| `shared/lib/constants/`                                     | `shared/config/`                                                   |
+| `shared/assets/`                                            | `shared/ui/icons/` (또는 `shared/lib/assets/`)                     |
+| `src/test/`                                                 | 격리된 dev-only 디렉토리 (또는 제거)                               |
+| 컴포넌트 default export, kebab-case 파일명                  | named export, PascalCase 파일명                                    |
 
 각 매핑은 plan에서 케이스별로 검토 — 무조건 일괄 적용하지 않는다.
 
@@ -127,6 +134,7 @@ argument-hint: <요구사항 파일명 또는 자유 텍스트>
 ```
 
 **필수 체크**: 요구사항 본문에서 아래 키워드를 검색하고, 매칭된 값은 반드시 관리 포인트 목록에 포함한다:
+
 - `"설정값으로 관리"`
 - `"관리 포인트"` / `"관리포인트"`
 - `"상수로 관리"` / `"상수로 정의"`

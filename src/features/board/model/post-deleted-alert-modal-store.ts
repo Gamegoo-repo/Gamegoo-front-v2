@@ -1,15 +1,13 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface PostDeletedAlertModal {
-	isOpen: boolean;
-	openModal: () => void;
-	closeModal: () => void;
+  isOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
 }
 
-export const usePostDeletedAlertModalState = create<PostDeletedAlertModal>(
-	(set) => ({
-		isOpen: false,
-		openModal: () => set({ isOpen: true }),
-		closeModal: () => set({ isOpen: false }),
-	}),
-);
+export const usePostDeletedAlertModalState = create<PostDeletedAlertModal>((set) => ({
+  isOpen: false,
+  openModal: () => set({ isOpen: true }),
+  closeModal: () => set({ isOpen: false }),
+}));

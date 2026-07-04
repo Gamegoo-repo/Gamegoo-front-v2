@@ -1,14 +1,13 @@
 # ChatMessageListResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**chatMessageList** | [**Array&lt;ChatMessageResponse&gt;**](ChatMessageResponse.md) |  | [default to undefined]
-**listSize** | **number** |  | [default to undefined]
-**hasNext** | **boolean** |  | [default to undefined]
-**nextCursor** | **number** |  | [optional] [default to undefined]
+| Name                | Type                                                           | Description | Notes                             |
+| ------------------- | -------------------------------------------------------------- | ----------- | --------------------------------- |
+| **chatMessageList** | [**Array&lt;ChatMessageResponse&gt;**](ChatMessageResponse.md) |             | [default to undefined]            |
+| **listSize**        | **number**                                                     |             | [default to undefined]            |
+| **hasNext**         | **boolean**                                                    |             | [default to undefined]            |
+| **nextCursor**      | **number**                                                     |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { ChatMessageListResponse } from './api';
 
 const instance: ChatMessageListResponse = {
-    chatMessageList,
-    listSize,
-    hasNext,
-    nextCursor,
+  chatMessageList,
+  listSize,
+  hasNext,
+  nextCursor,
 };
 ```
 

@@ -1,12 +1,11 @@
 # ReportProcessRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**banType** | [**BanType**](BanType.md) |  | [default to undefined]
-**processReason** | **string** |  | [optional] [default to undefined]
+| Name              | Type                      | Description | Notes                             |
+| ----------------- | ------------------------- | ----------- | --------------------------------- |
+| **banType**       | [**BanType**](BanType.md) |             | [default to undefined]            |
+| **processReason** | **string**                |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { ReportProcessRequest } from './api';
 
 const instance: ReportProcessRequest = {
-    banType,
-    processReason,
+  banType,
+  processReason,
 };
 ```
 

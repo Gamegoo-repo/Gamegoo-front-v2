@@ -1,10 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { api } from "@/shared/api";
-import type { GetLolBtiRecommendationsParams } from "@/shared/api/lolbti";
+import { useQuery } from '@tanstack/react-query';
 
-interface UseLolBtiRecommendationsOptions
-	extends GetLolBtiRecommendationsParams {
-	isAuthenticated: boolean;
+import { api } from '@/shared/api';
+import type { GetLolBtiRecommendationsParams } from '@/shared/api/lolbti';
+
+interface UseLolBtiRecommendationsOptions extends GetLolBtiRecommendationsParams {
+  isAuthenticated: boolean;
 }
 
 /**
@@ -17,16 +17,16 @@ interface UseLolBtiRecommendationsOptions
  * staleTime: 30초 (추천 데이터는 자주 변하지 않음)
  */
 export const useLolBtiRecommendations = ({
-	isAuthenticated,
-	...params
+  isAuthenticated,
+  ...params
 }: UseLolBtiRecommendationsOptions) => {
-	return useQuery({
-		queryKey: ["lolbti", "recommendations", isAuthenticated, params],
-		queryFn: () =>
-			isAuthenticated
-				? api.private.lolbti.getLolBtiRecommendations(params)
-				: api.public.lolbti.getLolBtiRecommendations(params),
-		staleTime: 30 * 1000,
-		gcTime: 60 * 1000,
-	});
+  return useQuery({
+    queryKey: ['lolbti', 'recommendations', isAuthenticated, params],
+    queryFn: () =>
+      isAuthenticated
+        ? api.private.lolbti.getLolBtiRecommendations(params)
+        : api.public.lolbti.getLolBtiRecommendations(params),
+    staleTime: 30 * 1000,
+    gcTime: 60 * 1000,
+  });
 };

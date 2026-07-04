@@ -32,6 +32,7 @@ cp requirements/TEMPLATE.md requirements/specs/to-do/REQ-001.md
 ```
 
 번호 규칙:
+
 - GitHub Issue 번호와 일치시키면 추적이 쉬움 → `REQ-157.md` (issue #157과 매핑)
 - Issue가 없는 사내 작업은 자체 일련번호 → `REQ-001`, `REQ-002`, ...
 
@@ -47,13 +48,13 @@ REQ 작성 후 다음 중 하나로 분석·계획 단계 시작:
 
 ### 3. 5단계 산출물 위치
 
-| Phase | 입력 | 산출물 |
-|-------|------|--------|
-| `ai-plan` | `specs/to-do/` 또는 `specs/in-progress/`의 REQ | (선택) `to-do → in-progress` 이동 |
-| `ai-orchestrate` | plan의 todo 체크리스트 | `src/` 코드 변경 |
-| `ai-validate` | 변경된 코드 + REQ | `reports/checklists/REQ-{번호}.md` |
-| `ai-deliver` | 모든 변경 | 커밋 메시지 제안 (직접 커밋 ✗) |
-| `ai-retrospect` | 변경된 코드 + REQ | `reports/retrospects/REQ-{번호}.md` (회차 누적) |
+| Phase            | 입력                                           | 산출물                                          |
+| ---------------- | ---------------------------------------------- | ----------------------------------------------- |
+| `ai-plan`        | `specs/to-do/` 또는 `specs/in-progress/`의 REQ | (선택) `to-do → in-progress` 이동               |
+| `ai-orchestrate` | plan의 todo 체크리스트                         | `src/` 코드 변경                                |
+| `ai-validate`    | 변경된 코드 + REQ                              | `reports/checklists/REQ-{번호}.md`              |
+| `ai-deliver`     | 모든 변경                                      | 커밋 메시지 제안 (직접 커밋 ✗)                  |
+| `ai-retrospect`  | 변경된 코드 + REQ                              | `reports/retrospects/REQ-{번호}.md` (회차 누적) |
 
 ### 4. 즉석 작업(quick 모드)
 
@@ -63,13 +64,13 @@ REQ 문서를 만들 가치가 없는 작은 수정은 `ai-quick` 사용. 산출
 
 ```yaml
 ---
-id: REQ-001                  # 파일명과 일치
+id: REQ-001 # 파일명과 일치
 title: 간결한 제목
 priority: high | medium | low
-mode: feature | refactor     # 작업 모드
-labels: [기능 정의, 매칭]      # 도메인/유형
-created: YYYY-MM-DD          # 최초 작성일 (불변)
-revised: YYYY-MM-DD          # 변경 발생 시 갱신
+mode: feature | refactor # 작업 모드
+labels: [기능 정의, 매칭] # 도메인/유형
+created: YYYY-MM-DD # 최초 작성일 (불변)
+revised: YYYY-MM-DD # 변경 발생 시 갱신
 ---
 ```
 
@@ -81,20 +82,20 @@ revised: YYYY-MM-DD          # 변경 발생 시 갱신
 
 ## 라벨 가이드 (Gamegoo 도메인)
 
-| 라벨 | 사용 |
-|------|------|
-| `기능 정의` | 새 기능 명세 |
-| `UI 정의` | 화면/컴포넌트 시안 구현 |
-| `API 연동` | OpenAPI 신규/변경 endpoint 통합 |
-| `리팩토링` | mode: refactor 동반 (FSD 이전, 정리) |
-| `성능` | 렌더·번들·네트워크 최적화 |
-| `인증` | 토큰/세션/소셜 로그인 |
-| `채팅` | socket 메시지/방 |
-| `매칭` | 듀오 매칭 흐름 |
-| `게시판` | 게시글/필터/페이지네이션 |
-| `매너` | 매너평가/리뷰 |
-| `알림` | 푸시·인앱 알림 |
-| `lol-bti` | 롤BTI 진단 |
+| 라벨        | 사용                                 |
+| ----------- | ------------------------------------ |
+| `기능 정의` | 새 기능 명세                         |
+| `UI 정의`   | 화면/컴포넌트 시안 구현              |
+| `API 연동`  | OpenAPI 신규/변경 endpoint 통합      |
+| `리팩토링`  | mode: refactor 동반 (FSD 이전, 정리) |
+| `성능`      | 렌더·번들·네트워크 최적화            |
+| `인증`      | 토큰/세션/소셜 로그인                |
+| `채팅`      | socket 메시지/방                     |
+| `매칭`      | 듀오 매칭 흐름                       |
+| `게시판`    | 게시글/필터/페이지네이션             |
+| `매너`      | 매너평가/리뷰                        |
+| `알림`      | 푸시·인앱 알림                       |
+| `lol-bti`   | 롤BTI 진단                           |
 
 라벨은 자유롭게 추가 가능. 위 표는 시작점.
 

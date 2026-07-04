@@ -5,14 +5,14 @@ import { useEffect } from 'react';
  * 모바일에서 바텀시트 뒤 페이지가 같이 스크롤되는 현상 방지.
  */
 export function usePreventScroll(isOpen: boolean) {
-    useEffect(() => {
-        if (!isOpen) return;
+  useEffect(() => {
+    if (!isOpen) return;
 
-        const prev = document.body.style.overflow;
-        document.body.style.overflow = 'hidden';
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
-        return () => {
-            document.body.style.overflow = prev;
-        };
-    }, [isOpen]);
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [isOpen]);
 }

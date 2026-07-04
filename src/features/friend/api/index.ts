@@ -1,1 +1,1 @@
-export * from "./use-friend-online";
+export * from './use-friend-online';

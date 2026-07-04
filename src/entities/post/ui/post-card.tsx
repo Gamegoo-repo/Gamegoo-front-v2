@@ -1,158 +1,129 @@
-import { Link } from "@tanstack/react-router";
-import type React from "react";
-import { useMemo } from "react";
-import { getPositionIcon } from "@/entities/game/lib/getPositionIcon";
-import { getWinRateColors } from "@/entities/game/lib/getWinRateColor";
-import ChampionStatsSection from "@/entities/game/ui/champion-stats-section";
-import PositionCard from "@/entities/game/ui/position-card";
-import RankInfo from "@/entities/game/ui/rank-info";
-import UserProfile from "@/entities/user/ui/user-profile";
-import { useBoardModalStore } from "@/features/board/model/use-board-modal-store";
-import type { BoardListResponse } from "@/shared/api";
-import { formatDateSimple } from "@/shared/lib/format-date-simple";
-import { cn } from "@/shared/lib/utils";
+import { Link } from '@tanstack/react-router';
+import type React from 'react';
+import { useMemo } from 'react';
+
+import { getPositionIcon } from '@/entities/game/lib/getPositionIcon';
+import { getWinRateColors } from '@/entities/game/lib/getWinRateColor';
+import ChampionStatsSection from '@/entities/game/ui/champion-stats-section';
+import PositionCard from '@/entities/game/ui/position-card';
+import RankInfo from '@/entities/game/ui/rank-info';
+import UserProfile from '@/entities/user/ui/user-profile';
+import { useBoardModalStore } from '@/features/board/model/use-board-modal-store';
+import type { BoardListResponse } from '@/shared/api';
+import { formatDateSimple } from '@/shared/lib/format-date-simple';
+import { cn } from '@/shared/lib/utils';
 
 export default function PostCard({
-	boardId,
-	gameName,
-	tag,
-	memberId,
-	mainP,
-	subP,
-	wantP,
-	mannerLevel,
-	bumpTime,
-	freeTier,
-	freeRank,
-	soloTier,
-	soloRank,
-	championStatsResponseList,
-	contents,
-	createdAt,
-	profileImage,
-	winRate,
-	kebabMenu,
+  boardId,
+  gameName,
+  tag,
+  memberId,
+  mainP,
+  subP,
+  wantP,
+  mannerLevel,
+  bumpTime,
+  freeTier,
+  freeRank,
+  soloTier,
+  soloRank,
+  championStatsResponseList,
+  contents,
+  createdAt,
+  profileImage,
+  winRate,
+  kebabMenu,
 }: BoardListResponse & { kebabMenu?: React.ReactNode }) {
-	const { text: textColor } = getWinRateColors(winRate || 0);
-	const { openDetailModal } = useBoardModalStore();
-	const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-		const target = e.target as HTMLElement;
-		if (target.closest("a, button, [data-no-card-open]")) return;
-		if (boardId) {
-			openDetailModal(boardId);
-		}
-	};
-	const handleCardKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		// 키보드 접근성: Enter/Space로 클릭 동작 제공
-		if (e.key !== "Enter" && e.key !== " ") return;
-		const target = e.target as HTMLElement;
-		if (target.closest("a, button, [data-no-card-open]")) return;
-		e.preventDefault();
-		if (boardId) {
-			openDetailModal(boardId);
-		}
-	};
+  const { text: textColor } = getWinRateColors(winRate || 0);
+  const { openDetailModal } = useBoardModalStore();
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('a, button, [data-no-card-open]')) return;
+    if (boardId) {
+      openDetailModal(boardId);
+    }
+  };
+  const handleCardKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    // 키보드 접근성: Enter/Space로 클릭 동작 제공
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const target = e.target as HTMLElement;
+    if (target.closest('a, button, [data-no-card-open]')) return;
+    e.preventDefault();
+    if (boardId) {
+      openDetailModal(boardId);
+    }
+  };
 
-	const mainPositionIcon = useMemo(() => getPositionIcon(mainP), [mainP]);
-	const subPositionIcon = useMemo(() => getPositionIcon(subP), [subP]);
-	const searchingPosition = useMemo(
-		() => wantP.map((pos) => getPositionIcon(pos)),
-		[wantP],
-	);
-	return (
-		<div
-			className="flex w-full cursor-pointer flex-col gap-4 rounded-lg bg-gray-100 p-4"
-			onClick={handleCardClick}
-			onKeyDown={handleCardKeyDown}
-		>
-			<div className="flex items-center justify-between">
-				<div className="flex gap-2">
-					<Link
-						to="/users/$userId"
-						params={{ userId: (memberId || 0).toString() }}
-						className="relative"
-					>
-						<UserProfile
-							id={profileImage}
-							sizeClass="w-11 h-11"
-							hasDropShadow
-						/>
+  const mainPositionIcon = useMemo(() => getPositionIcon(mainP), [mainP]);
+  const subPositionIcon = useMemo(() => getPositionIcon(subP), [subP]);
+  const searchingPosition = useMemo(() => wantP.map((pos) => getPositionIcon(pos)), [wantP]);
+  return (
+    <div
+      className="flex w-full cursor-pointer flex-col gap-4 rounded-lg bg-gray-100 p-4"
+      onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex gap-2">
+          <Link
+            to="/users/$userId"
+            params={{ userId: (memberId || 0).toString() }}
+            className="relative"
+          >
+            <UserProfile id={profileImage} sizeClass="w-11 h-11" hasDropShadow />
 
-						<span className="-translate-x-1/2 absolute bottom-0 left-1/2 inline-block translate-y-2/5 rounded-full bg-black/65 px-1.5 py-[1px] font-bold text-[9px] text-violet-300">
-							LV.{mannerLevel}
-						</span>
-					</Link>
-					<div className="flex flex-col">
-						<p className="bold-16 text-gray-800">{gameName}</p>
-						<span className="bold-12 text-gray-500">#{tag}</span>
-					</div>
-				</div>
-				{kebabMenu && <div data-no-card-open>{kebabMenu}</div>}
-			</div>
+            <span className="absolute bottom-0 left-1/2 inline-block -translate-x-1/2 translate-y-2/5 rounded-full bg-black/65 px-1.5 py-[1px] text-[9px] font-bold text-violet-300">
+              LV.{mannerLevel}
+            </span>
+          </Link>
+          <div className="flex flex-col">
+            <p className="bold-16 text-gray-800">{gameName}</p>
+            <span className="bold-12 text-gray-500">#{tag}</span>
+          </div>
+        </div>
+        {kebabMenu && <div data-no-card-open>{kebabMenu}</div>}
+      </div>
 
-			<div className="flex w-full items-center">
-				<RankInfo
-					tier={soloTier}
-					rank={soloRank}
-					label="솔로랭크"
-					variant={"card"}
-				/>
+      <div className="flex w-full items-center">
+        <RankInfo tier={soloTier} rank={soloRank} label="솔로랭크" variant={'card'} />
 
-				<div className="mx-3 h-3 border-gray-400 border-l" />
+        <div className="mx-3 h-3 border-l border-gray-400" />
 
-				<RankInfo
-					tier={freeTier}
-					rank={freeRank}
-					label="자유랭크"
-					variant={"card"}
-				/>
-			</div>
+        <RankInfo tier={freeTier} rank={freeRank} label="자유랭크" variant={'card'} />
+      </div>
 
-			<div className="flex w-full gap-2">
-				<div className="flex flex-1 justify-center gap-3 rounded-md bg-white px-5 pt-3 pb-2">
-					<PositionCard
-						size="md"
-						title="주포지션"
-						positionIcons={[mainPositionIcon]}
-					/>
-					<PositionCard
-						size="md"
-						title="부포지션"
-						positionIcons={[subPositionIcon]}
-					/>
-				</div>
+      <div className="flex w-full gap-2">
+        <div className="flex flex-1 justify-center gap-3 rounded-md bg-white px-5 pt-3 pb-2">
+          <PositionCard size="md" title="주포지션" positionIcons={[mainPositionIcon]} />
+          <PositionCard size="md" title="부포지션" positionIcons={[subPositionIcon]} />
+        </div>
 
-				<div className="flex flex-1 justify-center gap-3 rounded-md bg-white px-5 pt-3 pb-2">
-					<PositionCard
-						size="md"
-						title="내가 찾는 포지션"
-						className=""
-						positionIcons={searchingPosition}
-					/>
-				</div>
-			</div>
-			<div className="flex h-fit w-full items-center gap-2">
-				<ChampionStatsSection
-					championList={championStatsResponseList}
-					variant="board"
-				/>
-				<div className="flex flex-1 flex-col">
-					<span className="medium-11 text-gray-800">승률</span>
-					<span className={cn("bold-16", textColor)}>
-						{winRate?.toFixed(1)}%
-					</span>
-				</div>
-			</div>
+        <div className="flex flex-1 justify-center gap-3 rounded-md bg-white px-5 pt-3 pb-2">
+          <PositionCard
+            size="md"
+            title="내가 찾는 포지션"
+            className=""
+            positionIcons={searchingPosition}
+          />
+        </div>
+      </div>
+      <div className="flex h-fit w-full items-center gap-2">
+        <ChampionStatsSection championList={championStatsResponseList} variant="board" />
+        <div className="flex flex-1 flex-col">
+          <span className="medium-11 text-gray-800">승률</span>
+          <span className={cn('bold-16', textColor)}>{winRate?.toFixed(1)}%</span>
+        </div>
+      </div>
 
-			<div className="w-full">
-				{/** TODO: POST-DETAIL 모달의 컴포넌트와 css가 동일함 -> 컴포넌트화하기*/}
-				<div className="mb-1.5 rounded-md border border-gray-400 px-2.5 py-2 text-gray-700 text-xs">
-					<p className="line-clamp-2">{contents}</p>
-				</div>
-				<span className="medium-11 block text-end text-gray-500">
-					{formatDateSimple(bumpTime || createdAt)}
-				</span>
-			</div>
-		</div>
-	);
+      <div className="w-full">
+        {/** TODO: POST-DETAIL 모달의 컴포넌트와 css가 동일함 -> 컴포넌트화하기*/}
+        <div className="mb-1.5 rounded-md border border-gray-400 px-2.5 py-2 text-xs text-gray-700">
+          <p className="line-clamp-2">{contents}</p>
+        </div>
+        <span className="medium-11 block text-end text-gray-500">
+          {formatDateSimple(bumpTime || createdAt)}
+        </span>
+      </div>
+    </div>
+  );
 }

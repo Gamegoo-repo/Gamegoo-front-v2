@@ -20,13 +20,13 @@ requirements/
 
 ```yaml
 ---
-id: REQ-{번호}              # 필수. 파일명과 일치
-title: {간결한 제목}         # 필수
-priority: high|medium|low   # 필수
-labels: [라벨1, 라벨2]       # 선택
-created: YYYY-MM-DD         # 필수. 최초 작성일
-revised: YYYY-MM-DD         # 선택. 변경 발생 시에만 기록/갱신
-mode: feature|refactor      # 필수. 구현 모드 vs 리팩토링 모드
+id: REQ-{번호} # 필수. 파일명과 일치
+title: { 간결한 제목 } # 필수
+priority: high|medium|low # 필수
+labels: [라벨1, 라벨2] # 선택
+created: YYYY-MM-DD # 필수. 최초 작성일
+revised: YYYY-MM-DD # 선택. 변경 발생 시에만 기록/갱신
+mode: feature|refactor # 필수. 구현 모드 vs 리팩토링 모드
 ---
 ```
 
@@ -51,11 +51,13 @@ mode: feature|refactor      # 필수. 구현 모드 vs 리팩토링 모드
 **적용 시점**: `specs/in-progress/` 또는 `specs/done/` 상태에서 요구사항이 변경될 때. `specs/to-do/` 상태의 수정은 Changelog 불요.
 
 **기록 대상**:
+
 - 요구 항목 추가/제거/수치 변경
 - 요구 해석에 영향을 주는 문구 교체
 - 우선순위/범위 재조정
 
 **기록 불필요**:
+
 - 오타·띄어쓰기·포맷(줄바꿈, 리스트 기호) 정리
 - 라벨만 교정
 
@@ -93,13 +95,13 @@ mode: feature|refactor      # 필수. 구현 모드 vs 리팩토링 모드
 
 ## 파이프라인 단계별 연동
 
-| 단계 | 요구사항 파일 처리 |
-|------|------------------|
-| `ai-plan` | to-do → in-progress 이동 제안. `mode`(feature/refactor) 결정 |
-| `ai-orchestrate` | 본문 변경 발생 시 Changelog 초안 준비 |
-| `ai-validate` | 체크리스트 생성/갱신 (변경 항목 동기화 포함) |
-| `ai-deliver` | 요구사항 본문·Changelog·`revised` 필드 정합성 확인 후 커밋 |
-| `ai-retrospect` | 중대 변경 발생 시 회차 회고에 반영 |
+| 단계             | 요구사항 파일 처리                                           |
+| ---------------- | ------------------------------------------------------------ |
+| `ai-plan`        | to-do → in-progress 이동 제안. `mode`(feature/refactor) 결정 |
+| `ai-orchestrate` | 본문 변경 발생 시 Changelog 초안 준비                        |
+| `ai-validate`    | 체크리스트 생성/갱신 (변경 항목 동기화 포함)                 |
+| `ai-deliver`     | 요구사항 본문·Changelog·`revised` 필드 정합성 확인 후 커밋   |
+| `ai-retrospect`  | 중대 변경 발생 시 회차 회고에 반영                           |
 
 ## 금지 사항
 

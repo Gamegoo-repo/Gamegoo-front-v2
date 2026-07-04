@@ -1,8 +1,8 @@
-export type TermKey = "service" | "privacy" | "marketing";
+export type TermKey = 'service' | 'privacy' | 'marketing';
 
 export interface Term {
-	key: TermKey;
-	label: string;
-	required: boolean;
-	slug: string;
+  key: TermKey;
+  label: string;
+  required: boolean;
+  slug: string;
 }

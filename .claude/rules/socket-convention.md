@@ -22,11 +22,7 @@ shared/api/socket/
 직접 `socket.io-client`를 import하지 않는다. 항상 `@/shared/api/socket`을 통해 접근:
 
 ```ts
-import {
-  socketManager,
-  useSocketMessage,
-  SocketProvider,
-} from "@/shared/api/socket";
+import { socketManager, useSocketMessage, SocketProvider } from '@/shared/api/socket';
 ```
 
 ## 2. 이벤트 수신 — `useSocketMessage`
@@ -34,11 +30,11 @@ import {
 컴포넌트 내부에서:
 
 ```tsx
-import { useSocketMessage } from "@/shared/api/socket";
+import { useSocketMessage } from '@/shared/api/socket';
 
 export const FriendList = () => {
-  useSocketMessage("friend-online", (data) => {
-    console.log("Online:", data);
+  useSocketMessage('friend-online', (data) => {
+    console.log('Online:', data);
   });
   return <div>...</div>;
 };
@@ -49,10 +45,10 @@ export const FriendList = () => {
 ## 3. 이벤트 송신
 
 ```ts
-import { socketManager } from "@/shared/api/socket";
+import { socketManager } from '@/shared/api/socket';
 
 if (socketManager.connected) {
-  socketManager.send("send-message", { roomId, content });
+  socketManager.send('send-message', { roomId, content });
 }
 ```
 
@@ -70,12 +66,12 @@ if (socketManager.connected) {
 
 ```ts
 // features/chat/api/useChatroomUpdateHandler.ts
-import { useSocketMessage } from "@/shared/api/socket";
-import { useChatStore } from "@/entities/chat";
+import { useSocketMessage } from '@/shared/api/socket';
+import { useChatStore } from '@/entities/chat';
 
 export const useChatroomUpdateHandler = () => {
   const setRooms = useChatStore((s) => s.setRooms);
-  useSocketMessage("chatroom-update", (rooms) => {
+  useSocketMessage('chatroom-update', (rooms) => {
     setRooms(rooms);
   });
 };
@@ -93,9 +89,9 @@ export const useChatroomUpdateHandler = () => {
 
 브라우저 콘솔의 prefix:
 
-| Prefix | 의미 |
-|--------|------|
-| 🔌 | 연결 시도 / 상태 변경 |
-| 🟢 / 🔴 | 온라인/오프라인 |
-| 📊 | 상태 변경 |
-| 🔧 | 이벤트 리스너 등록/해제 |
+| Prefix  | 의미                    |
+| ------- | ----------------------- |
+| 🔌      | 연결 시도 / 상태 변경   |
+| 🟢 / 🔴 | 온라인/오프라인         |
+| 📊      | 상태 변경               |
+| 🔧      | 이벤트 리스너 등록/해제 |

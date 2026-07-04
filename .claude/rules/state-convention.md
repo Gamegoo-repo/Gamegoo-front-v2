@@ -12,7 +12,7 @@ globs: src/**/model/**
 
 ```ts
 // entities/chat-session/model/chatSessionStore.ts
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface ChatSessionState {
   sessions: ChatSession[];
@@ -31,12 +31,12 @@ export const useChatSessionStore = create<ChatSessionState>((set) => ({
 
 ## 2. 네이밍 규칙
 
-| 항목 | 규칙 | 예시 |
-|------|------|------|
-| Store 훅 | `use{SliceName}Store` | `useChatSessionStore` |
-| 파일명 | `{sliceName}Store.ts` | `chatSessionStore.ts` |
-| State 인터페이스 | `{SliceName}State` | `ChatSessionState` |
-| Action 함수 | `set{Property}`, `reset{Property}`, `{verb}{Entity}` | `setSessions`, `resetFilters`, `addMessage` |
+| 항목             | 규칙                                                 | 예시                                        |
+| ---------------- | ---------------------------------------------------- | ------------------------------------------- |
+| Store 훅         | `use{SliceName}Store`                                | `useChatSessionStore`                       |
+| 파일명           | `{sliceName}Store.ts`                                | `chatSessionStore.ts`                       |
+| State 인터페이스 | `{SliceName}State`                                   | `ChatSessionState`                          |
+| Action 함수      | `set{Property}`, `reset{Property}`, `{verb}{Entity}` | `setSessions`, `resetFilters`, `addMessage` |
 
 ## 3. Selector 패턴
 
@@ -54,13 +54,13 @@ const store = useChatSessionStore();
 여러 값을 함께 사용할 때는 `useShallow` 사용:
 
 ```ts
-import { useShallow } from "zustand/react/shallow";
+import { useShallow } from 'zustand/react/shallow';
 
 const { sessions, activeSessionId } = useChatSessionStore(
   useShallow((state) => ({
     sessions: state.sessions,
     activeSessionId: state.activeSessionId,
-  })),
+  }))
 );
 ```
 
@@ -69,8 +69,8 @@ const { sessions, activeSessionId } = useChatSessionStore(
 중첩 객체 업데이트 시 immer 미들웨어 사용:
 
 ```ts
-import { create } from "zustand";
-import { immer } from "zustand/middleware/immer";
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
 
 export const useChatStore = create<ChatState>()(
   immer((set) => ({
@@ -84,18 +84,18 @@ export const useChatStore = create<ChatState>()(
         const msg = state.messages.find((m) => m.id === id);
         if (msg) msg.content = content;
       }),
-  })),
+  }))
 );
 ```
 
 ## 5. FSD 배치 규칙
 
-| 위치 | 용도 |
-|------|------|
-| `shared/lib/` | Zustand 유틸리티 (커스텀 미들웨어, devtools 설정 등) |
-| `entities/*/model/` | 엔티티 단위 store (도메인 데이터 상태) |
-| `features/*/model/` | 기능 단위 store (UI 인터랙션 상태) |
-| `widgets/*/model/` | 위젯 수준 store (필요 시에만, 최소화) |
+| 위치                | 용도                                                 |
+| ------------------- | ---------------------------------------------------- |
+| `shared/lib/`       | Zustand 유틸리티 (커스텀 미들웨어, devtools 설정 등) |
+| `entities/*/model/` | 엔티티 단위 store (도메인 데이터 상태)               |
+| `features/*/model/` | 기능 단위 store (UI 인터랙션 상태)                   |
+| `widgets/*/model/`  | 위젯 수준 store (필요 시에만, 최소화)                |
 
 - store 정의는 **model/ 세그먼트에만** 위치
 - ui/ 세그먼트에서 store를 import하여 사용

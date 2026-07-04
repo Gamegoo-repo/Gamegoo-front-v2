@@ -1,12 +1,11 @@
 # MannerKeywordResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**mannerKeywordId** | **number** |  | [default to undefined]
-**count** | **number** |  | [default to undefined]
+| Name                | Type       | Description | Notes                  |
+| ------------------- | ---------- | ----------- | ---------------------- |
+| **mannerKeywordId** | **number** |             | [default to undefined] |
+| **count**           | **number** |             | [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { MannerKeywordResponse } from './api';
 
 const instance: MannerKeywordResponse = {
-    mannerKeywordId,
-    count,
+  mannerKeywordId,
+  count,
 };
 ```
 

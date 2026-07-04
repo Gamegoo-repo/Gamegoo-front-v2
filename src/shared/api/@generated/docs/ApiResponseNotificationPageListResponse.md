@@ -1,14 +1,13 @@
 # ApiResponseNotificationPageListResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**status** | **number** |  | [default to undefined]
-**message** | **string** |  | [default to undefined]
-**code** | **string** |  | [optional] [default to undefined]
-**data** | [**NotificationPageListResponse**](NotificationPageListResponse.md) |  | [optional] [default to undefined]
+| Name        | Type                                                                | Description | Notes                             |
+| ----------- | ------------------------------------------------------------------- | ----------- | --------------------------------- |
+| **status**  | **number**                                                          |             | [default to undefined]            |
+| **message** | **string**                                                          |             | [default to undefined]            |
+| **code**    | **string**                                                          |             | [optional] [default to undefined] |
+| **data**    | [**NotificationPageListResponse**](NotificationPageListResponse.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { ApiResponseNotificationPageListResponse } from './api';
 
 const instance: ApiResponseNotificationPageListResponse = {
-    status,
-    message,
-    code,
-    data,
+  status,
+  message,
+  code,
+  data,
 };
 ```
 

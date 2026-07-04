@@ -1,12 +1,11 @@
 # RiotJoinRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**puuid** | **string** |  | [default to undefined]
-**isAgree** | **boolean** |  | [default to undefined]
+| Name        | Type        | Description | Notes                  |
+| ----------- | ----------- | ----------- | ---------------------- |
+| **puuid**   | **string**  |             | [default to undefined] |
+| **isAgree** | **boolean** |             | [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { RiotJoinRequest } from './api';
 
 const instance: RiotJoinRequest = {
-    puuid,
-    isAgree,
+  puuid,
+  isAgree,
 };
 ```
 

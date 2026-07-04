@@ -1,14 +1,13 @@
 # BlockedMemberResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**memberId** | **number** |  | [default to undefined]
-**profileImg** | **number** |  | [default to undefined]
-**name** | **string** |  | [default to undefined]
-**blind** | **boolean** |  | [optional] [default to undefined]
+| Name           | Type        | Description | Notes                             |
+| -------------- | ----------- | ----------- | --------------------------------- |
+| **memberId**   | **number**  |             | [default to undefined]            |
+| **profileImg** | **number**  |             | [default to undefined]            |
+| **name**       | **string**  |             | [default to undefined]            |
+| **blind**      | **boolean** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { BlockedMemberResponse } from './api';
 
 const instance: BlockedMemberResponse = {
-    memberId,
-    profileImg,
-    name,
-    blind,
+  memberId,
+  profileImg,
+  name,
+  blind,
 };
 ```
 

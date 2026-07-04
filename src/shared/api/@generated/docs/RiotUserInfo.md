@@ -1,12 +1,11 @@
 # RiotUserInfo
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**gamename** | **string** |  | [optional] [default to undefined]
-**tag** | **string** |  | [optional] [default to undefined]
+| Name         | Type       | Description | Notes                             |
+| ------------ | ---------- | ----------- | --------------------------------- |
+| **gamename** | **string** |             | [optional] [default to undefined] |
+| **tag**      | **string** |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { RiotUserInfo } from './api';
 
 const instance: RiotUserInfo = {
-    gamename,
-    tag,
+  gamename,
+  tag,
 };
 ```
 

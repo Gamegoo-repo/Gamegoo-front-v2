@@ -58,23 +58,23 @@ import { cn } from "@/shared/lib/utils";
 ## CVA 예 (variant가 많은 경우)
 
 ```ts
-import { cva } from "class-variance-authority";
+import { cva } from 'class-variance-authority';
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium",
+  'inline-flex items-center justify-center rounded-md text-sm font-medium',
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        outline: "border border-input bg-background hover:bg-accent",
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+        outline: 'border border-input bg-background hover:bg-accent',
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 px-3",
-        lg: "h-11 px-8",
+        default: 'h-10 px-4 py-2',
+        sm: 'h-9 px-3',
+        lg: 'h-11 px-8',
       },
     },
-    defaultVariants: { variant: "default", size: "default" },
-  },
+    defaultVariants: { variant: 'default', size: 'default' },
+  }
 );
 ```

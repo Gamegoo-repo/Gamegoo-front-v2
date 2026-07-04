@@ -1,31 +1,29 @@
-import { useRouter } from "@tanstack/react-router";
+import { useRouter } from '@tanstack/react-router';
 
 export default function Page404Component() {
-	const router = useRouter();
+  const router = useRouter();
 
-	const handleGoBack = () => {
-		router.history.back();
-	};
-	return (
-		<div className="flex w-screen h-screen">
-			<section className="flex flex-col items-center mobile:items-start ml-auto mobile:ml-[251px] my-auto mobile:mt-[315px] mobile:mb-0">
-				<img
-					alt={"404 에러"}
-					src={"/assets/icons/404-error.svg"}
-					className="w-[80%] mobile:w-[388px] pb-2 mobile:pb-3"
-				/>
-				<h2 className="font-bold text-2xl mobile:text-[32px] text-gray-700">
-					Page not found
-				</h2>
+  const handleGoBack = () => {
+    router.history.back();
+  };
+  return (
+    <div className="flex h-screen w-screen">
+      <section className="my-auto ml-auto flex flex-col items-center mobile:mt-[315px] mobile:mb-0 mobile:ml-[251px] mobile:items-start">
+        <img
+          alt={'404 에러'}
+          src={'/assets/icons/404-error.svg'}
+          className="w-[80%] pb-2 mobile:w-[388px] mobile:pb-3"
+        />
+        <h2 className="text-2xl font-bold text-gray-700 mobile:text-[32px]">Page not found</h2>
 
-				<button
-					type="button"
-					onClick={handleGoBack}
-					className="mt-[110px] bg-violet-100 border border-violet-600 px-20 py-4 text-gray-800 medium-16 rounded-2xl cursor-pointer"
-				>
-					뒤로가기
-				</button>
-			</section>
-		</div>
-	);
+        <button
+          type="button"
+          onClick={handleGoBack}
+          className="medium-16 mt-[110px] cursor-pointer rounded-2xl border border-violet-600 bg-violet-100 px-20 py-4 text-gray-800"
+        >
+          뒤로가기
+        </button>
+      </section>
+    </div>
+  );
 }

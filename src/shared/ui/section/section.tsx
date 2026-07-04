@@ -1,42 +1,37 @@
-import * as React from "react";
-import { cn } from "@/shared/lib/utils";
-import { Container } from "../container";
-import type { SectionProps } from "./section.type";
-import { sectionVariants } from "./sectionVariants";
+import * as React from 'react';
+
+import { cn } from '@/shared/lib/utils';
+
+import { Container } from '../container';
+import type { SectionProps } from './section.type';
+import { sectionVariants } from './sectionVariants';
 
 export const Section = React.forwardRef<HTMLElement, SectionProps>(
-	(
-		{
-			children,
-			padding = "md",
-			background = "transparent",
-			fullWidth = false,
-			containerSize = "xl",
-			noContainer = false,
-			className,
-			...rest
-		},
-		ref,
-	) => {
-		const content = noContainer ? (
-			children
-		) : (
-			<Container size={containerSize}>{children}</Container>
-		);
+  (
+    {
+      children,
+      padding = 'md',
+      background = 'transparent',
+      fullWidth = false,
+      containerSize = 'xl',
+      noContainer = false,
+      className,
+      ...rest
+    },
+    ref
+  ) => {
+    const content = noContainer ? children : <Container size={containerSize}>{children}</Container>;
 
-		return (
-			<section
-				ref={ref}
-				className={cn(
-					sectionVariants({ padding, background, fullWidth }),
-					className,
-				)}
-				{...rest}
-			>
-				{content}
-			</section>
-		);
-	},
+    return (
+      <section
+        ref={ref}
+        className={cn(sectionVariants({ padding, background, fullWidth }), className)}
+        {...rest}
+      >
+        {content}
+      </section>
+    );
+  }
 );
 
-Section.displayName = "Section";
+Section.displayName = 'Section';

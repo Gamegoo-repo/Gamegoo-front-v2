@@ -7,7 +7,7 @@
 Socket 시스템은 **싱글톤 패턴**을 기반으로 다음과 같은 기능을 제공합니다:
 
 - 🏗️ **싱글톤 아키텍처**: 전역에서 단일 소켓 인스턴스 관리
-- 🔐 **토큰 기반 인증**: JWT 토큰을 통한 안전한 소켓 연결  
+- 🔐 **토큰 기반 인증**: JWT 토큰을 통한 안전한 소켓 연결
 - 🔄 **스마트 재연결**: 불필요한 재연결을 방지하는 지능형 로직
 - 🔑 **토큰 갱신**: 토큰 만료 시 자동 재인증 처리
 - 🧹 **메모리 관리**: 자동 이벤트 리스너 정리로 메모리 누수 방지
@@ -37,7 +37,7 @@ src/shared/api/socket/
    - 중앙화된 이벤트 관리
    - 연결 상태 추적 및 제어
 
-2. **GamegooSocket** - `socket.ts`  
+2. **GamegooSocket** - `socket.ts`
    - Socket.io 래퍼 클래스
    - 인증, 재연결, 하트비트 로직
 
@@ -77,12 +77,12 @@ function App() {
 ### 2. 컴포넌트에서 사용 (싱글톤 기반)
 
 ```tsx
-import { 
-  useSocketStatus, 
-  useSocketSend, 
+import {
+  useSocketStatus,
+  useSocketSend,
   useSocketMessage,
   SocketReadyState,
-  socketManager
+  socketManager,
 } from '@/shared/api/socket';
 
 function ChatComponent() {
@@ -101,9 +101,9 @@ function ChatComponent() {
   });
 
   const sendMessage = () => {
-    send('chat_message', { 
+    send('chat_message', {
       text: 'Hello World!',
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   };
 
@@ -111,16 +111,10 @@ function ChatComponent() {
     <div>
       <div>연결 상태: {stateLabel}</div>
       <div>연결됨: {isConnected ? '예' : '아니오'}</div>
-      
-      {readyState === SocketReadyState.OPEN && (
-        <button onClick={sendMessage}>
-          메시지 보내기
-        </button>
-      )}
-      
-      <button onClick={checkConnection}>
-        🔍 연결 정보 확인
-      </button>
+
+      {readyState === SocketReadyState.OPEN && <button onClick={sendMessage}>메시지 보내기</button>}
+
+      <button onClick={checkConnection}>🔍 연결 정보 확인</button>
     </div>
   );
 }
@@ -133,16 +127,16 @@ function ChatComponent() {
 ```tsx
 interface SocketProviderProps {
   children: React.ReactNode;
-  endpoint: string;                                    // WebSocket 서버 URL
-  enabled?: boolean;                                   // 소켓 활성화 여부 (기본: true)
-  tokenProvider?: () => Promise<string>;               // 토큰 제공 함수
-  authData?: SocketAuthData;                          // 직접 인증 데이터 제공
-  options?: SocketOptions;                            // 소켓 옵션
-  onSocketOpen?: () => void;                          // 연결 성공 콜백
-  onSocketClose?: (reason: string) => void;           // 연결 종료 콜백
-  onSocketError?: (error: Error) => void;             // 오류 콜백
-  onSocketReconnect?: (attempt: number) => void;      // 재연결 성공 콜백
-  onSocketReconnectFailed?: () => void;               // 재연결 실패 콜백
+  endpoint: string; // WebSocket 서버 URL
+  enabled?: boolean; // 소켓 활성화 여부 (기본: true)
+  tokenProvider?: () => Promise<string>; // 토큰 제공 함수
+  authData?: SocketAuthData; // 직접 인증 데이터 제공
+  options?: SocketOptions; // 소켓 옵션
+  onSocketOpen?: () => void; // 연결 성공 콜백
+  onSocketClose?: (reason: string) => void; // 연결 종료 콜백
+  onSocketError?: (error: Error) => void; // 오류 콜백
+  onSocketReconnect?: (attempt: number) => void; // 재연결 성공 콜백
+  onSocketReconnectFailed?: () => void; // 재연결 실패 콜백
 }
 ```
 
@@ -150,10 +144,10 @@ interface SocketProviderProps {
 
 ```tsx
 interface SocketOptions {
-  maxReconnectAttempts?: number;    // 최대 재연결 시도 횟수 (기본: 5)
-  reconnectDelay?: number;          // 재연결 지연 시간 (기본: 3000ms)
-  heartbeatInterval?: number;       // 하트비트 간격 (기본: 30000ms)
-  heartbeatTimeout?: number;        // 하트비트 타임아웃 (기본: 5000ms)
+  maxReconnectAttempts?: number; // 최대 재연결 시도 횟수 (기본: 5)
+  reconnectDelay?: number; // 재연결 지연 시간 (기본: 3000ms)
+  heartbeatInterval?: number; // 하트비트 간격 (기본: 30000ms)
+  heartbeatTimeout?: number; // 하트비트 타임아웃 (기본: 5000ms)
 }
 ```
 
@@ -161,10 +155,10 @@ interface SocketOptions {
 
 ```tsx
 enum SocketReadyState {
-  CONNECTING = 0,  // 연결 중
-  OPEN = 1,        // 연결됨
-  CLOSING = 2,     // 연결 종료 중
-  CLOSED = 3,      // 연결 끊어짐
+  CONNECTING = 0, // 연결 중
+  OPEN = 1, // 연결됨
+  CLOSING = 2, // 연결 종료 중
+  CLOSED = 3, // 연결 끊어짐
 }
 ```
 
@@ -176,14 +170,14 @@ enum SocketReadyState {
 
 ```tsx
 const {
-  readyState,        // SocketReadyState enum
-  stateLabel,        // 한국어 상태 레이블
-  isConnecting,      // 연결 중 여부
-  isOpen,           // 연결 완료 여부
-  isClosing,        // 연결 종료 중 여부
-  isClosed,         // 연결 끊어짐 여부
-  isConnected,      // 연결됨 여부 (isOpen과 동일)
-  reconnectAttempts // 현재 재연결 시도 횟수
+  readyState, // SocketReadyState enum
+  stateLabel, // 한국어 상태 레이블
+  isConnecting, // 연결 중 여부
+  isOpen, // 연결 완료 여부
+  isClosing, // 연결 종료 중 여부
+  isClosed, // 연결 끊어짐 여부
+  isConnected, // 연결됨 여부 (isOpen과 동일)
+  reconnectAttempts, // 현재 재연결 시도 횟수
 } = useSocketStatus();
 ```
 
@@ -288,12 +282,9 @@ const tokenProvider = async (): Promise<string> => {
   return token;
 };
 
-<SocketProvider
-  endpoint="ws://localhost:3001"
-  tokenProvider={tokenProvider}
->
+<SocketProvider endpoint="ws://localhost:3001" tokenProvider={tokenProvider}>
   <App />
-</SocketProvider>
+</SocketProvider>;
 ```
 
 ### 2. 직접 인증 데이터 제공
@@ -301,15 +292,12 @@ const tokenProvider = async (): Promise<string> => {
 ```tsx
 const authData = {
   token: 'your-jwt-token',
-  userId: 'user123'
+  userId: 'user123',
 };
 
-<SocketProvider
-  endpoint="ws://localhost:3001"
-  authData={authData}
->
+<SocketProvider endpoint="ws://localhost:3001" authData={authData}>
   <App />
-</SocketProvider>
+</SocketProvider>;
 ```
 
 ### 3. 조건부 소켓 활성화
@@ -317,13 +305,9 @@ const authData = {
 ```tsx
 const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-<SocketProvider
-  endpoint="ws://localhost:3001"
-  enabled={isLoggedIn}
-  tokenProvider={getToken}
->
+<SocketProvider endpoint="ws://localhost:3001" enabled={isLoggedIn} tokenProvider={getToken}>
   <App />
-</SocketProvider>
+</SocketProvider>;
 ```
 
 ### 4. 커스텀 옵션 설정
@@ -336,13 +320,9 @@ const socketOptions = {
   heartbeatTimeout: 10000,
 };
 
-<SocketProvider
-  endpoint="ws://localhost:3001"
-  options={socketOptions}
-  tokenProvider={getToken}
->
+<SocketProvider endpoint="ws://localhost:3001" options={socketOptions} tokenProvider={getToken}>
   <App />
-</SocketProvider>
+</SocketProvider>;
 ```
 
 ## 🎨 실제 사용 사례
@@ -358,7 +338,7 @@ function ChatRoom() {
 
   // 새 메시지 수신
   useSocketMessage('chat_message', (message) => {
-    setMessages(prev => [...prev, message]);
+    setMessages((prev) => [...prev, message]);
   });
 
   // 사용자 입장/퇴장 알림
@@ -374,7 +354,7 @@ function ChatRoom() {
     if (newMessage.trim() && isConnected) {
       send('chat_message', {
         text: newMessage,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
       setNewMessage('');
     }
@@ -383,21 +363,21 @@ function ChatRoom() {
   return (
     <div>
       <div>상태: {stateLabel}</div>
-      
+
       <div className="messages">
         {messages.map((msg, idx) => (
           <div key={idx}>{msg.text}</div>
         ))}
       </div>
-      
+
       <input
         value={newMessage}
         onChange={(e) => setNewMessage(e.target.value)}
         onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
         disabled={!isConnected}
-        placeholder={isConnected ? "메시지 입력..." : "연결 중..."}
+        placeholder={isConnected ? '메시지 입력...' : '연결 중...'}
       />
-      
+
       <button onClick={sendMessage} disabled={!isConnected}>
         전송
       </button>
@@ -413,17 +393,17 @@ function NotificationSystem() {
   const [notifications, setNotifications] = useState([]);
 
   useSocketMessage('notification', (notification) => {
-    setNotifications(prev => [notification, ...prev.slice(0, 4)]);
-    
+    setNotifications((prev) => [notification, ...prev.slice(0, 4)]);
+
     // 5초 후 알림 제거
     setTimeout(() => {
-      setNotifications(prev => prev.filter(n => n.id !== notification.id));
+      setNotifications((prev) => prev.filter((n) => n.id !== notification.id));
     }, 5000);
   });
 
   return (
     <div className="notification-container">
-      {notifications.map(notification => (
+      {notifications.map((notification) => (
         <div key={notification.id} className="notification">
           {notification.message}
         </div>
@@ -458,7 +438,7 @@ function MatchingSystem() {
   const startMatching = () => {
     send('start_matching', {
       gameMode: 'ranked',
-      region: 'kr'
+      region: 'kr',
     });
   };
 
@@ -469,19 +449,15 @@ function MatchingSystem() {
 
   return (
     <div>
-      {!isMatching && !matchFound && (
-        <button onClick={startMatching}>
-          매칭 시작
-        </button>
-      )}
-      
+      {!isMatching && !matchFound && <button onClick={startMatching}>매칭 시작</button>}
+
       {isMatching && (
         <div>
           <div>매칭 중...</div>
           <button onClick={cancelMatching}>매칭 취소</button>
         </div>
       )}
-      
+
       {matchFound && (
         <div>
           <h3>매칭 완료!</h3>
@@ -500,13 +476,8 @@ function MatchingSystem() {
 
 ```tsx
 function SocketDebugInfo() {
-  const { 
-    readyState, 
-    stateLabel, 
-    reconnectAttempts,
-    isConnected 
-  } = useSocketStatus();
-  
+  const { readyState, stateLabel, reconnectAttempts, isConnected } = useSocketStatus();
+
   const { socket } = useSocket();
 
   useSocketConnectionEvents({
@@ -518,16 +489,18 @@ function SocketDebugInfo() {
   });
 
   return (
-    <div style={{ 
-      position: 'fixed', 
-      top: 10, 
-      right: 10, 
-      background: 'rgba(0,0,0,0.8)', 
-      color: 'white', 
-      padding: '10px',
-      borderRadius: '5px',
-      fontSize: '12px'
-    }}>
+    <div
+      style={{
+        position: 'fixed',
+        top: 10,
+        right: 10,
+        background: 'rgba(0,0,0,0.8)',
+        color: 'white',
+        padding: '10px',
+        borderRadius: '5px',
+        fontSize: '12px',
+      }}
+    >
       <div>상태: {stateLabel}</div>
       <div>코드: {readyState}</div>
       <div>연결: {isConnected ? '예' : '아니오'}</div>
@@ -566,7 +539,7 @@ function SocketDebugInfo() {
 ### 🚫 하지 말아야 할 것
 
 1. **직접 소켓 생성**: `new GamegooSocket()` 대신 `socketManager` 사용
-2. **수동 이벤트 등록**: `socket.on()` 대신 `useSocketMessage()` 사용  
+2. **수동 이벤트 등록**: `socket.on()` 대신 `useSocketMessage()` 사용
 3. **Provider 다중 생성**: 애플리케이션 루트에서 한 번만 생성
 
 ### ✅ 권장 사항
@@ -584,7 +557,7 @@ function SocketDebugInfo() {
 ### 📋 체크리스트
 
 - [ ] `useSocketMessage`를 사용해 이벤트 리스너 등록
-- [ ] 컴포넌트 언마운트시 자동 정리 확인  
+- [ ] 컴포넌트 언마운트시 자동 정리 확인
 - [ ] `socketManager.connected` 확인 후 메시지 전송
 - [ ] Provider는 애플리케이션 루트에서 한 번만 사용
 - [ ] 디버깅시 브라우저 콘솔 로그 확인

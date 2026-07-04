@@ -1,12 +1,11 @@
 # MatchingFoundResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**myMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |  | [default to undefined]
-**targetMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |  | [default to undefined]
+| Name                   | Type                                                            | Description | Notes                  |
+| ---------------------- | --------------------------------------------------------------- | ----------- | ---------------------- |
+| **myMatchingInfo**     | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |             | [default to undefined] |
+| **targetMatchingInfo** | [**MatchingMemberInfoResponse**](MatchingMemberInfoResponse.md) |             | [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { MatchingFoundResponse } from './api';
 
 const instance: MatchingFoundResponse = {
-    myMatchingInfo,
-    targetMatchingInfo,
+  myMatchingInfo,
+  targetMatchingInfo,
 };
 ```
 

@@ -1,49 +1,45 @@
-import { useEffect, useState } from "react";
-import { toastEventManager } from "./event-manager";
-import {
-	TOAST_EVENT,
-	type ToastArgs,
-	type ToastMessage,
-	type ToastOptions,
-} from "./types";
+import { useEffect, useState } from 'react';
+
+import { toastEventManager } from './event-manager';
+import { TOAST_EVENT, type ToastArgs, type ToastMessage, type ToastOptions } from './types';
 
 const DEFAULT_TIME = 3000;
 
 export const useToast = () => {
-	const [currentToast, setCurrentToast] = useState<ToastArgs | null>(null);
+  const [currentToast, setCurrentToast] = useState<ToastArgs | null>(null);
 
-	const showToast = (message: ToastMessage, options: ToastOptions) => {
-		setCurrentToast({ message, options });
-	};
+  const showToast = (message: ToastMessage, options: ToastOptions) => {
+    setCurrentToast({ message, options });
+  };
 
-	const closeToast = () => {
-		setCurrentToast(null);
-	};
+  const closeToast = () => {
+    setCurrentToast(null);
+  };
 
-	const setAutoCloseTimer = () => {
-		if (!currentToast) return;
+  const setAutoCloseTimer = () => {
+    if (!currentToast) return;
 
-		const showingTime = currentToast.options.showingTime || DEFAULT_TIME;
-		const timer = setTimeout(() => setCurrentToast(null), showingTime);
+    const showingTime = currentToast.options.showingTime || DEFAULT_TIME;
+    const timer = setTimeout(() => setCurrentToast(null), showingTime);
 
-		return () => clearTimeout(timer);
-	};
+    return () => clearTimeout(timer);
+  };
 
-	useEffect(() => {
-		if (currentToast?.options.isAutoClosed) setAutoCloseTimer();
+  useEffect(() => {
+    if (currentToast?.options.isAutoClosed) setAutoCloseTimer();
 
-		return;
-	}, [currentToast]);
+    return;
+  }, [currentToast]);
 
-	useEffect(() => {
-		toastEventManager.addEventHandler({
-			eventType: TOAST_EVENT.show,
-			callback: showToast,
-		});
-	}, []);
+  useEffect(() => {
+    toastEventManager.addEventHandler({
+      eventType: TOAST_EVENT.show,
+      callback: showToast,
+    });
+  }, []);
 
-	return {
-		currentToast,
-		closeToast,
-	};
+  return {
+    currentToast,
+    closeToast,
+  };
 };

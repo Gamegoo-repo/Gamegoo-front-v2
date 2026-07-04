@@ -8,217 +8,212 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './../../../pages/__root'
-import { Route as TestLoginRouteImport } from './../../../pages/test-login'
-import { Route as AboutRouteImport } from './../../../pages/about'
-import { Route as HeaderLayoutRouteRouteImport } from './../../../pages/_header-layout/route'
-import { Route as RiotIndexRouteImport } from './../../../pages/riot/index'
-import { Route as HeaderLayoutIndexRouteImport } from './../../../pages/_header-layout/index'
-import { Route as SignUpTermsRouteImport } from './../../../pages/sign-up/terms'
-import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback'
-import { Route as LolbtiTestRouteImport } from './../../../pages/lolbti.test'
-import { Route as HeaderLayoutMypageRouteRouteImport } from './../../../pages/_header-layout/mypage/route'
-import { Route as HeaderLayoutPolicyIndexRouteImport } from './../../../pages/_header-layout/policy/index'
-import { Route as HeaderLayoutMypageIndexRouteImport } from './../../../pages/_header-layout/mypage/index'
-import { Route as HeaderLayoutMatchIndexRouteImport } from './../../../pages/_header-layout/match/index'
-import { Route as HeaderLayoutLolbtiIndexRouteImport } from './../../../pages/_header-layout/lolbti/index'
-import { Route as HeaderLayoutBoardIndexRouteImport } from './../../../pages/_header-layout/board/index'
-import { Route as LolbtiResultsResultIdRouteImport } from './../../../pages/lolbti.results.$resultId'
-import { Route as HeaderLayoutUsersUserIdRouteImport } from './../../../pages/_header-layout/users/$userId'
-import { Route as HeaderLayoutMypageServiceRouteImport } from './../../../pages/_header-layout/mypage/service'
-import { Route as HeaderLayoutMypageReviewRouteImport } from './../../../pages/_header-layout/mypage/review'
-import { Route as HeaderLayoutMypageProfileRouteImport } from './../../../pages/_header-layout/mypage/profile'
-import { Route as HeaderLayoutMypagePostRouteImport } from './../../../pages/_header-layout/mypage/post'
-import { Route as HeaderLayoutMypageNotificationRouteImport } from './../../../pages/_header-layout/mypage/notification'
-import { Route as HeaderLayoutMypageBlockedRouteImport } from './../../../pages/_header-layout/mypage/blocked'
+import { Route as rootRouteImport } from './../../../pages/__root';
+import { Route as TestLoginRouteImport } from './../../../pages/test-login';
+import { Route as AboutRouteImport } from './../../../pages/about';
+import { Route as HeaderLayoutRouteRouteImport } from './../../../pages/_header-layout/route';
+import { Route as RiotIndexRouteImport } from './../../../pages/riot/index';
+import { Route as HeaderLayoutIndexRouteImport } from './../../../pages/_header-layout/index';
+import { Route as SignUpTermsRouteImport } from './../../../pages/sign-up/terms';
+import { Route as RiotCallbackRouteImport } from './../../../pages/riot/callback';
+import { Route as LolbtiTestRouteImport } from './../../../pages/lolbti.test';
+import { Route as HeaderLayoutMypageRouteRouteImport } from './../../../pages/_header-layout/mypage/route';
+import { Route as HeaderLayoutPolicyIndexRouteImport } from './../../../pages/_header-layout/policy/index';
+import { Route as HeaderLayoutMypageIndexRouteImport } from './../../../pages/_header-layout/mypage/index';
+import { Route as HeaderLayoutMatchIndexRouteImport } from './../../../pages/_header-layout/match/index';
+import { Route as HeaderLayoutLolbtiIndexRouteImport } from './../../../pages/_header-layout/lolbti/index';
+import { Route as HeaderLayoutBoardIndexRouteImport } from './../../../pages/_header-layout/board/index';
+import { Route as LolbtiResultsResultIdRouteImport } from './../../../pages/lolbti.results.$resultId';
+import { Route as HeaderLayoutUsersUserIdRouteImport } from './../../../pages/_header-layout/users/$userId';
+import { Route as HeaderLayoutMypageServiceRouteImport } from './../../../pages/_header-layout/mypage/service';
+import { Route as HeaderLayoutMypageReviewRouteImport } from './../../../pages/_header-layout/mypage/review';
+import { Route as HeaderLayoutMypageProfileRouteImport } from './../../../pages/_header-layout/mypage/profile';
+import { Route as HeaderLayoutMypagePostRouteImport } from './../../../pages/_header-layout/mypage/post';
+import { Route as HeaderLayoutMypageNotificationRouteImport } from './../../../pages/_header-layout/mypage/notification';
+import { Route as HeaderLayoutMypageBlockedRouteImport } from './../../../pages/_header-layout/mypage/blocked';
 
 const TestLoginRoute = TestLoginRouteImport.update({
   id: '/test-login',
   path: '/test-login',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const HeaderLayoutRouteRoute = HeaderLayoutRouteRouteImport.update({
   id: '/_header-layout',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const RiotIndexRoute = RiotIndexRouteImport.update({
   id: '/riot/',
   path: '/riot/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const HeaderLayoutIndexRoute = HeaderLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => HeaderLayoutRouteRoute,
-} as any)
+} as any);
 const SignUpTermsRoute = SignUpTermsRouteImport.update({
   id: '/sign-up/terms',
   path: '/sign-up/terms',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const RiotCallbackRoute = RiotCallbackRouteImport.update({
   id: '/riot/callback',
   path: '/riot/callback',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const LolbtiTestRoute = LolbtiTestRouteImport.update({
   id: '/lolbti/test',
   path: '/lolbti/test',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const HeaderLayoutMypageRouteRoute = HeaderLayoutMypageRouteRouteImport.update({
   id: '/mypage',
   path: '/mypage',
   getParentRoute: () => HeaderLayoutRouteRoute,
-} as any)
+} as any);
 const HeaderLayoutPolicyIndexRoute = HeaderLayoutPolicyIndexRouteImport.update({
   id: '/policy/',
   path: '/policy/',
   getParentRoute: () => HeaderLayoutRouteRoute,
-} as any)
+} as any);
 const HeaderLayoutMypageIndexRoute = HeaderLayoutMypageIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => HeaderLayoutMypageRouteRoute,
-} as any)
+} as any);
 const HeaderLayoutMatchIndexRoute = HeaderLayoutMatchIndexRouteImport.update({
   id: '/match/',
   path: '/match/',
   getParentRoute: () => HeaderLayoutRouteRoute,
-} as any)
+} as any);
 const HeaderLayoutLolbtiIndexRoute = HeaderLayoutLolbtiIndexRouteImport.update({
   id: '/lolbti/',
   path: '/lolbti/',
   getParentRoute: () => HeaderLayoutRouteRoute,
-} as any)
+} as any);
 const HeaderLayoutBoardIndexRoute = HeaderLayoutBoardIndexRouteImport.update({
   id: '/board/',
   path: '/board/',
   getParentRoute: () => HeaderLayoutRouteRoute,
-} as any)
+} as any);
 const LolbtiResultsResultIdRoute = LolbtiResultsResultIdRouteImport.update({
   id: '/lolbti/results/$resultId',
   path: '/lolbti/results/$resultId',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const HeaderLayoutUsersUserIdRoute = HeaderLayoutUsersUserIdRouteImport.update({
   id: '/users/$userId',
   path: '/users/$userId',
   getParentRoute: () => HeaderLayoutRouteRoute,
-} as any)
-const HeaderLayoutMypageServiceRoute =
-  HeaderLayoutMypageServiceRouteImport.update({
-    id: '/service',
-    path: '/service',
-    getParentRoute: () => HeaderLayoutMypageRouteRoute,
-  } as any)
-const HeaderLayoutMypageReviewRoute =
-  HeaderLayoutMypageReviewRouteImport.update({
-    id: '/review',
-    path: '/review',
-    getParentRoute: () => HeaderLayoutMypageRouteRoute,
-  } as any)
-const HeaderLayoutMypageProfileRoute =
-  HeaderLayoutMypageProfileRouteImport.update({
-    id: '/profile',
-    path: '/profile',
-    getParentRoute: () => HeaderLayoutMypageRouteRoute,
-  } as any)
+} as any);
+const HeaderLayoutMypageServiceRoute = HeaderLayoutMypageServiceRouteImport.update({
+  id: '/service',
+  path: '/service',
+  getParentRoute: () => HeaderLayoutMypageRouteRoute,
+} as any);
+const HeaderLayoutMypageReviewRoute = HeaderLayoutMypageReviewRouteImport.update({
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => HeaderLayoutMypageRouteRoute,
+} as any);
+const HeaderLayoutMypageProfileRoute = HeaderLayoutMypageProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => HeaderLayoutMypageRouteRoute,
+} as any);
 const HeaderLayoutMypagePostRoute = HeaderLayoutMypagePostRouteImport.update({
   id: '/post',
   path: '/post',
   getParentRoute: () => HeaderLayoutMypageRouteRoute,
-} as any)
-const HeaderLayoutMypageNotificationRoute =
-  HeaderLayoutMypageNotificationRouteImport.update({
-    id: '/notification',
-    path: '/notification',
-    getParentRoute: () => HeaderLayoutMypageRouteRoute,
-  } as any)
-const HeaderLayoutMypageBlockedRoute =
-  HeaderLayoutMypageBlockedRouteImport.update({
-    id: '/blocked',
-    path: '/blocked',
-    getParentRoute: () => HeaderLayoutMypageRouteRoute,
-  } as any)
+} as any);
+const HeaderLayoutMypageNotificationRoute = HeaderLayoutMypageNotificationRouteImport.update({
+  id: '/notification',
+  path: '/notification',
+  getParentRoute: () => HeaderLayoutMypageRouteRoute,
+} as any);
+const HeaderLayoutMypageBlockedRoute = HeaderLayoutMypageBlockedRouteImport.update({
+  id: '/blocked',
+  path: '/blocked',
+  getParentRoute: () => HeaderLayoutMypageRouteRoute,
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/about': typeof AboutRoute
-  '/test-login': typeof TestLoginRoute
-  '/mypage': typeof HeaderLayoutMypageRouteRouteWithChildren
-  '/lolbti/test': typeof LolbtiTestRoute
-  '/riot/callback': typeof RiotCallbackRoute
-  '/sign-up/terms': typeof SignUpTermsRoute
-  '/': typeof HeaderLayoutIndexRoute
-  '/riot': typeof RiotIndexRoute
-  '/mypage/blocked': typeof HeaderLayoutMypageBlockedRoute
-  '/mypage/notification': typeof HeaderLayoutMypageNotificationRoute
-  '/mypage/post': typeof HeaderLayoutMypagePostRoute
-  '/mypage/profile': typeof HeaderLayoutMypageProfileRoute
-  '/mypage/review': typeof HeaderLayoutMypageReviewRoute
-  '/mypage/service': typeof HeaderLayoutMypageServiceRoute
-  '/users/$userId': typeof HeaderLayoutUsersUserIdRoute
-  '/lolbti/results/$resultId': typeof LolbtiResultsResultIdRoute
-  '/board': typeof HeaderLayoutBoardIndexRoute
-  '/lolbti': typeof HeaderLayoutLolbtiIndexRoute
-  '/match': typeof HeaderLayoutMatchIndexRoute
-  '/mypage/': typeof HeaderLayoutMypageIndexRoute
-  '/policy': typeof HeaderLayoutPolicyIndexRoute
+  '/about': typeof AboutRoute;
+  '/test-login': typeof TestLoginRoute;
+  '/mypage': typeof HeaderLayoutMypageRouteRouteWithChildren;
+  '/lolbti/test': typeof LolbtiTestRoute;
+  '/riot/callback': typeof RiotCallbackRoute;
+  '/sign-up/terms': typeof SignUpTermsRoute;
+  '/': typeof HeaderLayoutIndexRoute;
+  '/riot': typeof RiotIndexRoute;
+  '/mypage/blocked': typeof HeaderLayoutMypageBlockedRoute;
+  '/mypage/notification': typeof HeaderLayoutMypageNotificationRoute;
+  '/mypage/post': typeof HeaderLayoutMypagePostRoute;
+  '/mypage/profile': typeof HeaderLayoutMypageProfileRoute;
+  '/mypage/review': typeof HeaderLayoutMypageReviewRoute;
+  '/mypage/service': typeof HeaderLayoutMypageServiceRoute;
+  '/users/$userId': typeof HeaderLayoutUsersUserIdRoute;
+  '/lolbti/results/$resultId': typeof LolbtiResultsResultIdRoute;
+  '/board': typeof HeaderLayoutBoardIndexRoute;
+  '/lolbti': typeof HeaderLayoutLolbtiIndexRoute;
+  '/match': typeof HeaderLayoutMatchIndexRoute;
+  '/mypage/': typeof HeaderLayoutMypageIndexRoute;
+  '/policy': typeof HeaderLayoutPolicyIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/about': typeof AboutRoute
-  '/test-login': typeof TestLoginRoute
-  '/lolbti/test': typeof LolbtiTestRoute
-  '/riot/callback': typeof RiotCallbackRoute
-  '/sign-up/terms': typeof SignUpTermsRoute
-  '/': typeof HeaderLayoutIndexRoute
-  '/riot': typeof RiotIndexRoute
-  '/mypage/blocked': typeof HeaderLayoutMypageBlockedRoute
-  '/mypage/notification': typeof HeaderLayoutMypageNotificationRoute
-  '/mypage/post': typeof HeaderLayoutMypagePostRoute
-  '/mypage/profile': typeof HeaderLayoutMypageProfileRoute
-  '/mypage/review': typeof HeaderLayoutMypageReviewRoute
-  '/mypage/service': typeof HeaderLayoutMypageServiceRoute
-  '/users/$userId': typeof HeaderLayoutUsersUserIdRoute
-  '/lolbti/results/$resultId': typeof LolbtiResultsResultIdRoute
-  '/board': typeof HeaderLayoutBoardIndexRoute
-  '/lolbti': typeof HeaderLayoutLolbtiIndexRoute
-  '/match': typeof HeaderLayoutMatchIndexRoute
-  '/mypage': typeof HeaderLayoutMypageIndexRoute
-  '/policy': typeof HeaderLayoutPolicyIndexRoute
+  '/about': typeof AboutRoute;
+  '/test-login': typeof TestLoginRoute;
+  '/lolbti/test': typeof LolbtiTestRoute;
+  '/riot/callback': typeof RiotCallbackRoute;
+  '/sign-up/terms': typeof SignUpTermsRoute;
+  '/': typeof HeaderLayoutIndexRoute;
+  '/riot': typeof RiotIndexRoute;
+  '/mypage/blocked': typeof HeaderLayoutMypageBlockedRoute;
+  '/mypage/notification': typeof HeaderLayoutMypageNotificationRoute;
+  '/mypage/post': typeof HeaderLayoutMypagePostRoute;
+  '/mypage/profile': typeof HeaderLayoutMypageProfileRoute;
+  '/mypage/review': typeof HeaderLayoutMypageReviewRoute;
+  '/mypage/service': typeof HeaderLayoutMypageServiceRoute;
+  '/users/$userId': typeof HeaderLayoutUsersUserIdRoute;
+  '/lolbti/results/$resultId': typeof LolbtiResultsResultIdRoute;
+  '/board': typeof HeaderLayoutBoardIndexRoute;
+  '/lolbti': typeof HeaderLayoutLolbtiIndexRoute;
+  '/match': typeof HeaderLayoutMatchIndexRoute;
+  '/mypage': typeof HeaderLayoutMypageIndexRoute;
+  '/policy': typeof HeaderLayoutPolicyIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/_header-layout': typeof HeaderLayoutRouteRouteWithChildren
-  '/about': typeof AboutRoute
-  '/test-login': typeof TestLoginRoute
-  '/_header-layout/mypage': typeof HeaderLayoutMypageRouteRouteWithChildren
-  '/lolbti/test': typeof LolbtiTestRoute
-  '/riot/callback': typeof RiotCallbackRoute
-  '/sign-up/terms': typeof SignUpTermsRoute
-  '/_header-layout/': typeof HeaderLayoutIndexRoute
-  '/riot/': typeof RiotIndexRoute
-  '/_header-layout/mypage/blocked': typeof HeaderLayoutMypageBlockedRoute
-  '/_header-layout/mypage/notification': typeof HeaderLayoutMypageNotificationRoute
-  '/_header-layout/mypage/post': typeof HeaderLayoutMypagePostRoute
-  '/_header-layout/mypage/profile': typeof HeaderLayoutMypageProfileRoute
-  '/_header-layout/mypage/review': typeof HeaderLayoutMypageReviewRoute
-  '/_header-layout/mypage/service': typeof HeaderLayoutMypageServiceRoute
-  '/_header-layout/users/$userId': typeof HeaderLayoutUsersUserIdRoute
-  '/lolbti/results/$resultId': typeof LolbtiResultsResultIdRoute
-  '/_header-layout/board/': typeof HeaderLayoutBoardIndexRoute
-  '/_header-layout/lolbti/': typeof HeaderLayoutLolbtiIndexRoute
-  '/_header-layout/match/': typeof HeaderLayoutMatchIndexRoute
-  '/_header-layout/mypage/': typeof HeaderLayoutMypageIndexRoute
-  '/_header-layout/policy/': typeof HeaderLayoutPolicyIndexRoute
+  __root__: typeof rootRouteImport;
+  '/_header-layout': typeof HeaderLayoutRouteRouteWithChildren;
+  '/about': typeof AboutRoute;
+  '/test-login': typeof TestLoginRoute;
+  '/_header-layout/mypage': typeof HeaderLayoutMypageRouteRouteWithChildren;
+  '/lolbti/test': typeof LolbtiTestRoute;
+  '/riot/callback': typeof RiotCallbackRoute;
+  '/sign-up/terms': typeof SignUpTermsRoute;
+  '/_header-layout/': typeof HeaderLayoutIndexRoute;
+  '/riot/': typeof RiotIndexRoute;
+  '/_header-layout/mypage/blocked': typeof HeaderLayoutMypageBlockedRoute;
+  '/_header-layout/mypage/notification': typeof HeaderLayoutMypageNotificationRoute;
+  '/_header-layout/mypage/post': typeof HeaderLayoutMypagePostRoute;
+  '/_header-layout/mypage/profile': typeof HeaderLayoutMypageProfileRoute;
+  '/_header-layout/mypage/review': typeof HeaderLayoutMypageReviewRoute;
+  '/_header-layout/mypage/service': typeof HeaderLayoutMypageServiceRoute;
+  '/_header-layout/users/$userId': typeof HeaderLayoutUsersUserIdRoute;
+  '/lolbti/results/$resultId': typeof LolbtiResultsResultIdRoute;
+  '/_header-layout/board/': typeof HeaderLayoutBoardIndexRoute;
+  '/_header-layout/lolbti/': typeof HeaderLayoutLolbtiIndexRoute;
+  '/_header-layout/match/': typeof HeaderLayoutMatchIndexRoute;
+  '/_header-layout/mypage/': typeof HeaderLayoutMypageIndexRoute;
+  '/_header-layout/policy/': typeof HeaderLayoutPolicyIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/about'
     | '/test-login'
@@ -240,8 +235,8 @@ export interface FileRouteTypes {
     | '/lolbti'
     | '/match'
     | '/mypage/'
-    | '/policy'
-  fileRoutesByTo: FileRoutesByTo
+    | '/policy';
+  fileRoutesByTo: FileRoutesByTo;
   to:
     | '/about'
     | '/test-login'
@@ -262,7 +257,7 @@ export interface FileRouteTypes {
     | '/lolbti'
     | '/match'
     | '/mypage'
-    | '/policy'
+    | '/policy';
   id:
     | '__root__'
     | '/_header-layout'
@@ -286,213 +281,211 @@ export interface FileRouteTypes {
     | '/_header-layout/lolbti/'
     | '/_header-layout/match/'
     | '/_header-layout/mypage/'
-    | '/_header-layout/policy/'
-  fileRoutesById: FileRoutesById
+    | '/_header-layout/policy/';
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  HeaderLayoutRouteRoute: typeof HeaderLayoutRouteRouteWithChildren
-  AboutRoute: typeof AboutRoute
-  TestLoginRoute: typeof TestLoginRoute
-  LolbtiTestRoute: typeof LolbtiTestRoute
-  RiotCallbackRoute: typeof RiotCallbackRoute
-  SignUpTermsRoute: typeof SignUpTermsRoute
-  RiotIndexRoute: typeof RiotIndexRoute
-  LolbtiResultsResultIdRoute: typeof LolbtiResultsResultIdRoute
+  HeaderLayoutRouteRoute: typeof HeaderLayoutRouteRouteWithChildren;
+  AboutRoute: typeof AboutRoute;
+  TestLoginRoute: typeof TestLoginRoute;
+  LolbtiTestRoute: typeof LolbtiTestRoute;
+  RiotCallbackRoute: typeof RiotCallbackRoute;
+  SignUpTermsRoute: typeof SignUpTermsRoute;
+  RiotIndexRoute: typeof RiotIndexRoute;
+  LolbtiResultsResultIdRoute: typeof LolbtiResultsResultIdRoute;
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/test-login': {
-      id: '/test-login'
-      path: '/test-login'
-      fullPath: '/test-login'
-      preLoaderRoute: typeof TestLoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/test-login';
+      path: '/test-login';
+      fullPath: '/test-login';
+      preLoaderRoute: typeof TestLoginRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/about';
+      path: '/about';
+      fullPath: '/about';
+      preLoaderRoute: typeof AboutRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_header-layout': {
-      id: '/_header-layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof HeaderLayoutRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/_header-layout';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof HeaderLayoutRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/riot/': {
-      id: '/riot/'
-      path: '/riot'
-      fullPath: '/riot'
-      preLoaderRoute: typeof RiotIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/riot/';
+      path: '/riot';
+      fullPath: '/riot';
+      preLoaderRoute: typeof RiotIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_header-layout/': {
-      id: '/_header-layout/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof HeaderLayoutIndexRouteImport
-      parentRoute: typeof HeaderLayoutRouteRoute
-    }
+      id: '/_header-layout/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof HeaderLayoutIndexRouteImport;
+      parentRoute: typeof HeaderLayoutRouteRoute;
+    };
     '/sign-up/terms': {
-      id: '/sign-up/terms'
-      path: '/sign-up/terms'
-      fullPath: '/sign-up/terms'
-      preLoaderRoute: typeof SignUpTermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/sign-up/terms';
+      path: '/sign-up/terms';
+      fullPath: '/sign-up/terms';
+      preLoaderRoute: typeof SignUpTermsRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/riot/callback': {
-      id: '/riot/callback'
-      path: '/riot/callback'
-      fullPath: '/riot/callback'
-      preLoaderRoute: typeof RiotCallbackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/riot/callback';
+      path: '/riot/callback';
+      fullPath: '/riot/callback';
+      preLoaderRoute: typeof RiotCallbackRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/lolbti/test': {
-      id: '/lolbti/test'
-      path: '/lolbti/test'
-      fullPath: '/lolbti/test'
-      preLoaderRoute: typeof LolbtiTestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/lolbti/test';
+      path: '/lolbti/test';
+      fullPath: '/lolbti/test';
+      preLoaderRoute: typeof LolbtiTestRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_header-layout/mypage': {
-      id: '/_header-layout/mypage'
-      path: '/mypage'
-      fullPath: '/mypage'
-      preLoaderRoute: typeof HeaderLayoutMypageRouteRouteImport
-      parentRoute: typeof HeaderLayoutRouteRoute
-    }
+      id: '/_header-layout/mypage';
+      path: '/mypage';
+      fullPath: '/mypage';
+      preLoaderRoute: typeof HeaderLayoutMypageRouteRouteImport;
+      parentRoute: typeof HeaderLayoutRouteRoute;
+    };
     '/_header-layout/policy/': {
-      id: '/_header-layout/policy/'
-      path: '/policy'
-      fullPath: '/policy'
-      preLoaderRoute: typeof HeaderLayoutPolicyIndexRouteImport
-      parentRoute: typeof HeaderLayoutRouteRoute
-    }
+      id: '/_header-layout/policy/';
+      path: '/policy';
+      fullPath: '/policy';
+      preLoaderRoute: typeof HeaderLayoutPolicyIndexRouteImport;
+      parentRoute: typeof HeaderLayoutRouteRoute;
+    };
     '/_header-layout/mypage/': {
-      id: '/_header-layout/mypage/'
-      path: '/'
-      fullPath: '/mypage/'
-      preLoaderRoute: typeof HeaderLayoutMypageIndexRouteImport
-      parentRoute: typeof HeaderLayoutMypageRouteRoute
-    }
+      id: '/_header-layout/mypage/';
+      path: '/';
+      fullPath: '/mypage/';
+      preLoaderRoute: typeof HeaderLayoutMypageIndexRouteImport;
+      parentRoute: typeof HeaderLayoutMypageRouteRoute;
+    };
     '/_header-layout/match/': {
-      id: '/_header-layout/match/'
-      path: '/match'
-      fullPath: '/match'
-      preLoaderRoute: typeof HeaderLayoutMatchIndexRouteImport
-      parentRoute: typeof HeaderLayoutRouteRoute
-    }
+      id: '/_header-layout/match/';
+      path: '/match';
+      fullPath: '/match';
+      preLoaderRoute: typeof HeaderLayoutMatchIndexRouteImport;
+      parentRoute: typeof HeaderLayoutRouteRoute;
+    };
     '/_header-layout/lolbti/': {
-      id: '/_header-layout/lolbti/'
-      path: '/lolbti'
-      fullPath: '/lolbti'
-      preLoaderRoute: typeof HeaderLayoutLolbtiIndexRouteImport
-      parentRoute: typeof HeaderLayoutRouteRoute
-    }
+      id: '/_header-layout/lolbti/';
+      path: '/lolbti';
+      fullPath: '/lolbti';
+      preLoaderRoute: typeof HeaderLayoutLolbtiIndexRouteImport;
+      parentRoute: typeof HeaderLayoutRouteRoute;
+    };
     '/_header-layout/board/': {
-      id: '/_header-layout/board/'
-      path: '/board'
-      fullPath: '/board'
-      preLoaderRoute: typeof HeaderLayoutBoardIndexRouteImport
-      parentRoute: typeof HeaderLayoutRouteRoute
-    }
+      id: '/_header-layout/board/';
+      path: '/board';
+      fullPath: '/board';
+      preLoaderRoute: typeof HeaderLayoutBoardIndexRouteImport;
+      parentRoute: typeof HeaderLayoutRouteRoute;
+    };
     '/lolbti/results/$resultId': {
-      id: '/lolbti/results/$resultId'
-      path: '/lolbti/results/$resultId'
-      fullPath: '/lolbti/results/$resultId'
-      preLoaderRoute: typeof LolbtiResultsResultIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/lolbti/results/$resultId';
+      path: '/lolbti/results/$resultId';
+      fullPath: '/lolbti/results/$resultId';
+      preLoaderRoute: typeof LolbtiResultsResultIdRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_header-layout/users/$userId': {
-      id: '/_header-layout/users/$userId'
-      path: '/users/$userId'
-      fullPath: '/users/$userId'
-      preLoaderRoute: typeof HeaderLayoutUsersUserIdRouteImport
-      parentRoute: typeof HeaderLayoutRouteRoute
-    }
+      id: '/_header-layout/users/$userId';
+      path: '/users/$userId';
+      fullPath: '/users/$userId';
+      preLoaderRoute: typeof HeaderLayoutUsersUserIdRouteImport;
+      parentRoute: typeof HeaderLayoutRouteRoute;
+    };
     '/_header-layout/mypage/service': {
-      id: '/_header-layout/mypage/service'
-      path: '/service'
-      fullPath: '/mypage/service'
-      preLoaderRoute: typeof HeaderLayoutMypageServiceRouteImport
-      parentRoute: typeof HeaderLayoutMypageRouteRoute
-    }
+      id: '/_header-layout/mypage/service';
+      path: '/service';
+      fullPath: '/mypage/service';
+      preLoaderRoute: typeof HeaderLayoutMypageServiceRouteImport;
+      parentRoute: typeof HeaderLayoutMypageRouteRoute;
+    };
     '/_header-layout/mypage/review': {
-      id: '/_header-layout/mypage/review'
-      path: '/review'
-      fullPath: '/mypage/review'
-      preLoaderRoute: typeof HeaderLayoutMypageReviewRouteImport
-      parentRoute: typeof HeaderLayoutMypageRouteRoute
-    }
+      id: '/_header-layout/mypage/review';
+      path: '/review';
+      fullPath: '/mypage/review';
+      preLoaderRoute: typeof HeaderLayoutMypageReviewRouteImport;
+      parentRoute: typeof HeaderLayoutMypageRouteRoute;
+    };
     '/_header-layout/mypage/profile': {
-      id: '/_header-layout/mypage/profile'
-      path: '/profile'
-      fullPath: '/mypage/profile'
-      preLoaderRoute: typeof HeaderLayoutMypageProfileRouteImport
-      parentRoute: typeof HeaderLayoutMypageRouteRoute
-    }
+      id: '/_header-layout/mypage/profile';
+      path: '/profile';
+      fullPath: '/mypage/profile';
+      preLoaderRoute: typeof HeaderLayoutMypageProfileRouteImport;
+      parentRoute: typeof HeaderLayoutMypageRouteRoute;
+    };
     '/_header-layout/mypage/post': {
-      id: '/_header-layout/mypage/post'
-      path: '/post'
-      fullPath: '/mypage/post'
-      preLoaderRoute: typeof HeaderLayoutMypagePostRouteImport
-      parentRoute: typeof HeaderLayoutMypageRouteRoute
-    }
+      id: '/_header-layout/mypage/post';
+      path: '/post';
+      fullPath: '/mypage/post';
+      preLoaderRoute: typeof HeaderLayoutMypagePostRouteImport;
+      parentRoute: typeof HeaderLayoutMypageRouteRoute;
+    };
     '/_header-layout/mypage/notification': {
-      id: '/_header-layout/mypage/notification'
-      path: '/notification'
-      fullPath: '/mypage/notification'
-      preLoaderRoute: typeof HeaderLayoutMypageNotificationRouteImport
-      parentRoute: typeof HeaderLayoutMypageRouteRoute
-    }
+      id: '/_header-layout/mypage/notification';
+      path: '/notification';
+      fullPath: '/mypage/notification';
+      preLoaderRoute: typeof HeaderLayoutMypageNotificationRouteImport;
+      parentRoute: typeof HeaderLayoutMypageRouteRoute;
+    };
     '/_header-layout/mypage/blocked': {
-      id: '/_header-layout/mypage/blocked'
-      path: '/blocked'
-      fullPath: '/mypage/blocked'
-      preLoaderRoute: typeof HeaderLayoutMypageBlockedRouteImport
-      parentRoute: typeof HeaderLayoutMypageRouteRoute
-    }
+      id: '/_header-layout/mypage/blocked';
+      path: '/blocked';
+      fullPath: '/mypage/blocked';
+      preLoaderRoute: typeof HeaderLayoutMypageBlockedRouteImport;
+      parentRoute: typeof HeaderLayoutMypageRouteRoute;
+    };
   }
 }
 
 interface HeaderLayoutMypageRouteRouteChildren {
-  HeaderLayoutMypageBlockedRoute: typeof HeaderLayoutMypageBlockedRoute
-  HeaderLayoutMypageNotificationRoute: typeof HeaderLayoutMypageNotificationRoute
-  HeaderLayoutMypagePostRoute: typeof HeaderLayoutMypagePostRoute
-  HeaderLayoutMypageProfileRoute: typeof HeaderLayoutMypageProfileRoute
-  HeaderLayoutMypageReviewRoute: typeof HeaderLayoutMypageReviewRoute
-  HeaderLayoutMypageServiceRoute: typeof HeaderLayoutMypageServiceRoute
-  HeaderLayoutMypageIndexRoute: typeof HeaderLayoutMypageIndexRoute
+  HeaderLayoutMypageBlockedRoute: typeof HeaderLayoutMypageBlockedRoute;
+  HeaderLayoutMypageNotificationRoute: typeof HeaderLayoutMypageNotificationRoute;
+  HeaderLayoutMypagePostRoute: typeof HeaderLayoutMypagePostRoute;
+  HeaderLayoutMypageProfileRoute: typeof HeaderLayoutMypageProfileRoute;
+  HeaderLayoutMypageReviewRoute: typeof HeaderLayoutMypageReviewRoute;
+  HeaderLayoutMypageServiceRoute: typeof HeaderLayoutMypageServiceRoute;
+  HeaderLayoutMypageIndexRoute: typeof HeaderLayoutMypageIndexRoute;
 }
 
-const HeaderLayoutMypageRouteRouteChildren: HeaderLayoutMypageRouteRouteChildren =
-  {
-    HeaderLayoutMypageBlockedRoute: HeaderLayoutMypageBlockedRoute,
-    HeaderLayoutMypageNotificationRoute: HeaderLayoutMypageNotificationRoute,
-    HeaderLayoutMypagePostRoute: HeaderLayoutMypagePostRoute,
-    HeaderLayoutMypageProfileRoute: HeaderLayoutMypageProfileRoute,
-    HeaderLayoutMypageReviewRoute: HeaderLayoutMypageReviewRoute,
-    HeaderLayoutMypageServiceRoute: HeaderLayoutMypageServiceRoute,
-    HeaderLayoutMypageIndexRoute: HeaderLayoutMypageIndexRoute,
-  }
+const HeaderLayoutMypageRouteRouteChildren: HeaderLayoutMypageRouteRouteChildren = {
+  HeaderLayoutMypageBlockedRoute: HeaderLayoutMypageBlockedRoute,
+  HeaderLayoutMypageNotificationRoute: HeaderLayoutMypageNotificationRoute,
+  HeaderLayoutMypagePostRoute: HeaderLayoutMypagePostRoute,
+  HeaderLayoutMypageProfileRoute: HeaderLayoutMypageProfileRoute,
+  HeaderLayoutMypageReviewRoute: HeaderLayoutMypageReviewRoute,
+  HeaderLayoutMypageServiceRoute: HeaderLayoutMypageServiceRoute,
+  HeaderLayoutMypageIndexRoute: HeaderLayoutMypageIndexRoute,
+};
 
-const HeaderLayoutMypageRouteRouteWithChildren =
-  HeaderLayoutMypageRouteRoute._addFileChildren(
-    HeaderLayoutMypageRouteRouteChildren,
-  )
+const HeaderLayoutMypageRouteRouteWithChildren = HeaderLayoutMypageRouteRoute._addFileChildren(
+  HeaderLayoutMypageRouteRouteChildren
+);
 
 interface HeaderLayoutRouteRouteChildren {
-  HeaderLayoutMypageRouteRoute: typeof HeaderLayoutMypageRouteRouteWithChildren
-  HeaderLayoutIndexRoute: typeof HeaderLayoutIndexRoute
-  HeaderLayoutUsersUserIdRoute: typeof HeaderLayoutUsersUserIdRoute
-  HeaderLayoutBoardIndexRoute: typeof HeaderLayoutBoardIndexRoute
-  HeaderLayoutLolbtiIndexRoute: typeof HeaderLayoutLolbtiIndexRoute
-  HeaderLayoutMatchIndexRoute: typeof HeaderLayoutMatchIndexRoute
-  HeaderLayoutPolicyIndexRoute: typeof HeaderLayoutPolicyIndexRoute
+  HeaderLayoutMypageRouteRoute: typeof HeaderLayoutMypageRouteRouteWithChildren;
+  HeaderLayoutIndexRoute: typeof HeaderLayoutIndexRoute;
+  HeaderLayoutUsersUserIdRoute: typeof HeaderLayoutUsersUserIdRoute;
+  HeaderLayoutBoardIndexRoute: typeof HeaderLayoutBoardIndexRoute;
+  HeaderLayoutLolbtiIndexRoute: typeof HeaderLayoutLolbtiIndexRoute;
+  HeaderLayoutMatchIndexRoute: typeof HeaderLayoutMatchIndexRoute;
+  HeaderLayoutPolicyIndexRoute: typeof HeaderLayoutPolicyIndexRoute;
 }
 
 const HeaderLayoutRouteRouteChildren: HeaderLayoutRouteRouteChildren = {
@@ -503,10 +496,11 @@ const HeaderLayoutRouteRouteChildren: HeaderLayoutRouteRouteChildren = {
   HeaderLayoutLolbtiIndexRoute: HeaderLayoutLolbtiIndexRoute,
   HeaderLayoutMatchIndexRoute: HeaderLayoutMatchIndexRoute,
   HeaderLayoutPolicyIndexRoute: HeaderLayoutPolicyIndexRoute,
-}
+};
 
-const HeaderLayoutRouteRouteWithChildren =
-  HeaderLayoutRouteRoute._addFileChildren(HeaderLayoutRouteRouteChildren)
+const HeaderLayoutRouteRouteWithChildren = HeaderLayoutRouteRoute._addFileChildren(
+  HeaderLayoutRouteRouteChildren
+);
 
 const rootRouteChildren: RootRouteChildren = {
   HeaderLayoutRouteRoute: HeaderLayoutRouteRouteWithChildren,
@@ -517,7 +511,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignUpTermsRoute: SignUpTermsRoute,
   RiotIndexRoute: RiotIndexRoute,
   LolbtiResultsResultIdRoute: LolbtiResultsResultIdRoute,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

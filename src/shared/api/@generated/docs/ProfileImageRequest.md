@@ -1,11 +1,10 @@
 # ProfileImageRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**profileImage** | **number** |  | [default to undefined]
+| Name             | Type       | Description | Notes                  |
+| ---------------- | ---------- | ----------- | ---------------------- |
+| **profileImage** | **number** |             | [default to undefined] |
 
 ## Example
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 import { ProfileImageRequest } from './api';
 
 const instance: ProfileImageRequest = {
-    profileImage,
+  profileImage,
 };
 ```
 

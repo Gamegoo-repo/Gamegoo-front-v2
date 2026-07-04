@@ -1,12 +1,11 @@
 # FriendListResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**friendInfoList** | [**Array&lt;FriendInfoResponse&gt;**](FriendInfoResponse.md) |  | [default to undefined]
-**listSize** | **number** |  | [default to undefined]
+| Name               | Type                                                         | Description | Notes                  |
+| ------------------ | ------------------------------------------------------------ | ----------- | ---------------------- |
+| **friendInfoList** | [**Array&lt;FriendInfoResponse&gt;**](FriendInfoResponse.md) |             | [default to undefined] |
+| **listSize**       | **number**                                                   |             | [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { FriendListResponse } from './api';
 
 const instance: FriendListResponse = {
-    friendInfoList,
-    listSize,
+  friendInfoList,
+  listSize,
 };
 ```
 

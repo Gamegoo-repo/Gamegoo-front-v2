@@ -1,8 +1,6 @@
-import React from "react";
+import React from 'react';
 
 export const TableCaption = React.forwardRef<
-	HTMLTableCaptionElement,
-	React.HTMLAttributes<HTMLTableCaptionElement>
->(({ className, ...props }, ref) => (
-	<caption ref={ref} className={className} {...props} />
-));
+  HTMLTableCaptionElement,
+  React.HTMLAttributes<HTMLTableCaptionElement>
+>(({ className, ...props }, ref) => <caption ref={ref} className={className} {...props} />);

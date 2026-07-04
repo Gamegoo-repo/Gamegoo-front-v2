@@ -1,1 +1,1 @@
-export { default as BackIcon } from "./ic-back.svg?react";
+export { default as BackIcon } from './ic-back.svg?react';

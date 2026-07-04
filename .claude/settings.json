@@ -17,7 +17,6 @@
       "Bash(pnpm dlx *)",
       "Bash(npx shadcn *)",
       "Bash(npx tsc --noEmit*)",
-      "Bash(npx biome *)",
       "Bash(node *)",
       "Bash(git status*)",
       "Bash(git log*)",

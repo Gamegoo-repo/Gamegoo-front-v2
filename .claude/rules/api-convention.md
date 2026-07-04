@@ -8,11 +8,11 @@ globs: src/**/api/**
 
 ## FSD 내 API 배치
 
-| 위치 | 용도 |
-|------|------|
-| `shared/api/` | HTTP 클라이언트 인스턴스, 인터셉터, 토큰 매니저, 공통 에러 핸들러, 자동 생성 클라이언트 |
-| `entities/*/api/` | 엔티티 CRUD 서비스 함수 + queryKeys.ts + Query 훅 |
-| `features/*/api/` | 기능 전용 API 호출 (mutation 중심) + Mutation 훅 |
+| 위치              | 용도                                                                                    |
+| ----------------- | --------------------------------------------------------------------------------------- |
+| `shared/api/`     | HTTP 클라이언트 인스턴스, 인터셉터, 토큰 매니저, 공통 에러 핸들러, 자동 생성 클라이언트 |
+| `entities/*/api/` | 엔티티 CRUD 서비스 함수 + queryKeys.ts + Query 훅                                       |
+| `features/*/api/` | 기능 전용 API 호출 (mutation 중심) + Mutation 훅                                        |
 
 ## 1. HTTP 클라이언트 (shared/api/)
 
@@ -20,12 +20,12 @@ axios 인스턴스를 용도별로 생성:
 
 ```ts
 // shared/api/client.ts (정통 형태)
-import axios from "axios";
+import axios from 'axios';
 
 export const privateApiClient = axios.create({
   baseURL: import.meta.env.PUBLIC_API_BASE_URL,
   timeout: 30_000,
-  headers: { "Content-Type": "application/json" },
+  headers: { 'Content-Type': 'application/json' },
 });
 
 export const publicApiClient = axios.create({
@@ -38,12 +38,12 @@ export const publicApiClient = axios.create({
 
 ```ts
 // shared/api/interceptors.ts
-import type { AxiosInstance } from "axios";
+import type { AxiosInstance } from 'axios';
 
 export const setupInterceptors = (instance: AxiosInstance) => {
   instance.interceptors.response.use(
     (response) => response.data,
-    (error) => handleApiError(error),
+    (error) => handleApiError(error)
   );
 };
 ```
@@ -56,8 +56,8 @@ async 함수 기반, AxiosResponse를 unwrap하여 데이터만 반환:
 
 ```ts
 // entities/chat-session/api/chatSessionService.ts
-import { api } from "@/shared/api";
-import type { ChatSession, CreateChatSessionRequest } from "../model/types";
+import { api } from '@/shared/api';
+import type { ChatSession, CreateChatSessionRequest } from '../model/types';
 
 export const getChatSessions = async (): Promise<ChatSession[]> => {
   const { data } = await api.private.chat.getChatSessions();
@@ -65,7 +65,7 @@ export const getChatSessions = async (): Promise<ChatSession[]> => {
 };
 
 export const createChatSession = async (
-  request: CreateChatSessionRequest,
+  request: CreateChatSessionRequest
 ): Promise<ChatSession> => {
   const { data } = await api.private.chat.createChatSession(request);
   return data;
@@ -73,6 +73,7 @@ export const createChatSession = async (
 ```
 
 규칙:
+
 - **named export 함수만** 사용 (클래스 금지)
 - 반환 타입 **명시적** 작성 (`Promise<T>`)
 - 요청/응답 타입은 같은 slice의 `model/types.ts`에 정의
@@ -83,10 +84,10 @@ export const createChatSession = async (
 
 ```ts
 // entities/chat-session/api/useGetChatSessionsQuery.ts
-import { useQuery } from "@tanstack/react-query";
-import type { ExtendedError } from "@/shared/types";
-import { getChatSessions } from "./chatSessionService";
-import { CHAT_SESSION_KEYS } from "./queryKeys";
+import { useQuery } from '@tanstack/react-query';
+import type { ExtendedError } from '@/shared/types';
+import { getChatSessions } from './chatSessionService';
+import { CHAT_SESSION_KEYS } from './queryKeys';
 
 export const useGetChatSessionsQuery = () => {
   return useQuery<ChatSession[], ExtendedError>({
@@ -100,10 +101,10 @@ export const useGetChatSessionsQuery = () => {
 
 ```ts
 // features/send-message/api/useSendMessageMutation.ts
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { ExtendedError } from "@/shared/types";
-import { CHAT_SESSION_KEYS } from "@/entities/chat-session";
-import { sendMessage } from "./sendMessageService";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { ExtendedError } from '@/shared/types';
+import { CHAT_SESSION_KEYS } from '@/entities/chat-session';
+import { sendMessage } from './sendMessageService';
 
 export const useSendMessageMutation = () => {
   const queryClient = useQueryClient();
@@ -118,6 +119,7 @@ export const useSendMessageMutation = () => {
 ```
 
 규칙:
+
 - 타입 파라미터 3개 명시: `<Response, Error, Request>`
 - 훅 파일명: `use{Action}{Entity}Query.ts` 또는 `use{Action}Mutation.ts`
 - 한 파일에 하나의 훅만 export
@@ -129,13 +131,14 @@ export const useSendMessageMutation = () => {
 ```ts
 // entities/chat-session/api/queryKeys.ts
 export const CHAT_SESSION_KEYS = {
-  ALL: ["chat-session"] as const,
-  LIST: ["chat-session", "list"] as const,
-  DETAIL: (id: string) => ["chat-session", "detail", id] as const,
+  ALL: ['chat-session'] as const,
+  LIST: ['chat-session', 'list'] as const,
+  DETAIL: (id: string) => ['chat-session', 'detail', id] as const,
 } as const;
 ```
 
 규칙:
+
 - 객체로 그룹핑, `as const` 사용
 - 키 이름: `ALL`, `LIST`, `DETAIL` (UPPER_SNAKE_CASE)
 - 동적 파라미터는 함수로 제공
@@ -147,7 +150,7 @@ export const CHAT_SESSION_KEYS = {
 
 ```ts
 // shared/types/error.ts
-import type { AxiosError } from "axios";
+import type { AxiosError } from 'axios';
 
 export interface ApiErrorResponse {
   code: string;
@@ -157,7 +160,7 @@ export interface ApiErrorResponse {
 }
 
 export interface ExtendedError extends AxiosError {
-  response: AxiosError["response"] & {
+  response: AxiosError['response'] & {
     data: ApiErrorResponse;
   };
 }

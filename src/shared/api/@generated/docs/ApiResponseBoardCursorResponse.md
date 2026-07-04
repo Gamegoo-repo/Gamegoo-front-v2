@@ -1,14 +1,13 @@
 # ApiResponseBoardCursorResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**status** | **number** |  | [default to undefined]
-**message** | **string** |  | [default to undefined]
-**code** | **string** |  | [optional] [default to undefined]
-**data** | [**BoardCursorResponse**](BoardCursorResponse.md) |  | [optional] [default to undefined]
+| Name        | Type                                              | Description | Notes                             |
+| ----------- | ------------------------------------------------- | ----------- | --------------------------------- |
+| **status**  | **number**                                        |             | [default to undefined]            |
+| **message** | **string**                                        |             | [default to undefined]            |
+| **code**    | **string**                                        |             | [optional] [default to undefined] |
+| **data**    | [**BoardCursorResponse**](BoardCursorResponse.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -16,10 +15,10 @@ Name | Type | Description | Notes
 import { ApiResponseBoardCursorResponse } from './api';
 
 const instance: ApiResponseBoardCursorResponse = {
-    status,
-    message,
-    code,
-    data,
+  status,
+  message,
+  code,
+  data,
 };
 ```
 

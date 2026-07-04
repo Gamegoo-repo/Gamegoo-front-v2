@@ -1,5 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { trackRollBtiEvent } from "../api";
+import { useMutation } from '@tanstack/react-query';
+
+import { trackRollBtiEvent } from '../api';
 
 /**
  * 롤BTI 이벤트 적재 mutation 훅
@@ -17,5 +18,5 @@ import { trackRollBtiEvent } from "../api";
  * });
  */
 export const useTrackLolBtiEvent = () => {
-	return useMutation({ mutationFn: trackRollBtiEvent });
+  return useMutation({ mutationFn: trackRollBtiEvent });
 };

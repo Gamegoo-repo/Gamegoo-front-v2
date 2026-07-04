@@ -3,7 +3,8 @@ id: REQ-000
 title: 요구사항 제목
 priority: high | medium | low
 mode: feature | refactor
-labels: [기능 정의, UI 정의, API 연동, 리팩토링, 성능, 인증, 채팅, 매칭, 게시판, 매너, 알림, lol-bti]
+labels:
+  [기능 정의, UI 정의, API 연동, 리팩토링, 성능, 인증, 채팅, 매칭, 게시판, 매너, 알림, lol-bti]
 created: YYYY-MM-DD
 ---
 
@@ -33,8 +34,8 @@ created: YYYY-MM-DD
 
 `mode: refactor`인 경우 이전 매핑 표를 작성한다. 구현 모드면 이 섹션은 삭제.
 
-| 현재 경로 | 목표 경로 | 변경 종류 |
-|-----------|-----------|-----------|
+| 현재 경로                            | 목표 경로                           | 변경 종류           |
+| ------------------------------------ | ----------------------------------- | ------------------- |
 | src/entities/{slice}/config/types.ts | src/entities/{slice}/model/types.ts | move + segment 변경 |
 
 ## Notes

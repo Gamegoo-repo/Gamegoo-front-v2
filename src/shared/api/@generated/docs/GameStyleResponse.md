@@ -1,12 +1,11 @@
 # GameStyleResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**gameStyleId** | **number** |  | [default to undefined]
-**gameStyleName** | **string** |  | [default to undefined]
+| Name              | Type       | Description | Notes                  |
+| ----------------- | ---------- | ----------- | ---------------------- |
+| **gameStyleId**   | **number** |             | [default to undefined] |
+| **gameStyleName** | **string** |             | [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { GameStyleResponse } from './api';
 
 const instance: GameStyleResponse = {
-    gameStyleId,
-    gameStyleName,
+  gameStyleId,
+  gameStyleName,
 };
 ```
 

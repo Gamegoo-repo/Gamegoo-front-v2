@@ -1,16 +1,15 @@
 # NotificationResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**notificationId** | **number** |  | [default to undefined]
-**notificationType** | **number** |  | [default to undefined]
-**content** | **string** |  | [default to undefined]
-**pageUrl** | **string** |  | [optional] [default to undefined]
-**read** | **boolean** |  | [default to undefined]
-**createdAt** | **string** |  | [default to undefined]
+| Name                 | Type        | Description | Notes                             |
+| -------------------- | ----------- | ----------- | --------------------------------- |
+| **notificationId**   | **number**  |             | [default to undefined]            |
+| **notificationType** | **number**  |             | [default to undefined]            |
+| **content**          | **string**  |             | [default to undefined]            |
+| **pageUrl**          | **string**  |             | [optional] [default to undefined] |
+| **read**             | **boolean** |             | [default to undefined]            |
+| **createdAt**        | **string**  |             | [default to undefined]            |
 
 ## Example
 
@@ -18,12 +17,12 @@ Name | Type | Description | Notes
 import { NotificationResponse } from './api';
 
 const instance: NotificationResponse = {
-    notificationId,
-    notificationType,
-    content,
-    pageUrl,
-    read,
-    createdAt,
+  notificationId,
+  notificationType,
+  content,
+  pageUrl,
+  read,
+  createdAt,
 };
 ```
 

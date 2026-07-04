@@ -1,12 +1,11 @@
 # ChatCreateRequest
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**message** | **string** |  | [default to undefined]
-**system** | [**SystemFlagRequest**](SystemFlagRequest.md) |  | [optional] [default to undefined]
+| Name        | Type                                          | Description | Notes                             |
+| ----------- | --------------------------------------------- | ----------- | --------------------------------- |
+| **message** | **string**                                    |             | [default to undefined]            |
+| **system**  | [**SystemFlagRequest**](SystemFlagRequest.md) |             | [optional] [default to undefined] |
 
 ## Example
 
@@ -14,8 +13,8 @@ Name | Type | Description | Notes
 import { ChatCreateRequest } from './api';
 
 const instance: ChatCreateRequest = {
-    message,
-    system,
+  message,
+  system,
 };
 ```
 

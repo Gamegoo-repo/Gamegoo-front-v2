@@ -1,1 +1,1 @@
-export { default as MatchStartStep } from "./match-start-step";
+export { default as MatchStartStep } from './match-start-step';

@@ -1,22 +1,21 @@
 # EnterChatroomResponse
 
-
 ## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**uuid** | **string** |  | [default to undefined]
-**memberId** | **number** |  | [default to undefined]
-**gameName** | **string** |  | [default to undefined]
-**tag** | **string** |  | [default to undefined]
-**memberProfileImg** | **number** |  | [default to undefined]
-**friend** | **boolean** |  | [default to undefined]
-**blocked** | **boolean** |  | [default to undefined]
-**blockedByTarget** | **boolean** |  | [default to undefined]
-**blind** | **boolean** |  | [default to undefined]
-**friendRequestMemberId** | **number** |  | [optional] [default to undefined]
-**system** | [**SystemFlagResponse**](SystemFlagResponse.md) |  | [optional] [default to undefined]
-**chatMessageListResponse** | [**ChatMessageListResponse**](ChatMessageListResponse.md) |  | [default to undefined]
+| Name                        | Type                                                      | Description | Notes                             |
+| --------------------------- | --------------------------------------------------------- | ----------- | --------------------------------- |
+| **uuid**                    | **string**                                                |             | [default to undefined]            |
+| **memberId**                | **number**                                                |             | [default to undefined]            |
+| **gameName**                | **string**                                                |             | [default to undefined]            |
+| **tag**                     | **string**                                                |             | [default to undefined]            |
+| **memberProfileImg**        | **number**                                                |             | [default to undefined]            |
+| **friend**                  | **boolean**                                               |             | [default to undefined]            |
+| **blocked**                 | **boolean**                                               |             | [default to undefined]            |
+| **blockedByTarget**         | **boolean**                                               |             | [default to undefined]            |
+| **blind**                   | **boolean**                                               |             | [default to undefined]            |
+| **friendRequestMemberId**   | **number**                                                |             | [optional] [default to undefined] |
+| **system**                  | [**SystemFlagResponse**](SystemFlagResponse.md)           |             | [optional] [default to undefined] |
+| **chatMessageListResponse** | [**ChatMessageListResponse**](ChatMessageListResponse.md) |             | [default to undefined]            |
 
 ## Example
 
@@ -24,18 +23,18 @@ Name | Type | Description | Notes
 import { EnterChatroomResponse } from './api';
 
 const instance: EnterChatroomResponse = {
-    uuid,
-    memberId,
-    gameName,
-    tag,
-    memberProfileImg,
-    friend,
-    blocked,
-    blockedByTarget,
-    blind,
-    friendRequestMemberId,
-    system,
-    chatMessageListResponse,
+  uuid,
+  memberId,
+  gameName,
+  tag,
+  memberProfileImg,
+  friend,
+  blocked,
+  blockedByTarget,
+  blind,
+  friendRequestMemberId,
+  system,
+  chatMessageListResponse,
 };
 ```
 
